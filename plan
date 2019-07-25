@@ -1,0 +1,24 @@
+Input
+
+data/AmerikaSM/20190725
+-so.xls (optional)
+-mm.xls (optional)
+-pk.xls (optional)
+0-In <-- save input files to document what has been done
+1-Xml <-- stupid xml, as well as joined version. This version is potentially dirty (i.e. has false multiplies
+2-Clean <-- demultiplied version (formerly called lvl2)
+3-Fix
+levelup.log
+
+Logfile has details on the conversion process, incl. the date of transformation. 
+
+
+where do i store config info? At first in master script.
+
+1. xls2xml
+ 1.1 mkdir 1-XML und 0-IN if not exists already
+ 1.2 move existing input files to 0-IN
+ 1.3 transform to dirty xml in 1-XML if target does not exist already. 
+     If you want to repeat conversion, delete corresponding files in 1-IN
+ 1.4 Log success/failure in logfile
+2. join input files and write to 2-XML/join
