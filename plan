@@ -40,6 +40,15 @@ lvlup.py
 ::saxon
 ::validate
 
+<<<<<<< HEAD
+=======
+conf={
+   "infiles" : ['so.xls', 'mm.xls', 'pk.xls']
+   "java" : "path/to/java.exe"
+   "saxon" : "path/to/saxon"
+}
+
+>>>>>>> 15a1ca2df8ef77101886a8629b7cf2806dd22bb5
 OO syntax not really necessary here, but who cares 
 
 o=xls2xml(conf) or xls2xml(conf)
