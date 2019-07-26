@@ -4,10 +4,13 @@ conf={
     "twodir"  : "2-MPX",
     "threedir": "3-FIX",
     "infiles" : ['so.xls', 'mm.xls', 'pk.xls'],
-    "lib" : "C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib",
+    "lib" : "C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib",
     "java" : "path/to/java.exe",
     "saxon" : "path/to/saxon",
 }
+#    "lib" : "C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib",
+#    "lib" : "C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib",
+
 
 if __name__ == "__main__":
     
