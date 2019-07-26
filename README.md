@@ -18,5 +18,5 @@ Input: lvlup.py expects one of three documents
 -multimediaobjekte: mm.xsl, 
 -personenKörperschaften: pk.xsl
 
-If you want to re-trigger the process, delete the corresponding files, e.g. if you want to retrigger the initial conversion to xml,
+TODO: If you want to re-trigger the process, delete the corresponding files, e.g. if you want to retrigger the initial conversion to xml,
 delete the output files in 1-XML.
