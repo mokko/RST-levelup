@@ -14,15 +14,14 @@ conf={
 
 if __name__ == "__main__":
     
-    import os
     import sys
     
-    #TODO: test conf
-
-    for each in ['lib']:
-        if not os.path.exists(conf[each]):
-            print ("Error: %s does not exist for %s" % (conf[each], each) )
-            sys.exit(1)
+    #import os
+    #TODO: It's more pythonic to just let python report file not found exception.
+    #for each in ['lib']:
+    #    if not os.path.exists(conf[each]):
+    #        print ("Error: %s does not exist for %s" % (conf[each], each) )
+    #        sys.exit(1)
     
     sys.path.append (conf['lib'])
     
