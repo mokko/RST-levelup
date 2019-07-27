@@ -1,5 +1,5 @@
 '''
-Trigger saxon from python using subprocess
+A very thin wrapper around saxon that uses subprocess
 
 https://docs.python.org/3.7/library/subprocess.html
 
@@ -8,31 +8,33 @@ conf={
    "saxon":"path/to/saxon"
 }
 
-sax=Saxon (conf)
-sax.transform (input, xsl, output)
+s=Saxon (conf)
+s.transform (input, xsl, output)
 
-subprocess.run(args, *, stdin=None, input=None, stdout=None, stderr=None, capture_output=False, 
-shell=False, cwd=None, timeout=None, check=False, encoding=None, errors=None, text=None, env=None, universal_newlines=None)
-
-On Windows easiest way seems to be to use built for NET plattform. Alternatively, this class could also deal with java.
+On Windows easiest way seems to be to use built for NET plattform. Alternatively, this class 
+could also deal with java, but it doesnt right now, becuase I don't need it yet.
 
 https://www.saxonica.com/documentation/index.html#!using-xsl/commandline
 
 Transform -s:source -xsl:stylesheet -o:output
-
 '''
 
 import subprocess
 
 
 class Saxon:
-    def __init__ (self, conf):
-        self.transform="C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe" # default
-        if conf['transform']:
-            self.transform=conf['transform']
-        
+    def __init__ (self, path):
+        self.saxon="C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe" # default
+        if path:
+            self.saxon=path
     
-    def transform (source, stylesheet, output)
-        cmd="%s -s:%s -xsl:%s -o:%s" % (self.transform, source, stylesheet, output ))
+    def transform (self, source, stylesheet, output):
+        cmd=self.saxon + ' -s:' + source + ' -xsl:' + stylesheet + ' -o:' + output 
         print (cmd)
         subprocess.run (cmd)
+        
+
+if __name__ == "__main__":
+    conf={}
+    sn=Saxon(conf)
+    sn.transform("1-XML/so.xml", "lib/join.xsl", "o.xml")
