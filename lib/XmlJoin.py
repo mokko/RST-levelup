@@ -14,19 +14,21 @@ class XmlJoin:
     def __init__ (self, conf):
         dirlist=glob.glob(conf['onedir']+'/*.xml')
         if not os.path.isfile(conf['joinpath']):
-        
-            copyfile(dirlist[0], conf['jointemp']) # unconventional target for temp file
-            print (dirlist)
-            dirlist.pop(0)
-            print (dirlist)
-            while (len(dirlist) > 0): # 2 or bigger
-                print (dirlist)
-                copyfile(dirlist[-1], conf['lib']+'/B.xml') 
-                sn=Saxon(conf)
-                sn.transform (conf['jointemp'], conf['joinxsl'], conf['jointemp'])
-                dirlist.pop(-1)
-            #after everything is joined move result to target destination    
-            move (conf['jointemp'], conf['joinpath'])        
+            if len(dirlist) > 1:
+                copyfile(dirlist[0], conf['jointemp']) # unconventional target for temp file
+                dirlist.pop(0)
+                #print (dirlist)
+                while (len(dirlist) > 0): # 2 or bigger
+                    print (dirlist)
+                    copyfile(dirlist[-1], conf['lib']+'/B.xml') 
+                    sn=Saxon(conf)
+                    sn.transform (conf['jointemp'], conf['joinxsl'], conf['jointemp'])
+                    dirlist.pop(-1)
+                #after everything is joined move result to target destination
+                #the fact that joinpath was created signals that process successfully completed.     
+                move (conf['jointemp'], conf['joinpath'])
+            else:
+                print ('Not enough *.xml files in %s to join anything' % conf['onedir'])
         else:
             print ('%s exists already, no joining anything' % conf['joinpath'])
         
