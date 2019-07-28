@@ -27,11 +27,13 @@ class XmlJoin:
                     dirlist.pop(-1)
                 #after everything is joined move result to target 
                 move (conf['jointemp'], conf['joinpath'])
+                os.remove(conf['lib']+'/B.xml')
             else:
                 print ('Not enough *.xml files in %s to join anything' % conf['onedir'])
         else:
             print ('%s exists already, no joining anything' % conf['joinpath'])
         
+        #rm temp files
             
 if __name__ == "__main__":
     conf={
