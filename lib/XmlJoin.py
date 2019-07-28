@@ -1,13 +1,14 @@
 '''
-if $onedir/join.mpx doesn't exist yet
-join all *.xml in onedir together and save the result in $onedir/join.mpx
+if $onedir/join.mpx doesn't exist, join all *.xml in $onedir and save the result in $onedir/join.mpx
+
+creates temp file in $lib (B.xml, temp.mpx). If $joinpath is created that signals that join process is
+complete.
 '''
 
 import os
 import glob
 from Saxon import Saxon
 from shutil import copyfile, move
-
 
 
 class XmlJoin:
