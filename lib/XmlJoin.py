@@ -33,7 +33,6 @@ class XmlJoin:
         else:
             print ('%s exists already, no joining anything' % conf['joinpath'])
         
-        #rm temp files
             
 if __name__ == "__main__":
     conf={
