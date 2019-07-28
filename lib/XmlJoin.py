@@ -25,8 +25,7 @@ class XmlJoin:
                     sn=Saxon(conf)
                     sn.transform (conf['jointemp'], conf['joinxsl'], conf['jointemp'])
                     dirlist.pop(-1)
-                #after everything is joined move result to target destination
-                #the fact that joinpath was created signals that process successfully completed.     
+                #after everything is joined move result to target 
                 move (conf['jointemp'], conf['joinpath'])
             else:
                 print ('Not enough *.xml files in %s to join anything' % conf['onedir'])
