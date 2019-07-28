@@ -1,0 +1,44 @@
+'''
+if $onedir/join.mpx doesn't exist yet
+join all *.xml in onedir together and save the result in $onedir/join.mpx
+'''
+
+import os
+import glob
+from Saxon import Saxon
+from shutil import copyfile, move
+
+
+
+class XmlJoin:
+    def __init__ (self, conf):
+        dirlist=glob.glob(conf['onedir']+'/*.xml')
+        if not os.path.isfile(conf['joinpath']):
+        
+            copyfile(dirlist[0], conf['jointemp']) # unconventional target for temp file
+            print (dirlist)
+            dirlist.pop(0)
+            print (dirlist)
+            while (len(dirlist) > 0): # 2 or bigger
+                print (dirlist)
+                copyfile(dirlist[-1], conf['lib']+'/B.xml') 
+                sn=Saxon(conf)
+                sn.transform (conf['jointemp'], conf['joinxsl'], conf['jointemp'])
+                dirlist.pop(-1)
+            #after everything is joined move result to target destination    
+            move (conf['jointemp'], conf['joinpath'])        
+        else:
+            print ('%s exists already, no joining anything' % conf['joinpath'])
+        
+            
+if __name__ == "__main__":
+    conf={
+        "lib" : "C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib", # "C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib",
+        "onedir"  : "1-XML",
+        "joinpath": "1-XML/join.mpx",
+        "saxonpath" : "C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe",
+        "joinxsl": "lib/join.xsl",
+        "jointemp": "1-XML/temp.mpx",
+    }
+    o=XmlJoin(conf)
+        

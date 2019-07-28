@@ -23,15 +23,17 @@ import subprocess
 
 
 class Saxon:
-    def __init__ (self, path):
-        self.saxon="C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe" # default
+    def __init__ (self, path=None):
+        self.saxonpath="C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe" # default
         if path:
             self.saxon=path
+        #print (self.saxonpath)
     
     def transform (self, source, stylesheet, output):
-        cmd=self.saxon + ' -s:' + source + ' -xsl:' + stylesheet + ' -o:' + output 
+        cmd=self.saxonpath + ' -s:' + source + ' -xsl:' + stylesheet + ' -o:' + output 
         print (cmd)
-        subprocess.run (cmd)
+        subprocess.run (cmd) # overwrites output file without saying anything
+
         
 
 if __name__ == "__main__":

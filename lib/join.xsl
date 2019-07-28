@@ -8,7 +8,7 @@
 	
 	<xsl:template match="/*">
 		<xsl:copy>
-			<xsl:for-each select="/*/*|document ('../1-XML/mm.xml')/*/*">
+			<xsl:for-each select="/*/*|document ('B.xml')/*/*">
 				<xsl:sort select="name()" order="ascending"/>
 				<!-- xsl:sort select="@mulId|@kueId|@objId" /-->
 				<xsl:copy-of select="." />

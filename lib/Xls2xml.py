@@ -38,7 +38,7 @@ class Xls2xml:
 
     def mv2zero (self, conf):    
         if not os.path.isdir(conf['zerodir']): 
-            os.mkdir( '0-In') # no chmod
+            os.mkdir(conf['zerodir']) # no chmod
         
         for infile in conf['infiles']:
             #print (infile)
