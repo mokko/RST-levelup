@@ -1,3 +1,4 @@
+# -- coding: utf-8 --
 import os
 import shutil
 import xlrd
@@ -16,6 +17,8 @@ are defined in the configuration.
 
 Input comes from current working directory; output is written to current working directory's subdirectories 
 based on configuration.
+
+Results never get overwritten
 
 
 NOTE
@@ -43,6 +46,7 @@ class Xls2xml:
         for infile in conf['infiles']:
             #print (infile)
             if os.path.isfile(infile):
+                print ('moving %s to %s' % (infile, conf['zerodir']))
                 shutil.move(infile, conf['zerodir'])
 
 
@@ -53,12 +57,18 @@ class Xls2xml:
         for infile in conf['infiles']:
             path=conf['zerodir']+'/'+infile
             #print ('Looking for %s' % infile)
-            if os.path.isfile(path):
-                self.perFile(conf,infile) 
+ 
+            outfile=conf['onedir']+'/'+infile[:-4] + '.xml'
+
+            if not os.path.isfile(outfile):
+                if os.path.isfile(path):
+                    self.transPerFile(conf,infile, outfile) 
+            else:
+                print ("%s exists already, no overwrite" % outfile)        
 
 
     '''Called on a per file basis from transformAll'''
-    def perFile(self, conf,infile):
+    def transPerFile(self, conf,infile, outfile):
         inpath=conf['zerodir']+'/'+infile
         
         wb = xlrd.open_workbook(filename=inpath, on_demand=True)
@@ -75,7 +85,7 @@ class Xls2xml:
                 attrib='objId'
 
             elif infile == "pk.xls":
-                tag="personKörperschaft"
+                tag="personK�rperschaft"
                 attrib='kueId'
 
             elif infile == "mm.xls":
@@ -118,10 +128,10 @@ class Xls2xml:
 
         self.indent(root)
 
-        outfile=conf['onedir']+'/'+infile[:-4] + '.xml'
         #print ('%s->%s' % (inpath, outfile))
         tree.write(outfile, encoding='UTF-8', xml_declaration=True)
                 
+
     def indent(self, elem, level=0):
         i = "\n" + level*"  "
         if len(elem):

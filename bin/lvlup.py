@@ -1,6 +1,7 @@
 conf={
     #rougly in the order they are used...
-    "lib" : "C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib",
+#    "lib" : "C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib",
+    "lib" : "C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib",
     "infiles" : ['so.xls', 'mm.xls', 'pk.xls'],
     "zerodir" : "0-IN",
     "onedir"  : "1-XML",
@@ -13,7 +14,6 @@ conf={
     "threedir": "3-FIX",
 }
 #    "lib" : "C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib",
-#    "lib" : "C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib",
 
 
 if __name__ == "__main__":
@@ -30,6 +30,8 @@ if __name__ == "__main__":
     sys.path.append (conf['lib'])
     
     from Xls2xml import Xls2xml
+    from XmlJoin import XmlJoin
     
     o=Xls2xml(conf)
+    o=XmlJoin(conf)
 
