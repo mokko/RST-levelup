@@ -4,14 +4,19 @@ conf={
     "lib" : "C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib",
     "infiles" : ['so.xls', 'mm.xls', 'pk.xls'],
     "zerodir" : "0-IN",
+
     "onedir"  : "1-XML",
     "saxon" : "C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe",
     "joinxsl": "lib/join.xsl",
     'jointemp': '1-XML/temp.mpx',
-    "joinpath": "1-XML/join.mpx",
+    "joinmpx": "1-XML/join.mpx",
 
     "twodir"  : "2-MPX",
-    "threedir": "3-FIX",
+    "lvlupxsl": "lib/lupmpx.xsl",
+    "lvlupmpx": "2-MPX/levelup.mpx",
+    "fixxsl": "lib/mpx-fix.xsl", 
+    "fixmpx": "2-MPX/fix.mpx", 
+
 }
 #    "lib" : "C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib",
 
@@ -31,7 +36,11 @@ if __name__ == "__main__":
     
     from Xls2xml import Xls2xml
     from XmlJoin import XmlJoin
+    from Levelup import Levelup
+    from Fix import Fix
     
-    o=Xls2xml(conf)
-    o=XmlJoin(conf)
+    o=Xls2xml(conf) # zerodir/so.xls-> onedir/so.xml  
+    o=XmlJoin(conf) # onedir/join.mpx
+    o=Levelup(conf) # twodir/levelup.mpx
+    o=Fix(conf)     # twodir/fix.mpx
 

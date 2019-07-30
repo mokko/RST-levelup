@@ -7,6 +7,7 @@ import datetime
 from xlrd.sheet import ctype_text
 import xml.etree.ElementTree as ET
 from xml.sax.saxutils import escape
+from Generic import Generic
 
 verbose = 1
 
@@ -32,7 +33,7 @@ You probably only need this:
     o=Xls2xml(conf)
 '''
 
-class Xls2xml:
+class Xls2xml (Generic):
     def __init__ (self, conf): 
         self.mv2zero(conf)
         self.transformAll(conf)
@@ -40,8 +41,7 @@ class Xls2xml:
 
 
     def mv2zero (self, conf):    
-        if not os.path.isdir(conf['zerodir']): 
-            os.mkdir(conf['zerodir']) # no chmod
+        self.mkdir (conf['zerodir'])
         
         for infile in conf['infiles']:
             #print (infile)
@@ -51,8 +51,7 @@ class Xls2xml:
 
 
     def transformAll (self,conf):
-        if not os.path.isdir(conf['onedir']): 
-            os.mkdir( conf['onedir']) # no chmod, default is 777
+        self.mkdir (conf['onedir'])
 
         for infile in conf['infiles']:
             path=conf['zerodir']+'/'+infile
@@ -60,11 +59,12 @@ class Xls2xml:
  
             outfile=conf['onedir']+'/'+infile[:-4] + '.xml'
 
-            if not os.path.isfile(outfile):
+            if os.path.isfile(outfile):
+                print ("%s exists already, no overwrite" % outfile)
+            else:
                 if os.path.isfile(path):
                     self.transPerFile(conf,infile, outfile) 
-            else:
-                print ("%s exists already, no overwrite" % outfile)        
+                        
 
 
     '''Called on a per file basis from transformAll'''
