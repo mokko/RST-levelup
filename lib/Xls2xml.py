@@ -74,7 +74,7 @@ class Xls2xml (Generic):
         wb = xlrd.open_workbook(filename=inpath, on_demand=True)
         sheet= wb.sheet_by_index(0)
                        
-        root = ET.Element("MuseumPlusExport", attrib={'version':'2.0', 'level':'dirty', }) 
+        root = ET.Element("museumPlusExport", attrib={'version':'2.0', 'level':'dirty', }) 
         tree = ET.ElementTree(root)
 
         columns =[sheet.cell(0, c).value for c in range(sheet.ncols)]

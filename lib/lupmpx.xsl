@@ -3,7 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mpx="http://www.mpx.org/mpx"
 	exclude-result-prefixes="mpx">
 
-	<!-- it seems to me that this sometimes work with and sometimes doesn't with mpx -->
 
 
 	<!--
@@ -34,9 +33,7 @@
 
 		erwerbNr hinzugefügt
 
-		-alt-
-		Newline Problem! z.B. bei Titel müsste in rtftable2xml geändert werden!
-		Kompromiss mit Perl, dass Titel trennt.
+
 	-->
 
 

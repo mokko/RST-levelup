@@ -5,12 +5,19 @@
 	<xsl:output method="xml" version="1.0" encoding="UTF-8"
 		indent="yes" />
 	<xsl:strip-space elements="*" />
-	
-	<xsl:template match="/*">
+
+	<xsl:template match="/">
+		<!-- xsl:attribute name="level">join</xsl:attribute -->
+		<xsl:apply-templates select="*" />
+
+	</xsl:template>
+
+
+	<xsl:template match="*">
 		<xsl:copy>
 			<xsl:for-each select="/*/*|document ('B.xml')/*/*">
-				<xsl:sort select="name()" order="ascending"/>
-				<!-- xsl:sort select="@mulId|@kueId|@objId" /-->
+				<xsl:sort select="name()" order="ascending" />
+				<xsl:sort select="@mulId|@kueId|@objId" />
 				<xsl:copy-of select="." />
 			</xsl:for-each>
 		</xsl:copy>
