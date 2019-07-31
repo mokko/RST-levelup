@@ -54,7 +54,7 @@
 				this script)!
 			-->
 
-			<xsl:for-each-group select="/museumPlusExport/item[@mulId]" group-by="@mulId">
+			<xsl:for-each-group select="/museumPlusExport/multimediaobjekt[@mulId]" group-by="@mulId">
 				<xsl:sort data-type="number" select="current-grouping-key()"/>
 				<xsl:variable select="current-grouping-key()" name="currentId"/>
 				<xsl:message>
@@ -181,7 +181,7 @@
 				if there should be more, seemlingly the last one would be taken by
 				this script)!
 			-->
-			<xsl:for-each-group select="/museumPlusExport/item[@kueId]" group-by="@kueId">
+			<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId]" group-by="@kueId">
 				<xsl:sort data-type="number" select="current-grouping-key()"/>
 				<xsl:variable select="current-grouping-key()" name="currentId"/>
 				<xsl:message>
@@ -407,7 +407,7 @@
 				SOLVED! But now it takes even longer!
 
 			-->
-			<xsl:for-each-group select="/museumPlusExport/item[@objId]" group-by="@objId">
+			<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId]" group-by="@objId">
 				<xsl:sort data-type="number" select="current-grouping-key()"/>
 				<xsl:variable select="current-grouping-key()" name="currentId"/>
 
