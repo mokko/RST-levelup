@@ -92,37 +92,38 @@ class Xls2xml (Generic):
 
             index=sheet.cell (r,columns.index(attrib)).value
             if index:
-                index=str(int(index))
+                    index=str(int(index))
 
-            now=datetime.datetime.now().isoformat() #pytz.timezone('Europe/Berlin')
-            doc = ET.SubElement(root, tag, attrib={attrib:index, 'exportdatum':now}) 
-
-            print ("INDEX: %s" % index) #should this become verbose?
-                
-            for c in range(sheet.ncols):
-                cell = sheet.cell(r, c) 
-                cellTypeStr = ctype_text.get(cell.ctype, 'unknown type')
-                tag=sheet.cell(0,c).value
-                val=str()
-
-                #type conversions
-                if cellTypeStr == "number":
-                    #val=int(float(cell.value)) 
-                    val=int(cell.value)
-                    #print ("number:%s" % val)
+            if index is not '': # Dont include rows without meaningful index 
+                now=datetime.datetime.now().isoformat() #pytz.timezone('Europe/Berlin')
+                doc = ET.SubElement(root, tag, attrib={attrib:index, 'exportdatum':now}) 
+    
+                print ("INDEX: %s" % index) #should this become verbose?
                     
-                elif cellTypeStr == "xldate":
-                    val=xlrd.xldate.xldate_as_datetime(cell.value, 0)
-                    #print ("XLDATE %s" % (val))
-            
-                elif cellTypeStr == "text":
-                    val=escape(cell.value)
-                    #print ("---------TypeError %s" % cellTypeStr)
-                if cellTypeStr != "empty": #write non-empty elements
-                    #print ("%s:%s" % (attrib, tag))
-                    if tag != attrib:
-                    #print ( '%s: %s (%s)' % (tag, val, cellTypeStr))
-                        ET.SubElement(doc, tag).text=str(val)
+                for c in range(sheet.ncols):
+                    cell = sheet.cell(r, c) 
+                    cellTypeStr = ctype_text.get(cell.ctype, 'unknown type')
+                    tag=sheet.cell(0,c).value
+                    val=str()
+    
+                    #type conversions
+                    if cellTypeStr == "number":
+                        #val=int(float(cell.value)) 
+                        val=int(cell.value)
+                        #print ("number:%s" % val)
+                        
+                    elif cellTypeStr == "xldate":
+                        val=xlrd.xldate.xldate_as_datetime(cell.value, 0)
+                        #print ("XLDATE %s" % (val))
+                
+                    elif cellTypeStr == "text":
+                        val=escape(cell.value)
+                        #print ("---------TypeError %s" % cellTypeStr)
+                    if cellTypeStr != "empty": #write non-empty elements
+                        #print ("%s:%s" % (attrib, tag))
+                        if tag != attrib:
+                        #print ( '%s: %s (%s)' % (tag, val, cellTypeStr))
+                            ET.SubElement(doc, tag).text=str(val)
 
         self.indent(root)
 
