@@ -35,41 +35,39 @@ You probably only need this:
 
 class Xls2xml (Generic):
     def __init__ (self, conf): 
-        self.mv2zero(conf)
-        self.transformAll(conf)
-        #print (conf)
+        self.conf=conf
 
 
-    def mv2zero (self, conf):    
-        self.mkdir (conf['zerodir'])
+    def mv2zero (self):    
+        self.mkdir (self.conf['zerodir'])
         
-        for infile in conf['infiles']:
+        for infile in self.conf['infiles']:
             #print (infile)
             if os.path.isfile(infile):
-                print ('moving %s to %s' % (infile, conf['zerodir']))
-                shutil.move(infile, conf['zerodir'])
+                print ('moving %s to %s' % (infile, self.conf['zerodir']))
+                shutil.move(infile, self.conf['zerodir'])
 
 
-    def transformAll (self,conf):
-        self.mkdir (conf['onedir'])
+    def transformAll (self):
+        self.mkdir (self.conf['onedir'])
 
-        for infile in conf['infiles']:
-            path=conf['zerodir']+'/'+infile
+        for infile in self.conf['infiles']:
+            path=self.conf['zerodir']+'/'+infile
             #print ('Looking for %s' % infile)
  
-            outfile=conf['onedir']+'/'+infile[:-4] + '.xml'
+            outfile=self.conf['onedir']+'/'+infile[:-4] + '.xml'
 
             if os.path.isfile(outfile):
                 print ("%s exists already, no overwrite" % outfile)
             else:
                 if os.path.isfile(path):
-                    self.transPerFile(conf,infile, outfile) 
+                    self.transPerFile(infile, outfile) 
                         
 
 
     '''Called on a per file basis from transformAll'''
-    def transPerFile(self, conf,infile, outfile):
-        inpath=conf['zerodir']+'/'+infile
+    def transPerFile(self, infile, outfile):
+        inpath=self.conf['zerodir']+'/'+infile
         
         wb = xlrd.open_workbook(filename=inpath, on_demand=True)
         sheet= wb.sheet_by_index(0)
@@ -146,3 +144,15 @@ class Xls2xml (Generic):
         else:
             if level and (not elem.tail or not elem.tail.strip()):
                 elem.tail = i               
+
+if __name__ == "__main__":
+    conf={
+        "lib" : "C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib",
+        "infiles" : ['so.xls', 'mm.xls', 'pk.xls'],
+        "zerodir" : "0-IN",
+        "onedir"  : "1-XML",
+    }
+    o=Xls2xml(conf)
+    o.mv2zero()
+    o.transformAll()
+        

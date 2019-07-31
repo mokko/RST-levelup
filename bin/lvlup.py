@@ -39,7 +39,9 @@ if __name__ == "__main__":
     from Levelup import Levelup
     from Fix import Fix
     
-    o=Xls2xml(conf) # zerodir/so.xls-> onedir/so.xml  
+    o=Xls2xml(conf) # zerodir/so.xls-> onedir/so.xml
+    o.mv2zero()
+    o.transformAll()  
     o=XmlJoin(conf) # onedir/join.mpx
     o=Levelup(conf) # twodir/levelup.mpx
     o=Fix(conf)     # twodir/fix.mpx
