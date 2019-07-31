@@ -7,20 +7,13 @@
 	<xsl:strip-space elements="*" />
 
 	<xsl:template match="/">
-		<!-- xsl:attribute name="level">join</xsl:attribute -->
-		<xsl:apply-templates select="*" />
-
-	</xsl:template>
-
-
-	<xsl:template match="*">
-		<xsl:copy>
+		<museumPlusExport level="join" version="2.0">
 			<xsl:for-each select="/*/*|document ('B.xml')/*/*">
 				<xsl:sort select="name()" order="ascending" />
 				<xsl:sort select="@mulId|@kueId|@objId" />
 				<xsl:copy-of select="." />
 			</xsl:for-each>
-		</xsl:copy>
-
+		</museumPlusExport>
 	</xsl:template>
+
 </xsl:stylesheet>
