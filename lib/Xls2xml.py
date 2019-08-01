@@ -99,12 +99,14 @@ class Xls2xml (Generic):
                 doc = ET.SubElement(root, tag, attrib={attrib:index, 'exportdatum':now}) 
     
                 print ("INDEX: %s" % index) #should this become verbose?
+                
+                row_dict={}
                     
                 for c in range(sheet.ncols):
                     cell = sheet.cell(r, c) 
                     cellTypeStr = ctype_text.get(cell.ctype, 'unknown type')
                     tag=sheet.cell(0,c).value
-                    val=str()
+                    #val=str()
     
                     #type conversions
                     if cellTypeStr == "number":
@@ -119,11 +121,15 @@ class Xls2xml (Generic):
                     elif cellTypeStr == "text":
                         val=escape(cell.value)
                         #print ("---------TypeError %s" % cellTypeStr)
+
                     if cellTypeStr != "empty": #write non-empty elements
                         #print ("%s:%s" % (attrib, tag))
                         if tag != attrib:
                         #print ( '%s: %s (%s)' % (tag, val, cellTypeStr))
-                            ET.SubElement(doc, tag).text=str(val)
+                            row_dict[tag]=str(val)
+                    
+                for tag in sorted(row_dict.keys()):    
+                    ET.SubElement(doc, tag).text=row_dict[tag]
 
         self.indent(root)
 
