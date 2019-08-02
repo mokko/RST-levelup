@@ -19,18 +19,81 @@ are defined in the configuration.
 Input comes from current working directory; output is written to current working directory's subdirectories 
 based on configuration.
 
-Results never get overwritten
-
-
 NOTE
 - Empty tags are not written. Hence it is not necessarily possible to convert from the xml back to the xls.
-- mulId, objId and kueId are written as index in record/@attrib form and then omitted from result.
-- record tag (multimediaobjekt, sammlungsobjekt, personKörperschaft) is written depending in input file
-- add exportdatum to record tag
-- no namespaces
+- mulId, objId and kueId are written as index in record/@attrib form and then omitted from result as features.
+- record tag (multimediaobjekt, sammlungsobjekt, personKörperschaft) is written depending in input file (so.xsl,pk.xsl, mm.xsl)
+- add exportdatum is added to record tag; date when script was run is provided. Note that the older perl version provided
+  the modification date of source file (which is typically older than the run date). 
+- no namespaces. mpx namespace will be added later (using xslt).
+- tags/features have lowercased initial.
+- tags/features are sorted alphabetically
+- records without index are not included
+- records are sorted 
+    1. alphabetically (first multimediaobjekt, then personKörperschaft, then sammlungsobjekt)
+    2. by ascending index
+    3. features are sorted alphabetically 
 
-You probably only need this:
+SYNOPSIS
+
     o=Xls2xml(conf)
+    o.mv2Zero()
+    o.transformAll()
+
+XML Format / Nomenclature
+
+RECORDSs
+There are three types of records:
+multimediaobjekt, personKörperschaft, sammlungsobjekt
+
+Records describe entities (medeia, people and organisations, objects).    
+    
+INDEX
+@mulId functions as index for multimediaobjekt
+@kueId functions as index for personKörperschaft
+@objId functions as index for sammlungsobjekt
+
+Records without index are not included in export.
+
+FEATURES
+Subelements of the records are called features.
+
+Features are all spelled with lowercase camel spelling: e.g.
+    camelIsTheWayToGo.
+
+Features are sorted alphabetically.
+
+QUALIFIERS 
+Qualifiers are fields that describe a feature (rather an entity). This script writes "stupid" mpx where qualifiers
+are written next to the feature they belong to. 
+
+<geoBezug>Egpyt</geoBezug>
+<geoBezugArt>country</geoBezugArt>
+
+LEVELLING UP OR CLEAN FORMAT
+Another transformation, called levelup, will produce two significant changes:
+a. Qualifiers are written as xml attributes:
+    <geoBezug art="country">Egypt</geoBezug>
+
+b. repeated values (Wiederholfelder) will be written in a single record:
+
+    Dirty or stupid version:
+        <sammlungsobject objId="1">
+            <geoBezug>Egpyt</geoBezug>
+            <geoBezugArt>country</geoBezugArt>
+        </sammlungsobjekt>
+        
+        <sammlungsobject objId="1">
+            <geoBezug>Cairo</geoBezug>
+            <geoBezugArt>city</geoBezugArt>
+        </sammlungsobjekt>
+    
+    Level 2 or clean version:
+        <sammlungsobject objId="1">
+            <geoBezug art="country">Egypt</geoBezug>
+            <geoBezug art="country">Egypt</geoBezug>
+        </sammlungsobject>
+
 '''
 
 class Xls2xml (Generic):
@@ -106,7 +169,7 @@ class Xls2xml (Generic):
                     cell = sheet.cell(r, c) 
                     cellTypeStr = ctype_text.get(cell.ctype, 'unknown type')
                     tag=sheet.cell(0,c).value
-                    #val=str()
+                    tag=tag[0].lower() + tag[1:] #lowercase initial
     
                     #type conversions
                     if cellTypeStr == "number":
