@@ -36,9 +36,8 @@
 						<!--
 						independents and dependents mixed to get alphabetical order
 						dependents: where several fields belong together!
-					-->
+						-->
 
-						<!-- independents -->
 						<xsl:for-each-group select="/museumPlusExport/multimediaobjekt[@mulId=$currentId]"
 							group-by="multimediaBearbDatum">
 
@@ -66,9 +65,6 @@
 						multimediaTyp,
 						multimediaUrhebFotograf)">
 							<xsl:variable name="tag" select="."/>
-							<!--
-							<xsl:message select="$tag">message</xsl:message>
-						-->
 
 							<xsl:call-template name="independents">
 								<xsl:with-param name="currentId" select="$currentId"/>
@@ -76,9 +72,9 @@
 							</xsl:call-template>
 						</xsl:for-each>
 
-						<!-- standardbild-->
+
 						<xsl:for-each-group select="/museumPlusExport/multimediaobjekt[@mulId=$currentId]"
-							group-by="Standardbild">
+							group-by="standardbild">
 							<xsl:if test="multimediaPfadangabe">
 								
 								<xsl:variable name="bild">
@@ -88,10 +84,11 @@
 									<xsl:text>.</xsl:text>
 									<xsl:value-of select="multimediaErweiterung"/>
 								</xsl:variable>
-								<xsl:if test="Standardbild eq $bild ">
+								<!--  only include standardbild if path in standardbild is the same as here -->
+								<xsl:if test="standardbild eq $bild ">
 									<xsl:message>--- STANDARDBILD: <xsl:value-of select="$bild"/></xsl:message>
 									<xsl:element name="standardbild">
-										<xsl:value-of select="Standardbild"/>
+										<xsl:value-of select="standardbild"/>
 									</xsl:element>
 								</xsl:if>
 							</xsl:if>
@@ -139,12 +136,7 @@
 						</xsl:for-each-group>
 					</xsl:attribute>
 
-					<!--
-						independents and dependents mixed to get alphabetical order
-						dependents: where several fields belong together!
-					-->
 
-					<!-- artKörpersch -->
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="artKörpersch">
 						<xsl:element name="artKörpersch">
@@ -152,7 +144,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- bearbDatum -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="bearbDatum">
 						<xsl:element name="bearbDatum">
@@ -160,7 +152,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- bemerkungen -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="bemerkungen">
 						<xsl:element name="bemerkungen">
@@ -168,7 +160,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- berufTätigkeit -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="berufTätigkeit">
 						<xsl:element name="berufTätigkeit">
@@ -176,7 +168,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- biographie -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="biographie">
 						<xsl:element name="biographie">
@@ -184,7 +176,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- datierung -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="datierung">
 						<datierung>
@@ -199,7 +191,7 @@
 						</datierung>
 					</xsl:for-each-group>
 
-					<!-- geogrBezug - geoBezug -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="geoBezug">
 						<geogrBezug>
@@ -221,7 +213,7 @@
 						</geogrBezug>
 					</xsl:for-each-group>
 
-					<!-- kurzbiographie -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="kurzbiographie">
 						<xsl:element name="kurzbiographie">
@@ -229,7 +221,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- name -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="name">
 						<name>
@@ -244,7 +236,7 @@
 						</name>
 					</xsl:for-each-group>
 
-					<!-- nationalität -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="nationalität">
 						<xsl:element name="nationalität">
@@ -252,7 +244,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- nennform -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="nennform">
 						<nennform>
@@ -267,7 +259,7 @@
 						</nennform>
 					</xsl:for-each-group>
 
-					<!-- quelle -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="quelle">
 						<xsl:element name="quelle">
@@ -275,7 +267,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- titelStand -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="titelStand">
 						<xsl:element name="titelStand">
@@ -283,7 +275,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- typ -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="typ">
 						<xsl:element name="typ">
@@ -291,7 +283,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- verantwortlich -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="verantwortlich">
 						<xsl:element name="verantwortlichkeit">
@@ -299,7 +291,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- verknüpftesObjekt: that's the new way to do it -->
+
 					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
 						group-by="verknüpftesObjekt">
 						<xsl:element name="verknüpftesObjekt">
@@ -307,18 +299,6 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- Altes VerknüpftesObjekt: that's a pseudo-old way to do it (will be replaced) -->
-					<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId=$currentId]"
-						group-by="objektIdentNr">
-						<xsl:element name="verknüpftesObjektAlt">
-							<xsl:if test="objektSachbegriff ne ''">
-								<xsl:attribute name="objektSachbegriff">
-									<xsl:value-of select="objektSachbegriff"/>
-								</xsl:attribute>
-							</xsl:if>
-							<xsl:value-of select="objektIdentNr"/>
-						</xsl:element>
-					</xsl:for-each-group>
 				</xsl:element>
 			</xsl:for-each-group>
 
@@ -329,11 +309,8 @@
 				<xsl:sort data-type="number" select="current-grouping-key()"/>
 				<xsl:variable select="current-grouping-key()" name="currentId"/>
 
-				<!-- xsl:variable name="exportdatum"
-					select="/museumPlusExport/sammlungsobjekt[@objId]/@exportdatum" / -->
-
 				<xsl:message>
-					<xsl:value-of select="$currentId"/>
+					<xsl:value-of select="'objId', $currentId"/>
 				</xsl:message>
 				<xsl:element name="sammlungsobjekt">
 					<xsl:attribute name="objId">
@@ -355,7 +332,7 @@
 						dependents: where several fields belong together!
 					-->
 
-					<!-- abbildungen -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="abbildungen">
 						<xsl:element name="abbildungen">
@@ -363,7 +340,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- allgAngabeBeschriftung -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="allgAngabeBeschriftung">
 						<xsl:element name="allgAngabeBeschriftung">
@@ -371,7 +348,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- aktuellerStandort -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="aktuellerStandort">
 						<xsl:element name="aktuellerStandort">
@@ -379,7 +356,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- andereNr -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="andereNr">
 						<andereNr>
@@ -402,7 +379,7 @@
 						</andereNr>
 					</xsl:for-each-group>
 
-					<!-- anzahlTeile -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="anzahlTeile">
 						<xsl:element name="anzahlTeile">
@@ -410,7 +387,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- bearbDatum -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="bearbDatum">
 						<xsl:element name="bearbDatum">
@@ -418,7 +395,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- belichtungszeit -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="belichtungszeit">
 						<xsl:element name="belichtungszeit">
@@ -426,7 +403,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- bemerkung -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="bemerkung">
 						<xsl:element name="bemerkung">
@@ -434,7 +411,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- bemerkungSammlung -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="bemerkungSammlung">
 						<xsl:element name="bemerkungSammlung">
@@ -442,7 +419,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- besetzung -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="besetzung">
 						<xsl:element name="besetzung">
@@ -458,7 +435,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- blende -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="blende">
 						<xsl:element name="blende">
@@ -466,7 +443,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- credits -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="credits">
 						<xsl:element name="credits">
@@ -671,7 +648,7 @@
 						</geogrBezug>
 					</xsl:for-each-group>
 
-					<!-- handling -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="handling">
 						<xsl:element name="handling">
@@ -679,7 +656,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- identNr-->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="identNr">
 						<identNr>
@@ -694,7 +671,7 @@
 						</identNr>
 					</xsl:for-each-group>
 
-					<!-- ikonographischeBeschreibung -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="ikonographischeBeschreibung">
 						<xsl:element name="ikonographischeBeschreibung">
@@ -702,7 +679,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- ikonographischeKurzbeschreibung -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="ikonographischeKurzbeschreibung">
 						<xsl:element name="ikonographischeKurzbeschreibung">
@@ -710,7 +687,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- inhalt -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="inhalt">
 						<xsl:element name="inhalt">
@@ -718,7 +695,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- instrumente -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="instrumente">
 						<xsl:element name="instrumente">
@@ -726,7 +703,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- inventarNotiz -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="inventarNotiz">
 						<xsl:element name="inventarNotiz">
@@ -734,7 +711,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- kamera -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="kamera">
 						<xsl:element name="kamera">
@@ -742,7 +719,7 @@
 						</xsl:element>
 					</xsl:for-each-group>
 
-					<!-- kameratyp -->
+
 					<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId=$currentId]"
 						group-by="kameratyp">
 						<xsl:element name="kameratyp">
