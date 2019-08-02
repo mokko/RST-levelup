@@ -8,7 +8,7 @@ class Fix (Generic):
         self.mkdir (conf['twodir'])
         
         if os.path.isfile(conf['fixmpx']):
-            print ("%s exists already, no overwrite" % conf['lvlupmpx'])
+            print ("%s exists already, no overwrite" % conf['fixmpx'])
         else:
             sn=Saxon(conf)
             sn.transform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
