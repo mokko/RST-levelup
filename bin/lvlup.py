@@ -11,11 +11,13 @@ conf={
     'jointemp': '1-XML/temp.mpx',
     "joinmpx": "1-XML/join.mpx",
 
-    "twodir"  : "2-MPX",
     "lvlupxsl": "lib/lupmpx.xsl",
     "lvlupmpx": "2-MPX/levelup.mpx",
     "fixxsl": "lib/mpx-fix.xsl", 
-    "fixmpx": "2-MPX/fix.mpx", 
+    "fixmpx": "2-MPX/fix.mpx",
+    
+    "mpx2lido": "lib/mpx2lido.xsl",
+    "outlido" : "3-Lido/out.lido", 
 
 }
 #    "lib" : "C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib",
@@ -31,13 +33,18 @@ if __name__ == "__main__":
     
     from Xls2xml import Xls2xml
     from XmlJoin import XmlJoin
-    from Levelup import Levelup
+    from DirTransform import DirTransform
     from Fix import Fix
     
     o=Xls2xml(conf) # zerodir/so.xls-> onedir/so.xml
     o.mv2zero()
     o.transformAll()  
     o=XmlJoin(conf) # onedir/join.mpx
-    o=Levelup(conf) # twodir/levelup.mpx
-    o=Fix(conf)     # twodir/fix.mpx
 
+    #saxon, source, xsl, outpath
+    o=DirTransform(conf['saxon'], conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx'])
+    o=DirTransform(conf['saxon'], conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
+    o=DirTransform(conf['saxon'], conf['fixmpx'], conf['mpx2lido'], conf['outlido'])
+    
+    
+ 
