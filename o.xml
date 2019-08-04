@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lido:lidoWrap xmlns:lido="http://www.lido-schema.org"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
+   <lido:lido>
+      <lido:lidoRecID lido:source="" lido:type="local">998469</lido:lidoRecID>
+      <lido:category>
+         <lido:conceptID lido:type="URI">http://www.mpx.org/concepts/Allgemein</lido:conceptID>
+         <lido:term xml:lang="de">Allgemein</lido:term>
+      </lido:category>
+      <lido:descriptiveMetadata xml:lang="de">
+         <lido:objectClassificationWrap>
+            <lido:objectWorkTypeWrap>
+               <lido:objectWorkType>
+                  <lido:term>Tanzpaddel</lido:term>
+               </lido:objectWorkType>
+            </lido:objectWorkTypeWrap>
+            <lido:classificationWrap>
+               <lido:classification>
+                  <lido:term>not sure what I should use for classification ATM</lido:term>
+               </lido:classification>
+            </lido:classificationWrap>
+         </lido:objectClassificationWrap>
+         <lido:objectIdentificationWrap>
+            <lido:titleWrap>
+               <lido:titleSet>
+                  <lido:appellationValue lido:pref="preferred">Tanzpaddel</lido:appellationValue>
+               </lido:titleSet>
+            </lido:titleWrap>
+            <lido:inscriptionsWrap/>
+            <lido:repositoryWrap>
+               <lido:repositorySet lido:type="current">
+                  <lido:repositoryName>
+                     <lido:legalBodyName>
+                        <lido:appellationValue/>
+                     </lido:legalBodyName>
+                  </lido:repositoryName>
+                  <lido:workID lido:type="inventory number">VI 2129</lido:workID>
+               </lido:repositorySet>
+            </lido:repositoryWrap>
+            <lido:displayStateEditionWrap/>
+            <lido:objectDescriptionWrap>
+               <lido:objectDescriptionSet>
+                  <lido:descriptiveNoteValue xml:lang="de" lido:encodinganalog="onlineBeschreibung"/>
+               </lido:objectDescriptionSet>
+            </lido:objectDescriptionWrap>
+            <lido:objectMeasurementsWrap>
+               <lido:objectMeasurementsSet>
+                  <lido:displayObjectMeasurements>80,5 x 17,5 x 2 cm</lido:displayObjectMeasurements>
+               </lido:objectMeasurementsSet>
+            </lido:objectMeasurementsWrap>
+         </lido:objectIdentificationWrap>
+      </lido:descriptiveMetadata>
+      <lido:administrativeMetadata xml:lang="en">
+         <lido:rightsWorkWrap/>
+         <lido:recordWrap>
+            <lido:recordID lido:type="local">998469</lido:recordID>
+            <lido:recordType>
+               <lido:term>single object</lido:term>
+            </lido:recordType>
+            <lido:recordSource>
+               <lido:legalBodyName>
+                  <lido:appellationValue/>
+               </lido:legalBodyName>
+               <lido:legalBodyWeblink>https://www.smb.museum</lido:legalBodyWeblink>
+            </lido:recordSource>
+            <lido:recordRights>
+               <lido:rightsHolder>
+                  <lido:legalBodyID lido:type="URI" lido:source="ISIL (ISO 15511)">info:isil/DE-Mb112</lido:legalBodyID>
+                  <lido:legalBodyName>
+                     <lido:appellationValue>Staatliche Museen zu Berlin</lido:appellationValue>
+                  </lido:legalBodyName>
+                  <lido:legalBodyWeblink>https://www.smb.museum</lido:legalBodyWeblink>
+               </lido:rightsHolder>
+            </lido:recordRights>
+            <lido:recordInfoSet>
+               <lido:recordInfoLink lido:formatResource="html">http://www.bildindex.de/dokumente/html/obj00154983</lido:recordInfoLink>
+            </lido:recordInfoSet>
+            <lido:recordInfoSet>
+               <lido:recordInfoID lido:type="oai">oai:bildindex.de:lidoWrap::DE-Mb112/lido-obj00154983</lido:recordInfoID>
+            </lido:recordInfoSet>
+         </lido:recordWrap>
+      </lido:administrativeMetadata>
+   </lido:lido>
+   <lido:lido>
+      <lido:lidoRecID lido:source="" lido:type="local">998472</lido:lidoRecID>
+      <lido:category>
+         <lido:conceptID lido:type="URI">http://www.mpx.org/concepts/Allgemein</lido:conceptID>
+         <lido:term xml:lang="de">Allgemein</lido:term>
+      </lido:category>
+      <lido:descriptiveMetadata xml:lang="de">
+         <lido:objectClassificationWrap>
+            <lido:objectWorkTypeWrap>
+               <lido:objectWorkType>
+                  <lido:term>Keule</lido:term>
+               </lido:objectWorkType>
+            </lido:objectWorkTypeWrap>
+            <lido:classificationWrap>
+               <lido:classification>
+                  <lido:term>not sure what I should use for classification ATM</lido:term>
+               </lido:classification>
+            </lido:classificationWrap>
+         </lido:objectClassificationWrap>
+         <lido:objectIdentificationWrap>
+            <lido:titleWrap>
+               <lido:titleSet>
+                  <lido:appellationValue lido:pref="preferred">paoa</lido:appellationValue>
+               </lido:titleSet>
+            </lido:titleWrap>
+            <lido:inscriptionsWrap/>
+            <lido:repositoryWrap>
+               <lido:repositorySet lido:type="current">
+                  <lido:repositoryName>
+                     <lido:legalBodyName>
+                        <lido:appellationValue/>
+                     </lido:legalBodyName>
+                  </lido:repositoryName>
+                  <lido:workID lido:type="inventory number">VI 4864</lido:workID>
+               </lido:repositorySet>
+            </lido:repositoryWrap>
+            <lido:displayStateEditionWrap/>
+            <lido:objectDescriptionWrap>
+               <lido:objectDescriptionSet>
+                  <lido:descriptiveNoteValue xml:lang="de" lido:encodinganalog="onlineBeschreibung"/>
+               </lido:objectDescriptionSet>
+            </lido:objectDescriptionWrap>
+            <lido:objectMeasurementsWrap>
+               <lido:objectMeasurementsSet>
+                  <lido:displayObjectMeasurements>50,5 x 12,5 x 4 cm</lido:displayObjectMeasurements>
+               </lido:objectMeasurementsSet>
+            </lido:objectMeasurementsWrap>
+         </lido:objectIdentificationWrap>
+      </lido:descriptiveMetadata>
+      <lido:administrativeMetadata xml:lang="en">
+         <lido:rightsWorkWrap/>
+         <lido:recordWrap>
+            <lido:recordID lido:type="local">998472</lido:recordID>
+            <lido:recordType>
+               <lido:term>single object</lido:term>
+            </lido:recordType>
+            <lido:recordSource>
+               <lido:legalBodyName>
+                  <lido:appellationValue/>
+               </lido:legalBodyName>
+               <lido:legalBodyWeblink>https://www.smb.museum</lido:legalBodyWeblink>
+            </lido:recordSource>
+            <lido:recordRights>
+               <lido:rightsHolder>
+                  <lido:legalBodyID lido:type="URI" lido:source="ISIL (ISO 15511)">info:isil/DE-Mb112</lido:legalBodyID>
+                  <lido:legalBodyName>
+                     <lido:appellationValue>Staatliche Museen zu Berlin</lido:appellationValue>
+                  </lido:legalBodyName>
+                  <lido:legalBodyWeblink>https://www.smb.museum</lido:legalBodyWeblink>
+               </lido:rightsHolder>
+            </lido:recordRights>
+            <lido:recordInfoSet>
+               <lido:recordInfoLink lido:formatResource="html">http://www.bildindex.de/dokumente/html/obj00154983</lido:recordInfoLink>
+            </lido:recordInfoSet>
+            <lido:recordInfoSet>
+               <lido:recordInfoID lido:type="oai">oai:bildindex.de:lidoWrap::DE-Mb112/lido-obj00154983</lido:recordInfoID>
+            </lido:recordInfoSet>
+         </lido:recordWrap>
+      </lido:administrativeMetadata>
+   </lido:lido>
+</lido:lidoWrap>

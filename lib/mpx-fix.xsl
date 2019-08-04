@@ -8,8 +8,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
 
-	<!-- xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"
-		name="fixlog" / -->
 	<xsl:output method="xml" version="1.0" encoding="UTF-8"
 		indent="yes" />
 
@@ -64,16 +62,6 @@
 		</xsl:copy>
 	</xsl:template>
 
-	<!-- THIS DOES NOT WORK -->
-	<xsl:template match="@*|node()" mode="zwei">
-		<xsl:copy>
-			<xsl:copy-of select="@*" />
-			<xsl:apply-templates select="node()">
-				<xsl:sort select="name()" case-order="lower-first"
-					lang="de" />
-			</xsl:apply-templates>
-		</xsl:copy>
-	</xsl:template>
 
 	<xsl:template name="addKueId">
 		<xsl:param name="name" />
@@ -1384,7 +1372,7 @@
 		<!-- Check if a term exists in a dictionary and return true or false -->
 		<!-- These definitions should exist only once! -->
 		<xsl:variable name="dictloc"
-			select="document('file:///c:/cygwin/home/Maurice/usr/levelup/lib/mpxvok.xml')" />
+			select="document('file:///C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib/mpxvok.xml')" />
 		<xsl:variable name="displaylang" select="'de'" />
 
 		<xsl:choose>
@@ -1418,7 +1406,7 @@
 		<xsl:param name="id" />
 		<!-- These definitions should exist only once! -->
 		<xsl:variable name="dictloc"
-			select="document('file:///c:/cygwin/home/maurice/usr/levelup/lib/mpxvok.xml')" />
+			select="document('file:///C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib/mpxvok.xml')" />
 		<xsl:variable name="displaylang" select="'de'" />
 		<xsl:variable name="debug" select="'no'" />
 

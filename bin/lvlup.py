@@ -34,7 +34,6 @@ if __name__ == "__main__":
     from Xls2xml import Xls2xml
     from XmlJoin import XmlJoin
     from DirTransform import DirTransform
-    from Fix import Fix
     
     o=Xls2xml(conf) # zerodir/so.xls-> onedir/so.xml
     o.mv2zero()
