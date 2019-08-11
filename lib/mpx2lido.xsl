@@ -4,9 +4,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:mpx="http://www.mpx.org/mpx" exclude-result-prefixes="mpx"
 	xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
+	<xsl:import href="mpx2lido/so.xsl" />
+
 	<xsl:output method="xml" version="1.0" encoding="UTF-8"
 		indent="yes" />
 	<xsl:strip-space elements="*" />
+
 
 
 	<xsl:template match="/">
@@ -20,162 +23,34 @@
 	<!-- TODO: mpx:verwaltendeInstitution missing from source (used in recID) -->
 
 
+
+	<!-- Gets called from resrouceWrap -->
 	<xsl:template
-		match="/mpx:museumPlusExport/mpx:sammlungsobjekt">
-		<lido:lido>
+		match="/mpx:museumPlusExport/mpx:multimediaobjekt">
+		<xsl:message>
+			VO
+			<xsl:value-of select="mpx:verknüpftesObjekt" />
+		</xsl:message>
 
-			<!-- 1 LidoRecID -->
-
-			<lido:lidoRecID>
-			<xsl:attribute name="lido:source"><xsl:value-of
-				select="mpx:verwaltendeInstitution" /></xsl:attribute>
-			<xsl:attribute name="lido:type">local</xsl:attribute>
-				<xsl:value-of select="@objId" />
-			</lido:lidoRecID>
-
-			<!-- 3 Category -->
-
-			<xsl:apply-templates select="mpx:objekttyp" />
-
-			<!-- 4 DESCRIPTIVE METADATA -->
-			<lido:descriptiveMetadata xml:lang="de">
-
-				<!-- 4.1 Classification -->
-				<lido:objectClassificationWrap>
-					<lido:objectWorkTypeWrap>
-						<lido:objectWorkType>
-							<xsl:apply-templates select="mpx:sachbegriff" />
-						</lido:objectWorkType>
-					</lido:objectWorkTypeWrap>
-					<lido:classificationWrap>
-						<!-- TODO -->
-						<lido:classification>
-							<lido:term>not sure what I should use for classification ATM</lido:term>
-						</lido:classification>
-					</lido:classificationWrap>
-				</lido:objectClassificationWrap>
-
-				<!-- 4.2 Identification -->
-				<lido:objectIdentificationWrap>
-					<lido:titleWrap>
-						<lido:titleSet>
-							<lido:appellationValue
-								lido:pref="preferred">
-						<xsl:choose>
-						<xsl:when test="mpx:titel">
-						 <xsl:value-of select="mpx:titel" />
-						</xsl:when>
-						<xsl:otherwise>
-						 <xsl:value-of select="mpx:sachbegriff" />
-						</xsl:otherwise>
-						</xsl:choose>
+		<lido:resourceSet>
+			<lido:resourceID lido:type="mulId">
+				<xsl:value-of select="@mulId" />
+			</lido:resourceID>
+			<lido:resourceType>
+				<lido:term xml:lang="EN">digital image</lido:term>
+			</lido:resourceType>
+			<lido:rightsResource>
+				<lido:rightsHolder>
+					<lido:legalBodyName>
+						<lido:appellationValue>
+							<xsl:value-of
+								select="mpx:multimediaPersonenKörperschaft" />
 						</lido:appellationValue>
-						</lido:titleSet>
-					</lido:titleWrap>
-					<lido:inscriptionsWrap><!-- TODO -->
-					</lido:inscriptionsWrap>
-					<lido:repositoryWrap>
-						<lido:repositorySet lido:type="current">
-							<lido:repositoryName>
-								<lido:legalBodyName>
-									<lido:appellationValue><xsl:value-of
-										select="mpx:verwaltendeInstitution" /></lido:appellationValue>
-								</lido:legalBodyName>
-							</lido:repositoryName>
-							<lido:workID lido:type="inventory number"><xsl:value-of
-								select="mpx:identNr" /></lido:workID>
-						</lido:repositorySet>
-					</lido:repositoryWrap>
-
-					<!-- A wrapper for the state and edition of the object / work. -->
-					<lido:displayStateEditionWrap />
-
-					<lido:objectDescriptionWrap>
-						<lido:objectDescriptionSet>
-							<lido:descriptiveNoteValue
-								xml:lang="de" lido:encodinganalog="onlineBeschreibung">
-							<xsl:value-of select="mpx:onlineBeschreibung" />
-						</lido:descriptiveNoteValue>
-						</lido:objectDescriptionSet>
-					</lido:objectDescriptionWrap>
-
-					<lido:objectMeasurementsWrap>
-						<lido:objectMeasurementsSet>
-							<lido:displayObjectMeasurements>
-						<xsl:value-of select="mpx:maßangabe" />
-							</lido:displayObjectMeasurements>
-						</lido:objectMeasurementsSet>
-					</lido:objectMeasurementsWrap>
-
-				</lido:objectIdentificationWrap>
-			</lido:descriptiveMetadata>
-
-			<!-- 5 Admin MD -->
-
-			<lido:administrativeMetadata
-				xml:lang="en">
-				<lido:rightsWorkWrap />
-				<lido:recordWrap>
-					<lido:recordID lido:type="local"><xsl:value-of
-						select="@objId" /></lido:recordID>
-					<lido:recordType>
-						<!-- TODO -->
-						<lido:term>single object</lido:term>
-					</lido:recordType>
-					<lido:recordSource>
-						<!-- lido:legalBodyID -->
-						<lido:legalBodyName>
-							<lido:appellationValue><xsl:value-of
-								select="mpx:verwaltendeInstitution" />
-							</lido:appellationValue>
-						</lido:legalBodyName>
-						<lido:legalBodyWeblink>https://www.smb.museum</lido:legalBodyWeblink>
-					</lido:recordSource>
-					<lido:recordRights>
-						<lido:rightsHolder>
-							<!-- TODO ISIL -->
-							<lido:legalBodyID lido:type="URI"
-								lido:source="ISIL (ISO 15511)">info:isil/DE-Mb112</lido:legalBodyID>
-							<lido:legalBodyName>
-								<lido:appellationValue>Staatliche Museen zu Berlin</lido:appellationValue>
-							</lido:legalBodyName>
-							<lido:legalBodyWeblink>https://www.smb.museum</lido:legalBodyWeblink>
-						</lido:rightsHolder>
-					</lido:recordRights>
-					<lido:recordInfoSet>
-						<lido:recordInfoLink
-							lido:formatResource="html">http://www.bildindex.de/dokumente/html/obj00154983</lido:recordInfoLink>
-					</lido:recordInfoSet>
-					<lido:recordInfoSet>
-						<lido:recordInfoID lido:type="oai">oai:bildindex.de:lidoWrap::DE-Mb112/lido-obj00154983</lido:recordInfoID>
-					</lido:recordInfoSet>
-				</lido:recordWrap>
-			</lido:administrativeMetadata>
-		</lido:lido>
-	</xsl:template>
-
-
-	<!-- using objekttyp for main category, but I could also use CIDOC term 
-		here -->
-	<xsl:template
-		match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:objekttyp">
-		<lido:category>
-			<lido:conceptID lido:type="URI">
-				<xsl:text>http://www.mpx.org/concepts/</xsl:text>
-				<xsl:value-of select="." />
-			</lido:conceptID>
-			<lido:term xml:lang="de">
-				<xsl:value-of select="." />
-			</lido:term>
-		</lido:category>
-	</xsl:template>
-
-
-	<xsl:template
-		match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:sachbegriff">
-		<lido:term>
-			<xsl:value-of select="." />
-		</lido:term>
+					</lido:legalBodyName>
+				</lido:rightsHolder>
+				<lido:creditLine>bla bla bla</lido:creditLine>
+			</lido:rightsResource>
+		</lido:resourceSet>
 
 	</xsl:template>
 

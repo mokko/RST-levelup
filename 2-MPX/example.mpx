@@ -1,66 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<museumPlusExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xmlns="http://www.mpx.org/mpx"
-                  level="clean"
-                  version="2.0">
-   <sammlungsobjekt objId="998469" exportdatum="2019-08-02T19:08:07.283583">
-      <abbildungen>Skizze auf Karteikarte</abbildungen>
-      <aktuellerStandort>S20-F02 (BT 2A, OG, R 2233_Teil (HUF ZWL))</aktuellerStandort>
-      <andereNr art="Sammler-Nr.">1083</andereNr>
-      <anzahlTeile>1</anzahlTeile>
-      <bearbDatum>2016-05-26 00:00:00</bearbDatum>
-      <besitzart>Eigentum</besitzart>
-      <erwerbDatum>1878</erwerbDatum>
-      <erwerbungsart>Ankauf</erwerbungsart>
-      <geogrBezug bezeichnung="Insel">Osterinsel</geogrBezug>
-      <geogrBezug>Polynesien</geogrBezug>
-      <identNr>VI 2129</identNr>
-      <inventarNotiz>HK: Angabe zum GeoBezug: "Oster-Insel"</inventarNotiz>
-      <kurzeBeschreibung>HK: [...]
+<museumPlusExport
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.mpx.org/mpx" level="clean" version="2.0">
+	
+	<multimediaobjekt mulId="4115943"
+		exportdatum="2019-08-02T19:08:09.353386">
+		<bearbDatum>2016-05-26 15:17:06</bearbDatum>
+		<multimediaAnfertDat>14.12.2012</multimediaAnfertDat>
+		<multimediaDateiname>VI 2129 -B</multimediaDateiname>
+		<multimediaErweiterung>jpg</multimediaErweiterung>
+		<multimediaFarbe>farbig</multimediaFarbe>
+		<multimediaFunktion>Repro Digitalisat</multimediaFunktion>
+		<multimediaPersonenKörperschaft>Heinz-Günther Malenz</multimediaPersonenKörperschaft>
+		<multimediaPfadangabe>M:\MuseumPlus\Produktiv\Multimedia\EM\Südsee-Australien\Fotos</multimediaPfadangabe>
+		<multimediaTyp>Digitale Aufnahme</multimediaTyp>
+		<multimediaUrhebFotograf>Heinz-Günther Malenz</multimediaUrhebFotograf>
+		<verknüpftesObjekt>998469</verknüpftesObjekt>
+	</multimediaobjekt>
+	
+	<multimediaobjekt mulId="5137171" exportdatum="2019-08-02T19:08:09.353386">
+      <bearbDatum>2016-05-26 15:16:40</bearbDatum>
+      <multimediaAnfertDat>24.05.2016</multimediaAnfertDat>
+      <multimediaDateiname>VI 2129 -A</multimediaDateiname>
+      <multimediaErweiterung>jpg</multimediaErweiterung>
+      <multimediaFarbe>farbig</multimediaFarbe>
+      <multimediaFunktion>Repro Digitalisat</multimediaFunktion>
+      <multimediaInhaltAnsicht>Arbeitsfoto</multimediaInhaltAnsicht>
+      <multimediaPersonenKörperschaft>Anika Niemeck</multimediaPersonenKörperschaft>
+      <multimediaPfadangabe>M:\MuseumPlus\Produktiv\Multimedia\EM\Südsee-Australien\Fotos</multimediaPfadangabe>
+      <multimediaTyp>Digitale Aufnahme</multimediaTyp>
+      <multimediaUrhebFotograf>Anika Niemeck</multimediaUrhebFotograf>
+      <standardbild>M:\MuseumPlus\Produktiv\Multimedia\EM\Südsee-Australien\Fotos\VI 2129 -A.jpg</standardbild>
+      <verknüpftesObjekt>998469</verknüpftesObjekt>
+   </multimediaobjekt>
 
-Oster-Insel</kurzeBeschreibung>
-      <maßangabe typ="Höhe x Breite x Tiefe">80,5 x 17,5 x 2 cm</maßangabe>
-      <materialTechnik art="Technik" besonderheit="transparenter, leicht glänzender Überzug">Überzug</materialTechnik>
-      <materialTechnik art="Technik">geschnitzt</materialTechnik>
-      <materialTechnik art="Material">Holz</materialTechnik>
-      <materialTechnik art="Ausgabe">Holz, geschnitzt, transparenter Überzug</materialTechnik>
-      <objekttyp>Allgemein</objekttyp>
-      <objStatus>vorhanden</objStatus>
-      <personKörperschaftRef funktion="Veräußerer">Museum Godeffroy</personKörperschaftRef>
-      <sachbegriff>Tanzpaddel</sachbegriff>
-      <ständigerStandort>ehem. Ausstellung Polynes./Mikrones. (Südsee und Australien) / V: 82, Nr.: 13</ständigerStandort>
-      <verantwortlichkeit>EM-Südsee/Australien</verantwortlichkeit>
-   </sammlungsobjekt>
-   <sammlungsobjekt objId="998472" exportdatum="2019-08-02T19:08:07.283583">
-      <abbildungen>Skizze im Hauptkatalog / Skizze auf Karteikarte</abbildungen>
-      <aktuellerStandort>S20-F01 (BT 2A, OG, R 2233_Teil (HUF ZWL))</aktuellerStandort>
-      <anzahlTeile>1</anzahlTeile>
-      <bearbDatum>2016-05-26 00:00:00</bearbDatum>
-      <besitzart>Eigentum</besitzart>
-      <erwerbDatum>1883</erwerbDatum>
-      <erwerbNr>I/31/1883</erwerbNr>
-      <erwerbungsart>Schenkung</erwerbungsart>
-      <erwerbungVon>Konsul Schlubach</erwerbungVon>
-      <geogrBezug bezeichnung="Insel">Osterinsel</geogrBezug>
-      <geogrBezug>Polynesien</geogrBezug>
-      <handling>Aufbau, Abbau und  Montage nur durch Fachkräfte; nur mit Handschuhen anfassen</handling>
-      <identNr>VI 4864</identNr>
-      <inventarNotiz>HK: Angabe zum GeoBezug: "Oster Ins."</inventarNotiz>
-      <kurzeBeschreibung>HK: Keule aus Holz mit geschnitztem Gesicht
+	<sammlungsobjekt objId="998469"
+		exportdatum="2019-08-02T19:08:07.283583">
+		<abbildungen>Skizze auf Karteikarte</abbildungen>
+		<aktuellerStandort>S20-F02 (BT 2A, OG, R 2233_Teil (HUF ZWL))
+		</aktuellerStandort>
+		<andereNr art="Sammler-Nr.">1083</andereNr>
+		<anzahlTeile>1</anzahlTeile>
+		<bearbDatum>2016-05-26 00:00:00</bearbDatum>
+		<besitzart>Eigentum</besitzart>
+		<erwerbDatum>1878</erwerbDatum>
+		<erwerbungsart>Ankauf</erwerbungsart>
+		<geogrBezug bezeichnung="Insel">Osterinsel</geogrBezug>
+		<geogrBezug>Polynesien</geogrBezug>
+		<identNr>VI 2129</identNr>
+		<inventarNotiz>HK: Angabe zum GeoBezug: "Oster-Insel"</inventarNotiz>
+		<kurzeBeschreibung>HK: [...]
 
-Oster Ins.</kurzeBeschreibung>
-      <maßangabe typ="Höhe x Breite x Tiefe">50,5 x 12,5 x 4 cm</maßangabe>
-      <materialTechnik art="Material"
-                       besonderheit="rötlich weiße mineralische Masse (Angabe laut Karteikarte)">Pigment</materialTechnik>
-      <materialTechnik art="Technik">geschnitzt</materialTechnik>
-      <materialTechnik art="Material">Holz</materialTechnik>
-      <materialTechnik art="Ausgabe">Holz, geschnitzt, Kittung aus mineralischem Material</materialTechnik>
-      <objekttyp>Allgemein</objekttyp>
-      <objStatus>vorhanden</objStatus>
-      <personKörperschaftRef funktion="Veräußerer">Schlubach</personKörperschaftRef>
-      <sachbegriff>Keule</sachbegriff>
-      <ständigerStandort>ehem. Ausstellung Polynes./Mikrones. (Südsee und Australien) / V: 82, Nr.: 17</ständigerStandort>
-      <titel>paoa</titel>
-      <verantwortlichkeit>EM-Südsee/Australien</verantwortlichkeit>
-   </sammlungsobjekt>
+			Oster-Insel
+		</kurzeBeschreibung>
+		<maßangabe typ="Höhe x Breite x Tiefe">80,5 x 17,5 x 2 cm</maßangabe>
+		<materialTechnik art="Technik"
+			besonderheit="transparenter, leicht glänzender Überzug">Überzug</materialTechnik>
+		<materialTechnik art="Technik">geschnitzt</materialTechnik>
+		<materialTechnik art="Material">Holz</materialTechnik>
+		<materialTechnik art="Ausgabe">Holz, geschnitzt, transparenter
+			Überzug</materialTechnik>
+		<objekttyp>Allgemein</objekttyp>
+		<objStatus>vorhanden</objStatus>
+		<personKörperschaftRef funktion="Veräußerer">Museum Godeffroy
+		</personKörperschaftRef>
+		<sachbegriff>Tanzpaddel</sachbegriff>
+		<ständigerStandort>ehem. Ausstellung Polynes./Mikrones. (Südsee und
+			Australien) / V: 82, Nr.: 13</ständigerStandort>
+		<verantwortlichkeit>EM-Südsee/Australien</verantwortlichkeit>
+	</sammlungsobjekt>
+	
+	
+	<sammlungsobjekt objId="998472"
+		exportdatum="2019-08-02T19:08:07.283583">
+		<abbildungen>Skizze im Hauptkatalog / Skizze auf Karteikarte
+		</abbildungen>
+		<aktuellerStandort>S20-F01 (BT 2A, OG, R 2233_Teil (HUF ZWL))
+		</aktuellerStandort>
+		<anzahlTeile>1</anzahlTeile>
+		<bearbDatum>2016-05-26 00:00:00</bearbDatum>
+		<besitzart>Eigentum</besitzart>
+		<erwerbDatum>1883</erwerbDatum>
+		<erwerbNr>I/31/1883</erwerbNr>
+		<erwerbungsart>Schenkung</erwerbungsart>
+		<erwerbungVon>Konsul Schlubach</erwerbungVon>
+		<geogrBezug bezeichnung="Insel">Osterinsel</geogrBezug>
+		<geogrBezug>Polynesien</geogrBezug>
+		<handling>Aufbau, Abbau und Montage nur durch Fachkräfte; nur mit
+			Handschuhen anfassen</handling>
+		<identNr>VI 4864</identNr>
+		<inventarNotiz>HK: Angabe zum GeoBezug: "Oster Ins."</inventarNotiz>
+		<kurzeBeschreibung>HK: Keule aus Holz mit geschnitztem Gesicht
+
+			Oster Ins.
+		</kurzeBeschreibung>
+		<maßangabe typ="Höhe x Breite x Tiefe">50,5 x 12,5 x 4 cm</maßangabe>
+		<materialTechnik art="Material"
+			besonderheit="rötlich weiße mineralische Masse (Angabe laut Karteikarte)">Pigment</materialTechnik>
+		<materialTechnik art="Technik">geschnitzt</materialTechnik>
+		<materialTechnik art="Material">Holz</materialTechnik>
+		<materialTechnik art="Ausgabe">Holz, geschnitzt, Kittung aus
+			mineralischem Material</materialTechnik>
+		<objekttyp>Allgemein</objekttyp>
+		<objStatus>vorhanden</objStatus>
+		<personKörperschaftRef funktion="Veräußerer">Schlubach
+		</personKörperschaftRef>
+		<sachbegriff>Keule</sachbegriff>
+		<ständigerStandort>ehem. Ausstellung Polynes./Mikrones. (Südsee und
+			Australien) / V: 82, Nr.: 17</ständigerStandort>
+		<titel>paoa</titel>
+		<verantwortlichkeit>EM-Südsee/Australien</verantwortlichkeit>
+	</sammlungsobjekt>
 </museumPlusExport>

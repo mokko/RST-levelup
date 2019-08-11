@@ -80,6 +80,36 @@
                <lido:recordInfoID lido:type="oai">oai:bildindex.de:lidoWrap::DE-Mb112/lido-obj00154983</lido:recordInfoID>
             </lido:recordInfoSet>
          </lido:recordWrap>
+         <lido:resourceWrap>
+            <lido:resourceSet>
+               <lido:resourceID lido:type="mulId">4115943</lido:resourceID>
+               <lido:resourceType>
+                  <lido:term xml:lang="EN">digital image</lido:term>
+               </lido:resourceType>
+               <lido:rightsResource>
+                  <lido:rightsHolder>
+                     <lido:legalBodyName>
+                        <lido:appellationValue>Heinz-Günther Malenz</lido:appellationValue>
+                     </lido:legalBodyName>
+                  </lido:rightsHolder>
+                  <lido:creditLine>bla bla bla</lido:creditLine>
+               </lido:rightsResource>
+            </lido:resourceSet>
+            <lido:resourceSet>
+               <lido:resourceID lido:type="mulId">5137171</lido:resourceID>
+               <lido:resourceType>
+                  <lido:term xml:lang="EN">digital image</lido:term>
+               </lido:resourceType>
+               <lido:rightsResource>
+                  <lido:rightsHolder>
+                     <lido:legalBodyName>
+                        <lido:appellationValue>Anika Niemeck</lido:appellationValue>
+                     </lido:legalBodyName>
+                  </lido:rightsHolder>
+                  <lido:creditLine>bla bla bla</lido:creditLine>
+               </lido:rightsResource>
+            </lido:resourceSet>
+         </lido:resourceWrap>
       </lido:administrativeMetadata>
    </lido:lido>
    <lido:lido>
@@ -160,6 +190,7 @@
                <lido:recordInfoID lido:type="oai">oai:bildindex.de:lidoWrap::DE-Mb112/lido-obj00154983</lido:recordInfoID>
             </lido:recordInfoSet>
          </lido:recordWrap>
+         <lido:resourceWrap/>
       </lido:administrativeMetadata>
    </lido:lido>
 </lido:lidoWrap>
