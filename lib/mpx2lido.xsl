@@ -11,7 +11,6 @@
 	<xsl:strip-space elements="*" />
 
 
-
 	<xsl:template match="/">
 		<lido:lidoWrap
 			xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
@@ -51,7 +50,6 @@
 				<lido:creditLine>bla bla bla</lido:creditLine>
 			</lido:rightsResource>
 		</lido:resourceSet>
-
 	</xsl:template>
 
 </xsl:stylesheet>

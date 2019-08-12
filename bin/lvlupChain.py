@@ -7,9 +7,7 @@ conf={
 
     "onedir"  : "1-XML",
     "saxon" : "C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe",
-    "joinxsl": "lib/join.xsl",
-    'jointemp': '1-XML/temp.mpx',
-    "joinmpx": "1-XML/join.mpx",
+    #'jointemp': '1-XML/temp.mpx',
 
     "lvlupxsl": "lib/lupmpx.xsl",
     "lvlupmpx": "2-MPX/levelup.mpx",
@@ -18,6 +16,12 @@ conf={
     
     "mpx2lido": "lib/mpx2lido.xsl",
     "outlido" : "3-Lido/out.lido", 
+
+    'tempdir' : "temp",
+    'joinColXsl': "lib/joinCol.xsl",
+    'leermpx' : "lib/leer.mpx",
+    "joinxsl": "lib/join.xsl",
+    "joinmpx": "1-XML/join.mpx",
 
 }
 #    "lib" : "C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib",
@@ -38,7 +42,7 @@ if __name__ == "__main__":
     o=Xls2xml(conf) # zerodir/so.xls-> onedir/so.xml
     o.mv2zero()
     o.transformAll()  
-    o=XmlJoin(conf) # onedir/join.mpx
+    o=DirTransform(conf['saxon'], conf['leermpx'], conf['joinColXsl'], conf['joinmpx'])
 
     #saxon, source, xsl, outpath
     o=DirTransform(conf['saxon'], conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx'])

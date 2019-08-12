@@ -125,7 +125,6 @@ class Xls2xml (Generic):
             else:
                 if os.path.isfile(path):
                     self.transPerFile(infile, outfile) 
-                        
 
 
     '''Called on a per file basis from transformAll'''
@@ -198,7 +197,7 @@ class Xls2xml (Generic):
 
         #print ('%s->%s' % (inpath, outfile))
         tree.write(outfile, encoding='UTF-8', xml_declaration=True)
-                
+
 
     def indent(self, elem, level=0):
         i = "\n" + level*"  "
@@ -214,6 +213,7 @@ class Xls2xml (Generic):
         else:
             if level and (not elem.tail or not elem.tail.strip()):
                 elem.tail = i               
+
 
 if __name__ == "__main__":
     conf={

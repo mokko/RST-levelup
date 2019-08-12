@@ -62,8 +62,8 @@
 			Überzug</materialTechnik>
 		<objekttyp>Allgemein</objekttyp>
 		<objStatus>vorhanden</objStatus>
-		<personKörperschaftRef funktion="Veräußerer">Museum Godeffroy
-		</personKörperschaftRef>
+		<personKörperschaft funktion="Veräußerer">Museum Godeffroy
+		</personKörperschaft>
 		<sachbegriff>Tanzpaddel</sachbegriff>
 		<ständigerStandort>ehem. Ausstellung Polynes./Mikrones. (Südsee und
 			Australien) / V: 82, Nr.: 13</ständigerStandort>
@@ -103,8 +103,8 @@
 			mineralischem Material</materialTechnik>
 		<objekttyp>Allgemein</objekttyp>
 		<objStatus>vorhanden</objStatus>
-		<personKörperschaftRef funktion="Veräußerer">Schlubach
-		</personKörperschaftRef>
+		<personKörperschaft funktion="Veräußerer">Schlubach
+		</personKörperschaft>
 		<sachbegriff>Keule</sachbegriff>
 		<ständigerStandort>ehem. Ausstellung Polynes./Mikrones. (Südsee und
 			Australien) / V: 82, Nr.: 17</ständigerStandort>
