@@ -6,15 +6,19 @@
 		indent="yes" />
 	<xsl:strip-space elements="*" />
 
-	<!-- copy this file to temp subdir and use it from there -->
+	<!-- 
+	TODO: copy this file to 1-XML and use it from there 
+	expects a xml "dirty" mpx file where Wiederholfelder lead to separate records and without attributes
+	expects that there are no records without indexes (mulId, objId, kueId)
+	expects that on /museumPlusExport/*/* level elements are sorted alphabetically
+	-->
 	<xsl:variable name="collection" select="collection('../1-XML?select=*.xml')"/>
 
 	<xsl:template match="/">
-	
 		<museumPlusExport level="join" version="2.0">
 			<xsl:for-each select="$collection/*/*">
-				<xsl:sort select="name()" order="ascending" />
-				<xsl:sort select="@mulId|@kueId|@objId" />
+				<!--xsl:sort select="name()" order="ascending" /-->
+				<xsl:sort select="@mulId|@kueId|@objId" data-type="number" />
 				<xsl:copy-of select="." />
 			</xsl:for-each>
 		</museumPlusExport>
