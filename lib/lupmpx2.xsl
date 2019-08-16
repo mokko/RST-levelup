@@ -27,7 +27,7 @@
 	<!-- MM -->
 
 
-	<xsl:template match="/museumPlusExport/multimediaobjekt[@mulId]">
+	<xsl:template match="/museumPlusExport/multimediaobjekt">
 		<xsl:variable name="mulId" select="@mulId"/>
 		<xsl:element name="{name()}">
 			<xsl:attribute name="mulId"><xsl:value-of select="$mulId"/></xsl:attribute>
@@ -91,7 +91,7 @@
 	<!-- SO -->
 
 
-	<xsl:template match="/museumPlusExport/sammlungsobjekt[@objId]">
+	<xsl:template match="/museumPlusExport/sammlungsobjekt">
 		<xsl:variable name="id" select="@objId"/>
 		<xsl:element name="{name()}">
 			<xsl:attribute name="objId"><xsl:value-of select="$id"/></xsl:attribute>
@@ -168,8 +168,7 @@
 				</xsl:attribute>
 			</xsl:if>
 
-			<xsl:if
-				select="../datierungBisMonat|../datierungMonatBis">
+			<xsl:if	test="../datierungBisMonat|../datierungMonatBis">
 				<xsl:attribute name="bisMonat">
 					<xsl:value-of select="../datierungBisMonat|../datierungMonatBis" />
 				</xsl:attribute>
@@ -254,13 +253,11 @@
 			<xsl:value-of select="name()"/>
 		</xsl:message>
 		<xsl:element name="{name()}">
-			<xsl:for-each select="">
-				<xsl:if test="../identNrArt">
-					<xsl:attribute name="art">
-						<xsl:value-of select="../identNrArt" />
-					</xsl:attribute>
-				</xsl:if>
-			</xsl:for-each>
+			<xsl:if test="../identNrArt">
+				<xsl:attribute name="art">
+					<xsl:value-of select="../identNrArt" />
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
