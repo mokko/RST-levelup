@@ -8,6 +8,15 @@
 		indent="yes" />
 	<xsl:strip-space elements="*" />
 
+	<!-- 
+	transforms dirty to clean mpx 
+	mostly 
+	(1) rewrites wiederholfelder so that the single record has multiple attributes
+	(2) rewrites Qualifikators as attributes
+	
+	It also renames a few elements and sorts output according to mpx standard
+	-->
+
 
 	<xsl:template match="/">
 		<museumPlusExport level="clean" version="2.0">
