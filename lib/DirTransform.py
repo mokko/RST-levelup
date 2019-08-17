@@ -6,7 +6,7 @@ class DirTransform (Generic):
 
     def __init__ (self, saxon, source, xsl, outpath):
         destdir=os.path.dirname(outpath) #check 
-        print (destdir)
+        #print (destdir)
         self.mkdir (destdir)
         
         if os.path.isfile(outpath):
