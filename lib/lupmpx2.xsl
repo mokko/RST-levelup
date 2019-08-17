@@ -77,10 +77,6 @@
 
 	<!-- MM default -->	
 	<xsl:template match="/museumPlusExport/multimediaobjekt/*">
-		<!--xsl:variable name="mulId" select="../@mulId"/-->
-		<!--xsl:message>
-			<xsl:value-of select="name()"/>
-		</xsl:message-->
 		<xsl:element name="{name()}">
 			<xsl:value-of select="." />
 		</xsl:element>
@@ -143,27 +139,15 @@
 
 	<!-- PK default -->	
 	<xsl:template match="/museumPlusExport/personKörperschaft/*">
-		<!--xsl:variable name="mulId" select="../@mulId"/-->
-		<!--xsl:message>
-			<xsl:value-of select="name()"/>
-		</xsl:message-->
 		<xsl:element name="{name()}">
 			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
 
 	<xsl:template match="/museumPlusExport/personKörperschaft/datierung">
-		<xsl:message>
-			<xsl:value-of select="name()"/>
-		</xsl:message>
-		<xsl:element name="{name()}">
-			<xsl:if test="../datierungArt">
-				<xsl:attribute name="art">
-					<xsl:value-of select="../datierungArt" />
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:value-of select="." />
-		</xsl:element>
+		<xsl:call-template name="oneAttrib">
+			<xsl:with-param name="attrib" select="'datierungArt'" />
+		</xsl:call-template>
 	</xsl:template>
 	<xsl:template match="/museumPlusExport/personKörperschaft/datierungArt"/>
 
@@ -199,17 +183,9 @@
 
 
 	<xsl:template match="/museumPlusExport/personKörperschaft/nennform">
-		<xsl:message>
-			<xsl:value-of select="name()"/>
-		</xsl:message>
-		<xsl:element name="{name()}">
-			<xsl:if test="../nennformArt">
-				<xsl:attribute name="art">
-					<xsl:value-of select="../nennformArt" />
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:value-of select="." />
-		</xsl:element>
+		<xsl:call-template name="oneAttrib">
+			<xsl:with-param name="attrib" select="'nennformArt'" />
+		</xsl:call-template>
 	</xsl:template>
 	<xsl:template match="/museumPlusExport/personKörperschaft/nennformArt"/>
 
@@ -234,6 +210,7 @@
 		</xsl:element>
 	</xsl:template>
 	
+
 	<!-- SO default -->
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/*">
 		<xsl:variable name="id" select="../@objId"/>
