@@ -17,8 +17,9 @@
 	<xsl:template match="/">
 		<museumPlusExport level="join" version="2.0">
 			<xsl:for-each select="$collection/*/*">
-				<!--xsl:sort select="name()" order="ascending" /-->
+				<xsl:sort select="name()" order="ascending" />
 				<xsl:sort select="@mulId|@kueId|@objId" data-type="number" />
+				<xsl:message><xsl:value-of select="name()"/></xsl:message>
 				<xsl:copy-of select="." />
 			</xsl:for-each>
 		</museumPlusExport>
