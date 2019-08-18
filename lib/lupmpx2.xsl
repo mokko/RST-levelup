@@ -82,8 +82,8 @@
 	</xsl:template>
 
 
-	<!-- MM default -->	
-	<xsl:template match="/museumPlusExport/multimediaobjekt/*">
+	<!-- triple default -->	
+	<xsl:template match="/museumPlusExport/*/*">
 		<xsl:element name="{name()}">
 			<xsl:value-of select="." />
 		</xsl:element>
@@ -144,13 +144,6 @@
 	</xsl:template>
 
 
-	<!-- PK default -->	
-	<xsl:template match="/museumPlusExport/personKörperschaft/*">
-		<xsl:element name="{name()}">
-			<xsl:value-of select="." />
-		</xsl:element>
-	</xsl:template>
-
 	<xsl:template match="/museumPlusExport/personKörperschaft/datierung">
 		<xsl:call-template name="wAttrib">
 			<xsl:with-param name="attrib" select="../datierungArt" />
@@ -204,19 +197,7 @@
 			</xsl:for-each-group>
 		</xsl:element>
 	</xsl:template>
-	
 
-	<!-- SO default -->
-	<xsl:template match="/museumPlusExport/sammlungsobjekt/*">
-		<xsl:variable name="id" select="../@objId"/>
-			<!--xsl:message>
-				<xsl:value-of select="name()"/>
-			</xsl:message-->
-			<xsl:element name="{name()}">
-				<xsl:value-of select="." />
-			</xsl:element>
-	</xsl:template>
-	
 	
 	<!-- rewrite Qualifikator as attribute-->
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/andereNr">
@@ -382,7 +363,9 @@
 			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
-	<xsl:template match="/museumPlusExport/sammlungsobjekt/objBezSachbegriff|/museumPlusExport/sammlungsobjekt/objBezBemerkung|/museumPlusExport/sammlungsobjekt/objBezArt"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/objBezSachbegriff
+		|/museumPlusExport/sammlungsobjekt/objBezBemerkung
+		|/museumPlusExport/sammlungsobjekt/objBezArt"/>
 
 
 	<!-- irregular names? personKörperschaft oder personenKörperschaft -->
@@ -404,7 +387,8 @@
 			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
-	<xsl:template match="/museumPlusExport/sammlungsobjekt/personenKörperschaftenFunktion|/museumPlusExport/sammlungsobjekt/personenArtDesBezugs"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/personenKörperschaftenFunktion"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/personenArtDesBezugs"/>
 
 
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/sachbegriff">
