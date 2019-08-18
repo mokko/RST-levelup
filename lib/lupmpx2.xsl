@@ -42,6 +42,14 @@
 	</xsl:template>
 
 
+	<!-- triple default -->	
+	<xsl:template match="/museumPlusExport/*/*">
+		<xsl:element name="{name()}">
+			<xsl:value-of select="." />
+		</xsl:element>
+	</xsl:template>
+
+
 	<xsl:template match="/">
 		<museumPlusExport level="clean" version="2.0">
 			<xsl:for-each-group select="/museumPlusExport/multimediaobjekt" group-by="@mulId">
@@ -78,14 +86,6 @@
 				<xsl:sort data-type="text" select="name()" />
 				<xsl:apply-templates select="."/>
 			</xsl:for-each-group>
-		</xsl:element>
-	</xsl:template>
-
-
-	<!-- triple default -->	
-	<xsl:template match="/museumPlusExport/*/*">
-		<xsl:element name="{name()}">
-			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
 
