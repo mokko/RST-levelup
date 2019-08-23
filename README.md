@@ -15,9 +15,9 @@ The script creates several subdirectories which document whats going on under th
 - 3-FIX: various fixes using xsl. Contains end result produced by lvlup.py. 
 
 Input: lvlup.py expects one of any number of documents: records in 
--so*.xml become sammlungsobjekt records,
--mm*.xml become multimediaobjekt records, 
--pk*.xml become personenKörperschaften reocrds
+- so*.xml become sammlungsobjekt records,
+- mm*.xml become multimediaobjekt records, 
+- pk*.xml become personenKörperschaften reocrds
 
 To retrigger the process, delete the corresponding files, e.g. if you want to retrigger the initial conversion to xml,
 delete the output files in 1-XML.
