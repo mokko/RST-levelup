@@ -9,10 +9,10 @@ USAGE
 
 The script creates several subdirectories which document whats going on under the hood
 
-0-IN: has original excel files
-1-XML: has excel tables simply transformed to xml. I call this format stupid xml because of several shortcomings
-2-MPX: de-multiplied using xsl 
-3-FIX: various fixes using xsl. Contains end result produced by lvlup.py. 
+- 0-IN: has original excel files
+- 1-XML: has excel tables simply transformed to xml. I call this format stupid xml because of several shortcomings
+- 2-MPX: de-multiplied using xsl 
+- 3-FIX: various fixes using xsl. Contains end result produced by lvlup.py. 
 
 Input: lvlup.py expects one of any number of documents: records in 
 -so*.xml become sammlungsobjekt records,
