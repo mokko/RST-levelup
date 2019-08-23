@@ -4,6 +4,10 @@ import shutil
 import xlrd
 import xlrd.sheet
 import datetime
+import glob
+import sys
+import re 
+
 from xlrd.sheet import ctype_text
 import xml.etree.ElementTree as ET
 from xml.sax.saxutils import escape
@@ -104,7 +108,7 @@ class Xls2xml (Generic):
     def mv2zero (self):    
         self.mkdir (self.conf['zerodir'])
         
-        for infile in self.conf['infiles']:
+        for infile in glob.glob ('*.xls'):
             #print (infile)
             if os.path.isfile(infile):
                 print ('moving %s to %s' % (infile, self.conf['zerodir']))
@@ -114,43 +118,46 @@ class Xls2xml (Generic):
     def transformAll (self):
         self.mkdir (self.conf['onedir'])
 
-        for infile in self.conf['infiles']:
-            path=self.conf['zerodir']+'/'+infile
-            #print ('Looking for %s' % infile)
- 
-            outfile=self.conf['onedir']+'/'+infile[:-4] + '.xml'
+        for infile in glob.glob (self.conf['zerodir']+'/*.xls'):
+            print ('Looking for %s' % infile)
+            outfile=self.conf['onedir']+'/'+os.path.basename(infile[:-4] + '.xml')
+            #print ('outfile %s' % outfile)
 
             if os.path.isfile(outfile):
                 print ("%s exists already, no overwrite" % outfile)
             else:
-                if os.path.isfile(path):
+                if os.path.isfile(infile):
                     self.transPerFile(infile, outfile) 
 
 
     '''Called on a per file basis from transformAll'''
     def transPerFile(self, infile, outfile):
-        inpath=self.conf['zerodir']+'/'+infile
-        
-        wb = xlrd.open_workbook(filename=inpath, on_demand=True)
+        wb = xlrd.open_workbook(filename=infile, on_demand=True)
         sheet= wb.sheet_by_index(0)
                        
         root = ET.Element("museumPlusExport", attrib={'version':'2.0', 'level':'dirty', }) 
         tree = ET.ElementTree(root)
 
         columns =[sheet.cell(0, c).value for c in range(sheet.ncols)]
-        
+
+        base=os.path.basename(infile)
+
+        #print ("%s -> %s" % (infile, tag))
+
         for r in range(1, sheet.nrows): #leave out column headers
-            if infile == "so.xls":
+            if re.match('so',base, re.I):
                 tag="sammlungsobjekt"
                 attrib='objId'
-
-            elif infile == "pk.xls":
-                tag="personK�rperschaft"
+    
+            elif re.match('pk',base, re.I):
+                tag="personKörperschaft"
                 attrib='kueId'
-
-            elif infile == "mm.xls":
+    
+            elif re.match('mm',base, re.I):
                 tag="multimediaobjekt"
                 attrib='mulId'
+            else:
+                print ("Unknown file %s" % infile)
 
             index=sheet.cell (r,columns.index(attrib)).value
             if index:

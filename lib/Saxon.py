@@ -20,21 +20,55 @@ Transform -s:source -xsl:stylesheet -o:output
 '''
 
 import subprocess
+import os
+import shutil
 
 
 class Saxon:
-    def __init__ (self, path=None):
+    def __init__ (self, path=None, lib=None):
         self.saxonpath="C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe" # default
         if path:
             self.saxon=path
+        if lib:
+            self.lib=lib # default used in dirTransform    
         #print (self.saxonpath)
     
     def transform (self, source, stylesheet, output):
-        cmd=self.saxonpath + ' -s:' + source + ' -xsl:' + stylesheet + ' -o:' + output 
+        cmd=self.saxonpath + ' -s:' + source + ' -xsl:' + stylesheet + ' -o:' + output
+        #die on error 
         print (cmd)
-        subprocess.run (cmd) # overwrites output file without saying anything
+        subprocess.run (cmd, check=True) # overwrites output file without saying anything
 
+    '''
+     Like normal transform plus 
+     a) it makes the output if it doesn't exist already
+     b) it prefixes the stylesheet paths with self.lib if it exists
+    '''
+    def dirTransform (self, source, stylesheet, output):
+        dir=os.path.dirname (output) 
         
+        if os.path.isfile(output):
+            print ("%s exists already, no overwrite" % output)
+        else:
+            if not os.path.isdir(dir): 
+                os.mkdir(dir) # no chmod
+            if self.lib:
+                stylesheet=self.lib+'/'+stylesheet    
+                print (stylesheet)    
+            self.transform (source, stylesheet, output)    
+
+    def join (self, source, stylesheet, output):
+        #todo mk sure that self.lib exists
+        if os.path.isfile(output):
+            print ("%s exists already, no overwrite" % output)
+        else:
+            source=self.lib+'/'+source
+            styleorig=self.lib+'/'+stylesheet
+            targetdir=os.path.dirname(output)
+            styletarget=targetdir+'/'+stylesheet
+            shutil.copy(styleorig, styletarget) # cp stylesheet in same dir as *.xml
+            self.transform (source, styletarget, output)    
+
 
 if __name__ == "__main__":
     conf={}
