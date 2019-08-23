@@ -94,11 +94,11 @@
 	<xsl:template match="/museumPlusExport/multimediaobjekt/standardbild">
 		<xsl:if test="../multimediaPfadangabe">
 			<xsl:variable name="bild">
-				<xsl:value-of select="../multimediaPfadangabe" />
+				<xsl:value-of select="../pfadangabe" />
 				<xsl:text>\</xsl:text>
-				<xsl:value-of select="../multimediaDateiname" />
+				<xsl:value-of select="../dateiname" />
 				<xsl:text>.</xsl:text>
-				<xsl:value-of select="../multimediaErweiterung" />
+				<xsl:value-of select="../erweiterung" />
 			</xsl:variable>
 			<xsl:if test=". eq $bild ">
 				<xsl:message>
@@ -165,17 +165,21 @@
 	<xsl:template match="/museumPlusExport/personKörperschaft/name">
 		<xsl:call-template name="wAttrib">
 			<xsl:with-param name="attrib" select="../nameArt" />
+			<xsl:with-param name="attrib2" select="../nameBemerkung" />
 		</xsl:call-template>
 	</xsl:template>
 	<xsl:template match="/museumPlusExport/personKörperschaft/nameArt"/>
+	<xsl:template match="/museumPlusExport/personKörperschaft/nameBemerkung"/>
 
 
 	<xsl:template match="/museumPlusExport/personKörperschaft/nennform">
 		<xsl:call-template name="wAttrib">
 			<xsl:with-param name="attrib" select="../nennformArt" />
+			<xsl:with-param name="attrib2" select="../nennformBemerkung" />
 		</xsl:call-template>
 	</xsl:template>
 	<xsl:template match="/museumPlusExport/personKörperschaft/nennformArt"/>
+	<xsl:template match="/museumPlusExport/personKörperschaft/nennformBemerkung"/>
 
 
 	<!-- SO -->
@@ -306,9 +310,9 @@
 			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
-	<xsl:template match="/museumPlusExport/sammlungsobjekt/geogrBezugArt
-				|/museumPlusExport/sammlungsobjekt/geogrBezugKommentar
-				|/museumPlusExport/sammlungsobjekt/geogrBezugBezeichnung"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/geogrBezugArt"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/geogrBezugKommentar"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/geogrBezugBezeichnung"/>
 	
 
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/identNr">
@@ -374,9 +378,9 @@
 			<xsl:value-of select="name()"/>
 		</xsl:message>
 		<xsl:element name="{name()}">
-			<xsl:if test="../personenArtDesBezugs">
+			<xsl:if test="../personenKörperschaftenArtDesBezugs">
 				<xsl:attribute name="art">
-					<xsl:value-of select="../personenArtDesBezugs" />
+					<xsl:value-of select="../personenKörperschaftenArtDesBezugs" />
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="../personenKörperschaftenFunktion">
@@ -388,7 +392,7 @@
 		</xsl:element>
 	</xsl:template>
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/personenKörperschaftenFunktion"/>
-	<xsl:template match="/museumPlusExport/sammlungsobjekt/personenArtDesBezugs"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/personenKörperschaftenArtDesBezugs"/>
 
 
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/sachbegriff">
