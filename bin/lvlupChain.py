@@ -27,6 +27,7 @@ conf={
 if os.getlogin() == 'M-MM0002':
     conf['lib'] = 'C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib'
     conf['saxon'] = 'C:/Users/M-MM0002/Documents/P_Datenexport/Saxon/SaxonHE9-8-0-15J/saxon9he.jar'
+    conf['java'] = 'C:/Program Files (x86)/Common Files/Oracle/Java/javapath/java.exe'
 
 
 
@@ -47,11 +48,11 @@ if __name__ == "__main__":
     o.mv2zero()
     o.transformAll()  
     #saxon, source, xsl, outpath
-    s=Saxon(conf['saxon'], conf['lib'])
+    s=Saxon(conf, conf['lib'])
     s.join (conf['emptympx'], conf['joinColxsl'], conf['joinmpx'])
     s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx'])
-    s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
-    s.dirTransform(conf['fixmpx'], conf['mpx2lido'], conf['outlido'])
+    #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
+    #s.dirTransform(conf['fixmpx'], conf['mpx2lido'], conf['outlido'])
     
     
  

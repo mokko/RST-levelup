@@ -26,14 +26,15 @@ import shutil
 
 class Saxon:
     def __init__ (self, conf=None, lib=None):
-        self.saxonpath="C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe" # default
-        if conf:
+        self.saxon="C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe" # default
+        if 'saxon' in conf:
             self.saxon=conf['saxon']
         if 'java' in conf:
             self.java=conf['java']
         if lib:
-            self.lib=lib # default used in dirTransform    
-    
+            self.lib=lib # default used in dirTransform
+
+
     def transform (self, source, stylesheet, output):
         cmd=self.saxon + ' -s:' + source + ' -xsl:' + stylesheet + ' -o:' + output
         if self.java:
@@ -42,12 +43,13 @@ class Saxon:
         #run dies on error
         subprocess.run (cmd, check=True) # overwrites output file without saying anything
 
-    '''
-     Like normal transform plus 
-     a) it makes the output if it doesn't exist already
-     b) it prefixes the stylesheet paths with self.lib if it exists
-    '''
+
     def dirTransform (self, source, stylesheet, output):
+        '''
+         Like normal transform plus 
+         a) it makes the output if it doesn't exist already
+         b) it prefixes the stylesheet path with self.lib if it exists
+        '''
         dir=os.path.dirname (output) 
         
         if os.path.isfile(output):
@@ -59,6 +61,7 @@ class Saxon:
                 stylesheet=self.lib+'/'+stylesheet    
                 print (stylesheet)    
             self.transform (source, stylesheet, output)    
+
 
     def join (self, source, stylesheet, output):
         #todo mk sure that self.lib exists
