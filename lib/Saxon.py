@@ -25,26 +25,31 @@ import shutil
 
 
 class Saxon:
-    def __init__ (self, path=None, lib=None):
-        self.saxonpath="C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe" # default
-        if path:
-            self.saxon=path
+    def __init__ (self, conf=None, lib=None):
+        self.saxon="C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe" # default
+        if 'saxon' in conf:
+            self.saxon=conf['saxon']
+        if 'java' in conf:
+            self.java=conf['java']
         if lib:
-            self.lib=lib # default used in dirTransform    
-        #print (self.saxonpath)
-    
+            self.lib=lib # default used in dirTransform
+
+
     def transform (self, source, stylesheet, output):
-        cmd=self.saxonpath + ' -s:' + source + ' -xsl:' + stylesheet + ' -o:' + output
-        #die on error 
+        cmd=self.saxon + ' -s:' + source + ' -xsl:' + stylesheet + ' -o:' + output
+        if self.java:
+            cmd='java -jar ' + cmd
         print (cmd)
+        #run dies on error
         subprocess.run (cmd, check=True) # overwrites output file without saying anything
 
-    '''
-     Like normal transform plus 
-     a) it makes the output if it doesn't exist already
-     b) it prefixes the stylesheet paths with self.lib if it exists
-    '''
+
     def dirTransform (self, source, stylesheet, output):
+        '''
+         Like normal transform plus 
+         a) it makes the output if it doesn't exist already
+         b) it prefixes the stylesheet path with self.lib if it exists
+        '''
         dir=os.path.dirname (output) 
         
         if os.path.isfile(output):
@@ -56,6 +61,7 @@ class Saxon:
                 stylesheet=self.lib+'/'+stylesheet    
                 print (stylesheet)    
             self.transform (source, stylesheet, output)    
+
 
     def join (self, source, stylesheet, output):
         #todo mk sure that self.lib exists
@@ -71,6 +77,9 @@ class Saxon:
 
 
 if __name__ == "__main__":
-    conf={}
+    conf={
+        'java':'C:/Program Files (x86)/Common Files/Oracle/Java/javapath/java.exe',
+        'saxon':'C:/Users/M-MM0002/Documents/P_Datenexport/Saxon/SaxonHE9-8-0-15J/saxon9he.jar'
+        }
     sn=Saxon(conf)
-    sn.transform("1-XML/so.xml", "lib/join.xsl", "o.xml")
+    sn.transform("data/1-XML/SO1-RST.xml", "data/1-XML/joinCol.xsl", "o.xml")
