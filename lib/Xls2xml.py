@@ -157,7 +157,8 @@ class Xls2xml (Generic):
                 tag="multimediaobjekt"
                 attrib='mulId'
             else:
-                print ("Unknown file %s" % infile)
+                print ("Error: Unknown file %s" % infile)
+                sys.exit(1)
 
             index=sheet.cell (r,columns.index(attrib)).value
             if index:
