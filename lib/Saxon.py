@@ -37,7 +37,7 @@ class Saxon:
 
     def transform (self, source, stylesheet, output):
         cmd=self.saxon + ' -s:' + source + ' -xsl:' + stylesheet + ' -o:' + output
-        if self.java:
+        if hasattr(self, 'java'):
             cmd='java -jar ' + cmd
         print (cmd)
         #run dies on error
