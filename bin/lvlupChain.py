@@ -29,7 +29,9 @@ if os.getlogin() == 'M-MM0002':
     conf['saxon'] = 'C:/Users/M-MM0002/Documents/P_Datenexport/Saxon/SaxonHE9-8-0-15J/saxon9he.jar'
     conf['java'] = 'C:/Program Files (x86)/Common Files/Oracle/Java/javapath/java.exe'
 
-
+elif os.getlogin() == 'LENOVO USER':
+    conf['lib'] = 'C:/Users/LENOVO USER/eclipse-workspace/RST-levelup/lib'
+    #c:\Program Files\Saxonica\SaxonHE9.9N
 
 if __name__ == "__main__":
     
@@ -38,9 +40,6 @@ if __name__ == "__main__":
     
     #It's more pythonic to just let python report file not found exception.
 
-    
-    
-    
     from Xls2xml import Xls2xml
     from Saxon import Saxon
     

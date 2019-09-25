@@ -36,7 +36,11 @@ class Saxon:
 
 
     def transform (self, source, stylesheet, output):
-        cmd=self.saxon + ' -s:' + source + ' -xsl:' + stylesheet + ' -o:' + output
+        source=self.escapePath(source)
+        stylesheet=self.escapePath(stylesheet)
+        output=self.escapePath(output)
+        
+        cmd=self.saxon + ' -s:' + source + ' -xsl:' +stylesheet + ' -o:' + output
         if hasattr(self, 'java'):
             cmd='java -jar ' + cmd
         print (cmd)
@@ -50,17 +54,21 @@ class Saxon:
          a) it makes the output if it doesn't exist already
          b) it prefixes the stylesheet path with self.lib if it exists
         '''
-        dir=os.path.dirname (output) 
+        dr=os.path.dirname (output) 
         
         if os.path.isfile(output):
             print ("%s exists already, no overwrite" % output)
         else:
-            if not os.path.isdir(dir): 
-                os.mkdir(dir) # no chmod
-            if self.lib:
+            if not os.path.isdir(dr): 
+                os.mkdir(dr) # no chmod
+            if hasattr(self, 'lib'):
                 stylesheet=self.lib+'/'+stylesheet    
-                print (stylesheet)    
             self.transform (source, stylesheet, output)    
+
+
+    def escapePath (self, path): 
+        '''escape path w/ spaces'''
+        return '"'+path+'"'
 
 
     def join (self, source, stylesheet, output):
@@ -68,12 +76,12 @@ class Saxon:
         if os.path.isfile(output):
             print ("%s exists already, no overwrite" % output)
         else:
-            source=self.lib+'/'+source
+            source=self.escapePath(self.lib+'/'+source)
             styleorig=self.lib+'/'+stylesheet
             targetdir=os.path.dirname(output)
-            styletarget=targetdir+'/'+stylesheet
+            styletarget=self.escapePath(targetdir+'/'+stylesheet)
             shutil.copy(styleorig, styletarget) # cp stylesheet in same dir as *.xml
-            self.transform (source, styletarget, output)    
+            self.transform (source, styletarget, self.escapePath(output))    
 
 
 if __name__ == "__main__":
