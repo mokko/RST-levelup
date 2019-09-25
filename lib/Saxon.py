@@ -79,9 +79,9 @@ class Saxon:
             source=self.escapePath(self.lib+'/'+source)
             styleorig=self.lib+'/'+stylesheet
             targetdir=os.path.dirname(output)
-            styletarget=self.escapePath(targetdir+'/'+stylesheet)
+            styletarget=targetdir+'/'+stylesheet
             shutil.copy(styleorig, styletarget) # cp stylesheet in same dir as *.xml
-            self.transform (source, styletarget, self.escapePath(output))    
+            self.transform (source, self.escapePath(styletarget), self.escapePath(output))    
 
 
 if __name__ == "__main__":

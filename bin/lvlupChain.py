@@ -39,7 +39,6 @@ if __name__ == "__main__":
     sys.path.append (conf['lib'])
     
     #It's more pythonic to just let python report file not found exception.
-
     from Xls2xml import Xls2xml
     from Saxon import Saxon
     
