@@ -15,12 +15,15 @@ conf={
     'lvlupmpx': '2-MPX/levelup.mpx',
     'fixmpx': '2-MPX/fix.mpx',
 
+    
     'joinColxsl': 'joinCol.xsl',
     'lvlupxsl': 'lupmpx2.xsl',
     'fixxsl': 'mpx-fix.xsl', 
-    
-    'emptympx' : 'leer.mpx', #deprecated?
+    'shfxsl': 'shf.xsl', 
     'mpx2lido': 'mpx2lido.xsl',
+    
+    'shfnpx' : '2-MPX/shf.xml',
+    'emptympx' : 'leer.mpx', 
     'outlido' : '3-Lido/out.lido', 
 }
 
@@ -45,10 +48,10 @@ if __name__ == "__main__":
     o=Xls2xml(conf) # zerodir/so.xls-> onedir/so.xml
     o.mv2zero()
     o.transformAll()  
-    #saxon, source, xsl, outpath
-    s=Saxon(conf, conf['lib'])
+    s=Saxon(conf, conf['lib']) #saxon, source, xsl, outpath
     s.join (conf['emptympx'], conf['joinColxsl'], conf['joinmpx'])
     s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx'])
+    s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
     #s.dirTransform(conf['fixmpx'], conf['mpx2lido'], conf['outlido'])
     

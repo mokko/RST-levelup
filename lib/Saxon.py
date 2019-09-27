@@ -44,8 +44,8 @@ class Saxon:
         if hasattr(self, 'java'):
             cmd='java -jar ' + cmd
         print (cmd)
-        #run dies on error
-        subprocess.run (cmd, check=True) # overwrites output file without saying anything
+        #check=True:dies on error
+        subprocess.run (cmd, check=True, stderr=subprocess.STDOUT) # overwrites output file without saying anything
 
 
     def dirTransform (self, source, stylesheet, output):

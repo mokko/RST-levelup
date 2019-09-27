@@ -156,6 +156,10 @@ class Xls2xml (Generic):
             elif re.match('mm',base, re.I):
                 tag="multimediaobjekt"
                 attrib='mulId'
+ 
+            elif re.match('aus',base, re.I):
+                tag="ausstellung"
+                attrib='ausId'
             else:
                 print ("Error: Unknown file %s" % infile)
                 sys.exit(1)
@@ -194,9 +198,10 @@ class Xls2xml (Generic):
 
                     if cellTypeStr != "empty": #write non-empty elements
                         #print ("%s:%s" % (attrib, tag))
-                        if tag != attrib:
+                        val=str(val).strip() #rm leading and trailing whitespace; turn into str
+                        if tag != attrib and val !='':
                         #print ( '%s: %s (%s)' % (tag, val, cellTypeStr))
-                            row_dict[tag]=str(val)
+                            row_dict[tag]=val
                     
                 for tag in sorted(row_dict.keys()):    
                     ET.SubElement(doc, tag).text=row_dict[tag]
