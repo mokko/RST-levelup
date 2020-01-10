@@ -42,7 +42,7 @@ class Saxon:
         
         cmd=self.saxon + ' -s:' + source + ' -xsl:' +stylesheet + ' -o:' + output
         if hasattr(self, 'java'):
-            cmd='java -jar ' + cmd
+            cmd='java -Xmx1024m -jar ' + cmd
         print (cmd)
         #check=True:dies on error
         subprocess.run (cmd, check=True, stderr=subprocess.STDOUT) # overwrites output file without saying anything
