@@ -139,14 +139,20 @@
                 <xsl:value-of select="$mulId"/>
 			</xsl:message>
 			<xsl:for-each-group select="/museumPlusExport/multimediaobjekt[@mulId eq $mulId]/*" group-by="string()">
-				<xsl:sort data-type="text" select="name()" />
+				<xsl:sort data-type="text" lang="de" select="name()" />
                 <xsl:message>
                     <xsl:text>   </xsl:text>
                     <xsl:value-of select="name()"/>
                 </xsl:message>
-				<xsl:apply-templates select="."/>
+                <xsl:if test="name() ne 'objId'">
+					<xsl:apply-templates select="."/>
+				</xsl:if>
 			</xsl:for-each-group>
-            <!-- UrhebFotograf fehlt. Warum? -->
+			<!-- jetzt alphabetisch! -->
+            <!-- UrhebFotograf fehlte Warum? -->
+			<xsl:apply-templates select="/museumPlusExport/multimediaobjekt[@mulId eq $mulId]/urhebFotograf"/>
+			<xsl:apply-templates select="/museumPlusExport/multimediaobjekt[@mulId eq $mulId]/objId"/>
+			
 		</xsl:element>
 	</xsl:template>
 
@@ -164,14 +170,20 @@
 			</xsl:if>
 	</xsl:template>
 
-
 	<xsl:template match="/museumPlusExport/multimediaobjekt/objId">
 		<xsl:element name="verknüpftesObjekt">
 			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
 
-
+	<!-- why would that be necessary? -->
+	<xsl:template match="/museumPlusExport/multimediaobjekt/urheberFotograf">
+		<xsl:element name="urheberFotograf">
+			<xsl:value-of select="." />
+		</xsl:element>
+	</xsl:template>
+	
+	
 	<!-- PK -->
 
 
