@@ -32,10 +32,12 @@
             <xsl:apply-templates select="/mpx:museumPlusExport/mpx:ausstellung/mpx:objekt[. = $objId]"/>
 
             
-            <xsl:apply-templates select="mpx:anzahlTeile|
+            <xsl:apply-templates select="mpx:ausstellung|
+                                         mpx:anzahlTeile|
                                          mpx:bearbDatum|
                                          mpx:datierung"/>
 
+                                         
             <xsl:if test="(mpx:verwaltendeInstitution and mpx:erwerbungsart and mpx:erwerbDatum) or mpx:erwerbNotiz[@Ausgabe]">
                 <xsl:element name="erwerbNotizAusgabe">
                     <xsl:choose>
@@ -139,7 +141,7 @@
         </xsl:element>
     </xsl:template>
 
-
+    <!-- ausstellung as separate entity -->
     <xsl:template match="/mpx:museumPlusExport/mpx:ausstellung/mpx:objekt">
         <xsl:element name="ausstellung">
             <xsl:attribute name="sektion">
@@ -190,4 +192,16 @@
         </xsl:element>
     </xsl:template>
 
+    <xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:ausstellung">
+        <xsl:if test="matches(., 'HUFO')">
+            <xsl:element name="{name()}">
+                <xsl:attribute name="sektion">
+                    <xsl:value-of select="@sektion"/>
+                </xsl:attribute>
+                <xsl:value-of select="."/>
+            </xsl:element>
+        </xsl:if>
+    </xsl:template>
+
+    
 </xsl:stylesheet>
