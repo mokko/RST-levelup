@@ -246,7 +246,7 @@
 	</xsl:template>
 
 
-    <xsl:template match="/museumPlusExport/sammlungsobjekt/ausstellungstitel">
+    <xsl:template match="/museumPlusExport/sammlungsobjekt/ausstellungTitel">
         <xsl:element name="ausstellung">
             <xsl:if test="../ausstellungSektion">
                 <xsl:attribute name="sektion">
