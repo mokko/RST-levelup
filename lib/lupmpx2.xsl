@@ -70,7 +70,8 @@
 		</museumPlusExport>
 	</xsl:template>
 
-	<!-- Ausstellungen -->
+	<!-- Ausstellungen als separate Entität: dazu muss Ausstellung exportiert werden; alternativ 
+    kann man auch die Eigenschaft als ausgestellt worden sein auch exportieren mit RST SO7 -->
 
 
 	<xsl:template match="/museumPlusExport/ausstellung">
@@ -245,6 +246,68 @@
 	</xsl:template>
 
 
+    <xsl:template match="/museumPlusExport/sammlungsobjekt/ausstellungstitel">
+        <xsl:element name="ausstellung">
+            <xsl:if test="../ausstellungSektion">
+                <xsl:attribute name="sektion">
+                        <xsl:value-of select="../ausstellungSektion" />
+                </xsl:attribute>
+            </xsl:if>
+
+            <xsl:if test="../ausstellungEntscheid">
+                <xsl:attribute name="entscheid">
+                        <xsl:value-of select="../ausstellungEntscheid" />
+                </xsl:attribute>
+            </xsl:if>
+
+            <xsl:if test="../ausstellungOrt">
+                <xsl:attribute name="ort">
+                        <xsl:value-of select="../ausstellungOrt" />
+                </xsl:attribute>
+            </xsl:if>
+
+            <xsl:if test="../ausstellungJahr">
+                <xsl:attribute name="Jahr">
+                        <xsl:value-of select="../ausstellungJahr" />
+                </xsl:attribute>
+            </xsl:if>
+
+            <xsl:if test="../ausstellungDatumVon">
+                <xsl:attribute name="datumVon">
+                        <xsl:value-of select="../ausstellungDatumVon" />
+                </xsl:attribute>
+            </xsl:if>
+
+            <xsl:if test="../ausstellungDatumBis">
+                <xsl:attribute name="datumBis">
+                        <xsl:value-of select="../ausstellungDatumBis" />
+                </xsl:attribute>
+            </xsl:if>
+
+            <xsl:if test="../ausstellungKatalogNr">
+                <xsl:attribute name="katalogNr">
+                        <xsl:value-of select="../ausstellungKatalogNr" />
+                </xsl:attribute>
+            </xsl:if>
+
+            <xsl:if test="../ausstellungInternExtern">
+                <xsl:attribute name="internExtern">
+                        <xsl:value-of select="../ausstellungInternExtern" />
+                </xsl:attribute>
+            </xsl:if>
+
+            <xsl:value-of select="." />
+        </xsl:element>
+    </xsl:template>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/ausstellungInternExtern"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/ausstellungKatalogNr"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/ausstellungDatumBis"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/ausstellungDatumVon"/>
+    <xsl:template match="/museumPlusExport/sammlungsobjekt/ausstellungJahr"/>
+    <xsl:template match="/museumPlusExport/sammlungsobjekt/ausstellungOrt"/>
+    <xsl:template match="/museumPlusExport/sammlungsobjekt/ausstellungEntscheid"/>
+    <xsl:template match="/museumPlusExport/sammlungsobjekt/ausstellungSektion"/>
+    
 	<!-- rewrite Qualifikator as attribute-->
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/andereNr">
 		<xsl:call-template name="wAttrib">

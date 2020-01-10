@@ -9,12 +9,15 @@
     
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" />
 	<xsl:strip-space elements="*" />
+
+
     <xsl:template match="/">
     <shf version="20190927">
         <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt" />
     </shf>
     </xsl:template>
     
+
     <xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt">
         <xsl:variable name="objId" select="@objId"/>
         <xsl:element name="sammlungsobjekt">
@@ -25,7 +28,7 @@
                 <xsl:value-of select="@exportdatum"/>
             </xsl:attribute>
 
-            <!-- referenziertes Felder-->
+            <!-- referenziertes Felder (works only with $objId not with @objId)-->
             <xsl:apply-templates select="/mpx:museumPlusExport/mpx:ausstellung/mpx:objekt[. = $objId]"/>
 
             
@@ -136,8 +139,8 @@
         </xsl:element>
     </xsl:template>
 
+
     <xsl:template match="/mpx:museumPlusExport/mpx:ausstellung/mpx:objekt">
-        <xsl:message>sdsds</xsl:message>
         <xsl:element name="ausstellung">
             <xsl:attribute name="sektion">
                 <xsl:value-of select="@sektion"/>
@@ -146,9 +149,7 @@
         </xsl:element>
     </xsl:template>
 
-    
-    <!-- todo: AusstellungTitel Sektion, datierung -->
-    
+
     <!-- 0-n Attribute aus mpx übernehmen -->
     <xsl:template match="
                 /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:anzahlTeile|
