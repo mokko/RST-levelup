@@ -135,12 +135,18 @@
 			<xsl:attribute name="exportdatum"><xsl:value-of select="@exportdatum"/></xsl:attribute>
 
 			<xsl:message>
-				<xsl:value-of select="$mulId"/>
+				<xsl:text>mulId: </xsl:text>
+                <xsl:value-of select="$mulId"/>
 			</xsl:message>
 			<xsl:for-each-group select="/museumPlusExport/multimediaobjekt[@mulId eq $mulId]/*" group-by="string()">
 				<xsl:sort data-type="text" select="name()" />
+                <xsl:message>
+                    <xsl:text>   </xsl:text>
+                    <xsl:value-of select="name()"/>
+                </xsl:message>
 				<xsl:apply-templates select="."/>
 			</xsl:for-each-group>
+            <!-- UrhebFotograf fehlt. Warum? -->
 		</xsl:element>
 	</xsl:template>
 
@@ -149,7 +155,7 @@
 	<xsl:template match="/museumPlusExport/multimediaobjekt/standardbild">
 			<xsl:if test=". eq ../@mulId">
                 <xsl:message>
-                    <xsl:text>STANDARDBILD:</xsl:text>
+                    <xsl:text>STANDARDBILD: </xsl:text>
                     <xsl:value-of select="../@mulId" />
                 </xsl:message>
 				<xsl:element name="{name()}">
@@ -176,7 +182,8 @@
 			<xsl:attribute name="exportdatum"><xsl:value-of select="@exportdatum"/></xsl:attribute>
 
 			<xsl:message>
-				<xsl:value-of select="$id"/>
+				<xsl:text>kueId: </xsl:text>
+                <xsl:value-of select="$id"/>
 			</xsl:message>
 			<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId eq $id]/*" group-by="string()">
 				<xsl:sort data-type="text"
@@ -235,7 +242,8 @@
 			<xsl:attribute name="exportdatum"><xsl:value-of select="@exportdatum"/></xsl:attribute>
 
 			<xsl:message>
-				<xsl:value-of select="$id"/>
+				<xsl:text>objId: </xsl:text>
+                <xsl:value-of select="$id"/>
 			</xsl:message>
 			<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId eq $id]/*" group-by="string()">
 				<xsl:sort data-type="text"

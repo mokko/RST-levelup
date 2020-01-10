@@ -10,6 +10,7 @@
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" />
 	<xsl:strip-space elements="*" />
 
+    <!-- strict push sequence-->
 
     <xsl:template match="/">
     <shf version="20190927">
@@ -116,19 +117,23 @@
             <xsl:apply-templates select="mpx:onlineBeschreibung"/>
 
 
-            <xsl:element name="sachbegriff">
-                <xsl:for-each select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:sachbegriff">
-                    <xsl:value-of select="normalize-space()"/>
-                    <xsl:if test="@art">
-                        <xsl:text> (</xsl:text>
-                        <xsl:value-of select="@art"/>
-                        <xsl:text>)</xsl:text>
-                    </xsl:if>
-                    <xsl:if test="position()!=last()">
-                        <xsl:text>; </xsl:text>
-                    </xsl:if>
-                </xsl:for-each>
-            </xsl:element>
+            <xsl:if test="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:sachbegriff">
+                <xsl:element name="sachbegriff">
+                    <xsl:for-each select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:sachbegriff">
+                        <xsl:value-of select="normalize-space()"/>
+                        <xsl:if test="@art">
+                            <xsl:text> (</xsl:text>
+                            <xsl:value-of select="@art"/>
+                            <xsl:text>)</xsl:text>
+                        </xsl:if>
+                        <xsl:if test="position()!=last()">
+                            <xsl:text>; </xsl:text>
+                        </xsl:if>
+                    </xsl:for-each>
+                </xsl:element>
+            </xsl:if>
+            
+            <xsl:apply-templates select="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId]/mpx:standardbild"/>
 
             <xsl:apply-templates select="mpx:titel|
                                          mpx:verantwortlich|
@@ -141,13 +146,16 @@
         </xsl:element>
     </xsl:template>
 
-    <!-- ausstellung as separate entity -->
-    <xsl:template match="/mpx:museumPlusExport/mpx:ausstellung/mpx:objekt">
-        <xsl:element name="ausstellung">
-            <xsl:attribute name="sektion">
-                <xsl:value-of select="@sektion"/>
-            </xsl:attribute>
-            <xsl:value-of select="../mpx:titel"/>
+    <xsl:template match="/mpx:museumPlusExport/mpx:multimediaobjekt/mpx:standardbild">
+        <xsl:element name="standardbild">
+            <xsl:value-of select="../mpx:pfadangabe"/>
+            <xsl:text>\</xsl:text>
+            <xsl:value-of select="../mpx:dateiname"/>
+            <xsl:text>.</xsl:text>
+            <xsl:value-of select="../mpx:erweiterung"/>
+        </xsl:element>
+        <xsl:element name="standardbildUrheber">
+            <xsl:value-of select="../mpx:personenKörperschaften"/>
         </xsl:element>
     </xsl:template>
 
@@ -192,16 +200,33 @@
         </xsl:element>
     </xsl:template>
 
+    
+    <!-- Ich nehme hier mal an, dass jedes Objekt immer nur in einer HF Ausstellung zu sehen sein wird; es
+    ist aber durchaus möglich, dass ein Objekt von einer in die andere Ausstellung wechselt. Dann wären auch Daten 
+    wichtig. -->
     <xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:ausstellung">
         <xsl:if test="matches(., 'HUFO')">
             <xsl:element name="{name()}">
-                <xsl:attribute name="sektion">
-                    <xsl:value-of select="@sektion"/>
-                </xsl:attribute>
                 <xsl:value-of select="."/>
+            </xsl:element>
+            <xsl:element name="ausstellungSektion">
+                    <xsl:value-of select="@sektion"/>
             </xsl:element>
         </xsl:if>
     </xsl:template>
 
+    
+    <!-- ausstellung as separate entity -->
+ 
+
+    <xsl:template match="/mpx:museumPlusExport/mpx:ausstellung/mpx:objekt">
+        <xsl:element name="ausstellung">
+            <xsl:attribute name="sektion">
+                <xsl:value-of select="@sektion"/>
+            </xsl:attribute>
+            <xsl:value-of select="../mpx:titel"/>
+        </xsl:element>
+    </xsl:template>
+    
     
 </xsl:stylesheet>
