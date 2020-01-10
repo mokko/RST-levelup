@@ -154,9 +154,11 @@
             <xsl:text>.</xsl:text>
             <xsl:value-of select="../mpx:erweiterung"/>
         </xsl:element>
-        <xsl:element name="standardbildUrheber">
-            <xsl:value-of select="../mpx:personenKörperschaften"/>
-        </xsl:element>
+		<xsl:if test="../mpx:personenKörperschaften">
+	        <xsl:element name="standardbildUrheber">
+	            <xsl:value-of select="../mpx:personenKörperschaften"/>
+	        </xsl:element>
+		</xsl:if>
     </xsl:template>
 
 
