@@ -1,5 +1,9 @@
 '''
-npx is not mpx; it's simplified 
+npx is not mpx; it's simplified
+
+conditions
+-no xml attributes
+-no repeated elements (Wiederholfelder) 
 
 For SHF export, they want data in csv, i.e. dumbed down to one table
 
@@ -7,9 +11,9 @@ Right now it seems more efficient to write a separate little tool than to integr
 into tableData.
 
 <npx>
-    <sammlungsobjekt attribute="1">
+    <sammlungsobjekt>
         <aspectA>bla</aspectA>
-        <aspectB attribute="2">
+        <aspectB>blue<aspectB>
     
 
 csv format
