@@ -11,6 +11,7 @@ conf={
     'zerodir' : '0-IN',
     'onedir'  : '1-XML',
 
+    'emptympx' : 'leer.mpx', #still necessary 
     'joinmpx': '1-XML/join.mpx',
     'lvlupmpx': '2-MPX/levelup.mpx',
     'fixmpx': '2-MPX/fix.mpx',
@@ -21,10 +22,10 @@ conf={
     'fixxsl': 'mpx-fix.xsl', 
     'shfxsl': 'shf.xsl', 
     'mpx2lido': 'mpx2lido.xsl',
+    'outlido' : '3-Lido/out.lido', 
     
     'shfnpx' : '2-MPX/shf.xml',
-    'emptympx' : 'leer.mpx', 
-    'outlido' : '3-Lido/out.lido', 
+    'shfcsv' : '2-MPX/shf.csv',
 }
 
 if os.getlogin() == 'M-MM0002':
@@ -44,6 +45,8 @@ if __name__ == "__main__":
     #It's more pythonic to just let python report file not found exception.
     from Xls2xml import Xls2xml
     from Saxon import Saxon
+    from ResourceCp import ResourceCp
+    from Npx2csv import Npx2csv
     
     o=Xls2xml(conf) # zerodir/so.xls-> onedir/so.xml
     o.mv2zero()
@@ -54,17 +57,17 @@ if __name__ == "__main__":
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
     #s.dirTransform(conf['fixmpx'], conf['mpx2lido'], conf['outlido'])
     
-    copier=ResourceCp (conf['lvlupmpx'])
-    copier.standardbilder('Standardbilder')
-    copier.freigegeben('freigegeben')
     '''TODO: 
     (1) copy Standardbilder based on levlup.mpx to subfolder Standardbilder mit Namen $objId.$erweiterung
     (x) alle freigegebenen Bilder in Unterverzeichnis Freigegeben mit Muster $mulId.$erweiterung
     '''
-    
-    s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
+    copier=ResourceCp (conf['lvlupmpx'])
+    copier.standardbilder('Standardbilder')
+    copier.freigegeben('freigegeben')
     
     '''TODO: npx2xsc'''
+    s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
+    n=Npx2csv (conf['shfnpx'], conf['shfcsv'])    
     
     
     
