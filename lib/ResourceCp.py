@@ -37,29 +37,31 @@ class ResourceCp:
         (2) output filename is $mulId.$erweiterung -> multiple resources per object possible
         (3) write error messages to log file
         '''
-        if not os.path.exists(outdir):
+        if os.path.exists(outdir):
+            print (outdir+' exists already, nothing copied')
+        else:
             os.makedirs(outdir)
 
-        #verbose ('Freigabe')
-        logging.basicConfig(filename=outdir+'/report.log',
-            filemode='a',
-            format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
-            datefmt='%H:%M:%S',
-            level=logging.DEBUG)
+            #verbose ('Freigabe')
+            logging.basicConfig(filename=outdir+'/report.log',
+                filemode='a',
+                format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                datefmt='%H:%M:%S',
+                level=logging.DEBUG)
+        
+            for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
+                fg=mume.find('mpx:freigabe', self.ns)
+                if (fg is not None):
+                    if (fg.text == "JA"):
+                        pfad=mume.find('mpx:pfadangabe', self.ns).text
+                        datei=mume.find('mpx:dateiname', self.ns).text
+                        erw=mume.find('mpx:erweiterung', self.ns).text
+                        mulId=mume.get('mulId', self.ns)
+                        vpfad=pfad + '\\' + datei + '.'+ erw
     
-        for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
-            fg=mume.find('mpx:freigabe', self.ns)
-            if (fg is not None):
-                if (fg.text == "JA"):
-                    pfad=mume.find('mpx:pfadangabe', self.ns).text
-                    datei=mume.find('mpx:dateiname', self.ns).text
-                    erw=mume.find('mpx:erweiterung', self.ns).text
-                    mulId=mume.get('mulId', self.ns)
-                    vpfad=pfad + '\\' + datei + '.'+ erw
-
-                    out=outdir+'/'+mulId+'.'+erw
-                    verbose (out)
-                    self.cpFile (vpfad, out)
+                        out=outdir+'/'+mulId+'.'+erw
+                        verbose (out)
+                        self.cpFile (vpfad, out)
 
 
     def _vpfad (self, mume_node):
@@ -78,32 +80,34 @@ class ResourceCp:
         after repeated use there is a chance that images which have been deleted from source are still in the destination folder;
         to avoid this: delete all image resources manually before repeated use 
         '''
-        if not os.path.exists(outdir):
+        if os.path.exists(outdir):
+            print (outdir + ' exists already, nothing copied')
+        else:
             os.makedirs(outdir)
         #else:
             #verbose ('Outdir exists already')
             #root = self.tree.getroot()
 
-        logging.basicConfig(filename=outdir+'/report.log',
-            filemode='a',
-            format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
-            datefmt='%H:%M:%S',
-            level=logging.DEBUG)
-        #self.logger = logging.getLogger('ResourceCp')
-                    
-        for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
-            #print (mume)
-            sb=mume.find('mpx:standardbild', self.ns)
-            if (sb is not None):
-                #print ('   '+str(sb))
-                pfad=mume.find('mpx:pfadangabe', self.ns).text
-                erw=mume.find('mpx:erweiterung', self.ns).text
-                datei=mume.find('mpx:dateiname', self.ns).text
-                vpfad=pfad + '\\' + datei + '.'+ erw
-                objId=mume.find('mpx:verknüpftesObjekt', self.ns).text
-                out=outdir+'/'+objId+'.'+erw
-                #verbose (vpfad + '->' + out)
-                self.cpFile (vpfad, out)
+            logging.basicConfig(filename=outdir+'/report.log',
+                filemode='a',
+                format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                datefmt='%H:%M:%S',
+                level=logging.DEBUG)
+            #self.logger = logging.getLogger('ResourceCp')
+                        
+            for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
+                #print (mume)
+                sb=mume.find('mpx:standardbild', self.ns)
+                if (sb is not None):
+                    #print ('   '+str(sb))
+                    pfad=mume.find('mpx:pfadangabe', self.ns).text
+                    erw=mume.find('mpx:erweiterung', self.ns).text
+                    datei=mume.find('mpx:dateiname', self.ns).text
+                    vpfad=pfad + '\\' + datei + '.'+ erw
+                    objId=mume.find('mpx:verknüpftesObjekt', self.ns).text
+                    out=outdir+'/'+objId+'.'+erw
+                    #verbose (vpfad + '->' + out)
+                    self.cpFile (vpfad, out)
 
     
     '''

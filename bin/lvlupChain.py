@@ -61,7 +61,7 @@ if __name__ == "__main__":
     (1) copy Standardbilder based on levlup.mpx to subfolder Standardbilder mit Namen $objId.$erweiterung
     (x) alle freigegebenen Bilder in Unterverzeichnis Freigegeben mit Muster $mulId.$erweiterung
     '''
-    copier=ResourceCp (conf['lvlupmpx'])
+    copier=ResourceCp (conf['lvlupmpx']) # init
     copier.standardbilder('Standardbilder')
     copier.freigegeben('freigegeben')
     

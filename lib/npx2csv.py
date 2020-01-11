@@ -32,6 +32,8 @@ def verbose (msg):
         
 import xml.etree.ElementTree as ET
 import os
+#import os.path
+from os import path
 import csv
 
 class Npx2csv:
@@ -41,6 +43,11 @@ class Npx2csv:
         self.ns = {
             'npx': 'http://www.mpx.org/npx', #npx is no mpx
         }
+        
+        if path.isfile (outfile):
+            print (outfile + ' exists already, no overwrite')
+            return
+        
         
         verbose ('Npx2csv: outfile %s' % outfile)
         
@@ -65,7 +72,7 @@ class Npx2csv:
                 for aspect in sorted(columns):
                     element=so.find('./npx:'+aspect, self.ns)
                     if (element is not None):
-                        print (aspect+':'+str(element.text)) 
+                        #print (aspect+':'+str(element.text)) 
                         row.append(element.text)
                     else:
                         row.append('')
