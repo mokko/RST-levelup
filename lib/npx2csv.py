@@ -4,8 +4,7 @@ npx is not mpx; it's simplified
 conditions
 -no xml attributes
 -no repeated elements (Wiederholfelder)
-
-root/objects/aspects 
+-only root/objects/aspects 
 
 For SHF export, they want data in csv, i.e. dumbed down to one table
 
@@ -20,7 +19,7 @@ into tableData.
 
 csv format
 -columns in first row sorted alphabetically
--only distinct cnames allowed
+-only distinct column names allowed
 -attributes in the format aspectBAttribute
 -Wiederholfelder in colonList form, should already be part of source format
 '''
@@ -59,15 +58,13 @@ class Npx2csv:
             for aspect in so.findall('*'):
                 tag=aspect.tag.split('}')[1] 
                 columns.add(tag)
-    
-        #lookup dialect in table tool
+                
         with open(outfile, mode='w', newline='', encoding='utf-8') as csvfile:
             out = csv.writer(csvfile, dialect='excel')
             out.writerow(sorted(columns)) # headers
-        #print (sorted(columns))
+            #print (sorted(columns))
 
             for so in self.tree.findall('./npx:sammlungsobjekt', self.ns):
-                #print (so)
                 row=[]
                 for aspect in sorted(columns):
                     element=so.find('./npx:'+aspect, self.ns)
@@ -77,7 +74,6 @@ class Npx2csv:
                     else:
                         row.append('')
                 out.writerow(row) # headers
-                    
     
         verbose ('csv written to %s' % outfile)
 
