@@ -51,9 +51,21 @@ if __name__ == "__main__":
     s=Saxon(conf, conf['lib']) #saxon, source, xsl, outpath
     s.join (conf['emptympx'], conf['joinColxsl'], conf['joinmpx'])
     s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx'])
-    s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
     #s.dirTransform(conf['fixmpx'], conf['mpx2lido'], conf['outlido'])
+    
+    copier=ResourceCp (conf['lvlupmpx'])
+    copier.standardbilder('Standardbilder')
+    copier.freigegeben('freigegeben')
+    '''TODO: 
+    (1) copy Standardbilder based on levlup.mpx to subfolder Standardbilder mit Namen $objId.$erweiterung
+    (x) alle freigegebenen Bilder in Unterverzeichnis Freigegeben mit Muster $mulId.$erweiterung
+    '''
+    
+    s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
+    
+    '''TODO: npx2xsc'''
+    
     
     
  
