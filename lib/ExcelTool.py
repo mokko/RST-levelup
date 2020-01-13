@@ -29,6 +29,10 @@ Excel Format
 
 TODO: We assume that terms in excel are unique. I should check if that is the case.
 
+
+load config
+    data/EM-SM/vindex-config.json
+    data/EM-SM/20200113/2-MPX/levelup.mpx
 '''
 
 import os
@@ -49,7 +53,24 @@ class ExcelTool:
         self.wb=self._prepare_wb(xls_fn)
         self.xls_fn=xls_fn
 
-    #TODO
+
+    def from_conf (conf_fn='vindex-conf.json'): #no self
+
+        import json
+        #print ('conf_fn: '+ conf_fn)
+        with open(conf_fn) as json_data_file:
+            data = json.load(json_data_file)
+
+        t=ExcelTool (data['source'], data['out_fn'])
+        for task in data['tasks']:
+            for cmd in task:
+                print (cmd+': '+str(task[cmd]))
+                if cmd == 'index':
+                    t.index(task[cmd])
+                elif cmd == 'index_with_attribute':
+                    t.index_with_attribute (task[cmd][0], task[cmd][1])
+
+    
     def _xpath2core (self,xpath):
         '''this transformation is insufficient for a lot of expressions eg. involving [@attribute], but it'll do for the moment.
         '''
@@ -57,8 +78,8 @@ class ExcelTool:
         core=core.split(':')[1].replace('[','').replace(']','').replace(' ','').replace('=','').replace('\'','')
         print ('xpath->core: ' + xpath + '->' + core)
         return core     
-    
-    
+
+
     def _prepare_ws (self, wb, xpath): 
         core=self._xpath2core(xpath) #extracts keyword from xpath for use as sheet.title
 
@@ -89,6 +110,7 @@ class ExcelTool:
         if ws['E1'].value is None:
             ws['E1']='PREF (EN)'
 
+
     def _prepare_wb (self, xls_fn):
         '''Read existing xls or make new one, return values in self'''
 
@@ -99,6 +121,7 @@ class ExcelTool:
             print ('File doesn\'t exist yet, making it ('+ xls_fn+')')
             self.new_file=1
             return Workbook()
+
 
     def _col_to_zero (self,ws,col):    
         '''
@@ -129,6 +152,7 @@ class ExcelTool:
                 each.value='' # None doesn't work
             c+=1
         return c
+
 
     #TODO -> broken identity test
     def index_with_attribute (self, xpath, quali): 
@@ -168,12 +192,13 @@ class ExcelTool:
 
         self.wb.save(self.xls_fn) 
 
+
     def index (self, xpath):
         '''Based on xpath determine sheet name and write vocabulary index to that xls sheet 
         '''
 
         ws=self._prepare_ws(self.wb, xpath)
-        print ('ws.title: '+ws.title)
+        #print ('ws.title: '+ws.title)
         self._prepare_header(ws)
         self._col_to_zero(ws, 'B') #drop col B with occurrences every time we run a new index
 

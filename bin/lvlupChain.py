@@ -24,8 +24,8 @@ conf={
     'mpx2lido': 'mpx2lido.xsl',
     'outlido' : '3-Lido/out.lido', 
     
-    'shfnpx' : '2-MPX/shf.xml',
-    'shfcsv' : '2-MPX/shf.csv',
+    'shfnpx' : 'shf/shf.xml',
+    'shfcsv' : 'shf/shf.csv',
 }
 
 if os.getlogin() == 'M-MM0002':
@@ -57,17 +57,19 @@ if __name__ == "__main__":
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
     #s.dirTransform(conf['fixmpx'], conf['mpx2lido'], conf['outlido'])
     
-    '''TODO: 
-    (1) copy Standardbilder based on levlup.mpx to subfolder Standardbilder mit Namen $objId.$erweiterung
-    (x) alle freigegebenen Bilder in Unterverzeichnis Freigegeben mit Muster $mulId.$erweiterung
-    '''
-    copier=ResourceCp (conf['lvlupmpx']) # init
-    copier.standardbilder('Standardbilder')
-    copier.freigegeben('freigegeben')
-    
-    '''TODO: npx2xsc'''
-    s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
-    n=Npx2csv (conf['shfnpx'], conf['shfcsv'])    
+
+    if sys.argv[1].lower() == 'shf':
+        ''' 
+        (1) copy Standardbilder based on levlup.mpx to subfolder Standardbilder mit Namen $objId.$erweiterung
+        (2) alle freigegebenen Bilder in Unterverzeichnis Freigegeben mit Muster $mulId.$erweiterung
+        '''
+        o.mkdir ('shf')
+        copier=ResourceCp (conf['lvlupmpx']) # init
+        copier.standardbilder('shf/Standardbilder')
+        copier.freigegeben('shf/Freigegeben')
+        
+        s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
+        n=Npx2csv (conf['shfnpx'], conf['shfcsv'])    
     
     
     
