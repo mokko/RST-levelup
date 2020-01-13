@@ -1,5 +1,17 @@
 '''
 lvlupChain.py : expects input files in current directory and writes to same directory 
+
+Currently end product is 2-MPX/levelup.mpx
+
+TODO: Fix and LIDO are yet to come
+
+Runs thru the tool chain and only works on files if they are not yet present. Delete them if you
+want to run that process again.
+
+If you want levelup to make the shf export, you need to run it with
+
+    levelup.py shf
+
 '''
 import os
 
@@ -23,7 +35,8 @@ conf={
     'shfxsl': 'shf.xsl', 
     'mpx2lido': 'mpx2lido.xsl',
     'outlido' : '3-Lido/out.lido', 
-    
+
+#new path    
     'shfnpx' : 'shf/shf.xml',
     'shfcsv' : 'shf/shf.csv',
 }
