@@ -5,7 +5,7 @@ transforms excel reports from M+ to an mpx. Update of an earlier version of this
 
 USAGE
 >>cd AmerikaSM/20190726  
->>lvlup.py
+>>path/to/lvlup.py
 
 The script creates several subdirectories which document whats going on under the hood
 
