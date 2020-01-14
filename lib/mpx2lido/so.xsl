@@ -109,7 +109,8 @@
 
 			<!-- 5 Admin MD -->
 
-			<lido:administrativeMetadata xml:lang="en">
+			<lido:administrativeMetadata
+				xml:lang="en">
 
 				<!-- 5.1. Rights for Work -->
 				<lido:rightsWorkWrap />
@@ -205,9 +206,12 @@
 		<lido:workID>
 			<!-- not sure this is always the intended sortorder, may want to switch 
 				to sort and position -->
-			<xsl:attribute name="type"><xsl:value-of
-				select="@art" /></xsl:attribute>
-			<xsl:attribute name="sortorder"><xsl:number /></xsl:attribute>
+			<xsl:attribute name="type">
+				<xsl:value-of select="@art" />
+			</xsl:attribute>
+			<xsl:attribute name="sortorder">
+				<xsl:number />
+			</xsl:attribute>
 			<xsl:value-of select="." />
 		</lido:workID>
 	</xsl:template>
