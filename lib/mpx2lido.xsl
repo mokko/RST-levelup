@@ -19,11 +19,8 @@
 		</lido:lidoWrap>
 	</xsl:template>
 
-	<!-- TODO: mpx:verwaltendeInstitution missing from source (used in recID) -->
 
-
-
-	<!-- Gets called from resrouceWrap -->
+	<!-- Gets called from resourceWrap -->
 	<xsl:template
 		match="/mpx:museumPlusExport/mpx:multimediaobjekt">
 		<xsl:message>
@@ -47,7 +44,8 @@
 						</lido:appellationValue>
 					</lido:legalBodyName>
 				</lido:rightsHolder>
-				<lido:creditLine>bla bla bla</lido:creditLine>
+				<!-- TODO: I assume the creditline needs to formated differently -->
+				<lido:creditLine><xsl:value-of select="mpx:urhebFotograf"/></lido:creditLine>
 			</lido:rightsResource>
 		</lido:resourceSet>
 	</xsl:template>

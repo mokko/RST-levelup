@@ -16,8 +16,9 @@
 			<!-- 1 LidoRecID -->
 
 			<lido:lidoRecID>
-			<xsl:attribute name="lido:source"><xsl:value-of
-				select="mpx:verwaltendeInstitution" /></xsl:attribute>
+			<xsl:attribute name="lido:source">
+				<xsl:value-of select="mpx:verwaltendeInstitution" />
+			</xsl:attribute>
 			<xsl:attribute name="lido:type">local</xsl:attribute>
 				<xsl:value-of select="@objId" />
 			</lido:lidoRecID>
@@ -33,14 +34,21 @@
 				<lido:objectClassificationWrap>
 					<lido:objectWorkTypeWrap>
 						<lido:objectWorkType>
-							<xsl:apply-templates select="mpx:sachbegriff" />
+							<xsl:attribute name="type">Sachbegriff</xsl:attribute>
+							<xsl:apply-templates select="mpx:sachbegriff">
+								<!-- "Sachbegriff" before "Weiterer Sachbegriff", using position() 
+									over xsl:number -->
+								<xsl:sort select="@art" />
+							</xsl:apply-templates>
 						</lido:objectWorkType>
 					</lido:objectWorkTypeWrap>
 					<lido:classificationWrap>
-						<!-- TODO -->
-						<lido:classification>
-							<lido:term>not sure what I should use for classification ATM</lido:term>
-						</lido:classification>
+						<xsl:if test="mpx:systematikArt">
+							<lido:classification type="systematikArt">
+								<xsl:apply-templates
+									select="mpx:systematikArt" />
+							</lido:classification>
+						</xsl:if>
 					</lido:classificationWrap>
 				</lido:objectClassificationWrap>
 
@@ -50,18 +58,19 @@
 						<lido:titleSet>
 							<lido:appellationValue
 								lido:pref="preferred">
-						<xsl:choose>
-						<xsl:when test="mpx:titel">
-						 <xsl:value-of select="mpx:titel" />
-						</xsl:when>
-						<xsl:otherwise>
-						 <xsl:value-of select="mpx:sachbegriff" />
-						</xsl:otherwise>
-						</xsl:choose>
-						</lido:appellationValue>
+								<xsl:choose>
+									<xsl:when test="mpx:titel">
+								 		<xsl:value-of select="mpx:titel" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="mpx:sachbegriff" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</lido:appellationValue>
 						</lido:titleSet>
 					</lido:titleWrap>
-					<lido:inscriptionsWrap><!-- TODO -->
+					<lido:inscriptionsWrap>
+						<!-- TODO -->
 					</lido:inscriptionsWrap>
 					<lido:repositoryWrap>
 						<lido:repositorySet lido:type="current">
@@ -71,8 +80,7 @@
 										select="mpx:verwaltendeInstitution" /></lido:appellationValue>
 								</lido:legalBodyName>
 							</lido:repositoryName>
-							<lido:workID lido:type="inventory number"><xsl:value-of
-								select="mpx:identNr" /></lido:workID>
+							<xsl:apply-templates select="mpx:identNr" />
 						</lido:repositorySet>
 					</lido:repositoryWrap>
 
@@ -83,8 +91,8 @@
 						<lido:objectDescriptionSet>
 							<lido:descriptiveNoteValue
 								xml:lang="de" lido:encodinganalog="onlineBeschreibung">
-							<xsl:value-of select="mpx:onlineBeschreibung" />
-						</lido:descriptiveNoteValue>
+								<xsl:value-of select="mpx:onlineBeschreibung" />
+							</lido:descriptiveNoteValue>
 						</lido:objectDescriptionSet>
 					</lido:objectDescriptionWrap>
 
@@ -101,8 +109,7 @@
 
 			<!-- 5 Admin MD -->
 
-			<lido:administrativeMetadata
-				xml:lang="en">
+			<lido:administrativeMetadata xml:lang="en">
 
 				<!-- 5.1. Rights for Work -->
 				<lido:rightsWorkWrap />
@@ -172,11 +179,38 @@
 	</xsl:template>
 
 
+	<!-- 20200114: sortorder added, TODO: not sure it's always in the right 
+		order, currently known attributes "Sachbegriff" and "weiterer Sachbegriff". -->
 	<xsl:template
 		match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:sachbegriff">
 		<lido:term>
+			<xsl:attribute name="sortorder"><xsl:value-of
+				select="position()" /></xsl:attribute>
 			<xsl:value-of select="." />
 		</lido:term>
 	</xsl:template>
+
+
+	<xsl:template
+		match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:systematikArt">
+		<lido:term>
+			<xsl:attribute name="sortorder"><xsl:number /></xsl:attribute>
+			<xsl:value-of select="." />
+		</lido:term>
+	</xsl:template>
+
+
+	<xsl:template
+		match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:identNr">
+		<lido:workID>
+			<!-- not sure this is always the intended sortorder, may want to switch 
+				to sort and position -->
+			<xsl:attribute name="type"><xsl:value-of
+				select="@art" /></xsl:attribute>
+			<xsl:attribute name="sortorder"><xsl:number /></xsl:attribute>
+			<xsl:value-of select="." />
+		</lido:workID>
+	</xsl:template>
+
 
 </xsl:stylesheet>

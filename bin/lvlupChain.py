@@ -68,22 +68,22 @@ if __name__ == "__main__":
     s.join (conf['emptympx'], conf['joinColxsl'], conf['joinmpx'])
     s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx'])
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
-    #s.dirTransform(conf['fixmpx'], conf['mpx2lido'], conf['outlido'])
     
-
-    if sys.argv[1].lower() == 'shf':
-        ''' 
-        (1) copy Standardbilder based on levlup.mpx to subfolder Standardbilder mit Namen $objId.$erweiterung
-        (2) alle freigegebenen Bilder in Unterverzeichnis Freigegeben mit Muster $mulId.$erweiterung
-        '''
-        o.mkdir ('shf')
-        copier=ResourceCp (conf['lvlupmpx']) # init
-        copier.standardbilder('shf/Standardbilder')
-        copier.freigegeben('shf/Freigegeben')
+    if len(sys.argv) > 1:
+        if sys.argv[1].lower() == 'shf':
+            ''' 
+            (1) copy Standardbilder based on levlup.mpx to subfolder Standardbilder mit Namen $objId.$erweiterung
+            (2) alle freigegebenen Bilder in Unterverzeichnis Freigegeben mit Muster $mulId.$erweiterung
+            '''
+            o.mkdir ('shf')
+            copier=ResourceCp (conf['lvlupmpx']) # init
+            copier.standardbilder('shf/Standardbilder')
+            copier.freigegeben('shf/Freigegeben')
+            
+            s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
+            n=Npx2csv (conf['shfnpx'], conf['shfcsv'])    
         
-        s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
-        n=Npx2csv (conf['shfnpx'], conf['shfcsv'])    
-    
-    
-    
+        elif sys.argv[1].lower() == 'lido':
+            s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
+        
  
