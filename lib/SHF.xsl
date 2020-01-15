@@ -44,7 +44,7 @@
 
 			<!-- referenziertes Felder (works only with $objId not with @objId) -->
 			<xsl:apply-templates select="mpx:anzahlTeile"/>
-
+            <xsl:apply-templates select="mpx:ausstellung"/>
 			<xsl:apply-templates select="/mpx:museumPlusExport/mpx:ausstellung/mpx:objekt[. = $objId]"/>
 
 			<xsl:apply-templates select="
@@ -276,7 +276,7 @@
 			<xsl:element name="ausstellungSektion">
 				<xsl:value-of select="@sektion" />
 			</xsl:element>
-		</xsl:if>
+        </xsl:if>
 	</xsl:template>
 
 	<!-- ausstellung as separate entity is attribute as consecutive element position-->
