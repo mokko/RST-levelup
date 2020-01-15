@@ -1,8 +1,8 @@
 '''
-ResourceCp.py: A class to copy resources listed with paths in xml to a directory of your choice
+ResourceCp.py: A class to copy resources listed with paths in xml to a destination directory of your choice
 
 - expects sourceXml to be mpx
-- writes a log encountered problems into outdir/report.log 
+- writes a log with encountered problems into outdir/report.log 
 
 USAGE:
     c=ResourceCp(sourceXml)
@@ -10,14 +10,17 @@ USAGE:
     c.Standardbilder (outdir)
 
 After repeated use there is a chance that images which have been deleted from source are still in the destination folder;
-to avoid this: delete all image resources manually before repeated use 
+to avoid this: delete all image resources manually before repeated use
+
+Doesn't do anything is destination folder already exists, so that once images have copied, they are not copied again when 
+process is repeated. User needs to delete/move/backup the folder if they want to copy again. This mechanism is consistent 
+with other rst-levelup modules. 
 '''
 
 import xml.etree.ElementTree as ET
 import os
 import sys 
 import shutil
-#import logging
 import datetime
 
 _verbose=1
