@@ -22,14 +22,16 @@ Example config:
         {"index":"./mpx:sammlungsobjekt/mpx:geogrBezug[@bezeichnung = 'Land']"}
     ]
 }
-
-
-
 '''
 import sys
-#'../lib'
-sys.path.append ('C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib')
-#import ExcelTool
+import os
+if os.getlogin() == 'M-MM0002':
+     lib = 'C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib'
+
+elif os.getlogin() == 'LENOVO USER':
+    lib = 'C:/Users/LENOVO USER/eclipse-workspace/RST-levelup/lib'
+
+sys.path.append (lib)
 from ExcelTool import ExcelTool
 
 if __name__ == "__main__":
