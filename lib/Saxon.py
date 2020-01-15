@@ -51,7 +51,7 @@ class Saxon:
     def dirTransform (self, source, stylesheet, output):
         '''
          Like normal transform plus 
-         a) it makes the output if it doesn't exist already
+         a) it makes the output dir if it doesn't exist already
          b) it prefixes the stylesheet path with self.lib if it exists
         '''
         dr=os.path.dirname (output) 

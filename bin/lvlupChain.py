@@ -75,13 +75,12 @@ if __name__ == "__main__":
             (1) copy Standardbilder based on levlup.mpx to subfolder Standardbilder mit Namen $objId.$erweiterung
             (2) alle freigegebenen Bilder in Unterverzeichnis Freigegeben mit Muster $mulId.$erweiterung
             '''
-            o.mkdir ('shf')
+            s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
+            n=Npx2csv (conf['shfnpx'], conf['shfcsv'])    
             copier=ResourceCp (conf['lvlupmpx']) # init
             copier.standardbilder('shf/Standardbilder')
             copier.freigegeben('shf/Freigegeben')
             
-            s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
-            n=Npx2csv (conf['shfnpx'], conf['shfcsv'])    
         
         elif sys.argv[1].lower() == 'lido':
             s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
