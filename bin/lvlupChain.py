@@ -61,12 +61,18 @@ if __name__ == "__main__":
     from ResourceCp import ResourceCp
     from Npx2csv import Npx2csv
     
-    o=Xls2xml(conf) # zerodir/so.xls-> onedir/so.xml
-    o.mv2zero()
-    o.transformAll()  
+    print ('*Looking for input...')
+    o=Xls2xml(conf) 
+    o.mv2zero() # creates and copies files to 0-IN
+    print ('*First conversion...')
+    o.transformAll() #takes files from 9-IN and puts converted files in 1-XML  
     s=Saxon(conf, conf['lib']) #saxon, source, xsl, outpath
-    s.join (conf['emptympx'], conf['joinColxsl'], conf['joinmpx'])
-    s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx'])
+    print ('*Joining...')
+    if os.path.isdir(conf['onedir']): 
+        s.join (conf['emptympx'], conf['joinColxsl'], conf['joinmpx'])
+    print ('*Level up...')    
+    if os.path.isfile(conf['joinmpx']): 
+        s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx']) #input from 1-XML writes to 2-MPX
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
     
     if len(sys.argv) > 1:
@@ -75,11 +81,13 @@ if __name__ == "__main__":
             (1) copy Standardbilder based on levlup.mpx to subfolder Standardbilder mit Namen $objId.$erweiterung
             (2) alle freigegebenen Bilder in Unterverzeichnis Freigegeben mit Muster $mulId.$erweiterung
             '''
-            s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
-            n=Npx2csv (conf['shfnpx'], conf['shfcsv'])    
-            copier=ResourceCp (conf['lvlupmpx']) # init
-            copier.standardbilder('shf/Standardbilder')
-            copier.freigegeben('shf/Freigegeben')
+            print ('*Converting to SHF format...')
+            if os.path.isfile(conf['lvlupmpx']):     
+                s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
+                n=Npx2csv (conf['shfnpx'], conf['shfcsv'])    
+                copier=ResourceCp (conf['lvlupmpx']) # init
+                copier.standardbilder('shf/Standardbilder')
+                copier.freigegeben('shf/Freigegeben')
             
         
         elif sys.argv[1].lower() == 'lido':
