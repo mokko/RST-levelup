@@ -63,17 +63,22 @@ if __name__ == "__main__":
     
     print ('*Looking for input...')
     o=Xls2xml(conf) 
-    o.mv2zero() # creates and copies files to 0-IN
+    o.mv2zero() # moves files to 0-IN
+
     print ('*First conversion...')
-    o.transformAll() #takes files from 9-IN and puts converted files in 1-XML  
-    s=Saxon(conf, conf['lib']) #saxon, source, xsl, outpath
+    o.transformAll() #input from 0-IN output to 1-XML  
+
     print ('*Joining...')
+    s=Saxon(conf, conf['lib']) 
     if os.path.isdir(conf['onedir']): 
         s.join (conf['emptympx'], conf['joinColxsl'], conf['joinmpx'])
-    print ('*Level up...')    
+
+    print ('*Levelling up...')    
     if os.path.isfile(conf['joinmpx']): 
         s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx']) #input from 1-XML writes to 2-MPX
+        
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
+    #todo: use indexes produced by ExcelTool to cleanup the output
     
     if len(sys.argv) > 1:
         if sys.argv[1].lower() == 'shf':
