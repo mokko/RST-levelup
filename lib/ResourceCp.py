@@ -41,7 +41,8 @@ class ResourceCp:
 
 
     def init_log (self,outdir):
-        self._log=open(outdir+'/report.log', "a")
+        #line buffer so every gets written when it's written, so I can CTRL+C the program
+        self._log=open(outdir+'/report.log', mode="a", buffering=1)
 
     def write_log (self, msg):
         self._log.write("[" + str(datetime.datetime.now()) + "] "+ msg+'\n' )
@@ -99,11 +100,11 @@ class ResourceCp:
             if (fg.text == "JA"):
                 mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
                 print ('mulId: '+mulId)
+                vpfad=self._vpfad(mume)
                 try:
                     erw=mume.find('mpx:erweiterung', self.ns).text #higher chances that it doesn't exists
                 except:
-                    erw='' # incomplete path test is coming...
-                vpfad=self._vpfad(mume)
+                    return # incomplete path test has been reported by _vpfad already
                 out=mulId+'.'+erw
                 return vpfad, out
 
@@ -115,8 +116,11 @@ class ResourceCp:
             #print ('   '+str(sb))
 
             objId=mume.find('mpx:verknüpftesObjekt', self.ns).text
-            erw=mume.find('mpx:erweiterung', self.ns).text
             vpfad=self._vpfad(mume)
+            try:
+                erw=mume.find('mpx:erweiterung', self.ns).text
+            except:
+                return # incomplete path test has been reported by _vpfad already
             out=objId+'.'+erw
             return vpfad, out
 
@@ -138,7 +142,7 @@ class ResourceCp:
             error=1
 
         if error==1:
-            self.write_log('Path incomplete: '+ mulId)
+            self.write_log('Path incomplete mulId: '+ mulId)
             return #returns None, right?
         return pfad + '\\' + datei + '.'+ erw
 
