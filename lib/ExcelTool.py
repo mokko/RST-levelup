@@ -1,26 +1,11 @@
 '''
 Proof of concept version for ExcelTool
 
-(1) create an updatable index in Excel
+USAGE    
 
-For our purposes, an index is 
--a list of distinct values
--typically in alphabetical order (but not necessarily)
--plus the number of occurrences of the values
--the data typically comes from an individual field, but I'd like to allow any xpath expression which includes
-     ./sammlungsobjekt/maßangaben[@typ ='Ausgabe']
-
-What do I mean with "updatable"?
-The index is written to an excel file, user can edit this file, next run is supposed to update (and not destroy/overwrite) the index.
-
-Later configuration comes from config file. At the moment we write the config into the class 
-
-At the moment I use mpx for input, later I want to use LIDO for input .
-
-    tool=ExcelTool (source_fn)
-    tool.index ('mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:sachbegriff)
-        creates ./index.xslx with sheet "sachbegriff" which has index.
-
+    t=ExcelTool (source_fn)
+    t.index ('mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:sachbegriff)
+        creates ./index.xlsx with sheet "sachbegriff" which has index.
 
 Excel Format
     Row 1: headers
@@ -28,7 +13,6 @@ Excel Format
     Column B: Occurences
 
 TODO: We assume that terms in excel are unique. I should check if that is the case.
-
 
 load config
     data/EM-SM/vindex-config.json
@@ -43,33 +27,32 @@ from openpyxl import Workbook, load_workbook
 #from cx_Freeze.samples.openpyxl.test_openpyxl import wb
 
 class ExcelTool: 
-    def __init__ (self, source, xls_fn):
+    def __init__ (self, source):
         self.ns = {
             'npx': 'http://www.mpx.org/npx', #npx is no mpx
             'mpx': 'http://www.mpx.org/mpx', 
         }
-        self.new_file=0
         self.tree = ET.parse(source)
-        self.wb=self._prepare_wb(xls_fn)
-        self.xls_fn=xls_fn
+        self.new_file=0
+        self.xls_fn='vindex.xlsx'
+        self.wb=self._prepare_wb(self.xls_fn)
 
 
-    def from_conf (conf_fn='vindex-conf.json'): #no self
-
+    def from_conf (conf_fn, source): #no self
         import json
         #print ('conf_fn: '+ conf_fn)
+        t=ExcelTool (source)
+
         with open(conf_fn) as json_data_file:
             data = json.load(json_data_file)
 
         if path.isfile (data['source']):
-            print ("PYTHON FINDS FILE")
-        
-        print (data['source'])
+            print ("PYTHON FINDS FILE: "+data['source'])
             
-        t=ExcelTool (data['source'], data['out_fn'])
         for task in data['tasks']:
             for cmd in task:
                 print (cmd+': '+str(task[cmd]))
+                #sort of a Domain Specific Language DSL
                 if cmd == 'index':
                     t.index(task[cmd])
                 elif cmd == 'index_with_attribute':
