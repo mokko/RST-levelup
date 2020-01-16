@@ -72,14 +72,22 @@ class Saxon:
 
 
     def join (self, source, stylesheet, output):
-        #todo mk sure that self.lib exists
-        if os.path.isfile(output):
-            print ("%s exists already, no overwrite" % output)
+        '''
+            Join all lvl1 files into one big join file
+            
+            TODO: 
+            -mk sure that self.lib exists
+        '''
+        if os.path.isfile(output): #only join if target doesn't exist yet
+            print ("%s exists already, no overwrite" % output) 
         else:
             source=self.escapePath(self.lib+'/'+source)
+            #if os.path.isfile(source):
             styleorig=self.lib+'/'+stylesheet
             targetdir=os.path.dirname(output)
             styletarget=targetdir+'/'+stylesheet
+            print ('orig: '+ styleorig)
+            print ('target: '+ styletarget)
             shutil.copy(styleorig, styletarget) # cp stylesheet in same dir as *.xml
             self.transform (source, self.escapePath(styletarget), self.escapePath(output))
             os.remove(styletarget)

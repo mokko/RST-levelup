@@ -106,19 +106,18 @@ class Xls2xml (Generic):
 
 
     def mv2zero (self):    
-        self.mkdir (self.conf['zerodir'])
-        
         for infile in glob.glob ('*.xls'):
+            self.mkdir (self.conf['zerodir']) # only mkdir if a file exists
             #print (infile)
             if os.path.isfile(infile):
                 print ('moving %s to %s' % (infile, self.conf['zerodir']))
-                shutil.move(infile, self.conf['zerodir'])
+                #TODO: error messages
+                shutil.move(infile, self.conf['zerodir']) # is it possible to overwrite a file like this?
 
 
     def transformAll (self):
-        self.mkdir (self.conf['onedir'])
-
         for infile in glob.glob (self.conf['zerodir']+'/*.xls'):
+            self.mkdir (self.conf['onedir']) #mkdir only if input file exists
             print ('Looking for %s' % infile)
             outfile=self.conf['onedir']+'/'+os.path.basename(infile[:-4] + '.xml')
             #print ('outfile %s' % outfile)
