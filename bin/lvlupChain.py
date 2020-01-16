@@ -90,12 +90,18 @@ if __name__ == "__main__":
             if os.path.isfile(conf['lvlupmpx']):     
                 s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
                 n=Npx2csv (conf['shfnpx'], conf['shfcsv'])    
-                copier=ResourceCp (conf['lvlupmpx']) # init
-                copier.standardbilder('shf/Standardbilder')
-                copier.freigegeben('shf/Freigegeben')
+                c=ResourceCp (conf['lvlupmpx']) # init
+                c.standardbilder('shf/Standardbilder')
+                c.freigegeben('shf/Freigegeben')
             
         
         elif sys.argv[1].lower() == 'lido':
-            s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
+            print ('*Converting to LIDO...')
+            if os.path.isfile(conf['lvlupmpx']):     
+                s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
         
- 
+        elif sys.argv[1].lower() == 'boris':
+            print ('*Working on Boris Test...')
+            if os.path.isfile(conf['lvlupmpx']):     
+                c=ResourceCp (conf['lvlupmpx']) 
+                c.boris_test('boris_test')

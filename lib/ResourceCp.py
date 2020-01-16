@@ -68,7 +68,35 @@ class ResourceCp:
         '''
         self._genericCopier(outdir, 'standardbilder')
 
+    def boris_test (self, outdir):
+        '''Boris hätte gerne einen Test aller Bilder, die einen Pfad haben. Dabei handelt es sich um einen
+        Test, ob das Bild am angegebenen Ort ist.
+        
+        Wie erkenne ich Bilder im Unterschied zu anderen Resourcen? An der Erweiterung? 
+            jpg, tif, tiff, jpeg
+        Wenn Erweiterung ausgefüllt, nehme ich das ein Pfad vorhanden sein soll. 
+        Ich kann testen, ob Pfad vollständig ist und ob Bild am angegebenen Ort ist.
+        '''
+        if os.path.isdir(outdir): #anything to do at all?
+            print (outdir+' exists already, nothing tested') #this message is not important enough for logger
+            return
+        os.makedirs(outdir)
+        self.init_log(outdir) 
 
+        for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
+            try:
+                erw=mume.find('mpx:erweiterung', self.ns).text
+            except: pass #really nothing to do
+            else: 
+                mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
+                #print ('Testing mulId %s %s' % (mulId, erw))
+                if erw.lower() == 'jpg' or erw.lower == 'jpeg' or erw.lower == 'tif' or erw.lower == 'tiff':
+                    vpfad=self._vpfad(mume) # will log incomplete path
+                    if not os.path.isfile(vpfad):
+                        self.write_log('%s: %s: Datei nicht am Ort' % (mulId, vpfad))
+        self.close_log()
+
+                
     def _genericCopier (self, outdir, mode):
         if os.path.isdir(outdir): #anything to do at all?
             print (outdir+' exists already, nothing copied') #this message is not important enough for logger
