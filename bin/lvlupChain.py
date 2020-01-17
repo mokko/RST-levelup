@@ -80,7 +80,7 @@ if __name__ == "__main__":
     print ('*Vocabulary index...')    
     if os.path.isfile(conf['vindex']):
         from ExcelTool import ExcelTool
-        t=ExcelTool.from_conf (conf['vindex'],conf['joinmpx'])
+        t=ExcelTool.from_conf (conf['vindex'],conf['lvlupmpx'])
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
     #todo: use indexes produced by ExcelTool to cleanup the output
     

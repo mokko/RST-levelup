@@ -48,8 +48,7 @@ class ExcelTool:
             data = json.load(json_data_file)
 
 
-        if path.isfile (data['source']):
-            print ("PYTHON FINDS FILE: "+data['source'])
+        #if path.isfile (source): print ("PYTHON FINDS FILE: "+source)
             
         for task in data['tasks']:
             for cmd in task:
@@ -108,7 +107,7 @@ class ExcelTool:
             print ('File exists, read it ('+ xls_fn+')')
             return load_workbook(filename = xls_fn)
         else:
-            print ('File doesn\'t exist yet, making it ('+ xls_fn+')')
+            print ('Excel File doesn\'t exist yet, making it ('+ xls_fn+')')
             self.new_file=1
             return Workbook()
 
