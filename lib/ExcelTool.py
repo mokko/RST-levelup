@@ -27,24 +27,26 @@ from openpyxl import Workbook, load_workbook
 #from cx_Freeze.samples.openpyxl.test_openpyxl import wb
 
 class ExcelTool: 
-    def __init__ (self, source):
+    def __init__ (self, source,outdir='.'):
         self.ns = {
             'npx': 'http://www.mpx.org/npx', #npx is no mpx
             'mpx': 'http://www.mpx.org/mpx', 
         }
         self.tree = ET.parse(source)
         self.new_file=0
-        self.xls_fn='vindex.xlsx'
+        self.xls_fn=outdir+'/vindex.xlsx'
         self.wb=self._prepare_wb(self.xls_fn)
 
 
     def from_conf (conf_fn, source): #no self
         import json
         #print ('conf_fn: '+ conf_fn)
-        t=ExcelTool (source)
+            
+        t=ExcelTool (source,os.path.dirname(conf_fn))
 
         with open(conf_fn) as json_data_file:
             data = json.load(json_data_file)
+
 
         if path.isfile (data['source']):
             print ("PYTHON FINDS FILE: "+data['source'])

@@ -27,14 +27,14 @@ conf={
     'joinmpx': '1-XML/join.mpx',
     'lvlupmpx': '2-MPX/levelup.mpx',
     'fixmpx': '2-MPX/fix.mpx',
-
+    'outlido' : '3-Lido/out.lido', 
+    'vindex': '../vindex.json',
     
     'joinColxsl': 'joinCol.xsl',
     'lvlupxsl': 'lupmpx2.xsl',
     'fixxsl': 'mpx-fix.xsl', 
     'shfxsl': 'shf.xsl', 
     'mpx2lido': 'mpx2lido.xsl',
-    'outlido' : '3-Lido/out.lido', 
 
 #new path    
     'shfnpx' : 'shf/shf.xml',
@@ -76,7 +76,11 @@ if __name__ == "__main__":
     print ('*Levelling up...')    
     if os.path.isfile(conf['joinmpx']): 
         s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx']) #input from 1-XML writes to 2-MPX
-        
+
+    print ('*Vocabulary index...')    
+    if os.path.isfile(conf['vindex']):
+        from ExcelTool import ExcelTool
+        t=ExcelTool.from_conf (conf['vindex'],conf['joinmpx'])
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
     #todo: use indexes produced by ExcelTool to cleanup the output
     
