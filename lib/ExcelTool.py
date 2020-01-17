@@ -162,7 +162,7 @@ class ExcelTool:
         self._col_to_zero(ws, 'B')
 
         for term in self.tree.findall(xpath, self.ns):
-            term_str=strip(term.text)#if there is whitespace we want to ignore it 
+            term_str=term.text.strip() #if there is whitespace we want to ignore it 
             row=self._term_exists(ws, term_str)
             if row: 
                 #print ('term exists already: '+str(row))
@@ -192,7 +192,7 @@ class ExcelTool:
         self._col_to_zero(ws, 'B') #drop col B with occurrences every time we run a new index
 
         for term in self.tree.findall(xpath, self.ns):
-            term_str=strip(term.text)#if there is whitespace in M+ we want to ignore it in the index
+            term_str=term.text.strip() #if there is whitespace in M+ we want to ignore it in the index
             row=self._term_exists(ws, term_str)
             if row: 
                 #print ('term exists already: '+str(row))
