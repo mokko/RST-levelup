@@ -161,8 +161,9 @@ class ExcelTool:
         self._prepare_header(ws)
         self._col_to_zero(ws, 'B')
 
-        for term in self.tree.findall(xpath, self.ns): 
-            row=self._term_exists(ws, term.text)
+        for term in self.tree.findall(xpath, self.ns):
+            term_str=strip(term.text)#if there is whitespace we want to ignore it 
+            row=self._term_exists(ws, term_str)
             if row: 
                 #print ('term exists already: '+str(row))
                 cell='B'+str(row)
@@ -172,12 +173,11 @@ class ExcelTool:
                 else:
                     ws[cell]=value+1
             else:
-                print ('new term: '+ term.text)
+                print ('new term: '+ term_str)
             
             qu=term.get(quali)
             print ('QUALI: '+ quali+': '+ str(qu))
-            self.insert_alphabetically(ws, term.text, qu)
-                
+            self.insert_alphabetically(ws, term_str, qu)
 
         self.wb.save(self.xls_fn) 
 
@@ -191,21 +191,20 @@ class ExcelTool:
         self._prepare_header(ws)
         self._col_to_zero(ws, 'B') #drop col B with occurrences every time we run a new index
 
-        for term in self.tree.findall(xpath, self.ns): 
-            row=self._term_exists(ws, term.text)
+        for term in self.tree.findall(xpath, self.ns):
+            term_str=strip(term.text)#if there is whitespace in M+ we want to ignore it in the index
+            row=self._term_exists(ws, term_str)
             if row: 
                 #print ('term exists already: '+str(row))
-                cell='B'+str(row)
+                cell='B'+str(row) # count occurrences
                 value=ws[cell].value
                 if value=='':
                     ws[cell]=1
                 else:
                     ws[cell]=value+1
             else:
-                print ('new term: '+ term.text)
-                #append is only temporary, we want to sort it alphabetically for the most part #ws.append([term.text])  
-                #ws.append({'A' : term.text})
-                self.insert_alphabetically(ws, term.text)
+                print ('new term: '+ term_str)
+                self.insert_alphabetically(ws, term_str)
                 #print (term.text+': '+str(self.insert_alphabetically (ws, term.text)))
 
         self.wb.save(self.xls_fn) 
