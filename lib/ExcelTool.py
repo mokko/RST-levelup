@@ -62,7 +62,7 @@ class ExcelTool:
 
     
     def _xpath2core (self,xpath):
-        '''this transformation is insufficient for a lot of expressions eg. involving [@attribute], but it'll do for the moment.
+        '''This transformation is insufficient for a lot of expressions eg. involving [@attribute], but it'll do for the moment.
         '''
         core=xpath.split('/')[-1]
         core=core.split(':')[1].replace('[','').replace(']','').replace(' ','').replace('=','').replace('\'','')
@@ -146,7 +146,7 @@ class ExcelTool:
 
     def _term_quali_exists(self,ws, term,quali):
         '''
-        tests whether the combination of term/qualifier already exists. Usage in analogy to _term_exists.
+        Tests whether the combination of term/qualifier already exists. Usage in analogy to _term_exists.
         '''
         c=1 # 1-based line counter 
         for each in ws['A']:
@@ -161,7 +161,8 @@ class ExcelTool:
 
 
     def index_with_attribute (self, xpath, quali): 
-        '''Based on xpath determine sheet name and write vocabulary index to that xls sheet 
+        '''
+        Based on xpath determine sheet name and write vocabulary index to that xls sheet 
         
         TODO: I would like to allow a qualifier that describes the term
         Indien (Land) where "Land" is the qualifier for the term "Indien".
@@ -191,14 +192,13 @@ class ExcelTool:
             else:
                 print ('new term: %s(%s)' % (term_str, qu))
                 self.insert_alphabetically(ws, term_str, qu)
-            
             #print ('QUALI: '+ quali+': '+ str(qu))
-
         self.wb.save(self.xls_fn) 
 
 
     def index (self, xpath):
-        '''Based on xpath determine sheet name and write vocabulary index to that xls sheet 
+        '''
+        Based on xpath determine sheet name and write vocabulary index to that xls sheet 
         '''
 
         ws=self._prepare_ws(self.wb, xpath)
@@ -255,7 +255,6 @@ class ExcelTool:
         ws['A'+str(line)]=term
         ws['B'+str(line)]=quali
         ws['C'+str(line)]=1
-        
         #print ('...insert at line '+str(line))
 
 
@@ -274,9 +273,8 @@ class ExcelTool:
             print ('term exists already')
         else:
             print ('term is new')
-            
-        
         '''
+
         c=1 # 1-based line counter 
         for each in ws['A']:
             if c != 1: #IGNORE HEADER
@@ -285,8 +283,7 @@ class ExcelTool:
                     return c #found
             c+=1
         return 0 #not found
-        
-        #wb.save(xls_fn)
+
 
 if __name__ == '__main__': 
     t=ExcelTool ('data/WAF55/20190927/2-MPX/levelup.mpx', 'index.xlsx')
