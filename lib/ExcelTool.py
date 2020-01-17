@@ -9,8 +9,9 @@ USAGE
 
 Excel Format
     Row 1: headers
-    Column A: Gewimmel/Begriffe/Ausdrücke 
-    Column B: Occurences
+    Column A: Gewimmel/Begriffe/Ausdrücke
+    Column B: Qualifier 
+    Column C: Occurences (if qualifier is filled in it counts term and qualifier)
 
 TODO: We assume that terms in excel are unique. I should check if that is the case.
 
@@ -91,9 +92,9 @@ class ExcelTool:
         if ws['A1'].value is None:
             ws['A1']='GEWIMMEL'
         if ws['B1'].value is None:
-            ws['B1']='HÄUFIGKEIT'
+            ws['B1']='QUALI'
         if ws['C1'].value is None:
-            ws['C1']='QUALI'
+            ws['C1']='HÄUFIGKEIT'
         if ws['D1'].value is None:
             ws['D1']='PREF (DE)'
         if ws['E1'].value is None:
@@ -143,7 +144,22 @@ class ExcelTool:
         return c
 
 
-    #TODO -> broken identity test
+    def _term_quali_exists(self,ws, term,quali):
+        '''
+        tests whether the combination of term/qualifier already exists. Usage in analogy to _term_exists.
+        '''
+        c=1 # 1-based line counter 
+        for each in ws['A']:
+            if c != 1: #IGNORE HEADER
+                #print (str(c)+': '+each.value)
+                xlsqu=ws['B'+str(c)].value # quali is in column B
+                if each.value==term and xlsqu == quali:
+                    #print ('xls: %s(%s) VS %s(%s)' % (each.value, xlsqu, term, quali))
+                    return c #found
+            c+=1
+        return 0 #not found
+
+
     def index_with_attribute (self, xpath, quali): 
         '''Based on xpath determine sheet name and write vocabulary index to that xls sheet 
         
@@ -159,25 +175,24 @@ class ExcelTool:
         ws=self._prepare_ws(self.wb, xpath)
         #print ('ws.title: '+ws.title)
         self._prepare_header(ws)
-        self._col_to_zero(ws, 'B')
+        self._col_to_zero(ws, 'C') # set occurrences to 0
 
         for term in self.tree.findall(xpath, self.ns):
+            qu=term.get(quali)
+            if qu is not None:
+                qu=qu.strip() #strip everything we get from M+
             term_str=term.text.strip() #if there is whitespace we want to ignore it 
-            row=self._term_exists(ws, term_str)
+            row=self._term_quali_exists(ws, term_str,qu)
             if row: 
                 #print ('term exists already: '+str(row))
-                cell='B'+str(row)
+                cell='C'+str(row) # occurrences in col C!
                 value=ws[cell].value
-                if value=='':
-                    ws[cell]=1
-                else:
-                    ws[cell]=value+1
+                ws[cell]=value+1
             else:
-                print ('new term: '+ term_str)
+                print ('new term: %s(%s)' % (term_str, qu))
+                self.insert_alphabetically(ws, term_str, qu)
             
-            qu=term.get(quali)
-            print ('QUALI: '+ quali+': '+ str(qu))
-            self.insert_alphabetically(ws, term_str, qu)
+            #print ('QUALI: '+ quali+': '+ str(qu))
 
         self.wb.save(self.xls_fn) 
 
@@ -189,14 +204,14 @@ class ExcelTool:
         ws=self._prepare_ws(self.wb, xpath)
         #print ('ws.title: '+ws.title)
         self._prepare_header(ws)
-        self._col_to_zero(ws, 'B') #drop col B with occurrences every time we run a new index
+        self._col_to_zero(ws, 'C') #drop col B with occurrences every time we run a new index
 
         for term in self.tree.findall(xpath, self.ns):
             term_str=term.text.strip() #if there is whitespace in M+ we want to ignore it in the index
             row=self._term_exists(ws, term_str)
             if row: 
                 #print ('term exists already: '+str(row))
-                cell='B'+str(row) # count occurrences
+                cell='C'+str(row) # count occurrences
                 value=ws[cell].value
                 if value=='':
                     ws[cell]=1
@@ -205,8 +220,6 @@ class ExcelTool:
             else:
                 print ('new term: '+ term_str)
                 self.insert_alphabetically(ws, term_str)
-                #print (term.text+': '+str(self.insert_alphabetically (ws, term.text)))
-
         self.wb.save(self.xls_fn) 
 
 
@@ -240,8 +253,8 @@ class ExcelTool:
         line=self._line_alphabetically(ws, term)
         ws.insert_rows(line)
         ws['A'+str(line)]=term
-        ws['B'+str(line)]=1
-        ws['C'+str(line)]=quali
+        ws['B'+str(line)]=quali
+        ws['C'+str(line)]=1
         
         #print ('...insert at line '+str(line))
 
