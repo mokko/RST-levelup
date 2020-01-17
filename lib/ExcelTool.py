@@ -117,7 +117,8 @@ class ExcelTool:
         '''
         Set all existing values of a respective column to 0. Only header (row=1) remains unchanged.
         
-        self._col_to_zero (ws, 'B')
+        USAGE: 
+            self._col_to_zero (ws, 'B')
         '''
         c=1 # 1-based line counter 
         for each in ws[col]:
@@ -133,7 +134,8 @@ class ExcelTool:
         Delete all values in the respective column, column stays where it is. Also
         header (row=1) remains.
         
-        self._del_col (ws, 'B')
+        USAGE:
+            self._del_col (ws, 'B')
         '''
         c=1 # 1-based line counter 
         for each in ws[col]:
@@ -204,10 +206,12 @@ class ExcelTool:
         ws=self._prepare_ws(self.wb, xpath)
         #print ('ws.title: '+ws.title)
         self._prepare_header(ws)
-        self._col_to_zero(ws, 'C') #drop col B with occurrences every time we run a new index
+        self._col_to_zero(ws, 'C') #drop occurrences every time we run a new index
 
         for term in self.tree.findall(xpath, self.ns):
-            term_str=term.text.strip() #if there is whitespace in M+ we want to ignore it in the index
+            term_str=term.text
+            if term_str:
+                term_str=term_str.strip() #if there is whitespace we want to ignore it in the index
             row=self._term_exists(ws, term_str)
             if row: 
                 #print ('term exists already: '+str(row))
