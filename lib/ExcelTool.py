@@ -47,9 +47,8 @@ class ExcelTool:
         with open(conf_fn) as json_data_file:
             data = json.load(json_data_file)
 
-
-        if path.isfile (data['source']):
-            print ("PYTHON FINDS FILE: "+data['source'])
+        if path.isfile (source):
+            #print ("PYTHON FINDS FILE: "+source)
             
         for task in data['tasks']:
             for cmd in task:
