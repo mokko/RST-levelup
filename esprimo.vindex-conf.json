@@ -1,6 +1,4 @@
 {
-    "source":"data/WAF55/20190927/2-MPX/levelup.mpx", 	
-    "out_fn":"vindex.xlsx",
     "tasks":[
         {"index":"./mpx:sammlungsobjekt/mpx:sachbegriff"},
         {"index_with_attribute": ["./mpx:sammlungsobjekt/mpx:geogrBezug","bezeichnung"]}, 

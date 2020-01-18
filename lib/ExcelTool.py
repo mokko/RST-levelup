@@ -9,8 +9,9 @@ USAGE
 
 Excel Format
     Row 1: headers
-    Column A: Gewimmel/Begriffe/Ausdrücke 
-    Column B: Occurences
+    Column A: Gewimmel/Begriffe/Ausdrücke
+    Column B: Qualifier 
+    Column C: Occurences (if qualifier is filled in it counts term and qualifier)
 
 TODO: We assume that terms in excel are unique. I should check if that is the case.
 
@@ -38,18 +39,19 @@ class ExcelTool:
         self.wb=self._prepare_wb(self.xls_fn)
 
 
-    def from_conf (conf_fn, source): #no self
+    def _read_conf (self, conf_fn):
         import json
+        with open(conf_fn) as json_data_file:
+            data = json.load(json_data_file)
+        return data
+
+    def from_conf (conf_fn, source): #no self
         #print ('conf_fn: '+ conf_fn)
             
         t=ExcelTool (source,os.path.dirname(conf_fn))
 
-        with open(conf_fn) as json_data_file:
-            data = json.load(json_data_file)
+        data=t._read_conf(conf_fn)
 
-        if path.isfile (source):
-            #print ("PYTHON FINDS FILE: "+source)
-            
         for task in data['tasks']:
             for cmd in task:
                 print (cmd+': '+str(task[cmd]))
@@ -58,32 +60,43 @@ class ExcelTool:
                     t.index(task[cmd])
                 elif cmd == 'index_with_attribute':
                     t.index_with_attribute (task[cmd][0], task[cmd][1])
+        return t
 
     
     def _xpath2core (self,xpath):
-        '''this transformation is insufficient for a lot of expressions eg. involving [@attribute], but it'll do for the moment.
+        '''This transformation is insufficient for a lot of expressions eg. involving [@attribute], but it'll do for the moment.
         '''
         core=xpath.split('/')[-1]
         core=core.split(':')[1].replace('[','').replace(']','').replace(' ','').replace('=','').replace('\'','')
-        print ('xpath->core: ' + xpath + '->' + core)
+        #print ('xpath->core: ' + xpath + '->' + core)
         return core     
 
 
-    def _prepare_ws (self, wb, xpath): 
-        core=self._xpath2core(xpath) #extracts keyword from xpath for use as sheet.title
+    def _prepare_ws (self, xpath):
+        '''Get existing sheet or make new one; sheet title is based on xpath expression''' 
+        core=self._xpath2core(xpath) 
 
         try:
-            ws = wb[core]
-            return ws  #Sheet exists already, just return it
+            ws = self.wb[core]
 
         except: 
             if self. new_file == 1:
-                ws=wb.active
+                ws=self.wb.active
                 ws.title=core
                 self.new_file = None
                 return ws
             else:
-                return wb.create_sheet(core)
+                return self.wb.create_sheet(core)
+        else:
+            return ws  #Sheet exists already, just return it
+
+
+    def _get_ws (self,xpath):
+        '''Get existing worksheet based on xpath or die'''
+        
+        core=self._xpath2core(xpath) #extracts keyword from xpath for use as sheet.title
+        ws = self.wb[core] # dies if core doesn't exist
+        return ws
 
  
     def _prepare_header (self, ws):
@@ -91,9 +104,9 @@ class ExcelTool:
         if ws['A1'].value is None:
             ws['A1']='GEWIMMEL'
         if ws['B1'].value is None:
-            ws['B1']='HÄUFIGKEIT'
+            ws['B1']='QUALI'
         if ws['C1'].value is None:
-            ws['C1']='QUALI'
+            ws['C1']='HÄUFIGKEIT'
         if ws['D1'].value is None:
             ws['D1']='PREF (DE)'
         if ws['E1'].value is None:
@@ -107,7 +120,7 @@ class ExcelTool:
             print ('File exists, read it ('+ xls_fn+')')
             return load_workbook(filename = xls_fn)
         else:
-            print ('File doesn\'t exist yet, making it ('+ xls_fn+')')
+            print ('Excel File doesn\'t exist yet, making it ('+ xls_fn+')')
             self.new_file=1
             return Workbook()
 
@@ -116,7 +129,8 @@ class ExcelTool:
         '''
         Set all existing values of a respective column to 0. Only header (row=1) remains unchanged.
         
-        self._col_to_zero (ws, 'B')
+        USAGE: 
+            self._col_to_zero (ws, 'B')
         '''
         c=1 # 1-based line counter 
         for each in ws[col]:
@@ -132,7 +146,8 @@ class ExcelTool:
         Delete all values in the respective column, column stays where it is. Also
         header (row=1) remains.
         
-        self._del_col (ws, 'B')
+        USAGE:
+            self._del_col (ws, 'B')
         '''
         c=1 # 1-based line counter 
         for each in ws[col]:
@@ -143,9 +158,25 @@ class ExcelTool:
         return c
 
 
-    #TODO -> broken identity test
+    def _term_quali_exists(self,ws, term,quali):
+        '''
+        Tests whether the combination of term/qualifier already exists. Usage in analogy to _term_exists.
+        '''
+        c=1 # 1-based line counter 
+        for each in ws['A']:
+            if c != 1: #IGNORE HEADER
+                #print (str(c)+': '+each.value)
+                xlsqu=ws['B'+str(c)].value # quali is in column B
+                if each.value==term and xlsqu == quali:
+                    #print ('xls: %s(%s) VS %s(%s)' % (each.value, xlsqu, term, quali))
+                    return c #found
+            c+=1
+        return 0 #not found
+
+
     def index_with_attribute (self, xpath, quali): 
-        '''Based on xpath determine sheet name and write vocabulary index to that xls sheet 
+        '''
+        Based on xpath determine sheet name and write vocabulary index to that xls sheet 
         
         TODO: I would like to allow a qualifier that describes the term
         Indien (Land) where "Land" is the qualifier for the term "Indien".
@@ -156,61 +187,82 @@ class ExcelTool:
         
         Maybe a cheap first version would not do that.
         '''
-        ws=self._prepare_ws(self.wb, xpath)
+        ws=self._prepare_ws(xpath) # get the right worksheet
         #print ('ws.title: '+ws.title)
         self._prepare_header(ws)
-        self._col_to_zero(ws, 'B')
+        self._col_to_zero(ws, 'C') # set occurrences to 0
 
-        for term in self.tree.findall(xpath, self.ns): 
-            row=self._term_exists(ws, term.text)
+        for term in self.tree.findall(xpath, self.ns):
+            qu=term.get(quali)
+            if qu is not None:
+                qu=qu.strip() #strip everything we get from M+
+            term_str=self._term2str (term) #if there is whitespace we don't want it 
+            row=self._term_quali_exists(ws, term_str,qu)
             if row: 
                 #print ('term exists already: '+str(row))
-                cell='B'+str(row)
+                cell='C'+str(row) # occurrences in col C!
                 value=ws[cell].value
-                if value=='':
-                    ws[cell]=1
-                else:
-                    ws[cell]=value+1
+                ws[cell]=value+1
             else:
-                print ('new term: '+ term.text)
-            
-            qu=term.get(quali)
-            print ('QUALI: '+ quali+': '+ str(qu))
-            self.insert_alphabetically(ws, term.text, qu)
-                
-
+                print ('new term: %s(%s)' % (term_str, qu))
+                self.insert_alphabetically(ws, term_str, qu)
+            #print ('QUALI: '+ quali+': '+ str(qu))
         self.wb.save(self.xls_fn) 
 
 
     def index (self, xpath):
-        '''Based on xpath determine sheet name and write vocabulary index to that xls sheet 
         '''
-
-        ws=self._prepare_ws(self.wb, xpath)
+        Based on xpath determine sheet name and write vocabulary index to that xls sheet 
+        '''
+        ws=self._prepare_ws(xpath)
         #print ('ws.title: '+ws.title)
         self._prepare_header(ws)
-        self._col_to_zero(ws, 'B') #drop col B with occurrences every time we run a new index
+        self._col_to_zero(ws, 'C') #drop occurrences every time we run a new index
 
-        for term in self.tree.findall(xpath, self.ns): 
-            row=self._term_exists(ws, term.text)
+        for term in self.tree.findall(xpath, self.ns):
+            term_str=self._term2str (term) #if there is whitespace we don't want it 
+            row=self._term_exists(ws, term_str)
             if row: 
                 #print ('term exists already: '+str(row))
-                cell='B'+str(row)
+                cell='C'+str(row) # count occurrences
                 value=ws[cell].value
                 if value=='':
                     ws[cell]=1
                 else:
                     ws[cell]=value+1
             else:
-                print ('new term: '+ term.text)
-                #append is only temporary, we want to sort it alphabetically for the most part #ws.append([term.text])  
-                #ws.append({'A' : term.text})
-                self.insert_alphabetically(ws, term.text)
-                #print (term.text+': '+str(self.insert_alphabetically (ws, term.text)))
-
+                print ('new term: '+ term_str)
+                self.insert_alphabetically(ws, term_str)
         self.wb.save(self.xls_fn) 
 
 
+    def _term_exists (self, ws, needle_term):
+        '''tests whether term is already in wb column A1
+        ignores first row assuming it's a header and returns row of first occurrence
+        
+        row=self._term_exists(ws, 'Digitale Aufnahme')
+        
+        if row:
+            print ('term exists already')
+        else:
+            print ('term new')
+            
+        if self._term_exists(ws, 'Digitale Aufnahme'):
+            print ('term exists already')
+        else:
+            print ('term is new')
+        '''
+
+        c=1 # 1-based line counter 
+        for each in ws['A']:
+            if c != 1: #IGNORE HEADER
+                #print (str(c)+': '+each.value)
+                if each.value==needle_term:
+                    return c #found
+            c+=1
+        return 0 #not found
+
+    
     def _line_alphabetically (self, ws, needle_term):
         '''CAVEAT: Uppercase and lowercase in alphabetial order ignored'''
         c=1 # 1-based line counter 
@@ -230,6 +282,8 @@ class ExcelTool:
         '''
         inserts term into column A of worksheet ws after the first existing term
         
+        Should be private: _insert_alphabetically
+
         ex: if we have list A,B,C, we want to put Ba between B und C
         
         looping current terms from xls
@@ -241,40 +295,57 @@ class ExcelTool:
         line=self._line_alphabetically(ws, term)
         ws.insert_rows(line)
         ws['A'+str(line)]=term
-        ws['B'+str(line)]=1
-        ws['C'+str(line)]=quali
-        
+        ws['B'+str(line)]=quali
+        ws['C'+str(line)]=1
         #print ('...insert at line '+str(line))
 
 
-    def _term_exists (self, ws, needle_term):
-        '''tests whether term is already in wb column A1
-        ignores first row assuming it's a header and returns row of first occurrence
+    def apply_fix (self, conf_fn, out_fn):
+        '''Reads config file, xml source and vocabulary index and applies control
+        from the vocabulary index (xls) to the source data and saves the result under
+        a new file name
         
-        row=self._term_exists(ws, 'Digitale Aufnahme')
+        1. Read conf and process every task
+        2. Read xls_fn and check if matching sheets exist
+        3. Read xml source and parse it with xpath from config file
+        4. Replace xml nodes where necessary
+        5. save xml as out_fn
         
-        if row:
-            print ('term exists already')
-        else:
-            print ('term new')
-            
-        if self._term_exists(ws, 'Digitale Aufnahme'):
-            print ('term exists already')
-        else:
-            print ('term is new')
-            
+        During __init__ we parsed source_xml to self.tree and loaded the xls workbook
+        to self.wb
         
+        Let's not assume that we have read or written vindex file in the same run. 
         '''
-        c=1 # 1-based line counter 
-        for each in ws['A']:
-            if c != 1: #IGNORE HEADER
-                #print (str(c)+': '+each.value)
-                if each.value==needle_term:
-                    return c #found
-            c+=1
-        return 0 #not found
+        print ('*About to apply vocabulary control')
+        data=self._read_conf(conf_fn)
         
-        #wb.save(xls_fn)
+        #primitive Domain Specific Language (DSL)
+        for task in data['tasks']:
+            for cmd in task:
+                print (cmd+': '+str(task[cmd]))
+                if cmd == 'index': 
+                    #self._fix_index(task[cmd])
+                    xpath=task[cmd]
+                elif cmd == 'index_with_attribute': 
+                    xpath=task[cmd][0]
+                    attribute=task[cmd][1]
+                    #self._fix_index_with_attribute (task[cmd][0], task[cmd][1])
+                ws=self._get_ws (xpath) #get right worksheet or die
+                for term in self.tree.findall(xpath, self.ns):
+                    term_str=self._term2str (term) #if there is whitespace we don't want it 
+                    print (term_str, end=' ')
+
+
+    def _term2str (self, term_node):
+        term_str=term_node.text
+        if term_str is not None: #if there is whitespace we want to ignore it in the index
+            term_str=term_str.strip()
+        return term_str #returns stripped text or None 
+
+
+    def _fix_index(self): pass
+
+    def _fix_index_with_attribute(self): pass
 
 if __name__ == '__main__': 
     t=ExcelTool ('data/WAF55/20190927/2-MPX/levelup.mpx', 'index.xlsx')

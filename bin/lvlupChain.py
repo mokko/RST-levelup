@@ -20,16 +20,21 @@ conf={
     'lib' : 'C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib',
     'saxon' : 'C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe',
 
+    #dirs
     'zerodir' : '0-IN',
     'onedir'  : '1-XML',
 
+    #in and out files etc.
     'emptympx' : 'leer.mpx', #still necessary 
     'joinmpx': '1-XML/join.mpx',
     'lvlupmpx': '2-MPX/levelup.mpx',
     'fixmpx': '2-MPX/fix.mpx',
     'outlido' : '3-Lido/out.lido', 
-    'vindex': '../vindex.json',
-    
+    'vindexconf': '../vindex.json',
+    'vfixmpx': '2-MPX/vfix.mpx',
+
+
+    #xsl    
     'joinColxsl': 'joinCol.xsl',
     'lvlupxsl': 'lupmpx2.xsl',
     'fixxsl': 'mpx-fix.xsl', 
@@ -78,9 +83,10 @@ if __name__ == "__main__":
         s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx']) #input from 1-XML writes to 2-MPX
 
     print ('*Vocabulary index...')    
-    if os.path.isfile(conf['vindex']):
+    if os.path.isfile(conf['vindexconf']):
         from ExcelTool import ExcelTool
-        t=ExcelTool.from_conf (conf['vindex'],conf['joinmpx'])
+        t=ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx']) #make index if there is none
+        t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
     #todo: use indexes produced by ExcelTool to cleanup the output
     
