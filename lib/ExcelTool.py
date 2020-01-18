@@ -193,9 +193,7 @@ class ExcelTool:
         self._col_to_zero(ws, 'C') # set occurrences to 0
 
         for term in self.tree.findall(xpath, self.ns):
-            qu=term.get(quali)
-            if qu is not None:
-                qu=qu.strip() #strip everything we get from M+
+            qu=self._get_attribute(term, quali)
             term_str=self._term2str (term) #if there is whitespace we don't want it 
             row=self._term_quali_exists(ws, term_str,qu)
             if row: 
@@ -338,9 +336,8 @@ class ExcelTool:
                     if cmd == 'index': 
                         l=self._term_exists(ws, term_str)
                     elif cmd == 'index_with_attribute':
-                        qu=term.get(attribute)
-                        if qu is not None:
-                            qu=qu.strip() #strip everything we get from M+
+                        qu=self._get_attribute 
+                        
                         l=self._term_quali_exists(ws, term_str,qu)
                     if l: 
                         pref_de=ws['D'+str(l)].value
@@ -354,6 +351,13 @@ class ExcelTool:
         print ('About to write xml to %s'%out_fn)
         ET.register_namespace('', 'http://www.mpx.org/mpx')
         self.tree.write(out_fn, encoding="UTF-8", xml_declaration=True)
+
+
+    def _get_attribute (self, node, attribute):
+        qu=node.get(attribute)
+        if qu is not None:
+            qu=qu.strip() #strip everything we get from M+
+        return qu
 
 
     def _term2str (self, term_node):
