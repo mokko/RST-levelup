@@ -101,16 +101,20 @@ class ExcelTool:
  
     def _prepare_header (self, ws):
         '''If Header columns are empty, fill them with default values'''
+        from openpyxl.styles import Font
         columns={
             'A1': 'GEWIMMEL', 
             'B1': 'QUALI',
             'C1': 'HÄUFIGKEIT', 
             'D1': 'PREF (DE)', 
-            'E1': 'PREF (EN)'}
+            'E1': 'PREF (EN)'
+        }
 
         for key in columns:
             if ws[key].value is None:
                 ws[key]=columns[key]
+                c=ws[key]
+                c.font = Font(bold=True)
 
 
     def _prepare_wb (self, xls_fn):
