@@ -95,7 +95,7 @@ class ExcelTool:
         '''Get existing worksheet based on xpath or die'''
         
         core=self._xpath2core(xpath) #extracts keyword from xpath for use as sheet.title
-        ws = self.wb[core] # dies if core doesn't exist
+        ws = self.wb[core] # dies if sheet with title=core doesn't exist
         return ws
 
  
@@ -326,14 +326,34 @@ class ExcelTool:
                 if cmd == 'index': 
                     #self._fix_index(task[cmd])
                     xpath=task[cmd]
-                elif cmd == 'index_with_attribute': 
+                elif cmd == 'index_with_attribute':
+                    print ('...index with attribute') 
                     xpath=task[cmd][0]
                     attribute=task[cmd][1]
                     #self._fix_index_with_attribute (task[cmd][0], task[cmd][1])
                 ws=self._get_ws (xpath) #get right worksheet or die
+                print ('**Working on sheet '+ ws.title)
                 for term in self.tree.findall(xpath, self.ns):
-                    term_str=self._term2str (term) #if there is whitespace we don't want it 
-                    print (term_str, end=' ')
+                    term_str=self._term2str (term) #if there is whitespace we don't want it
+                    if cmd == 'index': 
+                        l=self._term_exists(ws, term_str)
+                    elif cmd == 'index_with_attribute':
+                        qu=term.get(attribute)
+                        if qu is not None:
+                            qu=qu.strip() #strip everything we get from M+
+                        l=self._term_quali_exists(ws, term_str,qu)
+                    if l: 
+                        pref_de=ws['D'+str(l)].value
+                        #TODO what do I want?
+                        if pref_de is not None:
+                            pref_de=pref_de.strip()
+                            term.text=pref_de.strip() # modify
+                        #print ("Term '%s' exists in xls line=%i" % (term_str,l))
+                        #print ("Term '%s' -> pref %s" % (term_str,pref_de))
+
+        print ('About to write xml to %s'%out_fn)
+        ET.register_namespace('', 'http://www.mpx.org/mpx')
+        self.tree.write(out_fn, encoding="UTF-8", xml_declaration=True)
 
 
     def _term2str (self, term_node):
