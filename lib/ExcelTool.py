@@ -93,7 +93,6 @@ class ExcelTool:
 
     def _get_ws (self,xpath):
         '''Get existing worksheet based on xpath or die'''
-        
         core=self._xpath2core(xpath) #extracts keyword from xpath for use as sheet.title
         ws = self.wb[core] # dies if sheet with title=core doesn't exist
         return ws
@@ -347,8 +346,8 @@ class ExcelTool:
                         pref_de=ws['D'+str(l)].value
                         #TODO what do I want?
                         if pref_de is not None:
-                            pref_de=pref_de.strip()
-                            term.text=pref_de.strip() # modify
+                            pref_de=pref_de.strip() #strip what comes from xls
+                            term.text=pref_de.strip() # modify xml
                         #print ("Term '%s' exists in xls line=%i" % (term_str,l))
                         #print ("Term '%s' -> pref %s" % (term_str,pref_de))
 
@@ -370,10 +369,6 @@ class ExcelTool:
             term_str=term_str.strip()
         return term_str #returns stripped text or None 
 
-
-    def _fix_index(self): pass
-
-    def _fix_index_with_attribute(self): pass
 
 if __name__ == '__main__': 
     t=ExcelTool ('data/WAF55/20190927/2-MPX/levelup.mpx', 'index.xlsx')
