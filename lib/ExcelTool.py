@@ -101,16 +101,16 @@ class ExcelTool:
  
     def _prepare_header (self, ws):
         '''If Header columns are empty, fill them with default values'''
-        if ws['A1'].value is None:
-            ws['A1']='GEWIMMEL'
-        if ws['B1'].value is None:
-            ws['B1']='QUALI'
-        if ws['C1'].value is None:
-            ws['C1']='HÄUFIGKEIT'
-        if ws['D1'].value is None:
-            ws['D1']='PREF (DE)'
-        if ws['E1'].value is None:
-            ws['E1']='PREF (EN)'
+        columns={
+            'A1': 'GEWIMMEL', 
+            'B1': 'QUALI',
+            'C1': 'HÄUFIGKEIT', 
+            'D1': 'PREF (DE)', 
+            'E1': 'PREF (EN)'}
+
+        for key in columns:
+            if ws[key].value is None:
+                ws[key]=columns[key]
 
 
     def _prepare_wb (self, xls_fn):
