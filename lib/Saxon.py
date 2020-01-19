@@ -1,22 +1,27 @@
 '''
-A very thin wrapper around saxon that uses subprocess
+A very thin wrapper around Saxon that uses Python's subprocess
 
-https://docs.python.org/3.7/library/subprocess.html
+USAGE 
+    s=Saxon(conf,lib) #lib is optional
 
-conf={
-   "java":"path/to/java"
-   "saxon":"path/to/saxon"
-}
+    conf={
+       "java":"path/to/java"
+       "saxon":"path/to/saxon"
+    }
+    lib="path/to/dir/with/lots/of/xsl
 
-s=Saxon (conf)
-s.transform (input, xsl, output)
+    s.transform (input, xsl, output)     #plain transform, lib is not applied
+    s.dirTransform (input, xsl, output)  #plain transform, but creates output dir if necessary
+    s.join (source, stylesheet, output)  #apply join.xsl to source and write result to output
 
-On Windows easiest way seems to be to use built for NET plattform. Alternatively, this class 
-could also deal with java, but it doesnt right now, becuase I don't need it yet.
+SAXON VERSION
+    On Windows easiest way seems to be to use built for NET platform. Alternatively, this class 
+    can also use the original Saxon in java.
 
-https://www.saxonica.com/documentation/index.html#!using-xsl/commandline
+SEE ALSO
+    transform -s:source -xsl:stylesheet -o:output
 
-Transform -s:source -xsl:stylesheet -o:output
+    https://www.saxonica.com/documentation/index.html#!using-xsl/commandline
 '''
 
 import subprocess
@@ -36,9 +41,9 @@ class Saxon:
 
 
     def transform (self, source, stylesheet, output):
-        source=self.escapePath(source)
-        stylesheet=self.escapePath(stylesheet)
-        output=self.escapePath(output)
+        source=self._escapePath(source)
+        stylesheet=self._escapePath(stylesheet)
+        output=self._escapePath(output)
         
         cmd=self.saxon + ' -s:' + source + ' -xsl:' +stylesheet + ' -o:' + output
         if hasattr(self, 'java'):
@@ -54,6 +59,7 @@ class Saxon:
          a) it makes the output dir if it doesn't exist already
          b) it prefixes the stylesheet path with self.lib if it exists
         '''
+        output=os.path.realpath(output)
         dr=os.path.dirname (output) 
         
         if os.path.isfile(output):
@@ -66,7 +72,7 @@ class Saxon:
             self.transform (source, stylesheet, output)    
 
 
-    def escapePath (self, path): 
+    def _escapePath (self, path): 
         '''escape path w/ spaces'''
         return '"'+path+'"'
 
@@ -74,14 +80,11 @@ class Saxon:
     def join (self, source, stylesheet, output):
         '''
             Join all lvl1 files into one big join file
-            
-            TODO: 
-            -mk sure that self.lib exists
         '''
         if os.path.isfile(output): #only join if target doesn't exist yet
             print ("%s exists already, no overwrite" % output) 
         else:
-            source=self.escapePath(self.lib+'/'+source)
+            source=self._escapePath(self.lib+'/'+source)
             #if os.path.isfile(source):
             styleorig=self.lib+'/'+stylesheet
             targetdir=os.path.dirname(output)
@@ -89,7 +92,7 @@ class Saxon:
             print ('orig: '+ styleorig)
             print ('target: '+ styletarget)
             shutil.copy(styleorig, styletarget) # cp stylesheet in same dir as *.xml
-            self.transform (source, self.escapePath(styletarget), self.escapePath(output))
+            self.transform (source, self._escapePath(styletarget), self._escapePath(output))
             os.remove(styletarget)
 
 

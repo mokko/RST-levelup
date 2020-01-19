@@ -10,7 +10,7 @@
 	<xsl:strip-space elements="*" />
 	<!-- 
 	PLAN 
-	...intro...
+	...(intro)...
 	**recID as heading
 	*objectPublishedID
 	*category
@@ -77,7 +77,11 @@
 		</xsl:result-document>
 	</xsl:template>
 
-	<!-- container with attributes -->
+
+	<!-- 
+		TOP LEVEL containers:
+		container with attributes 
+	-->
 	<xsl:template match="lido:descriptiveMetadata|lido:administrativeMetadata">
 		<tr>
 			<td colspan="2" align="center">
@@ -91,94 +95,39 @@
 	</xsl:template>
 
 
-	<!--  L1-L6 -->
+	<!--  		
+		 2nd level container L1-L7 
+	 -->
 
 
-	<xsl:template match="lido:objectClassificationWrap">
+	<xsl:template match="lido:objectClassificationWrap|
+		lido:objectIdentificationWrap|
+		lido:eventWrap|
+		lido:objectRelationWrap|
+		lido:rightsWorkWrap|
+		lido:rightsWorkWrap|
+		lido:recordWrap|
+		lido:resourceWrap">
 		<tr>
+		
+
 			<td colspan="2">
-			<h4>
-				<xsl:text>L1 Object Classification</xsl:text>
-			</h4>
+				<h4>
+					<xsl:text>L</xsl:text>
+					<xsl:number count="." level="single" />
+					<xsl:text> </xsl:text>
+					<xsl:value-of select="replace(name(),'lido:','')"/>
+				</h4>
 			</td>
 		</tr>
 		<xsl:apply-templates select="*"/>
 	</xsl:template>
 
 
-	<xsl:template match="lido:objectIdentificationWrap">
-		<tr>
-			<td colspan="2">
-			<h4>
-				<xsl:text>L2 Object Identification</xsl:text>
-			</h4>
-			</td>
-		</tr>
-		<xsl:apply-templates select="*"/>
-	</xsl:template>
+	<!-- 
+		non-repeatable container without attributes (all wraps) 
+	-->
 
-
-	<xsl:template match="lido:eventWrap">
-		<tr>
-			<td colspan="2">
-			<h4>
-				<xsl:text>L3 Events</xsl:text>
-			</h4>
-			</td>
-		</tr>
-		<xsl:apply-templates select="*"/>
-	</xsl:template>
-
-
-	<xsl:template match="lido:objectRelationWrap">
-		<tr>
-			<td colspan="2">
-			<h4>
-				<xsl:text>L4 Relations</xsl:text>
-			</h4>
-			</td>
-		</tr>
-		<xsl:apply-templates select="*"/>
-	</xsl:template>
-
-
-	<xsl:template match="lido:rightsWorkWrap">
-		<tr>
-			<td colspan="2">
-			<h4>
-				<xsl:text>L5 Rights</xsl:text>
-			</h4>
-			</td>
-		</tr>
-		<xsl:apply-templates select="*"/>
-	</xsl:template>
-
-
-	<xsl:template match="lido:recordWrap">
-		<tr>
-			<td colspan="2">
-			<h4>
-				<xsl:text>L6 Record</xsl:text>
-			</h4>
-			</td>
-		</tr>
-		<xsl:apply-templates select="*"/>
-	</xsl:template>
-	 
-
-	<xsl:template match="lido:resourceWrap">
-		<tr>
-			<td colspan="2">
-			<h4>
-				<xsl:text>L7 Resources</xsl:text>
-			</h4>
-			</td>
-		</tr>
-		<xsl:apply-templates select="*"/>
-	</xsl:template>
-
-
-	<!-- non-repeatable container without attributes (all wraps) -->
 	<xsl:template match="
 		lido:objectWorkTypeWrap|
 		lido:titleWrap|
