@@ -59,10 +59,11 @@
 
 
 	<!-- don't show (again) -->
-	<xsl:template match="//lido:term|
+	<xsl:template match="
 		//lido:appellationValue|
+		//lido:conceptID|
 		//lido:descriptiveNoteValue|
-		//lido:conceptID
+		//lido:term
 		"/>
 
 
@@ -86,13 +87,14 @@
 	<!--  		
 		 2nd level container L1-L7 
 	 -->
-	<xsl:template match="lido:objectClassificationWrap|
-		lido:objectIdentificationWrap|
+	<xsl:template match="
 		lido:eventWrap|
+		lido:objectClassificationWrap|
+		lido:objectIdentificationWrap|
 		lido:objectRelationWrap|
-		lido:rightsWorkWrap|
 		lido:recordWrap|
-		lido:resourceWrap">
+		lido:resourceWrap|
+		lido:rightsWorkWrap">
 		<tr>
 			<td colspan="2">
 				<h4>
@@ -112,17 +114,17 @@
 	-->
 
 	<xsl:template match="
-		lido:objectWorkTypeWrap|
-		lido:titleWrap|
-		lido:inscriptionsWrap|
+		lido:actor|
+		lido:classificationWrap|
 		lido:displayStateEditionWrap|
+		lido:inscriptionsWrap|
+		lido:objectWorkTypeWrap|
 		lido:objectDescriptionWrap|
 		lido:objectMeasurementsWrap|
 		lido:objectdescriptionWrap|
 		lido:repositoryWrap|
-		lido:classificationWrap|
 		lido:subjectWrap|
-		lido:actor
+		lido:titleWrap
 		">
 		<tr>
 			<td colspan="2" align="left">
@@ -138,23 +140,27 @@
 	<!-- 
 		CONTAINER WITH OPTIONAL ATTRIBUTES (not-required, repeatable), e.g. eventSet which has @sortorder and two subelements displayEvent and event  
 	-->
-	<xsl:template match="lido:eventSet|
-		lido:event|
-		lido:resourceSet|
-		lido:repositorySet|
-		lido:eventActor|
-		lido:objectMeasurementsSet|
-		lido:eventDate|
-		lido:date|
+	<xsl:template match="
 		lido:actorInRole|
-		lido:objectMeasurements|
-		lido:measurementsSet|
-		lido:rightsWorkSet|
+		lido:date|
+		lido:eventSet|
+		lido:event|
+		lido:eventActor|
+		lido:eventDate|
 		lido:eventMaterialsTech|
-		lido:repositoryName|
+		lido:measurementsSet|
+		lido:objectMeasurements|
+		lido:objectMeasurementsSet|
+		lido:partOfPlace|
+		lido:recordInfoSet|
 		lido:recordRights|
 		lido:repositoryLocation|
-		lido:partOfPlace
+		lido:repositoryName|
+		lido:resourceRepresentation|
+		lido:repositorySet|
+		lido:resourceSet|
+		lido:resourceSource|
+		lido:rightsWorkSet
 		">
 		<tr>
 			<td colspan="2" align="left">
@@ -170,27 +176,28 @@
 
 
 	<!-- FIELD TYPE 1
-	DOESN'T WORK TODO: ActorID
 	-->
 	<xsl:template match="
-		lido:objectWorkType|
 		lido:category|
-		lido:namePlaceSet|
 		lido:classification|
-		lido:titleSet|
-		lido:actorID|
-		lido:inscriptions|
-		lido:objectDescriptionSet|
-		lido:recordID|
-		lido:materialsTech|
-		lido:recordType|
-		lido:recordSource|
-		lido:recordInfoSet|
-		lido:eventType|lido:Culture|
+		lido:Culture|
 		lido:eventPlace|
+		lido:eventType|
+		lido:genderActor|
+		lido:inscriptions|
+		lido:legalBodyName|
+		lido:materialsTech|
+		lido:nameActorSet|
+		lido:namePlaceSet|
+		lido:objectDescriptionSet|
+		lido:objectWorkType|
+		lido:recordSource|
+		lido:recordType|
+		lido:resourceType|
 		lido:rightsHolder|
-		lido:rightsHolder|lido:namePlaceSet|
-		lido:nameActorSet|lido:vitalDatesActor|lido:genderActor|lido:rightsType|lido:rightsHolder|lido:legalBodyName
+		lido:rightsType|
+		lido:titleSet|
+		lido:vitalDatesActor
 		">
 		<tr>
 			<td>
@@ -212,23 +219,30 @@
 
 
 	<!--  FIELD TYPE 2: element with attributes plus one value, repeatable -->
-	<xsl:template match="lido:displayEvent|
-		lido:workID|
+	<xsl:template match="
+		lido:actorID|
 		lido:displayActorInRole|	
-		lido:extentMeasurements|
-		lido:displayObjectMeasurements|
 		lido:displayDate|
-		lido:legalBodyID|
-		lido:roleActor|
+		lido:displayEvent|
+		lido:displayObjectMeasurements|
+		lido:displayMaterialsTech|
+		lido:displayPlace|
 		lido:earliestDate|
+		lido:extentMeasurements|
 		lido:latestDate|
+		lido:linkResource|
+		lido:legalBodyID|
+		lido:legalBodyWeblink|
 		lido:measurementType|
 		lido:measurementUnit|
 		lido:measurementValue|
 		lido:placeID|
-		lido:extentMeasurements|
-		lido:legalBodyWeblink|
-		lido:displayPlace|lido:displayMaterialsTech
+		lido:recordID|
+		lido:roleActor|
+		lido:recordInfoLink|
+		lido:recordMetadataDate|
+		lido:resourceID|
+		lido:workID
 	">
 		<tr>
 			<td>
