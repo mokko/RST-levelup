@@ -10,6 +10,7 @@
 	<xsl:output method="html" name="html" version="1.0" encoding="UTF-8" indent="yes" />
 	<xsl:strip-space elements="*" />
 
+
 	<!-- ROOT -->
 	<xsl:template match="/">
 				<xsl:apply-templates select="/lido:lidoWrap/lido:lido"/>
@@ -35,15 +36,7 @@
 		</xsl:result-document>
 	</xsl:template>
 
-	<xsl:template match="w">
-		<xsl:for-each select="@*">
-			<xsl:text>@</xsl:text>
-			<xsl:value-of select="name()"/>
-			<xsl:text>: </xsl:text>
-			<xsl:value-of select="."/>
-		</xsl:for-each>
-	</xsl:template>
-	
+
 
 	<xsl:template match="lido:objectPublishedID|lido:lidoRecID">
 		<tr>
@@ -58,13 +51,15 @@
 	</xsl:template>
 
 
-	<!-- don't show (again) -->
+
+	<!-- Don't show twice -->
 	<xsl:template match="
 		//lido:appellationValue|
 		//lido:conceptID|
 		//lido:descriptiveNoteValue|
 		//lido:term
 		"/>
+
 
 
 	<!-- 
@@ -82,6 +77,7 @@
 		</tr>
 		<xsl:apply-templates/>
 	</xsl:template>
+
 
 
 	<!--  		
@@ -108,13 +104,12 @@
 	</xsl:template>
 
 
+
 	<!-- 
 		3rd level: non-repeatable container without attributes (all remaining wraps)
 		subjectWrap is on a different level, but still a wrap (not required, non-repeatable)
 	-->
-
 	<xsl:template match="
-		lido:actor|
 		lido:classificationWrap|
 		lido:displayStateEditionWrap|
 		lido:inscriptionsWrap|
@@ -141,6 +136,7 @@
 		CONTAINER WITH OPTIONAL ATTRIBUTES (not-required, repeatable), e.g. eventSet which has @sortorder and two subelements displayEvent and event  
 	-->
 	<xsl:template match="
+		lido:actor|
 		lido:actorInRole|
 		lido:date|
 		lido:eventSet|
