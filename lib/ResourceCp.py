@@ -58,6 +58,10 @@ class ResourceCp:
         UNTESTED
         (1) copy all resources that are marked as freigeben = JA
         (2) output filename is $mulId.$erweiterung -> multiple resources per object possible
+
+        Soll die Bilder/Ressourcen kopieren, die mit veröffentlichen="JA" gekennzeichnet sind. Dieses Feld
+        wurde aber bisher nicht exportiert, also liegen keine Beispieldaten vor und diese Funktion ist 
+        entsprechend ungetestet.
         '''
         self._genericCopier(outdir, 'freigegeben')
 
@@ -69,6 +73,7 @@ class ResourceCp:
         '''
         self._genericCopier(outdir, 'standardbilder')
 
+        
     def boris_test (self, outdir):
         '''Boris hätte gerne einen Test aller Bilder, die einen Pfad haben. Dabei handelt es sich um einen
         Test, ob das Bild am angegebenen Ort ist.
@@ -123,7 +128,11 @@ class ResourceCp:
 
     
     def _freigegeben (self, mume):
-        fg=mume.find('mpx:freigabe', self.ns)
+        ''' 
+            new output format: oldfilename.mulId.jpg
+        '''
+
+        fg=mume.find('mpx:veröffentlichen', self.ns)
         if (fg is not None):
             if (fg.text == "JA"):
                 mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
@@ -136,7 +145,7 @@ class ResourceCp:
                 out=mulId+'.'+erw
                 return vpfad, out
 
-                
+
     def _standardbilder(self, mume):
 
         sb=mume.find('mpx:standardbild', self.ns)
@@ -190,6 +199,20 @@ class ResourceCp:
             self.write_log('File not found: ' + in_path)
                 
 
+    def cpTifs (self, path)
+        ''' TODO
+        1. make a cache of tifs in directory recursively and save it to json file
+        2. only if json file is missing/deleted, make it again
+        3. keep the absolute path of the image and make a copy of it in json, 
+        4. discard irrelevant part of the path in copy (everything including Archive)
+        5. replace underline with space in json copy
+        6. loop thru all HF objects in xml or only those where MM record says there is a TIFF and we have a fotograf?
+        7. for each object use Ident.Nr to find corresponding tif files (in the cache).
+        8. If a tif file was found, copy it to "archive" folder
+        Should we try to extract Fotograf information?
+        '''
+                
+                
 if __name__ == "__main__":
     c=ResourceCp('data/WAF55/20190927/2-MPX/levelup.mpx')
     c.standardbilder('data/WAF55/20190927/shf/Standardbilder')
