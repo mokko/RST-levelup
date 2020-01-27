@@ -52,6 +52,8 @@
                         mpx:credits|
                         mpx:datierung" />
 
+
+			<!-- erwerbNotizAusgabe-->
 			<xsl:if
 				test="(mpx:verwaltendeInstitution and mpx:erwerbungsart and mpx:erwerbDatum) or mpx:erwerbNotiz[@Ausgabe]">
 				<xsl:element name="erwerbNotizAusgabe">
@@ -63,8 +65,9 @@
 							<xsl:choose>
 								<xsl:when
 									test="mpx:verwaltendeInstitution and mpx:erwerbDatum and mpx:erwerbungsart">
+									<xsl:text>Das </xsl:text>
 									<xsl:value-of select="mpx:verwaltendeInstitution" />
-									<xsl:text> (oder eine Vorgängerinstitution) erwarb das Objekt </xsl:text>
+									<xsl:text> oder eine Vorgängerinstitution erwarb das Objekt </xsl:text>
 									<xsl:value-of select="mpx:erwerbDatum" />
 									<xsl:text> durch </xsl:text>
 									<xsl:value-of select="mpx:erwerbungsart" />
@@ -72,15 +75,17 @@
 								</xsl:when>
 								<xsl:when
 									test="mpx:verwaltendeInstitution and mpx:erwerbDatum">
+									<xsl:text>Das </xsl:text>
 									<xsl:value-of select="mpx:verwaltendeInstitution" />
-									<xsl:text> (oder eine Vorgängerinstitution) erwarb das Objekt </xsl:text>
+									<xsl:text> oder eine Vorgängerinstitution erwarb das Objekt </xsl:text>
 									<xsl:value-of select="mpx:erwerbDatum" />
 									<xsl:text>.</xsl:text>
 								</xsl:when>
 								<xsl:when
 									test="mpx:verwaltendeInstitution and mpx:erwerbungsart">
+									<xsl:text>Das </xsl:text>
 									<xsl:value-of select="mpx:verwaltendeInstitution" />
-									<xsl:text> (oder eine Vorgängerinstitution) erwarb das Objekt </xsl:text>
+									<xsl:text> oder eine Vorgängerinstitution erwarb das Objekt </xsl:text>
 									<xsl:value-of select="mpx:erwerbDatum" />
 									<xsl:text>.</xsl:text>
 								</xsl:when>
@@ -94,6 +99,7 @@
 				<xsl:value-of select="@exportdatum" />
 			</xsl:element>
 
+			<!--freigebene Digital Assets-->
             <xsl:if test="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId and mpx:veröffentlichen eq 'Ja' and not(mpx:standardbild)]">
                 <xsl:element name="freigegebeneDA">
                     <xsl:for-each select="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId and mpx:veröffentlichen eq 'Ja' and not(mpx:standardbild)]">
@@ -105,7 +111,9 @@
                     </xsl:for-each>
                 </xsl:element>
             </xsl:if>
-                
+
+
+			<!-- geogrBezug -->		
 			<xsl:if test="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:geogrBezug">
 				<xsl:element name="geogrBezug">
 					<xsl:for-each
@@ -127,17 +135,22 @@
 				</xsl:element>
 			</xsl:if>
 
-            <!-- auf speziellen Wunsch der SHF ist Gewicht jetzt eigenes Feld und nicht mehr Teil von Maßangabe-->
+
+            <!-- gewicht: auf speziellen Wunsch der SHF ist Gewicht jetzt eigenes Feld und nicht mehr Teil von Maßangabe-->
             <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:maßangaben[@typ eq 'Gewicht']"/>
 
+			
+			<xsl:apply-templates select="mpx:handlingVerpackungTransport"/>
+			<xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:personenKörperschaften[@funktion eq 'Hersteller']" />
+			<xsl:apply-templates select="
+                mpx:identNr[@art='Ident. Nr.' or not(@art)]|
+                mpx:kABeleuchtung|
+                mpx:kALuftfeuchtigkeit|
+                mpx:kABemLeihfähigkeit|
+                mpx:kATemperatur"/>
 
-			<xsl:apply-templates
-				select="mpx:handlingVerpackungTransport|
-                                         mpx:identNr[@art='Ident. Nr.' or not(@art)]|
-                                         mpx:kABeleuchtung|
-                                         mpx:kALuftfeuchtigkeit|
-                                         mpx:kABemLeihfähigkeit|
-                                         mpx:kATemperatur" />
+			<xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:personenKörperschaften[@funktion eq 'Künstler']" />
+
 
 			<!-- Quali in the back -->
 			<xsl:if
@@ -200,6 +213,9 @@
 		</xsl:element>
 	</xsl:template>
 
+
+	<!-- ***ADDITIONAL TEMPLATES ***-->
+
     
 	<xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:maßangaben">
 		<xsl:element name="gewicht">
@@ -243,6 +259,15 @@
 	</xsl:template>
 
 
+	<!-- Hersteller und Künstler-->
+	<xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:personenKörperschaften">
+		<!--xsl:message><xsl:value-of select="."/></xsl:message-->
+			<xsl:element name="{lower-case(@funktion)}">
+				<xsl:value-of select="."/>
+			</xsl:element>
+	</xsl:template>
+
+
 	<!-- no attributes ever -->
 	<xsl:template match="
                 mpx:anzahlTeile|
@@ -259,12 +284,13 @@
                 mpx:wGAusVorgaben|
                 mpx:wGRestzeit_gh|
                 mpx:wGStänderung|
-                mpx:wGZustand
-	">
+                mpx:wGZustand">
 		<xsl:element name="{name()}">
 			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
+
+
 
 	<xsl:template match="mpx:identNr">
         <!-- xsl:message>
