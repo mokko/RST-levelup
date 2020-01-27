@@ -199,20 +199,6 @@ class ResourceCp:
             self.write_log('File not found: ' + in_path)
                 
 
-    def cpTifs (self, path)
-        ''' TODO
-        1. make a cache of tifs in directory recursively and save it to json file
-        2. only if json file is missing/deleted, make it again
-        3. keep the absolute path of the image and make a copy of it in json, 
-        4. discard irrelevant part of the path in copy (everything including Archive)
-        5. replace underline with space in json copy
-        6. loop thru all HF objects in xml or only those where MM record says there is a TIFF and we have a fotograf?
-        7. for each object use Ident.Nr to find corresponding tif files (in the cache).
-        8. If a tif file was found, copy it to "archive" folder
-        Should we try to extract Fotograf information?
-        '''
-                
-                
 if __name__ == "__main__":
     c=ResourceCp('data/WAF55/20190927/2-MPX/levelup.mpx')
     c.standardbilder('data/WAF55/20190927/shf/Standardbilder')
