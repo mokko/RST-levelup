@@ -84,11 +84,6 @@ if __name__ == "__main__":
     if os.path.isfile(conf['joinmpx']): 
         s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx']) #input from 1-XML writes to 2-MPX
 
-    print ('*Vocabulary index...')    
-    if os.path.isfile(conf['vindexconf']):
-        from ExcelTool import ExcelTool
-        t=ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx']) #make index if there is none
-        t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
     #todo: use indexes produced by ExcelTool to cleanup the output
     
@@ -105,16 +100,22 @@ if __name__ == "__main__":
                 c=ResourceCp (conf['lvlupmpx']) # init
                 c.standardbilder('shf/Standardbilder')
                 c.freigegeben('shf/Freigegeben')
-            
-        
-        elif sys.argv[1].lower() == 'lido':
-            print ('*Converting to LIDO...')
-            if os.path.isfile(conf['lvlupmpx']): #soon input file will be vfixmpx     
-                s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
-                s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
-        
-        elif sys.argv[1].lower() == 'boris':
-            print ('*Working on Boris Test...')
-            if os.path.isfile(conf['lvlupmpx']):     
-                c=ResourceCp (conf['lvlupmpx']) 
-                c.boris_test('boris_test')
+
+            elif sys.argv[1].lower() == 'index':
+                print ('*Vocabulary index...')    
+                if os.path.isfile(conf['vindexconf']):
+                    from ExcelTool import ExcelTool
+                    t=ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx']) #make index if there is none
+                    t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
+
+            elif sys.argv[1].lower() == 'lido':
+                print ('*Converting to LIDO...')
+                if os.path.isfile(conf['lvlupmpx']): #soon input file will be vfixmpx     
+                    s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
+                    s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
+
+            elif sys.argv[1].lower() == 'boris':
+                print ('*Working on Boris Test...')
+                if os.path.isfile(conf['lvlupmpx']):
+                    c=ResourceCp (conf['lvlupmpx']) 
+                    c.boris_test('boris_test')

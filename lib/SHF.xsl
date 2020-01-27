@@ -49,6 +49,7 @@
 
 			<xsl:apply-templates select="
                         mpx:bearbDatum|
+                        mpx:credits|
                         mpx:datierung" />
 
 			<xsl:if
@@ -93,8 +94,19 @@
 				<xsl:value-of select="@exportdatum" />
 			</xsl:element>
 
-			<xsl:if
-				test="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:geogrBezug">
+            <xsl:if test="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId and mpx:veröffentlichen eq 'Ja' and not(mpx:standardbild)]">
+                <xsl:element name="freigegebeneDA">
+                    <xsl:for-each select="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId and mpx:veröffentlichen eq 'Ja' and not(mpx:standardbild)]">
+                        <xsl:message><xsl:value-of select="@mulId"/></xsl:message>
+                        <xsl:value-of select="@mulId"/>
+                        <xsl:if test="position()!=last()">
+                            <xsl:text>; </xsl:text>
+                        </xsl:if>
+                    </xsl:for-each>
+                </xsl:element>
+            </xsl:if>
+                
+			<xsl:if test="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:geogrBezug">
 				<xsl:element name="geogrBezug">
 					<xsl:for-each
 						select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:geogrBezug">
@@ -115,9 +127,13 @@
 				</xsl:element>
 			</xsl:if>
 
+            <!-- auf speziellen Wunsch der SHF ist Gewicht jetzt eigenes Feld und nicht mehr Teil von Maßangabe-->
+            <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:maßangaben[@typ eq 'Gewicht']"/>
+
+
 			<xsl:apply-templates
 				select="mpx:handlingVerpackungTransport|
-                                         mpx:identNr[@art='Ident. Nr.']|
+                                         mpx:identNr[@art='Ident. Nr.' or not(@art)]|
                                          mpx:kABeleuchtung|
                                          mpx:kALuftfeuchtigkeit|
                                          mpx:kABemLeihfähigkeit|
@@ -125,7 +141,7 @@
 
 			<!-- Quali in the back -->
 			<xsl:if
-				test="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:maßangaben">
+				test="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:maßangaben[@typ ne 'Gewicht']">
 				<xsl:element name="maßangaben">
 					<xsl:for-each
 						select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:maßangaben">
@@ -178,25 +194,36 @@
                                          mpx:verantwortlich|
                                          mpx:verwaltendeInstitution|
                                          mpx:wGAusVorgaben|
-                                         mpx:wGGruppe|
                                          mpx:wGRestzeit_gh|
                                          mpx:wGStänderung|
                                          mpx:wGZustand" />
 		</xsl:element>
 	</xsl:template>
 
+    
+	<xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:maßangaben">
+		<xsl:element name="gewicht">
+            <xsl:value-of select="." />
+        </xsl:element>
+    </xsl:template>
+
+    
 	<!-- attributes in consecutive elements position -->
 	<xsl:template
 		match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:datierung">
 		<xsl:element name="{name()}">
 			<xsl:value-of select="." />
 		</xsl:element>
-		<xsl:element name="datierungBisJahr">
-			<xsl:value-of select="@bisJahr" />
-		</xsl:element>
-		<xsl:element name="datierungVonJahr">
-			<xsl:value-of select="@vonJahr" />
-		</xsl:element>
+        <xsl:if test="@bisJahr">
+            <xsl:element name="datierungBisJahr">
+                <xsl:value-of select="@bisJahr" />
+            </xsl:element>
+        </xsl:if>
+        <xsl:if test="@vonJahr">
+            <xsl:element name="datierungVonJahr">
+                <xsl:value-of select="@vonJahr" />
+            </xsl:element>
+        </xsl:if>
 	</xsl:template>
 
 
@@ -217,30 +244,41 @@
 
 
 	<!-- no attributes ever -->
-	<xsl:template
-		match="
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:anzahlTeile|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:bearbDatum|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:handlingVerpackungTransport|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:identNr[@art='Ident. Nr.']|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:kABeleuchtung|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:kABemLeihfähigkeit|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:kALuftfeuchtigkeit|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:kATemperatur|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:onlineBeschreibung|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:verantwortlich|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:verwaltendeInstitution|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:wGAusVorgaben|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:wGGruppe|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:wGRestzeit_gh|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:wGStänderung|
-                /mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:wGZustand
+	<xsl:template match="
+                mpx:anzahlTeile|
+                mpx:bearbDatum|
+                mpx:credits|
+                mpx:handlingVerpackungTransport|
+                mpx:kABeleuchtung|
+                mpx:kABemLeihfähigkeit|
+                mpx:kALuftfeuchtigkeit|
+                mpx:kATemperatur|
+                mpx:onlineBeschreibung|
+                mpx:verantwortlich|
+                mpx:verwaltendeInstitution|
+                mpx:wGAusVorgaben|
+                mpx:wGRestzeit_gh|
+                mpx:wGStänderung|
+                mpx:wGZustand
 	">
 		<xsl:element name="{name()}">
 			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
 
+	<xsl:template match="mpx:identNr">
+        <!-- xsl:message>
+            <xsl:value-of select="../@objId" />
+            <xsl:text> : </xsl:text>
+            <xsl:value-of select="." />
+        </xsl:message-->
+        <xsl:element name="{name()}">
+			<xsl:value-of select="." />
+		</xsl:element>
+	</xsl:template>
+
+    
+    
 	<!-- attributes inside value position -->
 	<xsl:template
 		match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:titel">
@@ -266,7 +304,7 @@
 
 	<!-- Ich nehme hier mal an, dass jedes Objekt immer nur in einer HF Ausstellung 
 		zu sehen sein wird; es ist aber durchaus möglich, dass ein Objekt von einer 
-		in die andere Ausstellung wechselt. -->
+		in die andere Ausstellung wechselt, also ist diese Annahme nicht sehr stichhaltig. -->
 	<xsl:template
 		match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:ausstellung">
 		<xsl:if test="matches(., 'HUFO')">
