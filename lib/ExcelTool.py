@@ -53,9 +53,8 @@ class ExcelTool:
         data=t._read_conf(conf_fn)
 
         for task in data['tasks']:
-            for cmd in task:
+            for cmd in task: #sort of a Domain Specific Language DSL
                 print (cmd+': '+str(task[cmd]))
-                #sort of a Domain Specific Language DSL
                 if cmd == 'index':
                     t.index(task[cmd])
                 elif cmd == 'index_with_attribute':
@@ -68,6 +67,8 @@ class ExcelTool:
         '''
         core=xpath.split('/')[-1]
         core=core.split(':')[1].replace('[','').replace(']','').replace(' ','').replace('=','').replace('\'','')
+        if len(core) > 31:
+            core=core[:24]+'...'
         #print ('xpath->core: ' + xpath + '->' + core)
         return core     
 
@@ -120,7 +121,7 @@ class ExcelTool:
         '''Read existing xls or make new one, return values in self'''
 
         if path.isfile (xls_fn):
-            print ('File exists, read it ('+ xls_fn+')')
+            print ('File exists ('+ xls_fn+')')
             return load_workbook(filename = xls_fn)
         else:
             print ('Excel File doesn\'t exist yet, making it ('+ xls_fn+')')
@@ -217,6 +218,7 @@ class ExcelTool:
         '''
         ws=self._prepare_ws(xpath)
         #print ('ws.title: '+ws.title)
+        #print ('XPATH'+xpath)
         self._prepare_header(ws)
         self._col_to_zero(ws, 'C') #drop occurrences every time we run a new index
 
