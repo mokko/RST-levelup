@@ -41,7 +41,7 @@ class ExcelTool:
 
     def _read_conf (self, conf_fn):
         import json
-        with open(conf_fn) as json_data_file:
+        with open(conf_fn, encoding='utf-8') as json_data_file:
             data = json.load(json_data_file)
         return data
 
@@ -373,9 +373,6 @@ class ExcelTool:
 
 
 if __name__ == '__main__': 
-    t=ExcelTool ('data/WAF55/20190927/2-MPX/levelup.mpx', 'index.xlsx')
-    t.index("./mpx:sammlungsobjekt/mpx:sachbegriff")
-    t.index_with_attribute("./mpx:sammlungsobjekt/mpx:geogrBezug","bezeichnung")
-    t.index("./mpx:sammlungsobjekt/mpx:geogrBezug[@bezeichnung = 'Ethnie']")
-    t.index("./mpx:sammlungsobjekt/mpx:geogrBezug[@bezeichnung = 'Land']")
+    t=ExcelTool ('data/WAF55/20190927/2-MPX/levelup.mpx', '.')
+    t.index("./mpx:sammlungsobjekt/mpx:personenKörperschaften")
     
