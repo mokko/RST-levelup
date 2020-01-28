@@ -98,8 +98,9 @@ class ResourceCp:
                 #print ('Testing mulId %s %s' % (mulId, erw))
                 if erw.lower() == 'jpg' or erw.lower == 'jpeg' or erw.lower == 'tif' or erw.lower == 'tiff':
                     vpfad=self._vpfad(mume) # will log incomplete path
-                    if not os.path.isfile(vpfad):
-                        self.write_log('%s: %s: Datei nicht am Ort' % (mulId, vpfad))
+                    if vpfad is not None:
+                        if not os.path.isfile(vpfad):
+                            self.write_log('%s: %s: Datei nicht am Ort' % (mulId, vpfad))
         self.close_log()
 
                 
