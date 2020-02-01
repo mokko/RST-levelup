@@ -15,6 +15,9 @@
 		@outputs RST Deckblatt as html 
 	
 		ROOT	
+		
+		geogrBezug sortorder missing in mpx 
+		
 	-->
 	<xsl:template match="/">
 				<xsl:apply-templates select="/mpx:museumPlusExport"/>
@@ -33,6 +36,7 @@
 					<meta charset="UTF-8"/>
 				</header>
 				<body>
+					<!--  INTRO -->
 					<h1><xsl:value-of select="mpx:sachbegriff"/></h1>
 
 					<xsl:element name="img">
@@ -46,33 +50,27 @@
 					</xsl:element>
 
 					<table border="1" width="800">
-						<tr>
-							<td>Identifikation</td>
-							<td>Inventarnummer</td>
-							<td><xsl:value-of select="mpx:identNr"/></td>	
-						</tr>
-						<tr>
-								<td></td>
-								<td>Verwaltende Institution</td>
-								<td><xsl:value-of select="mpx:verwaltendeInstitution"/></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>Titel</td>
-							<td><xsl:value-of select="mpx:titel"/></td>	
-						</tr>
+						<!--  IDENTIFICATION -->
+
+						<xsl:apply-templates select="mpx:identNr|mpx:verwaltendeInstitution|mpx:titel"/>
+
 						<tr>
 							<td></td>
 							<td>Sachbegriff</td>
-							<td><xsl:value-of select="mpx:sachbegriff"/></td>	
-						</tr>
-						<tr>
-							<td></td>
-							<td>Beschreibung</td>
-							<td><xsl:value-of select="mpx:beschreibung"/></td>	
-						</tr>
+							<td>
+								<xsl:for-each  select="mpx:sachbegriff">
+									<xsl:value-of select="."/>
+									<xsl:if test="position()!=last()">
+			                            <xsl:text>, </xsl:text>
+									</xsl:if>
+								</xsl:for-each>
+							</td>
+						</tr>	
 
+						
+						<xsl:apply-templates select="mpx:onlineBeschreibung"/>
 
+						<!--  HERSTELLUNG -->
 						<tr>
 							<td>Herstellung</td>
 							<td>Ort</td>
@@ -91,43 +89,91 @@
 							</td>
 						</tr>
 
-						<tr>
-							<td></td>
-							<td>Maße</td>
-							<td>
-								<xsl:value-of select="mpx:maßangaben/@typ"/>
-								<xsl:text>: </xsl:text>
-								<xsl:value-of select="mpx:maßangaben"/>
-							</td>
-						</tr>
+						<xsl:apply-templates select="mpx:maßangaben|mpx:materialTechnik[@art='Ausgabe']"/>
 
-						<tr>
-							<td></td>
-							<td>Material/Technik</td>
-							<td><xsl:value-of select="mpx:materialTechnik[@art='Ausgabe']"/></td>
-						</tr>
+						<!-- PROVENIENZ -->
+						<xsl:apply-templates select="mpx:erwerbDatum|mpx:erwerbungVon|mpx:erwerbungsart"/>
 
-
-						<tr>
-							<td>Provenienz</td>
-							<td>Erwerbsdatum</td>
-							<td><xsl:value-of select="mpx:erwerbDatum"/></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>Veräußerer</td>
-							<td><xsl:value-of select="mpx:erwerbungVon"/></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>Erwerbungsart</td>
-							<td><xsl:value-of select="mpx:erwerbungsart"/></td>
-						</tr>
 					</table> 
 				</body>
 			</html>
 		</xsl:result-document>
 	</xsl:template>
 
+	<xsl:template match="mpx:identNr">
+		<tr>
+			<td>Identifikation</td>
+			<td>Inventarnummer</td>
+			<td><xsl:value-of select="."/></td>	
+		</tr>
+	</xsl:template>
 
+	<xsl:template match="mpx:verwaltendeInstitution">
+		<tr>
+			<td></td>
+			<td>Verwaltende Institution</td>
+			<td><xsl:value-of select="."/></td>
+		</tr>
+	</xsl:template>
+
+	<xsl:template match="mpx:titel">
+		<tr>
+			<td></td>
+			<td>Titel</td>
+			<td><xsl:value-of select="."/></td>
+		</tr>
+	</xsl:template>
+	
+	<xsl:template match="mpx:onlineBeschreibung">
+		<tr>
+			<td></td>
+			<td>Beschreibung</td>
+			<td><xsl:value-of select="."/></td>
+		</tr>
+	</xsl:template>
+
+	<xsl:template match="mpx:maßangaben">
+		<tr>
+			<td></td>
+			<td>Maße</td>
+			<td>
+				<xsl:value-of select="@typ"/>
+				<xsl:text>: </xsl:text>
+				<xsl:value-of select="."/>
+			</td>
+		</tr>
+	</xsl:template>
+
+	<xsl:template match="mpx:materialTechnik">
+		<tr>
+			<td></td>
+			<td>Material/Technik</td>
+			<td><xsl:value-of select="."/></td>
+		</tr>
+	</xsl:template>
+	
+	<xsl:template match="mpx:erwerbDatum">
+		<tr>
+			<td>Provenienz</td>
+			<td>Erwerbsdatum</td>
+			<td><xsl:value-of select="."/></td>
+		</tr>
+	</xsl:template>
+
+	<xsl:template match="mpx:erwerbungVon">
+		<tr>
+			<td></td>
+			<td>Veräußerer</td>
+			<td><xsl:value-of select="."/></td>
+		</tr>
+	</xsl:template>
+
+	<xsl:template match="mpx:erwerbungsart">
+		<tr>
+			<td></td>
+			<td>Erwerbungsart</td>
+			<td><xsl:value-of select="."/></td>
+		</tr>
+	</xsl:template>	
+	
 </xsl:stylesheet>
