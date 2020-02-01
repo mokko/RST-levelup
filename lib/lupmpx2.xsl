@@ -176,7 +176,7 @@
 		</xsl:element>
 	</xsl:template>
 
-	<!-- why would that be necessary? -->
+	<!-- why would that be necessary? but it is apparently -->
 	<xsl:template match="/museumPlusExport/multimediaobjekt/urheberFotograf">
 		<xsl:element name="urheberFotograf">
 			<xsl:value-of select="." />

@@ -33,6 +33,7 @@ conf={
     'lidohtml' : '3-Lido/lido.html', 
     'vindexconf': '../vindex.json',
     'vfixmpx': '2-MPX/vfix.mpx',
+    'deckblatto': '3-deckblatt/o.xml',
 
 
     #xsl    
@@ -42,6 +43,7 @@ conf={
     'shfxsl': 'shf.xsl', 
     'mpx2lido': 'mpx2lido.xsl',
     'lido2html': 'lido2html.xsl',
+    'Deckblatt': 'deckblatt.xsl',
 
 #new path    
     'shfnpx' : 'shf/shf.xml',
@@ -119,3 +121,9 @@ if __name__ == "__main__":
             if os.path.isfile(conf['lvlupmpx']):
                 c=ResourceCp (conf['lvlupmpx']) 
                 c.boris_test('boris_test')
+
+        elif sys.argv[1].lower() == 'deckblatt':
+            print ('*Converting to Deckblatt HTML ...')
+            #if os.path.isfile(conf['lvlupmpx']):
+            s.dirTransform(conf['lvlupmpx'], conf['Deckblatt'], conf['deckblatto'])
+                #s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
