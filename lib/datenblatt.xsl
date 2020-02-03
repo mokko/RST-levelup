@@ -12,16 +12,30 @@
 
 	<!-- 
 		@Expects mpx as input 
-		@outputs RST Deckblatt as html 
+		@outputs RST Deckblatt as html for each Schaumagazin in a different file 
 	
 		ROOT	
-		
-		
-		geogrBezug sortorder missing in mpx 
-		
 	-->
 	<xsl:template match="/">
-        <xsl:result-document href="Amerika-Schaumagazin.html" method="html" encoding="UTF-8">
+		<xsl:call-template name="documentLevel">
+			<xsl:with-param name="file">Amerika-Schaumagazin.html</xsl:with-param>
+			<xsl:with-param name="exhibit">'HUFO - Ersteinrichtung - Amerika (Schaumagazin)'</xsl:with-param>
+		</xsl:call-template>
+		<xsl:call-template name="documentLevel">
+			<xsl:with-param name="file">Südsee-Schaumagazin.html</xsl:with-param>
+			<xsl:with-param name="exhibit">'HUFO - Ersteinrichtung - Südsee (Schaumagazin)'</xsl:with-param>
+		</xsl:call-template>
+		<xsl:call-template name="documentLevel">
+			<xsl:with-param name="file">Afrika-Schaumagazin.html</xsl:with-param>
+			<xsl:with-param name="exhibit">HUFO - Ersteinrichtung - Afrika (Schaumagazin)</xsl:with-param>
+		</xsl:call-template>
+    </xsl:template>
+
+
+	<xsl:template name="documentLevel">
+		<xsl:param name="file"/>
+		<xsl:param name="exhibit"/>
+        <xsl:result-document href="{$file}" method="html" encoding="UTF-8">
             <html>
 				<head>
 					<title>Datenblatt v0.1</title>
@@ -33,43 +47,14 @@
                     </style>
 				</head>
 				<body>
-                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[mpx:ausstellung = 'HUFO - Ersteinrichtung - Amerika (Schaumagazin)']">
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[mpx:ausstellung = $exhibit]">
                        <xsl:sort select="@objId"/>
                     </xsl:apply-templates>
-
                 </body>
             </html>
         </xsl:result-document>
-
-        <xsl:result-document href="Südsee-Schaumagazin.html" method="html" encoding="UTF-8">
-            <html>
-				<header>
-					<title>Deckblatt v0.1</title>
-					<meta charset="UTF-8"/>
-				</header>
-				<body>
-                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[mpx:ausstellung = 'HUFO - Ersteinrichtung - Südsee (Schaumagazin)']">
-                       <xsl:sort select="@objId"/>
-                    </xsl:apply-templates>
-
-                </body>
-            </html>
-        </xsl:result-document>
-
-        <xsl:result-document href="Afrika-Schaumagazin.html" method="html" encoding="UTF-8">
-            <html>
-				<header>
-					<title>Deckblatt v0.1</title>
-					<meta charset="UTF-8"/>
-				</header>
-				<body>
-                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[mpx:ausstellung = 'HUFO - Ersteinrichtung - Afrika (Schaumagazin)']">
-                    <xsl:sort select="@objId"/>
-                    </xsl:apply-templates>
-                </body>
-            </html>
-        </xsl:result-document>
-    </xsl:template>
+	
+	</xsl:template>
 
 
 	<!-- INTRO -->	
