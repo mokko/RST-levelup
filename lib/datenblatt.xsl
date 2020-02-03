@@ -157,6 +157,25 @@
 
 						<!-- AUSSTELLUNG -->
                         <xsl:apply-templates select="mpx:ausstellung[starts-with(., 'HUFO')]"/>
+                        
+                        <!-- WEITERE MEDIEN -->
+                        <tr>
+	                        <td colspan="2">
+	                        	<xsl:for-each select="mpx:museumPlusExport/mpx:multimediaobjekt[not(mpx:standardbild) and 
+	                        		mpx:verknüpftesObjekt = $objId and mpx:veröffentlichen = 'JA']">
+		                            <xsl:element name="img">
+		                                <xsl:attribute name="style">width: 25%</xsl:attribute>
+		                                <xsl:attribute name="src">
+		                                    <xsl:text>../shf/freigegeben/</xsl:text>
+		                                    <xsl:value-of select="mulId"/>
+		                                    <xsl:text>.</xsl:text>
+		                                    <xsl:value-of select="mpx:erweiterung"/>
+		                                </xsl:attribute>
+		                            </xsl:element>
+		                            <xsl:text> </xsl:text>
+								</xsl:for-each>                        
+	                        </td>
+                        </tr>
                     </table> 
                     <br/><br/>
 
