@@ -130,11 +130,17 @@ class ResourceCp:
     
     def _freigegeben (self, mume):
         ''' 
-            new output format: oldfilename.mulId.jpg
+            freigegeben are only those photos that are not also Standardbilder
+            old output filename: mulId.jpg
+            We are considering to rename them to something like: oldfilename.mulId.jpg. Advantage would
+            be to preserve the original filename, disadvantage would that I can't guess the filename any longer
+            just from knowing the mulId. So what should I do?
         '''
 
         fg=mume.find('mpx:veröffentlichen', self.ns)
-        if (fg is not None):
+        stdb=mume.find('mpx:standardbild', self.ns)
+
+        if (fg is not None and stdb is None):
             if (fg.text == "JA"):
                 mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
                 print ('mulId: '+mulId)
@@ -143,7 +149,7 @@ class ResourceCp:
                     erw=mume.find('mpx:erweiterung', self.ns).text #higher chances that it doesn't exists
                 except:
                     return # incomplete path test has been reported by _vpfad already
-                out=mulId+'.'+erw
+                out=mulId+'.'+erw.lower()
                 return vpfad, out
 
 
