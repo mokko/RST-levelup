@@ -75,11 +75,14 @@
                                 <xsl:attribute name="style">width: 50%</xsl:attribute>
                                 <xsl:attribute name="src">
                                     <xsl:text>../shf/Standardbilder/</xsl:text>
-                                    <xsl:value-of select="$stdbld/$objId"/>
+                                    <xsl:value-of select="$objId"/>
                                     <xsl:text>.</xsl:text>
                                     <xsl:value-of select="$stdbld/mpx:erweiterung"/>
                                 </xsl:attribute>
                             </xsl:element>
+                            <xsl:text>(Foto: </xsl:text>
+                            <xsl:value-of select="$stdbld/mpx:urhebFotograf"/>
+                            <xsl:text>)</xsl:text>
                         </td>
                     </tr>
 
