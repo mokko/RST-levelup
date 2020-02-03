@@ -91,7 +91,8 @@
                             <td colspan="2"><h2>Identifikation</h2></td>
                         </tr>
 
-						<xsl:apply-templates select="mpx:identNr[not(@art) or @art='Ident. Nr.']|mpx:verwaltendeInstitution|mpx:titel"/>
+						<xsl:apply-templates select="mpx:identNr[not(@art) or @art='Ident. Nr.']"/>
+						<xsl:apply-templates select="mpx:verwaltendeInstitution|mpx:titel"/>
 
 						<tr>
 							<td>Sachbegriff</td>
