@@ -20,42 +20,75 @@
 		
 	-->
 	<xsl:template match="/">
-				<xsl:apply-templates select="/mpx:museumPlusExport"/>
-	</xsl:template>
-
-
-	<!-- INTRO -->	
-	<xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt">
-		<xsl:variable name="file" select="concat(@objId,'.html')"/>
-		<xsl:variable name="objId" select="@objId"/>
-		
-		<xsl:result-document href="{$file}" method="html" encoding="UTF-8">
-			<html>
+        <xsl:result-document href="Amerika-Schaumagazin.html" method="html" encoding="UTF-8">
+            <html>
 				<header>
 					<title>Deckblatt v0.1</title>
 					<meta charset="UTF-8"/>
 				</header>
 				<body>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[mpx:ausstellung = 'HUFO - Ersteinrichtung - Amerika (Schaumagazin)']"/>
+                </body>
+            </html>
+        </xsl:result-document>
+
+        <xsl:result-document href="Südsee-Schaumagazin.html" method="html" encoding="UTF-8">
+            <html>
+				<header>
+					<title>Deckblatt v0.1</title>
+					<meta charset="UTF-8"/>
+				</header>
+				<body>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[mpx:ausstellung = 'HUFO - Ersteinrichtung - Südsee (Schaumagazin)']"/>
+                </body>
+            </html>
+        </xsl:result-document>
+
+        <xsl:result-document href="Afrika-Schaumagazin.html" method="html" encoding="UTF-8">
+            <html>
+				<header>
+					<title>Deckblatt v0.1</title>
+					<meta charset="UTF-8"/>
+				</header>
+				<body>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[mpx:ausstellung = 'HUFO - Ersteinrichtung - Afrika (Schaumagazin)']"/>
+                </body>
+            </html>
+        </xsl:result-document>
+    </xsl:template>
+
+
+	<!-- INTRO -->	
+	<xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt">
+        <xsl:message><xsl:value-of select="@objId"/></xsl:message>
+		<xsl:variable name="objId" select="@objId"/>
+		
 					<!--  INTRO -->
-					<h1><xsl:value-of select="mpx:sachbegriff"/></h1>
+                    <xsl:element name="a">
+                        <xsl:attribute name="name"><xsl:value-of select="$objId"/></xsl:attribute>
+                    </xsl:element> 
+					<h1><xsl:value-of select="mpx:sachbegriff"/> (<xsl:value-of select="$objId"/>)</h1>
 
 					<xsl:element name="img">
 						<xsl:variable name="stdbld" select="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId and mpx:standardbild]"/>
+						<xsl:attribute name="style">width: 50%</xsl:attribute>
 						<xsl:attribute name="src">
 							<xsl:text>../shf/Standardbilder/</xsl:text>
-							<xsl:value-of select="$stdbld/@mulId"/>
+							<xsl:value-of select="$stdbld/$objId"/>
 							<xsl:text>.</xsl:text>
 							<xsl:value-of select="$stdbld/mpx:erweiterung"/>
 						</xsl:attribute>
 					</xsl:element>
 
 					<table border="1" width="800">
-						<!--  IDENTIFICATION -->
+						<!--  IDENTIFIKATION -->
+                        <tr>
+                            <td colspan="2"><h1>Identifikation</h1></td>
+                        </tr>
 
-						<xsl:apply-templates select="mpx:identNr|mpx:verwaltendeInstitution|mpx:titel"/>
+						<xsl:apply-templates select="mpx:identNr[not(@art) or @art='Ident. Nr.']|mpx:verwaltendeInstitution|mpx:titel"/>
 
 						<tr>
-							<td></td>
 							<td>Sachbegriff</td>
 							<td>
 								<xsl:for-each  select="mpx:sachbegriff">
@@ -71,15 +104,19 @@
 						<xsl:apply-templates select="mpx:onlineBeschreibung"/>
 
 						<!--  HERSTELLUNG -->
+
+                        <tr>
+                            <td colspan="2"><h1>Herstellung</h1></td>
+                        </tr>
+						<xsl:apply-templates select="mpx:datierung"/>
 						<tr>
-							<td>Herstellung</td>
 							<td>Ort</td>
 							<td>
 								<xsl:for-each select="mpx:geogrBezug">
 									<xsl:value-of select="."/>
 									<xsl:if test="@bezeichnung">
 										<xsl:text> (</xsl:text>
-										<xsl:value-of select="@bezeichnung"/>									
+										<xsl:value-of select="@bezeichnung"/>
 										<xsl:text>)</xsl:text>
 									</xsl:if>
 									<xsl:if test="position()!=last()">
@@ -92,17 +129,34 @@
 						<xsl:apply-templates select="mpx:maßangaben|mpx:materialTechnik[@art='Ausgabe']"/>
 
 						<!-- PROVENIENZ -->
-						<xsl:apply-templates select="mpx:erwerbDatum|mpx:erwerbungVon|mpx:erwerbungsart"/>
+                        <tr>
+                            <td colspan="2"><h1>Provenienz</h1></td>
+                        </tr>
 
+						<xsl:apply-templates select="mpx:erwerbDatum|mpx:erwerbungVon|mpx:erwerbungsart"/>
 					</table> 
-				</body>
-			</html>
-		</xsl:result-document>
+
 	</xsl:template>
 
+    <!-- INDIVIDUAL FIELDS -->
+
+	<xsl:template match="mpx:datierung">
+        <td>Datierung</td>
+        <td>
+            <xsl:if test="@vonJahr and @bisJahr">
+                <xsl:value-of select="."/>
+                <xsl:text>(</xsl:text>
+                <xsl:value-of select="@vonJahr"/>
+                <xsl:text> - </xsl:text>
+                <xsl:value-of select="@bisJahr"/>
+                <xsl:text>)</xsl:text>
+            </xsl:if>
+        </td>
+    </xsl:template>
+    
+    
 	<xsl:template match="mpx:identNr">
 		<tr>
-			<td>Identifikation</td>
 			<td>Inventarnummer</td>
 			<td><xsl:value-of select="."/></td>	
 		</tr>
@@ -110,7 +164,6 @@
 
 	<xsl:template match="mpx:verwaltendeInstitution">
 		<tr>
-			<td></td>
 			<td>Verwaltende Institution</td>
 			<td><xsl:value-of select="."/></td>
 		</tr>
@@ -118,7 +171,6 @@
 
 	<xsl:template match="mpx:titel">
 		<tr>
-			<td></td>
 			<td>Titel</td>
 			<td><xsl:value-of select="."/></td>
 		</tr>
@@ -126,7 +178,6 @@
 	
 	<xsl:template match="mpx:onlineBeschreibung">
 		<tr>
-			<td></td>
 			<td>Beschreibung</td>
 			<td><xsl:value-of select="."/></td>
 		</tr>
@@ -134,7 +185,6 @@
 
 	<xsl:template match="mpx:maßangaben">
 		<tr>
-			<td></td>
 			<td>Maße</td>
 			<td>
 				<xsl:value-of select="@typ"/>
@@ -146,7 +196,6 @@
 
 	<xsl:template match="mpx:materialTechnik">
 		<tr>
-			<td></td>
 			<td>Material/Technik</td>
 			<td><xsl:value-of select="."/></td>
 		</tr>
@@ -154,7 +203,6 @@
 	
 	<xsl:template match="mpx:erwerbDatum">
 		<tr>
-			<td>Provenienz</td>
 			<td>Erwerbsdatum</td>
 			<td><xsl:value-of select="."/></td>
 		</tr>
@@ -162,7 +210,6 @@
 
 	<xsl:template match="mpx:erwerbungVon">
 		<tr>
-			<td></td>
 			<td>Veräußerer</td>
 			<td><xsl:value-of select="."/></td>
 		</tr>
@@ -170,7 +217,6 @@
 
 	<xsl:template match="mpx:erwerbungsart">
 		<tr>
-			<td></td>
 			<td>Erwerbungsart</td>
 			<td><xsl:value-of select="."/></td>
 		</tr>

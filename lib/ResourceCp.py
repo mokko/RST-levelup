@@ -159,7 +159,7 @@ class ResourceCp:
                 erw=mume.find('mpx:erweiterung', self.ns).text
             except:
                 return # incomplete path test has been reported by _vpfad already
-            out=objId+'.'+erw
+            out=objId+'.'+erw.lower()
             return vpfad, out
 
     
