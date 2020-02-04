@@ -57,7 +57,8 @@ class ResourceCp:
         '''
         UNTESTED
         (1) copy all resources that are marked as freigeben = JA
-        (2) output filename is $mulId.$erweiterung -> multiple resources per object possible
+        (2) NEW only resources that are not standardbild
+        (3) output filename is $mulId.$erweiterung -> multiple resources per object possible
 
         Soll die Bilder/Ressourcen kopieren, die mit veröffentlichen="JA" gekennzeichnet sind. Dieses Feld
         wurde aber bisher nicht exportiert, also liegen keine Beispieldaten vor und diese Funktion ist 
@@ -111,6 +112,8 @@ class ResourceCp:
         os.makedirs(outdir)
         self.init_log(outdir) 
 
+        print ('*Working on %s' % mode)
+        
         for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
             if mode == 'freigegeben':
                 ret=self._freigegeben(mume)
@@ -136,13 +139,12 @@ class ResourceCp:
             be to preserve the original filename, disadvantage would that I can't guess the filename any longer
             just from knowing the mulId. So what should I do?
         '''
-
         fg=mume.find('mpx:veröffentlichen', self.ns)
         stdb=mume.find('mpx:standardbild', self.ns)
 
         if (fg is not None and stdb is None):
-            if (fg.text == "JA"):
-                mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
+            if (fg.text.lower() == "ja"):
+                mulId=mume.get('freigegeben-mulId', self.ns) #might be ok to assume it always exists
                 print ('mulId: '+mulId)
                 vpfad=self._vpfad(mume)
                 try:
@@ -150,6 +152,8 @@ class ResourceCp:
                 except:
                     return # incomplete path test has been reported by _vpfad already
                 out=mulId+'.'+erw.lower()
+                print ('GH'+out)
+
                 return vpfad, out
 
 

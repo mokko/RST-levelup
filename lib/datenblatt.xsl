@@ -67,11 +67,11 @@
                         <xsl:attribute name="name"><xsl:value-of select="$objId"/></xsl:attribute>
                     </xsl:element> 
 					<table border="0" width="800">
+                    <xsl:variable name="stdbld" select="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId and mpx:standardbild]"/>
                     <tr>
                         <td colspan="2">
                             <h1><xsl:value-of select="mpx:sachbegriff"/> [<xsl:value-of select="$objId"/>]</h1>
                             <xsl:element name="img">
-                                <xsl:variable name="stdbld" select="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId and mpx:standardbild]"/>
                                 <xsl:attribute name="style">width: 50%</xsl:attribute>
                                 <xsl:attribute name="src">
                                     <xsl:text>../shf/Standardbilder/</xsl:text>
@@ -80,9 +80,9 @@
                                     <xsl:value-of select="$stdbld/mpx:erweiterung"/>
                                 </xsl:attribute>
                             </xsl:element>
-                            <xsl:text>(Foto: </xsl:text>
+                            <br/>
+                            <xsl:text> Foto: </xsl:text>
                             <xsl:value-of select="$stdbld/mpx:urhebFotograf"/>
-                            <xsl:text>)</xsl:text>
                         </td>
                     </tr>
 
