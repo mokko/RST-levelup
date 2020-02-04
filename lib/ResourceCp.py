@@ -144,8 +144,8 @@ class ResourceCp:
 
         if (fg is not None and stdb is None):
             if (fg.text.lower() == "ja"):
-                mulId=mume.get('freigegeben-mulId', self.ns) #might be ok to assume it always exists
-                print ('mulId: '+mulId)
+                mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
+                print ('freigegeben-mulId: '+mulId)
                 vpfad=self._vpfad(mume)
                 try:
                     erw=mume.find('mpx:erweiterung', self.ns).text #higher chances that it doesn't exists
