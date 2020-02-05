@@ -1,20 +1,23 @@
 '''
-lvlupChain.py : expects input files in current directory and writes generally to its output to several directories
+lvlupChain.py : expects input files in current directory and generally writes its output to several sub-directories
 
 Expects several xls files that begin with mm, so or pk.
 
-Runs thru the tool chain and only works on files if they are not yet present. Delete them if you
+Runs thru the tool chain and only works on files if they are not yet present. Tip: Delete them if you
 want to run that process again.
 
 STEPS:
 1. Convert xls files to stupid xml
 2. join all stupid xml files together in one big file
-3. levelup so we have proper mpx information
-4. (optional) convert to shf output format (also copies standardbilder and freigegebene photos)
-5. (optional) convert to lido
-6. (optional) do the boris image test and write report in corresponding directory 
+3. levelup that file so we have proper mpx 
+4. (optional) convert to shf output format (also copies standardbilder and freigegebene photos) --> shf
+5. (optional) transform mpx to LIDO and make a html representation of the LIDO data --> lido
+6. (optional) do the boris image test and write report in corresponding directory --> boris
+7. (optional) apply corrections from Excel file --> index
+8. (optional) make a rst deckblatt HTML representation out of the mpx file --> deckblatt (requires image folders from shf)
 
-If you want levelup to make the shf export, you need to run it with
+Optional function via command line parameter:
+    If you want levelup to make the shf export, you need to run it with
 
     levelup.py shf
 '''
