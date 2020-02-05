@@ -1,18 +1,24 @@
 '''
-lvlupChain.py : expects input files in current directory and writes to same directory 
+lvlupChain.py : expects input files in current directory and writes generally to its output to several directories
 
-Currently end product is 2-MPX/levelup.mpx
-
-TODO: Fix and LIDO are yet to come
+Expects several xls files that begin with mm, so or pk.
 
 Runs thru the tool chain and only works on files if they are not yet present. Delete them if you
 want to run that process again.
 
+STEPS:
+1. Convert xls files to stupid xml
+2. join all stupid xml files together in one big file
+3. levelup so we have proper mpx information
+4. (optional) convert to shf output format (also copies standardbilder and freigegebene photos)
+5. (optional) convert to lido
+6. (optional) do the boris image test and write report in corresponding directory 
+
 If you want levelup to make the shf export, you need to run it with
 
     levelup.py shf
-
 '''
+
 import os
 
 conf={

@@ -6,26 +6,23 @@
 	xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
 	<xsl:import href="mpx2lido/so.xsl" />
 
-	<xsl:output method="xml" version="1.0" encoding="UTF-8"
-		indent="yes" />
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" />
 	<xsl:strip-space elements="*" />
 
 
 	<xsl:template match="/">
-		<lido:lidoWrap
-			xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
-			<xsl:apply-templates
-				select="/mpx:museumPlusExport/mpx:sammlungsobjekt" />
+		<lido:lidoWrap xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
+			<xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt" />
 		</lido:lidoWrap>
 	</xsl:template>
 
 
 	<!-- Gets called from resourceWrap -->
-	<xsl:template
-		match="/mpx:museumPlusExport/mpx:multimediaobjekt">
+	<xsl:template match="/mpx:museumPlusExport/mpx:multimediaobjekt">
+		<xsl:variable name="objId" select="mpx:verknüpftesObjekt"/>
 		<xsl:message>
-			VO
-			<xsl:value-of select="mpx:verknüpftesObjekt" />
+			<xsl:text>VO: </xsl:text>
+			<xsl:value-of select="$objId" />
 		</xsl:message>
 
 		<lido:resourceSet>
@@ -35,17 +32,38 @@
 			<lido:resourceType>
 				<lido:term xml:lang="EN">digital image</lido:term>
 			</lido:resourceType>
+			<xsl:if test="mpx:urhebFotograf">
+				<lido:rightsResource>
+					<lido:rightsType>Urheber</lido:rightsType>
+					<lido:rightsHolder>
+						<lido:legalBodyName>
+							<lido:appellationValue>
+								<xsl:value-of select="mpx:urhebFotograf" />
+							</lido:appellationValue>
+						</lido:legalBodyName>
+					</lido:rightsHolder>
+				</lido:rightsResource>
+			</xsl:if>
 			<lido:rightsResource>
+				<lido:rightsType>Nutzungsrechte</lido:rightsType>
 				<lido:rightsHolder>
 					<lido:legalBodyName>
 						<lido:appellationValue>
-							<xsl:value-of
-								select="mpx:multimediaPersonenKörperschaft" />
+							<xsl:text>Staatliche Museen zu Berlin, Preußischer Kulturbesitz</xsl:text>
 						</lido:appellationValue>
 					</lido:legalBodyName>
 				</lido:rightsHolder>
-				<!-- TODO: I assume the creditline needs to formated differently -->
-				<lido:creditLine><xsl:value-of select="mpx:urhebFotograf"/></lido:creditLine>
+
+				<!-- TODO: Not sure how FD wants the the creditline to be formated; I am trying to copy smb.digital.de, but not exactly. -->
+				<lido:creditLine>
+					<xsl:if test="mpx:urhebFotograf">
+						<xsl:text>Foto: </xsl:text>
+						<xsl:value-of select="mpx:urhebFotograf"/>
+						<xsl:text>, </xsl:text>
+					</xsl:if>
+					<xsl:value-of select="../mpx:sammlungsobjekt[@objId eq $objId]/mpx:verwaltendeInstitution"/>
+					<xsl:text> - Preußischer Kulturbesitz</xsl:text>
+				</lido:creditLine>
 			</lido:rightsResource>
 		</lido:resourceSet>
 	</xsl:template>

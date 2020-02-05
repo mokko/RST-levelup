@@ -16,10 +16,10 @@
 			<!-- 1 LidoRecID -->
 
 			<lido:lidoRecID>
-			<xsl:attribute name="lido:source">
-				<xsl:value-of select="mpx:verwaltendeInstitution" />
-			</xsl:attribute>
-			<xsl:attribute name="lido:type">local</xsl:attribute>
+				<xsl:attribute name="lido:source">
+					<xsl:value-of select="mpx:verwaltendeInstitution" />
+				</xsl:attribute>
+				<xsl:attribute name="lido:type">local</xsl:attribute>
 				<xsl:value-of select="@objId" />
 			</lido:lidoRecID>
 
@@ -35,21 +35,13 @@
 					<lido:objectWorkTypeWrap>
 						<lido:objectWorkType>
 							<xsl:attribute name="type">Sachbegriff</xsl:attribute>
+							<!-- "Sachbegriff" before "Weiterer Sachbegriff", using position() over xsl:number -->
 							<xsl:apply-templates select="mpx:sachbegriff">
-								<!-- "Sachbegriff" before "Weiterer Sachbegriff", using position() 
-									over xsl:number -->
 								<xsl:sort select="@art" />
 							</xsl:apply-templates>
 						</lido:objectWorkType>
 					</lido:objectWorkTypeWrap>
-					<lido:classificationWrap>
-						<xsl:if test="mpx:systematikArt">
-							<lido:classification type="systematikArt">
-								<xsl:apply-templates
-									select="mpx:systematikArt" />
-							</lido:classification>
-						</xsl:if>
-					</lido:classificationWrap>
+						<xsl:apply-templates select="mpx:systematikArt" />
 				</lido:objectClassificationWrap>
 
 				<!-- 4.2 Identification -->
@@ -109,16 +101,14 @@
 
 			<!-- 5 Admin MD -->
 
-			<lido:administrativeMetadata
-				xml:lang="en">
+			<lido:administrativeMetadata xml:lang="en">
 
 				<!-- 5.1. Rights for Work -->
 				<lido:rightsWorkWrap />
 
 				<!-- 5.2. Record -->
 				<lido:recordWrap>
-					<lido:recordID lido:type="local"><xsl:value-of
-						select="@objId" /></lido:recordID>
+					<lido:recordID lido:type="local"><xsl:value-of select="@objId" /></lido:recordID>
 					<lido:recordType>
 						<!-- TODO -->
 						<lido:term>single object</lido:term>
@@ -126,8 +116,7 @@
 					<lido:recordSource>
 						<!-- lido:legalBodyID -->
 						<lido:legalBodyName>
-							<lido:appellationValue><xsl:value-of
-								select="mpx:verwaltendeInstitution" />
+							<lido:appellationValue><xsl:value-of select="mpx:verwaltendeInstitution" />
 							</lido:appellationValue>
 						</lido:legalBodyName>
 						<lido:legalBodyWeblink>https://www.smb.museum</lido:legalBodyWeblink>
@@ -135,8 +124,7 @@
 					<lido:recordRights>
 						<lido:rightsHolder>
 							<!-- TODO ISIL -->
-							<lido:legalBodyID lido:type="URI"
-								lido:source="ISIL (ISO 15511)">info:isil/DE-Mb112</lido:legalBodyID>
+							<lido:legalBodyID lido:type="URI" lido:source="ISIL (ISO 15511)">info:isil/DE-Mb112</lido:legalBodyID>
 							<lido:legalBodyName>
 								<lido:appellationValue>Staatliche Museen zu Berlin</lido:appellationValue>
 							</lido:legalBodyName>
@@ -144,20 +132,24 @@
 						</lido:rightsHolder>
 					</lido:recordRights>
 					<lido:recordInfoSet>
-						<lido:recordInfoLink
-							lido:formatResource="html">http://www.bildindex.de/dokumente/html/obj00154983</lido:recordInfoLink>
-					</lido:recordInfoSet>
-					<lido:recordInfoSet>
-						<lido:recordInfoID lido:type="oai">oai:bildindex.de:lidoWrap::DE-Mb112/lido-obj00154983</lido:recordInfoID>
+					<!-- LIDO spec: Link of the metadata, e.g., to the object data sheet 
+						    (not the same as link of the object).
+						 We  want a link to smb-digital.de. Old eMuseum has this format 
+						 http://smb-digital.de/eMuseumPlus?service=ExternalInterface&module=collection&objectId=255188&viewType=detailView 
+					-->
+						<lido:recordInfoLink lido:formatResource="html">
+							<xsl:text>http://smb-digital.de/eMuseumPlus?service=ExternalInterface</xsl:text>
+							<xsl:text>&amp;module=collection&amp;objectId=</xsl:text>
+							<xsl:value-of select="@objId"/>
+							<xsl:text>&amp;viewType=detailView</xsl:text>
+						</lido:recordInfoLink>
 					</lido:recordInfoSet>
 				</lido:recordWrap>
 
 				<!-- 5.3. Resource -->
 				<lido:resourceWrap>
 					<xsl:variable name="objId" select="@objId" />
-
-					<xsl:apply-templates
-						select="../mpx:multimediaobjekt[mpx:verknüpftesObjekt = $objId]" />
+					<xsl:apply-templates select="../mpx:multimediaobjekt[mpx:verknüpftesObjekt = $objId]" />
 				</lido:resourceWrap>
 			</lido:administrativeMetadata>
 		</lido:lido>
@@ -194,10 +186,14 @@
 
 	<xsl:template
 		match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:systematikArt">
-		<lido:term>
-			<xsl:attribute name="sortorder"><xsl:number /></xsl:attribute>
-			<xsl:value-of select="." />
-		</lido:term>
+		<lido:classificationWrap>
+			<lido:classification type="systematikArt">
+				<lido:term>
+					<xsl:attribute name="sortorder"><xsl:number /></xsl:attribute>
+					<xsl:value-of select="." />
+				</lido:term>
+			</lido:classification>
+		</lido:classificationWrap>
 	</xsl:template>
 
 

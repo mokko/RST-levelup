@@ -23,9 +23,10 @@
 		<xsl:variable name="file" select="concat(normalize-space(lido:lidoRecID),'.html')"/>
 		<xsl:result-document href="{$file}" method="html" encoding="UTF-8">
 			<html>
-				<header>
+				<head>
 					<title>lido2html</title>
-				</header>
+					<meta charset="UTF-8" />
+				</head>
 				<body>
 					<h1><xsl:value-of select="lido:lidoRecID"/></h1>
 					<table border="1" width="800">
@@ -93,11 +94,9 @@
 		lido:rightsWorkWrap">
 		<tr>
 			<td colspan="2">
-				<h4>
-					<xsl:number count="." level="single" />
-					<xsl:text> </xsl:text>
+				<h2>
 					<xsl:value-of select="replace(name(),'lido:','')"/>
-				</h4>
+				</h2>
 			</td>
 		</tr>
 		<xsl:apply-templates/>
@@ -191,7 +190,6 @@
 		lido:recordType|
 		lido:resourceType|
 		lido:rightsHolder|
-		lido:rightsType|
 		lido:titleSet|
 		lido:vitalDatesActor
 		">
@@ -217,6 +215,7 @@
 	<!--  FIELD TYPE 2: element with attributes plus one value, repeatable -->
 	<xsl:template match="
 		lido:actorID|
+		lido:creditLine|
 		lido:displayActorInRole|	
 		lido:displayDate|
 		lido:displayEvent|
@@ -228,16 +227,15 @@
 		lido:latestDate|
 		lido:linkResource|
 		lido:legalBodyID|
-		lido:legalBodyWeblink|
 		lido:measurementType|
 		lido:measurementUnit|
 		lido:measurementValue|
 		lido:placeID|
 		lido:recordID|
 		lido:roleActor|
-		lido:recordInfoLink|
 		lido:recordMetadataDate|
 		lido:resourceID|
+		lido:rightsType|
 		lido:workID
 	">
 		<tr>
@@ -247,6 +245,24 @@
 			</td>
 			<td>
 				<xsl:value-of select="."/>
+			</td>
+		</tr>
+	</xsl:template>
+
+
+	<!-- Linkify in HTML no attributes -->
+	<xsl:template match="lido:recordInfoLink|lido:legalBodyWeblink">
+		<tr>
+			<td>
+				<xsl:value-of select="name()"/>
+			</td>
+			<td>
+				<xsl:element name="a">
+					<xsl:attribute name="href">
+						<xsl:value-of select="."/>
+					</xsl:attribute>
+					<xsl:value-of select="."/>
+				</xsl:element>
 			</td>
 		</tr>
 	</xsl:template>
