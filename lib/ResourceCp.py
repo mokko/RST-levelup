@@ -55,9 +55,14 @@ class ResourceCp:
 
     def freigegeben (self, outdir):
         '''
-        (1) copy all resources that are marked as freigeben = JA
-        (2) NEW only resources that are not standardbild
-        (3) output filename is $mulId.$erweiterung -> multiple resources per object possible
+            freigegeben are only those photos that fulfill both conditions 
+            a) are not  Standardbilder
+            b) mpx:veröffentlichen = ja
+            Output filename: mulId.jpg (where erweiterung is always lowercase)
+
+            We are considering to rename them to something like: oldfilename.mulId.jpg. Advantage would
+            be to preserve the original filename, disadvantage would that I can't guess the filename any longer
+            just from knowing the mulId. So what should I do?
         '''
         self._genericCopier(outdir, 'freigegeben')
 
@@ -69,7 +74,7 @@ class ResourceCp:
         '''
         self._genericCopier(outdir, 'standardbilder')
 
-        
+
     def _genericCopier (self, outdir, mode):
         if os.path.isdir(outdir): #anything to do at all?
             print (outdir+' exists already, nothing copied') #this message is not important enough for logger
@@ -97,13 +102,7 @@ class ResourceCp:
 
     
     def _freigegeben (self, mume):
-        ''' 
-            freigegeben are only those photos that are not also Standardbilder
-            old output filename: mulId.jpg
-            We are considering to rename them to something like: oldfilename.mulId.jpg. Advantage would
-            be to preserve the original filename, disadvantage would that I can't guess the filename any longer
-            just from knowing the mulId. So what should I do?
-        '''
+        ''' See documentation under self.freigegeben '''
         fg=mume.find('mpx:veröffentlichen', self.ns)
         stdb=mume.find('mpx:standardbild', self.ns)
 
@@ -111,11 +110,11 @@ class ResourceCp:
             if (fg.text.lower() == "ja"):
                 mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
                 print ('freigegeben-mulId: '+mulId)
-                vpfad=self._vpfad(mume)
+                vpfad=self._fullpath(mume)
                 try:
                     erw=mume.find('mpx:erweiterung', self.ns).text #higher chances that it doesn't exists
                 except:
-                    return # incomplete path test has been reported by _vpfad already
+                    return # incomplete path test has been reported by _fullpath already
                 out=mulId+'.'+erw.lower()
                 print ('GH'+out)
 
@@ -129,16 +128,21 @@ class ResourceCp:
             #print ('   '+str(sb))
 
             objId=mume.find('mpx:verknüpftesObjekt', self.ns).text
-            vpfad=self._vpfad(mume)
+            vpfad=self._fullpath(mume)
             try:
                 erw=mume.find('mpx:erweiterung', self.ns).text
             except:
-                return # incomplete path test has been reported by _vpfad already
+                return # incomplete path test has been reported by _fullpath already
             out=objId+'.'+erw.lower()
             return vpfad, out
 
     
-    def _vpfad (self, mume):
+    def _fullpath (self, mume):
+        '''
+        Expects multimediaobjekt node and returns full path that is listed there.
+        If path has no pfadangabe or dateiname it writes an error message to logfile
+        and returns None
+        '''
         error=0
         mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
         try:
@@ -198,7 +202,7 @@ class ResourceCp:
                 mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
                 #print ('Testing mulId %s %s' % (mulId, erw))
                 if erw.lower() == 'jpg' or erw.lower == 'jpeg' or erw.lower == 'tif' or erw.lower == 'tiff':
-                    vpfad=self._vpfad(mume) # will log incomplete path
+                    vpfad=self._fullpath(mume) # will log incomplete path
                     if vpfad is not None:
                         if not os.path.isfile(vpfad):
                             self.write_log('%s: %s: Datei nicht am Ort' % (mulId, vpfad))
