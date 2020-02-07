@@ -142,6 +142,8 @@ class Xls2xml (Generic):
         base=os.path.basename(infile)
 
         #print ("%s -> %s" % (infile, tag))
+        #invalid xml characters: will be stripped
+        remove_re = re.compile(u'[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]')
 
         for r in range(1, sheet.nrows): #leave out column headers
             if re.match('so',base, re.I):
@@ -192,14 +194,16 @@ class Xls2xml (Generic):
                         #print ("XLDATE %s" % (val))
                 
                     elif cellTypeStr == "text":
+                        #val=val.encode(encoding="utf-8", errors="xmlcharrefreplace")
                         val=escape(cell.value)
+                        val=remove_re.sub('', val)
                         #print ("---------TypeError %s" % cellTypeStr)
 
                     if cellTypeStr != "empty": #write non-empty elements
                         #print ("%s:%s" % (attrib, tag))
                         val=str(val).strip() #rm leading and trailing whitespace; turn into str
                         if tag != attrib and val !='':
-                        #print ( '%s: %s (%s)' % (tag, val, cellTypeStr))
+                            #print ( '%s: %s (%s)' % (tag, val, cellTypeStr))
                             row_dict[tag]=val
                     
                 for tag in sorted(row_dict.keys()):    

@@ -436,12 +436,18 @@
 					<xsl:value-of select="../geogrBezugKommentar" />
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:if test="../geogrBezugSort">
+				<xsl:attribute name="sort">
+					<xsl:value-of select="../geogrBezugSort" />
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/geogrBezugArt"/>
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/geogrBezugKommentar"/>
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/geogrBezugBezeichnung"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/geogrBezugSort"/>
 	
 
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/identNr">

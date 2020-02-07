@@ -63,14 +63,17 @@ if os.getlogin() == 'M-MM0002':
     conf['lib'] = 'C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib'
     conf['saxon'] = 'C:/Users/M-MM0002/Documents/P_Datenexport/Saxon/SaxonHE9-8-0-15J/saxon9he.jar'
     conf['java'] = 'C:/Program Files (x86)/Common Files/Oracle/Java/javapath/java.exe'
-
 elif os.getlogin() == 'LENOVO USER':
     conf['lib'] = 'C:/Users/LENOVO USER/eclipse-workspace/RST-levelup/lib'
     #c:\Program Files\Saxonica\SaxonHE9.9N
+elif os.getlogin() == 'mauri':
+    conf['lib']='C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/lib'
+    saxon= "C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe",
 
 if __name__ == "__main__":
     
     import sys
+    print ("lib: %s" % conf['lib'])
     sys.path.append (conf['lib'])
     
     #It's more pythonic to just let python report file not found exception.
