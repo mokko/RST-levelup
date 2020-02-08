@@ -129,12 +129,7 @@
 				</td>
 			</tr>
 
-			<xsl:apply-templates select="mpx:identNr[not(@art) or @art='Ident. Nr.']" />
-			<xsl:if test="count (mpx:identNr) = 1">
-				<xsl:apply-templates select="mpx:identNr[@art='Ident. Unternummer']" />
-			</xsl:if>				
-			
-			<xsl:apply-templates select="mpx:verwaltendeInstitution|mpx:titel" />
+			<xsl:apply-templates select="mpx:titel" />
 
 			<tr>
 				<td>Sachbegriff</td>
@@ -147,6 +142,14 @@
 					</xsl:for-each>
 				</td>
 			</tr>
+
+			<xsl:apply-templates select="mpx:identNr[not(@art) or @art='Ident. Nr.']" />
+			<xsl:if test="count (mpx:identNr) = 1">
+				<xsl:apply-templates select="mpx:identNr[@art='Ident. Unternummer']" />
+			</xsl:if>				
+			
+			<xsl:apply-templates select="mpx:verwaltendeInstitution" />
+
 
 
 			<xsl:apply-templates select="mpx:onlineBeschreibung" />
