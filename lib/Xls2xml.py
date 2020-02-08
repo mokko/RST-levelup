@@ -181,8 +181,11 @@ class Xls2xml (Generic):
                     cell = sheet.cell(r, c) 
                     cellTypeStr = ctype_text.get(cell.ctype, 'unknown type')
                     tag=sheet.cell(0,c).value
-                    tag=tag[0].lower() + tag[1:] #lowercase initial
-    
+                    tag=tag[0].lower() + tag[1:] #I want lowercase initial for all element names
+                    
+                    tag=re.sub(r'\W|&|<|>|:','',tag) # xml spec: strip illegal chars for elements
+                    if re.search(r'\A[0-9]', tag):
+                        raise ValueError("XML spec doesn't allow elements to begin with numbers")
                     #type conversions
                     if cellTypeStr == "number":
                         #val=int(float(cell.value)) 
@@ -194,9 +197,8 @@ class Xls2xml (Generic):
                         #print ("XLDATE %s" % (val))
                 
                     elif cellTypeStr == "text":
-                        #val=val.encode(encoding="utf-8", errors="xmlcharrefreplace")
-                        val=escape(cell.value)
-                        val=remove_re.sub('', val)
+                        #val=escape() leads to double escape
+                        val=remove_re.sub('', cell.value) #rm illegal xml char
                         #print ("---------TypeError %s" % cellTypeStr)
 
                     if cellTypeStr != "empty": #write non-empty elements
