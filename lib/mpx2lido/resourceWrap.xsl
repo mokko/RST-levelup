@@ -47,7 +47,10 @@
 					</lido:legalBodyName>
 				</lido:rightsHolder>
 
-				<!-- TODO: Not sure how FD wants the the creditline to be formated; I am trying to copy smb.digital.de, but not exactly. -->
+				<!-- 
+				TODO: Not sure how FD wants the the creditline to be formated; 
+				Currently, I am adapting credits in smb.digital.de, but not exactly. 
+				-->
 				<lido:creditLine>
 					<xsl:if test="mpx:urhebFotograf">
 						<xsl:text>Foto: </xsl:text>

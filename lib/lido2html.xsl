@@ -17,7 +17,6 @@
 	</xsl:template>
 
 
-
 	<!-- INTRO -->	
 	<xsl:template match="/lido:lidoWrap/lido:lido">
 		<xsl:variable name="file" select="concat(normalize-space(lido:lidoRecID),'.html')"/>
