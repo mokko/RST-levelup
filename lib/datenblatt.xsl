@@ -17,11 +17,11 @@
 	<xsl:template match="/">
 		<xsl:call-template name="documentLevel">
 			<xsl:with-param name="file">Amerika-Schaumagazin.htm</xsl:with-param>
-			<xsl:with-param name="exhibit">'HUFO - Ersteinrichtung - Amerika (Schaumagazin)'</xsl:with-param>
+			<xsl:with-param name="exhibit">HUFO - Ersteinrichtung - Amerika (Schaumagazin)</xsl:with-param>
 		</xsl:call-template>
 		<xsl:call-template name="documentLevel">
 			<xsl:with-param name="file">Südsee-Schaumagazin.htm</xsl:with-param>
-			<xsl:with-param name="exhibit">'HUFO - Ersteinrichtung - Südsee (Schaumagazin)'</xsl:with-param>
+			<xsl:with-param name="exhibit">HUFO - Ersteinrichtung - Südsee (Schaumagazin)</xsl:with-param>
 		</xsl:call-template>
 		<xsl:call-template name="documentLevel">
 			<xsl:with-param name="file">Afrika-Schaumagazin.htm</xsl:with-param>
@@ -115,8 +115,10 @@
 						</xsl:attribute>
 					</xsl:element>
 					<br />
-					<xsl:text> Foto: </xsl:text>
-					<xsl:value-of select="$stdbld/mpx:urhebFotograf" />
+					<xsl:if test="$stdbld/mpx:urhebFotograf">
+						<xsl:text> Foto: </xsl:text>
+						<xsl:value-of select="$stdbld/mpx:urhebFotograf" />
+					</xsl:if>
 				</td>
 			</tr>
 
@@ -129,7 +131,7 @@
 
 			<xsl:apply-templates select="mpx:identNr[not(@art) or @art='Ident. Nr.']" />
 			<xsl:if test="count (mpx:identNr) = 1">
-			<xsl:apply-templates select="mpx:identNr[@art='Ident. Unternummer']" />
+				<xsl:apply-templates select="mpx:identNr[@art='Ident. Unternummer']" />
 			</xsl:if>				
 			
 			<xsl:apply-templates select="mpx:verwaltendeInstitution|mpx:titel" />
@@ -199,10 +201,10 @@
 				</td>
 			</tr>
 
+			<xsl:apply-templates select="mpx:personenKörperschaften[@funktion = 'Sammler']" />
 			<xsl:apply-templates select="mpx:erwerbDatum" />
 			<xsl:apply-templates select="mpx:erwerbungVon|mpx:personenKörperschaften[@funktion = 'Veräußerer']" />
 			<xsl:apply-templates select="mpx:erwerbungsart" />
-			<xsl:apply-templates select="mpx:personenKörperschaften[@funktion = 'Sammler']" />
 
 			<!-- RECHTE -->
 			<xsl:apply-templates select="mpx:credits" />
@@ -392,7 +394,7 @@
 			<td>Titel</td>
 			<td>
 				<xsl:value-of select="." />
-				<xsl:if test="@art">
+				<xsl:if test="@art and @art ne 'Titel'">
 					<xsl:text> [</xsl:text>
 					<xsl:value-of select="@art" />
 					<xsl:text>]</xsl:text>
