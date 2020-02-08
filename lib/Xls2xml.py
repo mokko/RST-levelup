@@ -10,7 +10,7 @@ import re
 
 from xlrd.sheet import ctype_text
 import xml.etree.ElementTree as ET
-from xml.sax.saxutils import escape
+#from xml.sax.saxutils import escape
 from Generic import Generic
 
 verbose = 1
