@@ -21,6 +21,7 @@
 	<!-- INTRO -->	
 	<xsl:template match="/lido:lidoWrap/lido:lido">
 		<xsl:variable name="file" select="concat(normalize-space(lido:lidoRecID),'.html')"/>
+		<xsl:message><xsl:value-of select="$file"/></xsl:message>
 		<xsl:result-document href="{$file}" method="html" encoding="UTF-8">
 			<html>
 				<head>
