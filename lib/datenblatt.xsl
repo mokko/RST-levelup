@@ -16,17 +16,18 @@
 
 	<xsl:template match="/">
 		<xsl:call-template name="documentLevel">
-			<xsl:with-param name="file">Amerika-Schaumagazin.html</xsl:with-param>
+			<xsl:with-param name="file">Amerika-Schaumagazin.htm</xsl:with-param>
 			<xsl:with-param name="exhibit">'HUFO - Ersteinrichtung - Amerika (Schaumagazin)'</xsl:with-param>
 		</xsl:call-template>
 		<xsl:call-template name="documentLevel">
-			<xsl:with-param name="file">Südsee-Schaumagazin.html</xsl:with-param>
+			<xsl:with-param name="file">Südsee-Schaumagazin.htm</xsl:with-param>
 			<xsl:with-param name="exhibit">'HUFO - Ersteinrichtung - Südsee (Schaumagazin)'</xsl:with-param>
 		</xsl:call-template>
 		<xsl:call-template name="documentLevel">
-			<xsl:with-param name="file">Afrika-Schaumagazin.html</xsl:with-param>
+			<xsl:with-param name="file">Afrika-Schaumagazin.htm</xsl:with-param>
 			<xsl:with-param name="exhibit">HUFO - Ersteinrichtung - Afrika (Schaumagazin)</xsl:with-param>
 		</xsl:call-template>
+		<xsl:call-template name="noExhibit"/>
 	</xsl:template>
 
 
@@ -55,6 +56,29 @@
 		</xsl:result-document>
 	</xsl:template>
 
+
+	<xsl:template name="noExhibit">
+		<xsl:result-document href="keineAusstellung.htm" method="html"
+			encoding="UTF-8">
+			<html>
+				<head>
+					<title>Datenblatt v0.1</title>
+					<meta charset="UTF-8" />
+					<style>
+						h2 {
+						padding-top: 20px;
+						}
+					</style>
+				</head>
+				<body>
+					<xsl:apply-templates
+						select="/mpx:museumPlusExport/mpx:sammlungsobjekt[not(mpx:ausstellung)]">
+						<xsl:sort select="@objId" />
+					</xsl:apply-templates>
+				</body>
+			</html>
+		</xsl:result-document>
+	</xsl:template>
 
 	<!-- INTRO -->
 
@@ -104,6 +128,10 @@
 			</tr>
 
 			<xsl:apply-templates select="mpx:identNr[not(@art) or @art='Ident. Nr.']" />
+			<xsl:if test="count (mpx:identNr) = 1">
+			<xsl:apply-templates select="mpx:identNr[@art='Ident. Unternummer']" />
+			</xsl:if>				
+			
 			<xsl:apply-templates select="mpx:verwaltendeInstitution|mpx:titel" />
 
 			<tr>
@@ -156,6 +184,9 @@
 					<td>
 						<xsl:for-each select="mpx:geogrBezug[@bezeichnung eq 'Kultur' or @bezeichnung eq 'Ethnie']">
 							<xsl:value-of select="." />
+							<xsl:if test="position()!=last()">
+								<xsl:text> </xsl:text>
+							</xsl:if>
 						</xsl:for-each>
 					</td>
 				</tr>
@@ -182,8 +213,10 @@
 			<!-- WEITERE MEDIEN -->
 			<tr>
 				<td colspan="2">
-					<xsl:for-each select="mpx:museumPlusExport/mpx:multimediaobjekt[not(mpx:standardbild) and 
-	                        		mpx:verknüpftesObjekt = $objId and mpx:veröffentlichen = 'JA']">
+					<xsl:for-each select="mpx:museumPlusExport/mpx:multimediaobjekt[
+						not(mpx:standardbild) and 
+						mpx:verknüpftesObjekt = $objId and 
+						mpx:veröffentlichen = 'JA']">
 						<xsl:element name="img">
 							<xsl:attribute name="style">width: 25%</xsl:attribute>
 							<xsl:attribute name="src">
