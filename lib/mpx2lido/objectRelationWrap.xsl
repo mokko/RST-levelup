@@ -9,6 +9,17 @@
 	<xsl:strip-space elements="*" />
 
 	<xsl:template name="objectRelationWrap">
-
+		<xsl:apply-templates select="mpx:oov"/>
+	</xsl:template>
+	
+	<xsl:template match="mpx:oov">
+		<lido:relatedWorkSet>
+			<lido:relatedWork><xsl:value-of select="."/></lido:relatedWork>
+			<lido:relatedWorkRelType>
+				<lido:term>
+					<xsl:value-of select="@art"/>
+				</lido:term>
+			</lido:relatedWorkRelType>
+		</lido:relatedWorkSet>
 	</xsl:template>
 </xsl:stylesheet>

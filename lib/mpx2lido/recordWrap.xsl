@@ -9,22 +9,56 @@
 
 	<xsl:template name="recordWrap">
 		<lido:recordWrap>
-			<lido:recordID lido:type="local"><xsl:value-of select="@objId" /></lido:recordID>
+			<lido:recordID lido:type="local" lido:source="SMB/Obj.ID">
+				<xsl:choose>
+					<xsl:when test="mpx:verwaltendeInstitution eq 'Ethnologisches Museum, Staatliche Museen zu Berlin'">
+						<xsl:text>DE-MUS-019118/</xsl:text>
+					</xsl:when>
+					<!-- verwaltendeInstiution AKu untested -->
+					<xsl:when test="mpx:verwaltendeInstitution eq 'Museum für Asiatische Kunst, Staatliche Museen zu Berlin'">
+						<xsl:text>DE-MUS-019014/</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:message>
+							<xsl:text>Error: Unknown institution in recordWrap</xsl:text>
+						</xsl:message>
+					</xsl:otherwise>
+				</xsl:choose>
+				<xsl:value-of select="@objId" />
+			</lido:recordID>
 			<lido:recordType>
-				<!-- TODO -->
-				<lido:term>single object</lido:term>
+				<!-- 
+					TODO: currently recordType is hardcoded. 
+					How to decide if object is single object and what are the alternatives?
+					For rst this is irrelevant
+				-->
+				<lido:conceptID lido:type="URI" lido:source="LIDO-Terminologie">http://terminology.lido-schema.org/lido00141</lido:conceptID>
+				<lido:term>Einzelobjekt</lido:term>
 			</lido:recordType>
-			<lido:recordSource>
-				<!-- lido:legalBodyID -->
+			<lido:recordSource lido:type="Institution">
+				<xsl:choose>
+					<xsl:when test="mpx:verwaltendeInstitution eq 'Ethnologisches Museum, Staatliche Museen zu Berlin'">
+						<lido:legalBodyID lido:type="concept-ID" lido:source="ISIL (ISO 15511)">DE-MUS-019118</lido:legalBodyID>
+					</xsl:when>
+					<!-- verwaltendeInstiution AKu untested -->
+					<xsl:when test="mpx:verwaltendeInstitution eq 'Museum für Asiatische Kunst, Staatliche Museen zu Berlin'">
+						<lido:legalBodyID lido:type="concept-ID" lido:source="ISIL (ISO 15511)">DE-MUS-019014</lido:legalBodyID>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:message>
+							<xsl:text>Error: Unknown institution in recordWrap</xsl:text>
+						</xsl:message>
+					</xsl:otherwise>
+				</xsl:choose>
 				<lido:legalBodyName>
-					<lido:appellationValue><xsl:value-of select="mpx:verwaltendeInstitution" />
+					<lido:appellationValue>
+						<xsl:value-of select="mpx:verwaltendeInstitution" />
 					</lido:appellationValue>
 				</lido:legalBodyName>
 				<lido:legalBodyWeblink>https://www.smb.museum</lido:legalBodyWeblink>
 			</lido:recordSource>
 			<lido:recordRights>
 				<lido:rightsHolder>
-					<!-- TODO ISIL -->
 					<lido:legalBodyID lido:type="URI" lido:source="ISIL (ISO 15511)">info:isil/DE-Mb112</lido:legalBodyID>
 					<lido:legalBodyName>
 						<lido:appellationValue>Staatliche Museen zu Berlin</lido:appellationValue>
@@ -32,12 +66,12 @@
 					<lido:legalBodyWeblink>https://www.smb.museum</lido:legalBodyWeblink>
 				</lido:rightsHolder>
 			</lido:recordRights>
-			<lido:recordInfoSet>
-			<!-- LIDO spec: Link of the metadata, e.g., to the object data sheet 
-				    (not the same as link of the object).
+			<!-- 
+				LIDO spec: Link of the metadata, e.g., to the object data sheet (not the same as link of the object).
 				 We  want a link to smb-digital.de. Old eMuseum has this format 
 				 http://smb-digital.de/eMuseumPlus?service=ExternalInterface&module=collection&objectId=255188&viewType=detailView 
 			-->
+			<lido:recordInfoSet>
 				<lido:recordInfoLink lido:formatResource="html">
 					<xsl:text>http://smb-digital.de/eMuseumPlus?service=ExternalInterface</xsl:text>
 					<xsl:text>&amp;module=collection&amp;objectId=</xsl:text>
