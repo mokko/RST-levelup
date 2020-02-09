@@ -64,5 +64,4 @@
 		</lido:resourceSet>
 	</xsl:template>
 
-
 </xsl:stylesheet>

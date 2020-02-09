@@ -6,6 +6,7 @@
 	xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
 	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" />
 	<xsl:strip-space elements="*" />
+	<!-- verwaltendeInstiution AKu untested -->
 
 	<xsl:template name="recordWrap">
 		<lido:recordWrap>
@@ -58,13 +59,11 @@
 				<lido:legalBodyWeblink>https://www.smb.museum</lido:legalBodyWeblink>
 			</lido:recordSource>
 			<lido:recordRights>
-				<lido:rightsHolder>
-					<lido:legalBodyID lido:type="URI" lido:source="ISIL (ISO 15511)">info:isil/DE-Mb112</lido:legalBodyID>
-					<lido:legalBodyName>
-						<lido:appellationValue>Staatliche Museen zu Berlin</lido:appellationValue>
-					</lido:legalBodyName>
-					<lido:legalBodyWeblink>https://www.smb.museum</lido:legalBodyWeblink>
-				</lido:rightsHolder>
+				<lido:rightsType>
+					<lido:conceptID lido:type="URI" lido:source="CC">http://creativecommons.org/licenses/by-nc-sa/3.0/</lido:conceptID>
+					<lido:term>Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)</lido:term>
+				</lido:rightsType>
+				<xsl:call-template name="defaultRightsHolder"/>
 			</lido:recordRights>
 			<!-- 
 				LIDO spec: Link of the metadata, e.g., to the object data sheet (not the same as link of the object).

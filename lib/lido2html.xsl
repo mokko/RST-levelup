@@ -58,6 +58,7 @@
 		//lido:appellationValue|
 		//lido:conceptID|
 		//lido:descriptiveNoteValue|
+		lido:relatedWork|
 		//lido:term
 		"/>
 
@@ -188,6 +189,7 @@
 		lido:objectWorkType|
 		lido:recordSource|
 		lido:recordType|
+		lido:relatedWorkSet|
 		lido:resourceType|
 		lido:rightsHolder|
 		lido:titleSet|
