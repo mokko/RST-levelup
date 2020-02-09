@@ -109,9 +109,11 @@
 		<lido:workID>
 			<xsl:attribute name="lido:encodinganalog">Ident. Nr.</xsl:attribute>
 			<xsl:attribute name="lido:type">Inventory number</xsl:attribute>
-			<xsl:attribute name="lido:label">
-				<xsl:value-of select="@art" />
-			</xsl:attribute>
+			<xsl:if test="@art">
+				<xsl:attribute name="lido:label">
+					<xsl:value-of select="@art" />
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:attribute name="lido:sortorder">
 				<xsl:number />
 			</xsl:attribute>

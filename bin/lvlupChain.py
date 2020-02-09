@@ -39,6 +39,7 @@ conf={
     'lvlupmpx': '2-MPX/levelup.mpx',
     'fixmpx': '2-MPX/fix.mpx',
     'outlido' : '3-Lido/out.lido', 
+    'out' : '3-Lido/out', 
     'lidohtml' : '3-Lido/lido.html', 
     'vindexconf': '../vindex.json',
     'vfixmpx': '2-MPX/vfix.mpx',
@@ -53,6 +54,7 @@ conf={
     'mpx2lido': 'mpx2lido.xsl',
     'lido2html': 'lido2html.xsl',
     'Datenblatt': 'datenblatt.xsl',
+    'splitLido': 'splitLido.xsl',
 
 #new path    
     'shfnpx' : 'shf/shf.xml',
@@ -126,6 +128,7 @@ if __name__ == "__main__":
             print ('*Converting to LIDO...')
             if os.path.isfile(conf['lvlupmpx']): #soon input file will be vfixmpx     
                 s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
+                s.dirTransform(conf['outlido'], conf['splitLido'], conf['out'])
                 s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
 
         elif sys.argv[1].lower() == 'boris':

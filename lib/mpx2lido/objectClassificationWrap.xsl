@@ -18,7 +18,11 @@
 						</xsl:apply-templates>
 					</lido:objectWorkTypeWrap>
 				</xsl:if>
-				<xsl:apply-templates select="mpx:systematikArt" />
+				<xsl:if test="mpx:systematikArt">
+					<lido:classificationWrap>
+						<xsl:apply-templates select="mpx:systematikArt" />
+					</lido:classificationWrap>
+				</xsl:if>
 			</lido:objectClassificationWrap>
 		</xsl:if>
 	</xsl:template>
@@ -44,7 +48,6 @@
 	</xsl:template>
 	
 	<xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:systematikArt">
-		<lido:classificationWrap>
 			<lido:classification>
 				<xsl:attribute name="lido:type">SystematikArt</xsl:attribute>
 				<xsl:attribute name="lido:sortorder">
@@ -54,7 +57,6 @@
 					<xsl:value-of select="." />
 				</lido:term>
 			</lido:classification>
-		</lido:classificationWrap>
 	</xsl:template>
 	
 </xsl:stylesheet>
