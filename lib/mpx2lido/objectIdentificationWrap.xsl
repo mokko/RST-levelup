@@ -107,12 +107,12 @@
 	-->
 	<xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:identNr">
 		<lido:workID>
-			<xsl:attribute name="encodinganalog">Ident. Nr.</xsl:attribute>
+			<xsl:attribute name="lido:encodinganalog">Ident. Nr.</xsl:attribute>
 			<xsl:attribute name="lido:type">Inventory number</xsl:attribute>
 			<xsl:attribute name="lido:label">
 				<xsl:value-of select="@art" />
 			</xsl:attribute>
-			<xsl:attribute name="sortorder">
+			<xsl:attribute name="lido:sortorder">
 				<xsl:number />
 			</xsl:attribute>
 			<xsl:value-of select="." />

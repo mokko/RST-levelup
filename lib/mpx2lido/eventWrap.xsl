@@ -9,48 +9,48 @@
 	<xsl:strip-space elements="*" />
 
 	<xsl:template name="eventWrap">
-		<xsl:call-template name="Herstellung"/>
-		<xsl:call-template name="Erwerb"/>
-		<xsl:if test="mpx:personenKörperschaften[@funktion eq 'Sammler']">
-			<xsl:call-template name="Sammeln"/>
-		</xsl:if>
+		<lido:eventWrap>
+			<xsl:call-template name="Herstellung"/>
+			<xsl:call-template name="Erwerb"/>
+			<xsl:if test="mpx:personenKörperschaften[@funktion eq 'Sammler']">
+				<xsl:call-template name="Sammeln"/>
+			</xsl:if>
+		</lido:eventWrap>
 	</xsl:template>
 	
 
 	<!-- for now I assume there will always be at least one piece of information relating to Herstellung -->
 	<xsl:template name="Herstellung">
-		<lido:eventWrap>
-			<lido:eventSet>
-				<lido:displayEvent xml:lang="de">Herstellung</lido:displayEvent>
-				<lido:event>
-					<lido:eventType>
-						<lido:conceptID lido:type="URI" lido:source="LIDO-Terminologie">http://terminology.lido-schema.org/lido00007</lido:conceptID>
-						<lido:term xml:lang="de">Herstellung</lido:term>
-					</lido:eventType>
+		<lido:eventSet>
+			<lido:displayEvent xml:lang="de">Herstellung</lido:displayEvent>
+			<lido:event>
+				<lido:eventType>
+					<lido:conceptID lido:type="URI" lido:source="LIDO-Terminologie">http://terminology.lido-schema.org/lido00007</lido:conceptID>
+					<lido:term xml:lang="de">Herstellung</lido:term>
+				</lido:eventType>
 
-					<!-- lido: eventActor -->
-					<xsl:apply-templates select="mpx:geogrBezug[@bezeichnung eq 'Kultur']"/>
-					<!-- Todo: There could be a PK@Hersteller -->
+				<!-- lido: eventActor -->
+				<xsl:apply-templates select="mpx:geogrBezug[@bezeichnung eq 'Kultur' or @bezeichnung eq 'Ethnie']"/>
+				<!-- Todo: There could be a PK@Hersteller -->
 
-					<!-- lido: eventDate -->
-					<xsl:apply-templates select="mpx:datierung"/>
+				<!-- lido: eventDate -->
+				<xsl:apply-templates select="mpx:datierung"/>
 
-					<!-- lido: eventPlace -->
-					<xsl:apply-templates select="mpx:geogrBezug[@bezeichnung ne 'Kultur' and @bezeichnung ne 'Ethnie']"/>
+				<!-- lido: eventPlace -->
+				<xsl:apply-templates select="mpx:geogrBezug[@bezeichnung ne 'Kultur' and @bezeichnung ne 'Ethnie']"/>
 
-					<xsl:if test="mpx:materialTechnik">
-						<lido:eventMaterialsTech>
-							<xsl:apply-templates select="mpx:materialTechnik[@art eq 'Ausgabe']"/>
-							<xsl:if test="mpx:materialTechnik[@art ne 'Ausgabe']">
-								<lido:materialsTech>
-									<xsl:apply-templates select="mpx:materialTechnik[@art ne 'Ausgabe']"/>
-								</lido:materialsTech>
-							</xsl:if>
-						</lido:eventMaterialsTech>
-					</xsl:if>
-				</lido:event>
-			</lido:eventSet>
-		</lido:eventWrap>
+				<xsl:if test="mpx:materialTechnik">
+					<lido:eventMaterialsTech>
+						<xsl:apply-templates select="mpx:materialTechnik[@art eq 'Ausgabe']"/>
+						<xsl:if test="mpx:materialTechnik[@art ne 'Ausgabe']">
+							<lido:materialsTech>
+								<xsl:apply-templates select="mpx:materialTechnik[@art ne 'Ausgabe']"/>
+							</lido:materialsTech>
+						</xsl:if>
+					</lido:eventMaterialsTech>
+				</xsl:if>
+			</lido:event>
+		</lido:eventSet>
 	</xsl:template>
 
 
@@ -80,11 +80,13 @@
 		ich sehe bei unseren Daten im Moment keinen Vorteil, ist aber auch nicht falsch. 
 		Beide Stellen zu nehmen, wäre vielleicht auch nicht schlecht, um unterschiedliche Kunden zu bedienen
 	-->
-	<xsl:template match="mpx:geogrBezug[@bezeichnung eq 'Kultur']">
+	<xsl:template match="mpx:geogrBezug[@bezeichnung eq 'Kultur' or @bezeichnung eq 'Ethnie']">
 		<lido:eventActor>
 			<lido:displayActorInRole>
 				<xsl:value-of select="."/>
-				<xsl:text> (Herstellende Kultur)</xsl:text>
+				<xsl:text> (Herstellende </xsl:text>
+					<xsl:value-of select="@bezeichnung"/>
+				<xsl:text>)</xsl:text>
 			</lido:displayActorInRole>
 			<lido:actorInRole>
 				<lido:actor lido:type="group of persons">
@@ -95,7 +97,10 @@
 					</lido:nameActorSet>
 				</lido:actor>
 				<lido:roleActor>
-					<lido:term lido:addedSearchTerm="no">Herstellende Kultur</lido:term>
+					<lido:term lido:addedSearchTerm="no">
+						<xsl:text>Herstellende </xsl:text>
+						<xsl:value-of select="@bezeichnung"/>
+					</lido:term>
 				</lido:roleActor>
 			</lido:actorInRole>
 		</lido:eventActor>
@@ -112,11 +117,10 @@
 					<xsl:text>)</xsl:text>
 				</xsl:if>
 			</lido:displayPlace>
-
 			<lido:place>
 				<xsl:attribute name="lido:geographicalEntity">
 					<xsl:value-of select="@bezeichnung"/>
-				</xsl:attribute>>
+				</xsl:attribute>
 				<lido:namePlaceSet>
 					<lido:appellationValue>
 						<xsl:value-of select="."/>
@@ -219,11 +223,11 @@
 
 	<xsl:template name="Sammeln">
 		<lido:eventSet>
-			<lido:displayEvent>Sammeln</lido:displayEvent>
+			<lido:displayEvent>Sammeltätigkeit</lido:displayEvent>
 			<lido:event>
 				<lido:eventType>
 					<lido:conceptID lido:type="URI" lido:source="LIDO-Terminologie">http://terminology.lido-schema.org/lido00010</lido:conceptID>
-					<lido:term>Sammeln</lido:term>
+					<lido:term>Sammeltätigkeit</lido:term>
 				</lido:eventType>
 				<lido:eventActor>
 					<lido:displayActorInRole>

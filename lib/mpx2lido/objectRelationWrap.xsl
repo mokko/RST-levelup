@@ -8,13 +8,25 @@
 		indent="yes" />
 	<xsl:strip-space elements="*" />
 
+
 	<xsl:template name="objectRelationWrap">
-		<xsl:apply-templates select="mpx:oov"/>
+		<xsl:if test="mpx:oov">
+			<lido:objectRelationWrap>
+				<lido:relatedWorksWrap>
+					<xsl:apply-templates select="mpx:oov"/>
+				</lido:relatedWorksWrap>
+			</lido:objectRelationWrap>
+		</xsl:if>
 	</xsl:template>
+
 	
 	<xsl:template match="mpx:oov">
 		<lido:relatedWorkSet>
-			<lido:relatedWork><xsl:value-of select="."/></lido:relatedWork>
+			<lido:relatedWork>
+				<lido:displayObject>
+					<xsl:value-of select="."/>
+				</lido:displayObject>
+			</lido:relatedWork>
 			<lido:relatedWorkRelType>
 				<lido:term>
 					<xsl:value-of select="@art"/>

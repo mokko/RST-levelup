@@ -27,7 +27,9 @@
 			</lido:resourceType>
 			<xsl:if test="mpx:urhebFotograf">
 				<lido:rightsResource>
-					<lido:rightsType>Urheber</lido:rightsType>
+					<lido:rightsType>
+						<lido:term>Urheber</lido:term>
+					</lido:rightsType>
 					<lido:rightsHolder>
 						<lido:legalBodyName>
 							<lido:appellationValue>
@@ -38,7 +40,9 @@
 				</lido:rightsResource>
 			</xsl:if>
 			<lido:rightsResource>
-				<lido:rightsType>Nutzungsrechte</lido:rightsType>
+				<lido:rightsType>
+					<lido:term>Nutzungsrechte</lido:term>
+				</lido:rightsType>
 				<lido:rightsHolder>
 					<lido:legalBodyName>
 						<lido:appellationValue>

@@ -9,18 +9,18 @@
 	<xsl:strip-space elements="*" />
 
 	<xsl:template name="objectClassificationWrap">
-		<lido:objectClassificationWrap>
-			<lido:objectWorkTypeWrap>
-				<lido:objectWorkType>
-					<xsl:attribute name="type">Sachbegriff</xsl:attribute>
-					<!-- "Sachbegriff" before "Weiterer Sachbegriff", using position() over xsl:number -->
-					<xsl:apply-templates select="mpx:sachbegriff">
-						<xsl:sort select="@art" />
-					</xsl:apply-templates>
-				</lido:objectWorkType>
-			</lido:objectWorkTypeWrap>
+		<xsl:if test="mpx:sachbegriff or mpx:systematikArt">
+			<lido:objectClassificationWrap>
+				<xsl:if test="mpx:sachbegriff">
+					<lido:objectWorkTypeWrap>
+						<xsl:apply-templates select="mpx:sachbegriff">
+							<xsl:sort select="@art" />
+						</xsl:apply-templates>
+					</lido:objectWorkTypeWrap>
+				</xsl:if>
 				<xsl:apply-templates select="mpx:systematikArt" />
-		</lido:objectClassificationWrap>
+			</lido:objectClassificationWrap>
+		</xsl:if>
 	</xsl:template>
 
 
@@ -29,19 +29,28 @@
 		order, currently known attributes "Sachbegriff" and "weiterer Sachbegriff". 
 	-->
 	<xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:sachbegriff">
-		<lido:term>
-			<xsl:attribute name="sortorder"><xsl:value-of
-				select="position()" /></xsl:attribute>
-			<xsl:value-of select="." />
-		</lido:term>
+		<lido:objectWorkType>
+			<!-- 
+				(1) "Sachbegriff" before "Weiterer Sachbegriff", using position() over xsl:number
+			-->
+			<xsl:attribute name="lido:type">Sachbegriff</xsl:attribute>
+			<xsl:attribute name="lido:sortorder">
+				<xsl:value-of select="position()"/>
+			</xsl:attribute>
+			<lido:term>
+				<xsl:value-of select="." />
+			</lido:term>
+		</lido:objectWorkType>
 	</xsl:template>
 	
-	
-		<xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:systematikArt">
+	<xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:systematikArt">
 		<lido:classificationWrap>
-			<lido:classification type="systematikArt">
+			<lido:classification>
+				<xsl:attribute name="lido:type">SystematikArt</xsl:attribute>
+				<xsl:attribute name="lido:sortorder">
+					<xsl:number />
+				</xsl:attribute>
 				<lido:term>
-					<xsl:attribute name="sortorder"><xsl:number /></xsl:attribute>
 					<xsl:value-of select="." />
 				</lido:term>
 			</lido:classification>
