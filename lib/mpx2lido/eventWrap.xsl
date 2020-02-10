@@ -34,7 +34,32 @@
 				<!-- Todo: There could be a PK@Hersteller -->
 
 				<!-- lido: eventDate -->
-				<xsl:apply-templates select="mpx:datierung"/>
+				<xsl:if test="mpx:datierung">
+					<xsl:comment>SPEC: repeated displayDates only for language variants</xsl:comment>
+					<lido:eventDate>
+						<xsl:for-each select="mpx:datierung">
+							<lido:displayDate>
+								<xsl:value-of select="."/>
+							</lido:displayDate>
+						</xsl:for-each>
+						<xsl:for-each select="mpx:datierung">
+							<xsl:if test="@vonJahr or @bisJahr">
+								<lido:date>
+									<xsl:if test="@vonJahr">
+										<lido:earliestDate>
+											<xsl:value-of select="@vonJahr"/>
+										</lido:earliestDate>
+									</xsl:if>
+									<xsl:if test="@bisJahr">
+										<lido:latestDate>
+											<xsl:value-of select="@bisJahr"/>
+										</lido:latestDate>
+									</xsl:if>
+								</lido:date>
+							</xsl:if>
+						</xsl:for-each>
+					</lido:eventDate>
+				</xsl:if>
 
 				<!-- lido: eventPlace -->
 				<xsl:apply-templates select="mpx:geogrBezug[@bezeichnung ne 'Kultur' and @bezeichnung ne 'Ethnie']"/>
@@ -51,27 +76,6 @@
 				</xsl:if>
 			</lido:event>
 		</lido:eventSet>
-	</xsl:template>
-
-
-	<xsl:template match="mpx:datierung">
-		<lido:eventDate>
-			<lido:displayDate>
-				<xsl:value-of select="."/>
-			</lido:displayDate>
-			<lido:date>
-				<xsl:if test="@vonJahr">
-					<lido:earliestDate>
-						<xsl:value-of select="@vonJahr"/>
-					</lido:earliestDate>
-				</xsl:if>
-				<xsl:if test="@bisJahr">
-					<lido:latestDate>
-						<xsl:value-of select="@bisJahr"/>
-					</lido:latestDate>
-				</xsl:if>
-			</lido:date>
-		</lido:eventDate>
 	</xsl:template>
 
 

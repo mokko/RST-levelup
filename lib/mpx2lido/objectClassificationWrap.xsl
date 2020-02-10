@@ -8,29 +8,49 @@
 		indent="yes" />
 	<xsl:strip-space elements="*" />
 
+	<!-- 
+		objectClassificarionWrap is required; is it the only required Wrap? 
+		Also required
+			objectWorkTyperWrap
+			objectWorkType
+	-->
+
 	<xsl:template name="objectClassificationWrap">
-		<xsl:if test="mpx:sachbegriff or mpx:systematikArt">
-			<lido:objectClassificationWrap>
-				<xsl:if test="mpx:sachbegriff">
+		<lido:objectClassificationWrap>
+			<xsl:choose>
+				<xsl:when test="mpx:sachbegriff">
 					<lido:objectWorkTypeWrap>
 						<xsl:apply-templates select="mpx:sachbegriff">
 							<xsl:sort select="@art" />
 						</xsl:apply-templates>
 					</lido:objectWorkTypeWrap>
-				</xsl:if>
-				<xsl:if test="mpx:systematikArt">
-					<lido:classificationWrap>
-						<xsl:apply-templates select="mpx:systematikArt" />
-					</lido:classificationWrap>
-				</xsl:if>
-			</lido:objectClassificationWrap>
-		</xsl:if>
+				</xsl:when>
+				<!-- mandatory objectWorkTypeWrap -->
+				<xsl:otherwise>
+					<lido:objectWorkTypeWrap>
+						<lido:objectWorkType>
+							<xsl:attribute name="lido:type">Objekttyp</xsl:attribute>
+							<lido:term>
+								<xsl:value-of select="mpx:objekttyp" />
+							</lido:term>
+						</lido:objectWorkType>
+					</lido:objectWorkTypeWrap>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:if test="mpx:systematikArt">
+				<lido:classificationWrap>
+					<xsl:apply-templates select="mpx:systematikArt" />
+				</lido:classificationWrap>
+			</xsl:if>
+		</lido:objectClassificationWrap>
 	</xsl:template>
 
 
 	<!-- 
 		20200114: sortorder added, TODO: not sure it's always in the right 
-		order, currently known attributes "Sachbegriff" and "weiterer Sachbegriff". 
+		order, currently known attributes "Sachbegriff" and "weiterer Sachbegriff".
+		
+		objectWorktype is required 
 	-->
 	<xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:sachbegriff">
 		<lido:objectWorkType>
