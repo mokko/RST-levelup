@@ -1,16 +1,15 @@
 # -- coding: utf-8 --
+from datetime import datetime, timezone
+import glob
 import os
 import shutil
+import re 
+import sys
 import xlrd
 import xlrd.sheet
-import datetime
-import glob
-import sys
-import re 
 
 from xlrd.sheet import ctype_text
-import xml.etree.ElementTree as ET
-#from xml.sax.saxutils import escape
+import xml.etree.ElementTree as ET #not yet working with lxml
 from Generic import Generic
 
 verbose = 1
@@ -131,6 +130,7 @@ class Xls2xml (Generic):
 
     '''Called on a per file basis from transformAll'''
     def transPerFile(self, infile, outfile):
+        self.mtime=os.path.getmtime(infile)
         wb = xlrd.open_workbook(filename=infile, on_demand=True)
         sheet= wb.sheet_by_index(0)
                        
@@ -169,14 +169,13 @@ class Xls2xml (Generic):
             if index:
                     index=str(int(index))
 
-            if index is not '': # Dont include rows without meaningful index 
-                now=datetime.datetime.now().isoformat() #pytz.timezone('Europe/Berlin')
-                doc = ET.SubElement(root, tag, attrib={attrib:index, 'exportdatum':now}) 
-    
+            if index != '': # Dont include rows without meaningful index
+                t=datetime.fromtimestamp(self.mtime, timezone.utc)
+                doc = ET.SubElement(root, tag, attrib={attrib:index, 'exportdatum':str(t)}) 
                 print ("INDEX: %s" % index) #should this become verbose?
-                
+
                 row_dict={}
-                    
+
                 for c in range(sheet.ncols):
                     cell = sheet.cell(r, c) 
                     cellTypeStr = ctype_text.get(cell.ctype, 'unknown type')
