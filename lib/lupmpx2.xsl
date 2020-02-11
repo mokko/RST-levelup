@@ -1,10 +1,12 @@
 <xsl:stylesheet version="2.0"
 	xmlns="http://www.mpx.org/mpx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:mpx="http://www.mpx.org/mpx" exclude-result-prefixes="mpx">
+	xmlns:mpx="http://www.mpx.org/mpx" exclude-result-prefixes="mpx"
+	>
+	<!-- doesnt work like this: xsi:schemaLocation="http://www.mpx.org/mpx ../../lib/mpx20.xsd" -->
 
-	<xsl:output method="xml" version="1.0" encoding="UTF-8"
-		indent="yes" />
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" />
 	<xsl:strip-space elements="*" />
 
 	<!-- 
@@ -13,7 +15,7 @@
 	(1) rewrites wiederholfelder so that the single record has multiple attributes
 	(2) rewrites Qualifikators as attributes
 	
-	It also renames a few elements and sorts output according to mpx standard
+	It also renames a few elements and sorts output right
 	-->
 
 
@@ -97,7 +99,7 @@
 					<xsl:value-of select="../objektIdentNr" />
 				</xsl:attribute>
 			</xsl:if>
-            
+
 			<xsl:if test="../sektion">
 				<xsl:attribute name="sektion">
 					<xsl:value-of select="../sektion" />
@@ -116,10 +118,10 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:value-of select="." />
-        </xsl:element>
-    </xsl:template>
+		</xsl:element>
+	</xsl:template>
 	<xsl:template match="/museumPlusExport/ausstellung/objektIdentNr"/>
-    <xsl:template match="/museumPlusExport/ausstellung/sektion"/>
+	<xsl:template match="/museumPlusExport/ausstellung/sektion"/>
 	<xsl:template match="/museumPlusExport/ausstellung/entscheid"/>
 	<xsl:template match="/museumPlusExport/ausstellung/katNr"/>
 
@@ -135,27 +137,28 @@
 
 			<xsl:message>
 				<xsl:text>mulId: </xsl:text>
-                <xsl:value-of select="$mulId"/>
+				<xsl:value-of select="$mulId"/>
 			</xsl:message>
 			<xsl:for-each-group select="/museumPlusExport/multimediaobjekt[@mulId eq $mulId]/*" group-by="string()">
 				<xsl:sort data-type="text" lang="de" select="name()" />
-                <xsl:message>
-                    <xsl:text>   </xsl:text>
-                    <xsl:value-of select="name()"/>
-                </xsl:message>
-                <xsl:if test="name() ne 'objId'">
+				<xsl:message>
+					<xsl:text>   </xsl:text>
+					<xsl:value-of select="name()"/>
+				</xsl:message>
+				<xsl:if test="name() ne 'objId'">
 					<xsl:apply-templates select="."/>
 				</xsl:if>
 			</xsl:for-each-group>
 			<!-- jetzt alphabetisch! -->
-            <!-- UrhebFotograf fehlte Warum? -->
+			<!-- UrhebFotograf fehlte Warum? -->
 			<xsl:apply-templates select="/museumPlusExport/multimediaobjekt[@mulId eq $mulId]/urhebFotograf"/>
 			<xsl:apply-templates select="/museumPlusExport/multimediaobjekt[@mulId eq $mulId]/objId"/>
-			
 		</xsl:element>
 	</xsl:template>
 
-	
+	<!-- delete duplicate; can also be eliminated from RST Liste -->
+	<xsl:template match="/museumPlusExport/multimediaobjekt/personenKörperschaften"/>
+
 	<!-- only include element standardbild if this mume is standardbild-->
 	<xsl:template match="/museumPlusExport/multimediaobjekt/standardbild">
 			<xsl:if test=". eq ../@mulId">
@@ -506,9 +509,9 @@
 	<!-- irregular names? personKörperschaft oder personenKörperschaft -->
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/personenKörperschaften">
 		<xsl:element name="{name()}">
-			<xsl:if test="../personenKörperschaftenArtDesBezugs">
+			<xsl:if test="../personenKörperschaftenArtDesBe">
 				<xsl:attribute name="art">
-					<xsl:value-of select="../personenKörperschaftenArtDesBezugs" />
+					<xsl:value-of select="../personenKörperschaftenArtDesBe" />
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="../personenKörperschaftenFunktion">
@@ -520,7 +523,7 @@
 		</xsl:element>
 	</xsl:template>
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/personenKörperschaftenFunktion"/>
-	<xsl:template match="/museumPlusExport/sammlungsobjekt/personenKörperschaftenArtDesBezugs"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/personenKörperschaftenArtDesBe"/>
 
 
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/sachbegriff">

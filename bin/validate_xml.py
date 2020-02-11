@@ -9,7 +9,13 @@ USAGE
 4. validate
 '''
 
-nsmap={
+conf={
+    'lido': 'http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd',
+    'mpx': '../../lib/mpx20.xsd'
+}
+
+
+nsmap={ #currently unused
     'lido' 'http://www.lido-schema.org'
     'mpx': 'http://www.mpx.org/mpx',
     'xsd': 'http://www.w3.org/2001/XMLSchema-instance',
@@ -25,9 +31,9 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--schema', required=True)
     args = parser.parse_args()
 
-    if args.schema == 'lido':
-        print ('*Looking for lido xsd...' )
-        schema_doc = etree.parse("http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd")
+    if args.schema in conf:
+        print ('*Looking for lido xsd at %s...' % conf[args.schema])
+        schema_doc = etree.parse(conf[args.schema])
     else:
         raise Exception ('Unknown schema')
     schema = etree.XMLSchema(schema_doc)
