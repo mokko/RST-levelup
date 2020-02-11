@@ -170,7 +170,8 @@ class Xls2xml (Generic):
                     index=str(int(index))
 
             if index != '': # Dont include rows without meaningful index
-                t=datetime.fromtimestamp(self.mtime, timezone.utc)
+                t=datetime.fromtimestamp(self.mtime, timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+                #print ('AAAAAAAA'+str(t))
                 doc = ET.SubElement(root, tag, attrib={attrib:index, 'exportdatum':str(t)}) 
                 print ("INDEX: %s" % index) #should this become verbose?
 
