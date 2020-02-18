@@ -15,17 +15,11 @@
 	<xsl:template match="/">
 		<shf version="20190927">
 			<xsl:comment>
-				Format:
-				(1) without xml attributes;
-				(2) repeated values are written
-				into semicolon separated single field;
-				(3) qualifiers are either as
-				"value (qualifier)" (aka attributes in
-				inside value position) or
-				(4)
-				two consecutive elements of the form $element $elementAttribute
-				(aka
-				attributes in consecutive elements position).
+                <xsl:text>Format: 
+                (1) without xml attributes;
+				(2) repeated values are written into semicolon separated single field;
+				(3) qualifiers are either as "value (qualifier)" (aka attributes in inside value position) or
+				(4)	two consecutive elements of the form $element $elementAttribute (aka attributes in consecutive elements position).</xsl:text>
 			</xsl:comment>
 
 			<xsl:apply-templates
@@ -103,7 +97,10 @@
             <xsl:if test="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId and mpx:veröffentlichen eq 'Ja' and not(mpx:standardbild)]">
                 <xsl:element name="freigegebeneDA">
                     <xsl:for-each select="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId and mpx:veröffentlichen eq 'Ja' and not(mpx:standardbild)]">
-                        <xsl:message><xsl:value-of select="@mulId"/></xsl:message>
+                        <xsl:message>
+                            <xsl:text>Freigegeben: SHF.xsl: </xsl:text>
+                            <xsl:value-of select="@mulId"/>
+                        </xsl:message>
                         <xsl:value-of select="@mulId"/>
                         <xsl:if test="position()!=last()">
                             <xsl:text>; </xsl:text>
