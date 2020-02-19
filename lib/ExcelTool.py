@@ -27,7 +27,7 @@ from openpyxl import Workbook, load_workbook
 
 #from cx_Freeze.samples.openpyxl.test_openpyxl import wb
 
-class ExcelTool: 
+class ExcelTool:
     def __init__ (self, source,outdir='.'):
         self.ns = {
             'npx': 'http://www.mpx.org/npx', #npx is no mpx
@@ -44,6 +44,7 @@ class ExcelTool:
         with open(conf_fn, encoding='utf-8') as json_data_file:
             data = json.load(json_data_file)
         return data
+
 
     def from_conf (conf_fn, source): #no self
         #print ('conf_fn: '+ conf_fn)
@@ -62,122 +63,6 @@ class ExcelTool:
         return t
 
     
-    def _xpath2core (self,xpath):
-        '''This transformation is insufficient for a lot of expressions eg. involving [@attribute], but it'll do for the moment.
-        '''
-        core=xpath.split('/')[-1]
-        core=core.split(':')[1].replace('[','').replace(']','').replace(' ','').replace('=','').replace('\'','')
-        if len(core) > 31:
-            core=core[:24]+'...'
-        #print ('xpath->core: ' + xpath + '->' + core)
-        return core     
-
-
-    def _prepare_ws (self, xpath):
-        '''Get existing sheet or make new one; sheet title is based on xpath expression''' 
-        core=self._xpath2core(xpath) 
-
-        try:
-            ws = self.wb[core]
-
-        except: 
-            if self. new_file == 1:
-                ws=self.wb.active
-                ws.title=core
-                self.new_file = None
-                return ws
-            else:
-                return self.wb.create_sheet(core)
-        else:
-            return ws  #Sheet exists already, just return it
-
-
-    def _get_ws (self,xpath):
-        '''Get existing worksheet based on xpath or die'''
-        core=self._xpath2core(xpath) #extracts keyword from xpath for use as sheet.title
-        ws = self.wb[core] # dies if sheet with title=core doesn't exist
-        return ws
-
- 
-    def _prepare_header (self, ws):
-        '''If Header columns are empty, fill them with default values'''
-        from openpyxl.styles import Font
-        columns={
-            'A1': 'GEWIMMEL', 
-            'B1': 'QUALI',
-            'C1': 'HÄUFIGKEIT', 
-            'D1': 'PREF (DE)', 
-            'E1': 'PREF (EN)'
-        }
-
-        for key in columns:
-            if ws[key].value is None:
-                ws[key]=columns[key]
-                c=ws[key]
-                c.font = Font(bold=True)
-
-
-    def _prepare_wb (self, xls_fn):
-        '''Read existing xls or make new one, return values in self'''
-
-        if path.isfile (xls_fn):
-            print ('File exists ('+ xls_fn+')')
-            return load_workbook(filename = xls_fn)
-        else:
-            print ('Excel File doesn\'t exist yet, making it ('+ xls_fn+')')
-            self.new_file=1
-            return Workbook()
-
-
-    def _col_to_zero (self,ws,col):    
-        '''
-        Set all existing values of a respective column to 0. Only header (row=1) remains unchanged.
-        
-        USAGE: 
-            self._col_to_zero (ws, 'B')
-        '''
-        c=1 # 1-based line counter 
-        for each in ws[col]:
-            if c != 1: #IGNORE HEADER
-                #print (str(c)+': '+each.value)
-                each.value=0 # None doesn't work
-            c+=1
-        return c
-
-
-    def _del_col (self, ws, col):
-        '''
-        Delete all values in the respective column, column stays where it is. Also
-        header (row=1) remains.
-        
-        USAGE:
-            self._del_col (ws, 'B')
-        '''
-        c=1 # 1-based line counter 
-        for each in ws[col]:
-            if c != 1: #IGNORE HEADER
-                #print (str(c)+': '+each.value)
-                each.value='' # None doesn't work
-            c+=1
-        return c
-
-
-    def _term_quali_exists(self,ws, term,quali):
-        '''
-        Tests whether the combination of term/qualifier already exists. Usage in analogy to _term_exists.
-        '''
-        c=1 # 1-based line counter 
-        for each in ws['A']:
-            if c != 1: #IGNORE HEADER
-                #print (str(c)+': '+each.value)
-                xlsqu=ws['B'+str(c)].value # quali is in column B
-                if each.value==term and xlsqu == quali:
-                    #print ('xls: %s(%s) VS %s(%s)' % (each.value, xlsqu, term, quali))
-                    return c #found
-            c+=1
-        return 0 #not found
-
-
     def index_with_attribute (self, xpath, quali): 
         '''
         Based on xpath determine sheet name and write vocabulary index to that xls sheet 
@@ -239,6 +124,121 @@ class ExcelTool:
         self.wb.save(self.xls_fn) 
 
 
+    def _col_to_zero (self,ws,col):    
+        '''
+        Set all existing values of a respective column to 0. Only header (row=1) remains unchanged.
+        
+        USAGE: 
+            self._col_to_zero (ws, 'B')
+        '''
+        c=1 # 1-based line counter 
+        for each in ws[col]:
+            if c != 1: #IGNORE HEADER
+                #print (str(c)+': '+each.value)
+                each.value=0 # None doesn't work
+            c+=1
+        return c
+
+
+    def _del_col (self, ws, col):
+        '''
+        Delete all values in the respective column, column stays where it is. Also
+        header (row=1) remains.
+        
+        USAGE:
+            self._del_col (ws, 'B')
+        '''
+        c=1 # 1-based line counter 
+        for each in ws[col]:
+            if c != 1: #IGNORE HEADER
+                #print (str(c)+': '+each.value)
+                each.value='' # None doesn't work
+            c+=1
+        return c
+
+
+    def _prepare_ws (self, xpath):
+        '''Get existing sheet or make new one; sheet title is based on xpath expression''' 
+        core=self._xpath2core(xpath) 
+
+        try:
+            ws = self.wb[core]
+        except: 
+            if self.new_file == 1:
+                ws=self.wb.active
+                ws.title=core
+                self.new_file = None
+                return ws
+            else:
+                return self.wb.create_sheet(core)
+        else:
+            return ws  #Sheet exists already, just return it
+
+
+    def _prepare_header (self, ws):
+        '''If Header columns are empty, fill them with default values'''
+        from openpyxl.styles import Font
+        columns={
+            'A1': 'GEWIMMEL', 
+            'B1': 'QUALI',
+            'C1': 'HÄUFIGKEIT', 
+            'D1': 'PREF (DE)', 
+            'E1': 'PREF (EN)'
+        }
+
+        for key in columns:
+            if ws[key].value is None:
+                ws[key]=columns[key]
+                c=ws[key]
+                c.font = Font(bold=True)
+
+
+    def _prepare_wb (self, xls_fn):
+        '''Read existing xls or make new one, return values in self'''
+
+        if path.isfile (xls_fn):
+            print ('File exists ('+ xls_fn+')')
+            return load_workbook(filename = xls_fn)
+        else:
+            print ('Excel File doesn\'t exist yet, making it ('+ xls_fn+')')
+            self.new_file=1
+            return Workbook()
+
+
+    def _get_ws (self,xpath):
+        '''Get existing worksheet based on xpath or die'''
+        core=self._xpath2core(xpath) #extracts keyword from xpath for use as sheet.title
+        ws = self.wb[core] # dies if sheet with title=core doesn't exist
+        return ws
+
+ 
+    def _term_quali_exists(self,ws, term,quali):
+        '''
+        Tests whether the combination of term/qualifier already exists. Usage in analogy to _term_exists.
+        '''
+        c=1 # 1-based line counter 
+        for each in ws['A']:
+            if c != 1: #IGNORE HEADER
+                #print (str(c)+': '+each.value)
+                xlsqu=ws['B'+str(c)].value # quali is in column B
+                if each.value==term and xlsqu == quali:
+                    #print ('xls: %s(%s) VS %s(%s)' % (each.value, xlsqu, term, quali))
+                    return c #found
+            c+=1
+        return 0 #not found
+
+
+    def _xpath2core (self,xpath):
+        '''This transformation is insufficient for a lot of expressions eg. involving [@attribute], but it'll do for the moment.
+        '''
+        core=xpath.split('/')[-1]
+        core=core.split(':')[1].replace('[','').replace(']','').replace(' ','').replace('=','').replace('\'','')
+        if len(core) > 31:
+            core=core[:24]+'...'
+        #print ('xpath->core: ' + xpath + '->' + core)
+        return core     
+
+
     def _term_exists (self, ws, needle_term):
         '''tests whether term is already in wb column A1
         ignores first row assuming it's a header and returns row of first occurrence
@@ -267,7 +267,7 @@ class ExcelTool:
 
     
     def _line_alphabetically (self, ws, needle_term):
-        '''CAVEAT: Uppercase and lowercase in alphabetial order ignored'''
+        '''CAVEAT: Uppercase and lowercase in alphabetical order ignored'''
         c=1 # 1-based line counter 
         for xlsterm in ws['A']:
             if c != 1: #IGNORE HEADER
