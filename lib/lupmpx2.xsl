@@ -54,6 +54,7 @@
 				<xsl:sort data-type="number" select="current-grouping-key()" />
 					<xsl:apply-templates select=".[@ausId = current-grouping-key()]" />
 			</xsl:for-each-group>
+
 			<xsl:for-each-group select="/museumPlusExport/multimediaobjekt" group-by="@mulId">
 				<xsl:sort data-type="number" select="current-grouping-key()" />
 					<xsl:apply-templates select=".[@mulId = current-grouping-key()]" />
@@ -82,6 +83,7 @@
 			<xsl:attribute name="exportdatum"><xsl:value-of select="@exportdatum"/></xsl:attribute>
 
 			<xsl:message>
+                <xsl:text>lvlup-auss: </xsl:text>
 				<xsl:value-of select="$ausId"/>
 			</xsl:message>
 			<xsl:for-each-group select="/museumPlusExport/ausstellung[@ausId eq $ausId]/*" group-by="string()">
@@ -136,22 +138,22 @@
 			<xsl:attribute name="exportdatum"><xsl:value-of select="@exportdatum"/></xsl:attribute>
 
 			<xsl:message>
-				<xsl:text>mulId: </xsl:text>
+				<xsl:text>lvlup-mulId: </xsl:text>
 				<xsl:value-of select="$mulId"/>
 			</xsl:message>
 			<xsl:for-each-group select="/museumPlusExport/multimediaobjekt[@mulId eq $mulId]/*" group-by="string()">
 				<xsl:sort data-type="text" lang="de" select="name()" />
-				<xsl:message>
+				<!--xsl:message>
 					<xsl:text>   </xsl:text>
 					<xsl:value-of select="name()"/>
-				</xsl:message>
+				</xsl:message-->
 				<xsl:if test="name() ne 'objId'">
 					<xsl:apply-templates select="."/>
 				</xsl:if>
 			</xsl:for-each-group>
-			<!-- jetzt alphabetisch! -->
 			<!-- UrhebFotograf fehlte Warum? -->
 			<xsl:apply-templates select="/museumPlusExport/multimediaobjekt[@mulId eq $mulId]/urhebFotograf"/>
+			<!-- verknüpftesObjekt: jetzt alphabetisch! -->
 			<xsl:apply-templates select="/museumPlusExport/multimediaobjekt[@mulId eq $mulId]/objId"/>
 		</xsl:element>
 	</xsl:template>
@@ -162,16 +164,17 @@
 	<!-- only include element standardbild if this mume is standardbild-->
 	<xsl:template match="/museumPlusExport/multimediaobjekt/standardbild">
 			<xsl:if test=". eq ../@mulId">
-                <xsl:message>
+                <!--xsl:message>
                     <xsl:text>STANDARDBILD: </xsl:text>
                     <xsl:value-of select="../@mulId" />
-                </xsl:message>
+                </xsl:message-->
 				<xsl:element name="{name()}">
 					<xsl:value-of select="." />
 				</xsl:element>
 			</xsl:if>
 	</xsl:template>
 
+    <!-- rename tag-->
 	<xsl:template match="/museumPlusExport/multimediaobjekt/objId">
 		<xsl:element name="verknüpftesObjekt">
 			<xsl:value-of select="." />
@@ -196,7 +199,7 @@
 			<xsl:attribute name="exportdatum"><xsl:value-of select="@exportdatum"/></xsl:attribute>
 
 			<xsl:message>
-				<xsl:text>kueId: </xsl:text>
+				<xsl:text>lvlup-kueId: </xsl:text>
                 <xsl:value-of select="$id"/>
 			</xsl:message>
 			<xsl:for-each-group select="/museumPlusExport/personKörperschaft[@kueId eq $id]/*" group-by="string()">
@@ -256,7 +259,7 @@
 			<xsl:attribute name="exportdatum"><xsl:value-of select="@exportdatum"/></xsl:attribute>
 
 			<xsl:message>
-				<xsl:text>objId: </xsl:text>
+				<xsl:text>lvlup-objId: </xsl:text>
                 <xsl:value-of select="$id"/>
 			</xsl:message>
 			<xsl:for-each-group select="/museumPlusExport/sammlungsobjekt[@objId eq $id]/*" group-by="string()">
@@ -393,11 +396,18 @@
 				</xsl:attribute>
 			</xsl:if>
 
+			<xsl:if test="../datierungSort">
+				<xsl:attribute name="sort">
+					<xsl:value-of select="../datierungSort" />
+				</xsl:attribute>
+			</xsl:if>
+
 			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/datierungBemerkung
 				|/museumPlusExport/sammlungsobjekt/datierungArt
+				|/museumPlusExport/sammlungsobjekt/datierungSort
 				|/museumPlusExport/sammlungsobjekt/datierungVonTag
 				|/museumPlusExport/sammlungsobjekt/datierungTagVon
 				|/museumPlusExport/sammlungsobjekt/datierungVonMonat
