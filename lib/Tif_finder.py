@@ -2,7 +2,6 @@ import shutil, json, os
 from pathlib import Path
 from openpyxl import Workbook, load_workbook
 from os.path import expanduser
-#from ntpath import splitext
 
 '''
     We want to find certain tif images by filename. Sometimes we have a single needle (identNr), sometimes 
@@ -16,7 +15,7 @@ from os.path import expanduser
     
     We need to delete the json file; for now we can do that outside of the program. 
     
-    Right now we filter for permanentely for .tif* extensions
+    Right now we filter for 'permanently' for .tif* extensions
 '''
 
 class Tif_finder:
@@ -31,7 +30,7 @@ class Tif_finder:
             with open(cache_fn, 'r') as f:
                 self.cache = json.load(f)
         else:
-            print ('* No cache file not found!')
+            print ('* Cache file not found!')
 
 
     '''Starts a new cache everytimes it's called so not a usual update function'''
@@ -59,7 +58,7 @@ class Tif_finder:
 
     '''search: a simple search taking needle from command line, simply reporting matching path from cache'''
     def search (self, needle, target_dir=''):
-        print ("* Searching cache for needle '%s'" % needle)
+        #print ("* Searching cache for needle '%s'" % needle)
         ret=[]
         c=0
         for path in self.cache:
@@ -67,9 +66,9 @@ class Tif_finder:
             if needle in self.cache[path]:
                 c=c+1
                 ret.append(path) 
-                print (path)
-                self._copy(path,target_dir)
-        print ('%s matches'% c)
+                #print (path)
+                self._copy_to_dir(path,target_dir)
+        print ('%s -> %i' % (needle,c))
         return ret
 
 
@@ -80,15 +79,15 @@ class Tif_finder:
         self.wb=self._prepare_wb(xls_fn)
         #ws = self.wb.active # last active sheet
         ws = self.wb.worksheets[0]
-        print ('Sheet title: %s' % ws.title)
-        row = ws[1] # zero or one based?
-        for needle in row:
-            print ('Needle: %s' % needle.value)
-            if needle == 'None':
+        print ('* Sheet title: %s' % ws.title)
+        col = ws['A'] # zero or one based?
+        for needle in col:
+            #print ('Needle: %s' % needle.value)
+            if needle != 'None':
                 found=self.search(needle.value)
                 for f in found:
-                    print ('   FOUND: %s' % f)
-                    self._copy(f,target_dir)
+                    #print ('   FOUND: %s' % f)
+                    self._copy_to_dir(f,target_dir)
 
 
     ''' TODO
@@ -121,12 +120,37 @@ class Tif_finder:
 
     #############
 
+    '''Check if target exists. If it exists, find non-existent variant according to the following schema
+            path/to/base.ext
+            path/to/base (1).ext
+            path/to/base (2).ext
+     '''
+    
+    def _target_fn (self, fn):
+        new=fn
+        i=1
+        while os.path.exists (new):
+            #print ('Target exists already')
+            trunk,ext=os.path.splitext(fn)
+            new= '%s (%i)%s' % (trunk, i, ext)
+            i=i+1
+        print ('[%i] %s' % (i, new))
+        return new
 
-    def _copy(self, source,target_dir):
+
+    ''' 
+    Copy source file  to target dir. If there is already a file with 
+    that name at destination use a number to differentiate the new one
+    '''
+
+    def _copy_to_dir(self, source,target_dir):
         if target_dir != '':
-            print ('cp %s -> %s' %(source, target_dir))
-            try:
-                shutil.copy(source, target_dir) # copy2 attempts to preserve file info;
+            #print ('cp %s -> %s' %(source, target_dir))
+            base = os.path.basename(source)
+            target_fn=self._target_fn (os.path.join(target_dir, base)) # should be full path
+            
+            try: 
+                shutil.copy(source, target_fn) # copy2 attempts to preserve file info;
             except:
                 print ('File not found: %s' % source)
 

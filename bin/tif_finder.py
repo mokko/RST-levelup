@@ -37,7 +37,7 @@ if __name__ == "__main__":
         t.search (args.search, args.target_dir)
     elif args.search is not None and not args.target_dir:
         t.search(args.search)
-    elif args.search_xls is not None and args.target_dir is not None:
+    elif args.xls is not None and args.target_dir is not None:
         t.search_xls (args.xls, args.target_dir)
     elif args.xls is not None and not args.target_dir:
         t.search_xls(args.xls)
