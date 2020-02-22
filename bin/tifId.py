@@ -18,15 +18,19 @@ from TifId import TifId
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-x', '--xls_lib', required=True) #Excel file where we store our info, sort of like a db
-    parser.add_argument('-t', '--tif_dir')
+    parser.add_argument('-s', '--scan', required=False) # scan tif_dir
     parser.add_argument('-j', '--jpg_dir')
+    parser.add_argument('-p', '--process') # fill in empty spots if you can
+    #parser.add_argument('-p', '--process', required=False) # scan tif_dir
 
     args = parser.parse_args()
 
     t=TifId(args.xls_lib)
     
-    if args.tif_dir is not None:
-        t.scan_tif(args.tif_dir)
+    if args.scan is not None:
+        t.scan_tif(args.scan)
 
+    if args.process is not None:
+        t.process()
 
 
