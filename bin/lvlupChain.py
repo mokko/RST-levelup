@@ -23,10 +23,11 @@ Optional function via command line parameter:
 '''
 
 import os
+import subprocess
+
 
 conf={
     #rougly in the order they are used...
-    'lib' : 'C:/Users/User/eclipse-workspace/RST-Lvlup/RST-levelup/lib',
     'saxon' : 'C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe',
 
     #dirs
@@ -45,7 +46,6 @@ conf={
     'vfixmpx': '2-MPX/vfix.mpx',
     'datenblatto': '3-datenblatt/o.html',
 
-
     #xsl    
     'joinColxsl': 'joinCol.xsl',
     'lvlupxsl': 'lupmpx2.xsl',
@@ -56,20 +56,21 @@ conf={
     'Datenblatt': 'datenblatt.xsl',
     'splitLido': 'splitLido.xsl',
 
-#new path    
+    #new path    
     'shfnpx' : 'shf/shf.xml',
     'shfcsv' : 'shf/shf.csv',
 }
 
+conf['t']=os.path.realpath(os.path.join(__file__,'../../test'))
+conf['lib']=os.path.realpath(os.path.join(__file__,'../../lib'))
+conf['tshf']=os.path.join(conf['t'],'test_shf.py')
+
 if os.getlogin() == 'M-MM0002':
-    conf['lib'] = 'C:/Users/M-MM0002/Documents/PY/RST-lvlup/lib'
     conf['saxon'] = 'C:/Users/M-MM0002/Documents/P_Datenexport/Saxon/SaxonHE9-8-0-15J/saxon9he.jar'
     conf['java'] = 'C:/Program Files (x86)/Common Files/Oracle/Java/javapath/java.exe'
-elif os.getlogin() == 'LENOVO USER':
-    conf['lib'] = 'C:/Users/LENOVO USER/eclipse-workspace/RST-levelup/lib'
+    #elif os.getlogin() == 'LENOVO USER':
     #c:\Program Files\Saxonica\SaxonHE9.9N
 elif os.getlogin() == 'mauri':
-    conf['lib']='C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/lib'
     saxon= "C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe",
 
 if __name__ == "__main__":
@@ -116,6 +117,8 @@ if __name__ == "__main__":
                 c=ResourceCp (conf['lvlupmpx']) # init
                 c.standardbilder('shf/Standardbilder')
                 c.freigegeben('shf/Freigegeben')
+                cmd='python %s -s %s -d %s' % (conf['tshf'], conf['lvlupmpx'], conf ['shfnpx'])
+                subprocess.run (cmd, check=True, stderr=subprocess.STDOUT) # overwrites output file without saying anything
 
         elif sys.argv[1].lower() == 'index':
             print ('*Vocabulary index...')

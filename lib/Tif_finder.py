@@ -162,9 +162,7 @@ class Tif_finder:
             print ('File exists ('+ xls_fn+')')
             return load_workbook(filename = xls_fn)
         else:
-            raise ("Excel File doesn't exist yet: %s" % xls_fn)
-            self.new_file=1
-            return Workbook()
+            raise ("Excel file not found: %s" % xls_fn)
 
 
 if __name__ == "__main__":

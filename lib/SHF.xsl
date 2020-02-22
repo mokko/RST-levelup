@@ -22,8 +22,7 @@
 				(4)	two consecutive elements of the form $element $elementAttribute (aka attributes in consecutive elements position).</xsl:text>
 			</xsl:comment>
 
-			<xsl:apply-templates
-				select="/mpx:museumPlusExport/mpx:sammlungsobjekt" />
+			<xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt" />
 		</shf>
 	</xsl:template>
 
@@ -45,7 +44,6 @@
                         mpx:bearbDatum|
                         mpx:credits|
                         mpx:datierung" />
-
 
 			<!-- erwerbNotizAusgabe-->
 			<xsl:if
@@ -98,7 +96,7 @@
                 <xsl:element name="freigegebeneDA">
                     <xsl:for-each select="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:verknüpftesObjekt eq $objId and mpx:veröffentlichen eq 'Ja' and not(mpx:standardbild)]">
                         <xsl:message>
-                            <xsl:text>Freigegeben: SHF.xsl: </xsl:text>
+                            <xsl:text>SHF.xsl-Freigegeben: </xsl:text>
                             <xsl:value-of select="@mulId"/>
                         </xsl:message>
                         <xsl:value-of select="@mulId"/>
@@ -138,9 +136,31 @@
 
 			
 			<xsl:apply-templates select="mpx:handlingVerpackungTransport"/>
+			<!-- Hersteller -->
 			<xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:personenKörperschaften[@funktion eq 'Hersteller']" />
+
+
+			<xsl:element name="identNr">
+				<xsl:for-each select="mpx:identNr">
+					<xsl:sort select="."/>
+					<!-- xsl:message>
+						<xsl:value-of select="../@objId" />
+						<xsl:text> : </xsl:text>
+						<xsl:value-of select="." />
+					</xsl:message-->
+						<xsl:value-of select="." />
+						<xsl:if test="@art">
+							<xsl:text> (</xsl:text>
+							<xsl:value-of select="@art"/>
+							<xsl:text>)</xsl:text>
+						</xsl:if>
+						<xsl:if test="position()!=last()">
+							<xsl:text>; </xsl:text>
+						</xsl:if>
+				</xsl:for-each>
+			</xsl:element>
+			
 			<xsl:apply-templates select="
-                mpx:identNr[@art='Ident. Nr.' or not(@art)]|
                 mpx:kABeleuchtung|
                 mpx:kALuftfeuchtigkeit|
                 mpx:kABemLeihfähigkeit|
@@ -150,11 +170,9 @@
 
 
 			<!-- Quali in the back -->
-			<xsl:if
-				test="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:maßangaben[@typ ne 'Gewicht']">
+			<xsl:if test="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:maßangaben[@typ ne 'Gewicht']">
 				<xsl:element name="maßangaben">
-					<xsl:for-each
-						select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:maßangaben">
+					<xsl:for-each select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:maßangaben">
 						<xsl:value-of select="normalize-space()" />
 						<xsl:if test="@typ">
 							<xsl:text> (</xsl:text>
@@ -168,15 +186,13 @@
 				</xsl:element>
 			</xsl:if>
 
-			<xsl:apply-templates
-				select="mpx:materialTechnik[@art eq 'Ausgabe']" />
+			<xsl:apply-templates select="mpx:materialTechnik[@art eq 'Ausgabe']" />
 
 			<xsl:element name="objId">
 				<xsl:value-of select="@objId" />
 			</xsl:element>
 
-			<xsl:apply-templates
-				select="mpx:onlineBeschreibung" />
+			<xsl:apply-templates select="mpx:onlineBeschreibung" />
 
 			<xsl:if
 				test="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:sachbegriff">
@@ -288,20 +304,6 @@
 	</xsl:template>
 
 
-
-	<xsl:template match="mpx:identNr">
-        <!-- xsl:message>
-            <xsl:value-of select="../@objId" />
-            <xsl:text> : </xsl:text>
-            <xsl:value-of select="." />
-        </xsl:message-->
-        <xsl:element name="{name()}">
-			<xsl:value-of select="." />
-		</xsl:element>
-	</xsl:template>
-
-    
-    
 	<!-- attributes inside value position -->
 	<xsl:template
 		match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:titel">
