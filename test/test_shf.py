@@ -12,12 +12,12 @@ def test_identNr(xml_fn):
 
 
 def test_hersteller (source_xml, dest_xml):
+    #Anzahl der Hersteller soll in mpx und npx gleich sein
     stree = etree.parse(source_xml)
     dtree = etree.parse(dest_xml)
     
     s = stree.xpath("/m:museumPlusExport/m:sammlungsobjekt/m:personenKörperschaften[@funktion = 'Hersteller']",namespaces={'m': 'http://www.mpx.org/mpx'})
     d = dtree.xpath('/n:shf/n:sammlungsobjekt/n:hersteller',namespaces={'n': 'http://www.mpx.org/npx'})
-    #Anzahl der Hersteller soll in mpx und npx gleich sein
     if not len(s) == len(d):
         raise ValueError ('Unerwartete Anzahl von Herstellern')
     else:

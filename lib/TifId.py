@@ -4,9 +4,11 @@
 (3) write info in xls for manual proof reading and as persistent storage
 '''
 
-import os
+import os, lxml
 from openpyxl import Workbook, load_workbook
 from pathlib import Path
+from lxml import etree
+
 
 class TifId: 
     def __init__(self, lib_fn):
@@ -26,14 +28,12 @@ class TifId:
             self._add_to_col(0, 'A', os.path.abspath(path))
             print(path)
         self._save_xsl()
-        #self._extract_base()
-        #self._save_xsl()
-
-    def process (self):
         self._extract_identNr()
         self._xmp()
-        self._save_xsl()
-        self._mpx()
+        #self._save_xsl()
+
+    def mpx (self, mpx_fn):
+        self._mpx(mpx_fn)
         self._save_xsl()
 
 
@@ -74,8 +74,37 @@ class TifId:
                         ws[new_cell]=identNr
 
 
-    def mpx (self):
+    def _lookup (self, ET, needle):
+        xpath="/m:museumPlusExport/m:sammlungsobjekt[m:identNr = '%s']/@objId" % needle
+        print ('for needle %s' % needle)
+        #print (xpath)
+        #'/m:museumPlusExport/m:sammlungsobjekt[m:identNr = \'V A 695\']/@objId'
+        r = ET.xpath(xpath, namespaces={'m':'http://www.mpx.org/mpx'})
+        if len(r) == 1:
+            print('-> %s' % r[0])
+            return int(r[0])
+        elif len(r) == 0:
+            print ('nada')
+            return False
+        else:
+            print (r)
+            raise ValueError ('More than one objId todo')
+
+
+    def _mpx (self, fn):
         '''Loop up objId by identNr in a mpx file'''
+        print ('* Looking up objId in mpx')
+        tree = etree.parse(fn)
+        ws = self.wb.worksheets[0] #zero based!
+
+        if ws.max_row > 1: # not with empty xlsx
+            for col in ws.iter_cols(min_row=2, min_col=2, max_col=2, max_row=ws.max_row):
+                for cell in col:
+                    identNr=cell.value
+                    objId=self._lookup(tree, identNr)
+                    if objId is True and ws[cell].value is None:
+                        cell='D%i' % cell.row
+                        ws[cell]=objId
 
 
     def _prepare_wb (self, xls_fn):
@@ -99,8 +128,10 @@ class TifId:
 
     def _save_xsl (self):
         print ('* Saving excel library to %s' % self.lib_fn)
-        self.wb.save(self.lib_fn)
-
+        try:
+            self.wb.save(self.lib_fn)
+        except:
+            print ('Saving exception caught')
 
     def _xmp (self):
         import exifread

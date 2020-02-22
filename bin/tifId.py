@@ -20,7 +20,7 @@ if __name__ == "__main__":
     parser.add_argument('-x', '--xls_lib', required=True) #Excel file where we store our info, sort of like a db
     parser.add_argument('-s', '--scan', required=False) # scan tif_dir
     parser.add_argument('-j', '--jpg_dir')
-    parser.add_argument('-p', '--process') # fill in empty spots if you can
+    parser.add_argument('-m', '--mpx') # fill in empty spots if you can
     #parser.add_argument('-p', '--process', required=False) # scan tif_dir
 
     args = parser.parse_args()
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     if args.scan is not None:
         t.scan_tif(args.scan)
 
-    if args.process is not None:
-        t.process()
+    if args.mpx is not None:
+        t.mpx(args.mpx)
 
 
