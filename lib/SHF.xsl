@@ -166,7 +166,9 @@
                 mpx:kABemLeihfähigkeit|
                 mpx:kATemperatur"/>
 
-			<xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:personenKörperschaften[@funktion eq 'Künstler']" />
+			<!-- Künstler-->
+			<xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:personenKörperschaften[
+				@funktion eq 'Künstler' or @funktion eq 'Objektkünstler' ]" />
 
 
 			<!-- Quali in the back -->
@@ -275,9 +277,18 @@
 	<!-- Hersteller und Künstler-->
 	<xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:personenKörperschaften">
 		<!--xsl:message><xsl:value-of select="."/></xsl:message-->
-			<xsl:element name="{lower-case(@funktion)}">
-				<xsl:value-of select="."/>
-			</xsl:element>
+			<xsl:choose>
+				<xsl:when test="@funktion = 'Hersteller'">
+					<xsl:element name="{lower-case(@funktion)}">
+						<xsl:value-of select="."/>
+					</xsl:element>
+				</xsl:when>
+				<xsl:when test="@funktion = 'Künstler' or @funktion = 'Objektkünstler'">
+					<xsl:element name="künstler">
+						<xsl:value-of select="."/>
+					</xsl:element>
+				</xsl:when>
+			</xsl:choose>
 	</xsl:template>
 
 
