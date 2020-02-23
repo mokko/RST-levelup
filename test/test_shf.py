@@ -1,6 +1,13 @@
 from lxml import etree
 import argparse
 
+def main (source_fn, dest_fn):
+    test_identNr(dest_fn)
+    test_hersteller(source_fn, dest_fn)
+    test_künstler(source_fn, dest_fn)
+
+
+'''Es soll keine DS ohne identNr geben'''
 def test_identNr(xml_fn):
     tree = etree.parse(xml_fn)
     r = tree.xpath('/n:shf/n:sammlungsobjekt[not(n:identNr)]',namespaces={'n': 'http://www.mpx.org/npx'})
@@ -22,7 +29,8 @@ def test_hersteller (source_xml, dest_xml):
         raise ValueError ('Unerwartete Anzahl von Herstellern')
     else:
         print ('Anzahl Hersteller %i' % len(s))
-    
+
+
 def test_künstler (source_xml, dest_xml):
     stree = etree.parse(source_xml)
     dtree = etree.parse(dest_xml)
@@ -32,11 +40,11 @@ def test_künstler (source_xml, dest_xml):
     d = dtree.xpath('/n:shf/n:sammlungsobjekt/n:künstler',namespaces={'n': 'http://www.mpx.org/npx'})
     #Anzahl der Künstler soll in mpx und npx gleich sein
     if not len(s) == len(d):
-        raise ValueError ('Unerwartete Anzahl von Künstler')
+        raise ValueError ('Unerwartete Anzahl von Künstler %i %i' % (len(s), len(d)))
     else:
         print ('Anzahl Künstler %i' % len(s))
-    
-    
+
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -44,9 +52,7 @@ if __name__ == "__main__":
     parser.add_argument('-d', '--dest_fn', required=True)
     args = parser.parse_args()
 
-    test_identNr(args.dest_fn)
-    test_hersteller(args.source_fn, args.dest_fn)
-    test_künstler(args.source_fn, args.dest_fn)
+    main (args.source_fn, args.dest_fn)
 
     print ('Alles OK')
 

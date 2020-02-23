@@ -63,7 +63,7 @@ conf={
 
 conf['t']=os.path.realpath(os.path.join(__file__,'../../test'))
 conf['lib']=os.path.realpath(os.path.join(__file__,'../../lib'))
-conf['tshf']=os.path.join(conf['t'],'test_shf.py')
+#conf['tshf']=os.path.join(conf['t'],'test_shf.py')
 
 if os.getlogin() == 'M-MM0002':
     conf['saxon'] = 'C:/Users/M-MM0002/Documents/P_Datenexport/Saxon/SaxonHE9-8-0-15J/saxon9he.jar'
@@ -78,6 +78,7 @@ if __name__ == "__main__":
     import sys
     print ("lib: %s" % conf['lib'])
     sys.path.append (conf['lib'])
+    sys.path.append (conf['t'])
     
     #It's more pythonic to just let python report file not found exception.
     from Xls2xml import Xls2xml
@@ -113,12 +114,12 @@ if __name__ == "__main__":
             print ('*Converting to SHF format...')
             if os.path.isfile(conf['lvlupmpx']):     
                 s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
-                n=Npx2csv (conf['shfnpx'], conf['shfcsv'])    
+                n=Npx2csv (conf['shfnpx'], conf['shfcsv'])
                 c=ResourceCp (conf['lvlupmpx']) # init
                 c.standardbilder('shf/Standardbilder')
                 c.freigegeben('shf/Freigegeben')
-                cmd='python %s -s %s -d %s' % (conf['tshf'], conf['lvlupmpx'], conf ['shfnpx'])
-                subprocess.run (cmd, check=True, stderr=subprocess.STDOUT) # overwrites output file without saying anything
+                import test_shf as tshf
+                tshf.main(conf['lvlupmpx'], conf ['shfnpx'])
 
         elif sys.argv[1].lower() == 'index':
             print ('*Vocabulary index...')
