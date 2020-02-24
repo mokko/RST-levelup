@@ -23,19 +23,22 @@ class TifId:
         print ('* About to scan %s' % tif_dir)
         ws = self.wb.worksheets[0]
         #print (ws.title)
-        
+
         for path in Path(tif_dir).rglob('*tif*'):
             self._add_to_col(0, 'A', os.path.abspath(path))
             print(path)
         self._save_xsl()
-        self._extract_identNr()
-        self._xmp()
-        #self._save_xsl()
+
 
     def mpx (self, mpx_fn):
         self._mpx(mpx_fn)
         self._save_xsl()
 
+
+    def process_path (self):
+        self._extract_identNr()
+        self._xmp()
+        self._save_xsl()
 
 
     '''PRIVATE METHODS'''
@@ -123,7 +126,7 @@ class TifId:
             ws1['D1'] = 'objId aus MPX'
             ws1['E1'] = 'Fotograf aus Tif'
             ws1['F1'] = '(C) aus Tif'
-            self.wb.create_sheet (title="jpgs")
+            #self.wb.create_sheet (title="jpgs") -> comparison with jpg is no longer necessary
 
 
     def _save_xsl (self):
@@ -142,11 +145,16 @@ class TifId:
             for col in ws.iter_cols(min_row=2, max_col=1, max_row=ws.max_row):
                 for cell in col:
                     print (cell.value)
-                    f = open(cell.value, 'rb')
-                    tags = exifread.process_file(f)
-                    E_cell='E%i' % cell.row
-                    F_cell='F%i' % cell.row
-                    if ws[E_cell].value is None:
-                        ws[E_cell]=str(tags['Image Artist'])
-                    if ws[F_cell].value is None:
-                        ws[F_cell]=str(tags['Image Copyright'])
+                    path = os.path.realpath(cell.value)
+                    if os.path.isfile (path):
+                        print (path)
+                        f = open(path, 'rb')
+                        tags = exifread.process_file(f)
+                        E_cell='E%i' % cell.row
+                        F_cell='F%i' % cell.row
+                        if ws[E_cell].value is None and 'Image Artist' in tags:
+                            ws[E_cell]=str(tags['Image Artist'])
+                            print ('    %s' % str(tags['Image Artist'])
+                        if ws[F_cell].value is None and 'Image Copyright' in tags:
+                            ws[F_cell]=str(tags['Image Copyright'])
+                            print ('    %s' % str(tags['Image Copyright'])
