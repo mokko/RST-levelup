@@ -25,8 +25,9 @@ class TifId:
         #print (ws.title)
 
         for path in Path(tif_dir).rglob('*tif*'):
-            self._add_to_col(0, 'A', os.path.abspath(path))
-            print(path)
+            if os.path.isfile (path): #we want only files, no dirs
+                self._add_to_col(0, 'A', os.path.abspath(path))
+                print(path)
         self._save_xsl()
 
 
@@ -144,17 +145,20 @@ class TifId:
         if ws.max_row > 1: # not with empty xlsx
             for col in ws.iter_cols(min_row=2, max_col=1, max_row=ws.max_row):
                 for cell in col:
-                    print (cell.value)
                     path = os.path.realpath(cell.value)
+                    print (path)
                     if os.path.isfile (path):
                         print (path)
-                        f = open(path, 'rb')
-                        tags = exifread.process_file(f)
                         E_cell='E%i' % cell.row
                         F_cell='F%i' % cell.row
-                        if ws[E_cell].value is None and 'Image Artist' in tags:
-                            ws[E_cell]=str(tags['Image Artist'])
-                            print ('    %s' % str(tags['Image Artist'])
-                        if ws[F_cell].value is None and 'Image Copyright' in tags:
-                            ws[F_cell]=str(tags['Image Copyright'])
-                            print ('    %s' % str(tags['Image Copyright'])
+                        if ws[E_cell].value is None or ws[F_cell].value is None: 
+                            f = open(path, 'rb')
+                            tags = exifread.process_file(f)
+                            if 'Image Artist' in tags:
+                                ws[E_cell]=str(tags['Image Artist'])
+                                print ('    %s' % str(tags['Image Artist']))
+                            if 'Image Copyright' in tags:
+                                ws[F_cell]=str(tags['Image Copyright'])
+                                print ('    %s' % str(tags['Image Copyright']))
+                        else:
+                            print ('Debug: No file %s' % path)
