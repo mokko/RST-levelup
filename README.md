@@ -3,14 +3,15 @@ Tool chain to transform exports
 
 transforms excel reports from M+ to mpx. 
 
-This is a python update of an earlier version of this toolchain that was written in perl.
+This is a python rewrite of an earlier version of this toolchain that was written in perl. (I still miss the wonderful perl community.)
 
 USAGE
 >>cd AmerikaSM/20190726  
 >>path/to/lvlupChain.py
 
-Some conversitions and functions require a parameter, e.g.
+Some functionality is not always required and needs a parameter, e.g.
 >>path/to/lvlupChain.py index
+
 For details see the script in bin directory.
 
 The script creates several subdirectories which document what's going on under the hood: e.g.
@@ -25,4 +26,4 @@ Input: lvlup.py expects one of any number of documents: records in
 - pk*.xml become personenKörperschaften reocrds
 
 To retrigger the process, delete the corresponding files, e.g. if you want to retrigger the initial conversion to xml,
-delete the output files in 1-XML.
+delete the output files in 1-XML. Almost nothing ever gets overwritten, you have to manually delete stuff and execute again to produce new stuff.
