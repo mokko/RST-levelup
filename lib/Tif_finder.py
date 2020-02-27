@@ -20,7 +20,7 @@ from os.path import expanduser
 '''
 
 class Tif_finder:
-    def __init__(self, scan_dir, cache_fn=None): 
+    def __init__(self, scan_dir=None, cache_fn=None): 
         if cache_fn is None:
             home = expanduser("~")
             cache_fn=os.path.join(home, '.tif_finder.json')
@@ -33,10 +33,11 @@ class Tif_finder:
                 self.cache = json.load(f)
         else:
             #print ('* Cache file not found!')
-            self.mk_new_cache(scan_dir)
+            if scan_dir is not None: # in cli mode you need to update your cache manually
+                self.mk_new_cache(scan_dir)
 
 
-    def mk_new_cache (self, target_dir):
+    def mk_new_cache (self, scan_dir):
         print ('* Making new cache: %s' % scan_dir)
         if (not os.path.isdir (scan_dir)):
             raise ValueError ("Target dir '%s' does not exist" % scan_dir)
@@ -58,7 +59,7 @@ class Tif_finder:
             json.dump(self.cache, f)
 
 
-    '''search: a simple search with a single needle  line, returns matches from cache'''
+    '''search: a simple search with a single needle, returns matches from cache'''
     def search (self, needle):
         #print ("* Searching cache for needle '%s'" % needle)
         ret=[]
