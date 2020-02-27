@@ -4,46 +4,48 @@ from openpyxl import Workbook, load_workbook
 from os.path import expanduser
 
 '''
-    We want to find certain tif images by filename. Sometimes we have a single needle (identNr), sometimes 
+    Find tif images by filename/identNr. Sometimes we have a single needle (identNr), sometimes 
     we have multiple needles in an excel file. We could even have a mpx file with lots of needles. 
     Let's tacke these cases one by one.
     
-    First we need to scan a certain directory recursively and save the result into memory and to json cache file.
+    First we need to scan a certain directory recursively and save the result to a json cache file.
     
-    Let's use NIX style:
+    For command line let's use NIX style:
         $home/.tif_finder.json
+    From lvlup let's use a user-defined dir
     
-    We need to delete the json file; for now we can do that outside of the program. 
+    Use external program to delete cache. 
     
     Right now we filter for 'permanently' for .tif* extensions
 '''
 
 class Tif_finder:
-    def __init__(self): 
-        home = expanduser("~")
-        cache_fn=os.path.join(home, '.tif_finder.json')
+    def __init__(self, scan_dir, cache_fn=None): 
+        if cache_fn is None:
+            home = expanduser("~")
+            cache_fn=os.path.join(home, '.tif_finder.json')
         self.cache_fn=cache_fn
-        print ('cache_fn %s' % cache_fn)
+        #print ('cache_fn %s' % cache_fn)
 
         if os.path.exists(cache_fn):
-            print ('cache exists, loading')
+            #print ('cache exists, loading')
             with open(cache_fn, 'r') as f:
                 self.cache = json.load(f)
         else:
-            print ('* Cache file not found!')
+            #print ('* Cache file not found!')
+            self.mk_new_cache(scan_dir)
 
 
-    '''Starts a new cache everytimes it's called so not a usual update function'''
-    def update_cache (self, target_dir):
-        print ('* Updating cache: %s' % target_dir)
-        if (not os.path.isdir (target_dir)):
-            raise ValueError ("Target dir '%s' does not exist" % target_dir)
+    def mk_new_cache (self, target_dir):
+        print ('* Making new cache: %s' % scan_dir)
+        if (not os.path.isdir (scan_dir)):
+            raise ValueError ("Target dir '%s' does not exist" % scan_dir)
 
         self.cache={}
         ext='tif' #using *tif*
 
-        print ('* About to scan %s' % target_dir)
-        for path in Path(target_dir).rglob('*.'+ext+'*'):
+        print ('* About to scan %s' % scan_dir)
+        for path in Path(scan_dir).rglob('*.'+ext+'*'):
             abs = path.resolve()
             base = os.path.basename(abs)
             (trunk,ext)=os.path.splitext(base)
@@ -56,8 +58,8 @@ class Tif_finder:
             json.dump(self.cache, f)
 
 
-    '''search: a simple search taking needle from command line, simply reporting matching path from cache'''
-    def search (self, needle, target_dir=''):
+    '''search: a simple search with a single needle  line, returns matches from cache'''
+    def search (self, needle):
         #print ("* Searching cache for needle '%s'" % needle)
         ret=[]
         c=0
@@ -67,8 +69,6 @@ class Tif_finder:
                 c=c+1
                 ret.append(path) 
                 #print (path)
-                self._copy_to_dir(path,target_dir)
-        print ('%s -> %i' % (needle,c))
         return ret
 
 
@@ -139,7 +139,7 @@ class Tif_finder:
 
 
     ''' 
-    Copy source file  to target dir. If there is already a file with 
+    Copy source file to target dir. If there is already a file with 
     that name at destination use a number to differentiate the new one
     '''
 
