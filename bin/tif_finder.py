@@ -30,11 +30,13 @@ if __name__ == "__main__":
     t=Tif_finder()
 
     if args.update_cache is not None:
-        t.update_cache(args.update_cache)
+        t.mk_new_cache(args.update_cache)
     elif args.show_cache:
         t.show()
     elif args.search is not None and args.target_dir is not None:
-        t.search (args.search, args.target_dir)
+        ls=t.search (args.search)
+        for positive in ls:
+            t._copy_to_dir(positive, args.target_dir)
     elif args.search is not None and not args.target_dir:
         t.search(args.search)
     elif args.xls is not None and args.target_dir is not None:
