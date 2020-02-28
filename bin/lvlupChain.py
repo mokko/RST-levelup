@@ -1,10 +1,10 @@
 '''
-lvlupChain.py : expects input files in current directory and generally writes its output to several sub-directories
+lvlupChain.py: expects input files in current directory and generally writes its output to several sub-directories
 
 Expects several xls files that begin with mm, so or pk.
 
-Runs thru the tool chain and only works on files if they are not yet present. Tip: Delete them if you
-want to run that process again.
+Runs thru the tool chain and only works on files if they are not yet present. 
+Delete them if you want to run that process again.
 
 STEPS:
 1. Convert xls files to stupid xml
@@ -94,13 +94,14 @@ if __name__ == "__main__":
     o.transformAll() #input from 0-IN output to 1-XML  
 
     print ('*Joining...')
-    s=Saxon(conf, conf['lib']) 
+    s=Saxon(conf, conf['lib'])
     if os.path.isdir(conf['onedir']): 
         s.join (conf['emptympx'], conf['joinColxsl'], conf['joinmpx'])
 
-    print ('*Levelling up...')    
+    print ('*Levelling up...')
     if os.path.isfile(conf['joinmpx']): 
-        s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx']) #input from 1-XML writes to 2-MPX
+        #input from 1-XML writes to 2-MPX
+        s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx']) 
 
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
     #todo: use indexes produced by ExcelTool to cleanup the output

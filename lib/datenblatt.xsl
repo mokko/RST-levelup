@@ -10,8 +10,10 @@
 		encoding="UTF-8" indent="yes" />
 	<xsl:strip-space elements="*" />
 
-	<!-- @Expects mpx as input 
-		 @outputs RST Deckblatt as html for each Schaumagazin in a different file -->
+	<!-- 
+	@Expects mpx as input 
+		 @outputs RST Deckblatt as html for each Schaumagazin in a different file 
+	-->
 
 
 	<xsl:template match="/">
