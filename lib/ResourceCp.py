@@ -41,7 +41,7 @@ class ResourceCp:
 
 
     def init_log (self,outdir):
-        #line buffer so every gets written when it's written, so I can CTRL+C the program
+        #line buffer so everything gets written when it's written, so I can CTRL+C the program
         self._log=open(outdir+'/report.log', mode="a", buffering=1)
 
     def write_log (self, msg):
@@ -54,24 +54,24 @@ class ResourceCp:
 
 
     def freigegeben (self, outdir):
-        '''
-            freigegeben are only those photos that fulfill both conditions 
-            a) are not  Standardbilder
-            b) mpx:veröffentlichen = ja
-            Output filename: mulId.jpg (where erweiterung is always lowercase)
+        """
+        freigegeben are only those photos that fulfill both conditions 
+        a) are not Standardbilder
+        b) mpx:veröffentlichen = ja
+        Output filename: mulId.jpg (where erweiterung is always lowercase)
 
-            We are considering to rename them to something like: oldfilename.mulId.jpg. Advantage would
-            be to preserve the original filename, disadvantage would that I can't guess the filename any longer
-            just from knowing the mulId. So what should I do?
-        '''
+        We are considering to rename them to something like: oldfilename.mulId.jpg. Advantage would
+        be to preserve the original filename, disadvantage would that I can't guess the filename any longer
+        just from knowing the mulId. So what should I do?
+        """
         self._genericCopier(outdir, 'freigegeben')
 
 
     def standardbilder (self, outdir):
-        '''
+        """
         (1) copy all resources that are marked as standardbild
         (2) Output filename: $objId.$erweiterung --> there can be only one
-        '''
+        """
         self._genericCopier(outdir, 'standardbilder')
 
 
@@ -102,7 +102,8 @@ class ResourceCp:
 
     
     def _freigegeben (self, mume):
-        ''' See documentation under self.freigegeben '''
+        """ See documentation under self.freigegeben """
+
         fg=mume.find('mpx:veröffentlichen', self.ns)
         stdb=mume.find('mpx:standardbild', self.ns)
 
@@ -138,11 +139,11 @@ class ResourceCp:
 
     
     def _fullpath (self, mume):
-        '''
+        """
         Expects multimediaobjekt node and returns full path that is listed there.
         If path has no pfadangabe or dateiname it writes an error message to logfile
         and returns None
-        '''
+        """
         error=0
         mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
         try:
@@ -180,14 +181,15 @@ class ResourceCp:
 
 
     def boris_test (self, outdir):
-        '''Boris hätte gerne einen Test aller Bilder, die einen Pfad haben. Haben diese Pfade eine Datei
-        am angegebenen Ort?
+        """
+        Boris hätte gerne einen Test für aller Bilder, die einen Pfad haben. 
+        Haben diese Pfade eine Datei am angegebenen Ort?
         
         Wie erkenne ich Bilder im Unterschied zu anderen Resourcen? An der Erweiterung? 
             jpg, tif, tiff, jpeg
         Wenn Erweiterung ausgefüllt, nehme ich das ein Pfad vorhanden sein soll. 
-        Ich kann testen, ob Pfad vollständig ist und ob Bild am angegebenen Ort ist.
-        '''
+        """
+
         if os.path.isdir(outdir): #anything to do at all?
             print (outdir+' exists already, nothing tested') #this message is not important enough for logger
             return

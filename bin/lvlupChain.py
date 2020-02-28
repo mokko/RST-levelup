@@ -45,6 +45,7 @@ conf={
     'vindexconf': '../vindex.json',
     'vfixmpx': '2-MPX/vfix.mpx',
     'datenblatto': '3-datenblatt/o.html',
+    'tifdir': 'shf/tif',
 
     #xsl    
     'joinColxsl': 'joinCol.xsl',
@@ -119,6 +120,9 @@ if __name__ == "__main__":
                 c=ResourceCp (conf['lvlupmpx']) # init
                 c.standardbilder('shf/Standardbilder')
                 c.freigegeben('shf/Freigegeben')
+                from Tif_finder import Tif_finder
+                tf=Tif_finder('.', '../../../.tif_finder.json')
+                tf.search_mpx(conf['lvlupmpx'], conf['tifdir'])
                 import test_shf as tshf
                 tshf.main(conf['lvlupmpx'], conf ['shfnpx'])
 

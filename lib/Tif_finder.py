@@ -123,26 +123,24 @@ class Tif_finder:
                         self._copy_to_dir(f,target_dir)
 
 
-    def search_mpx (self, mpx_fn):
-        """ TODO
-        foreach record in lvlup.mpx
-        1. identNr & objId
-        2. look into cache if you find a tif for that
-        3. look for mumeRecord which has TIFF signal and urheber
-            findall (multimediaobjekt[verknüpftesObjekt == objId])
-            dateiname
-            if TIFsignal and urhebFotograf
-                mulId
-                urhebFotograf
-            out_fn=archived/dateiname.urhebFotograf.VmulId.tif
-        
-        V indicates that association between that MM record and this tif is a guess; 
-        i.e. it's not certain this is a version of the same photo.
+    def search_mpx (self, mpx_fn, target_dir):
         """
-        try:pass 
-            #shutil.copy(cached_path, out_fn) # copy2 attempts to preserve file info; why not
-        except:
-            print("Unexpected error:", sys.exc_info()[0])
+        for each identNr from mpx look for tifs in cache and copy them to 
+        target_dir
+        """
+
+        if os.path.isdir (target_dir):
+            print('tif dir exists already, not attempting new copy')
+        else:
+            os.makedirs (target_dir)
+            from lxml import etree
+            tree = etree.parse(mpx_fn)
+            r = tree.xpath('/m:museumPlusExport/m:sammlungsobjekt/m:identNr', namespaces={'m':'http://www.mpx.org/mpx'})
+
+            for identNr in r:
+                ls=self.search (identNr.text)
+                for positive in ls:
+                    t._copy_to_dir(positive, target_dir)
 
 
     def show(self):
