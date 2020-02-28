@@ -55,19 +55,19 @@ class Tif_finder:
         
         scan_dir needs to be a directory
         """
-        print ('* Making new cache: %s' % scan_dir)
+        print (F"* Making new cache: {scan_dir}")
         if (not os.path.isdir (scan_dir)):
-            raise ValueError ("Target dir '%s' does not exist" % scan_dir)
+            raise ValueError (F"Target dir '{scan_dir}' does not exist")
 
         self.cache={}
-        ext='tif' #using *tif*
+        ext='*.tif*'
 
-        print ('* About to scan %s' % scan_dir)
-        for path in Path(scan_dir).rglob('*.'+ext+'*'):
+        print (F"* About to scan {scan_dir}" )
+        for path in Path(scan_dir).rglob(ext):
             abs = path.resolve()
             base = os.path.basename(abs)
             (trunk,ext)=os.path.splitext(base)
-            print (' %s' % abs)
+            print (F"{abs}")
             #print (str(trunk))
             self.cache[str(abs)]=str(trunk)
 
@@ -93,7 +93,7 @@ class Tif_finder:
                 c+=1
                 ret.append(path) 
                 #print (path)
-        print ('%s -> %i' % (needle,c))
+        print (F"{needle} -> {c}")
         return ret
 
 
@@ -104,19 +104,19 @@ class Tif_finder:
         paths to STDOUT
         """
 
-        print ("* Searching cache for needles from Excel file '%s'" % xls_fn)
+        print (F"* Searching cache for needles from Excel file {xls_fn}")
 
         self.wb=self._prepare_wb(xls_fn)
         #ws = self.wb.active # last active sheet
         ws = self.wb.worksheets[0]
-        print ('* Sheet title: %s' % ws.title)
+        print (F"* Sheet title: {ws.title}")
         col = ws['A'] # zero or one based?
         for needle in col:
             #print ('Needle: %s' % needle.value)
             if needle != 'None':
                 found=self.search(needle.value)
                 if target_dir is None:
-                    print('found %s' % found)
+                    print(F'found {found}')
                 else:
                     for f in found:
                         #print ('   FOUND: %s' % f)
@@ -150,29 +150,30 @@ class Tif_finder:
         if hasattr (self, 'cache'):
             for item in self.cache:
                 print (' %s' % item)
-            print ('%i total number of found items' % len(self.cache))
+            print (F"{len(self.cache)} total number of found items")
         else:
             print (' Cache does not exist!')
 
     #############
 
-    
+
     def _target_fn (self, fn):
         """
-        Check if target exists. If so , find new variant that does not yet 
-        exist according to the following schema
-                path/to/base.ext
-                path/to/base (1).ext
-                path/to/base (2).ext
+        Check if target exists. If so, find new variant that does not yet 
+        exist according to the following schema and return that:
+            path/to/base.ext
+            path/to/base (1).ext
+            path/to/base (2).ext
+            ...
         """
         new=fn
         i=1
         while os.path.exists (new):
             #print ('Target exists already')
             trunk,ext=os.path.splitext(fn)
-            new= '%s (%i)%s' % (trunk, i, ext)
-            i=i+1
-        print ('[%i] %s' % (i, new))
+            new= F"{trunk} {i} {ext}"
+            i+=1
+        print (F"[{i}] {new}")
         return new
 
 
@@ -194,17 +195,17 @@ class Tif_finder:
             try: 
                 shutil.copy(source, target_fn) # copy2 attempts to preserve file info;
             except:
-                print ('File not found: %s' % source)
+                print (F"File not found: {source}")
 
 
     def _prepare_wb (self, xls_fn):
         """Read existing xls and return workbook"""
 
         if os.path.isfile (xls_fn):
-            print ('File exists ('+ xls_fn+')')
+            print (F"File exists ({xls_fn})")
             return load_workbook(filename = xls_fn)
         else:
-            raise ("Excel file not found: %s" % xls_fn)
+            raise (F"Excel file not found: {xls_fn}")
 
 
 if __name__ == "__main__":
