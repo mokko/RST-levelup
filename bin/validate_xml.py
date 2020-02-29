@@ -11,7 +11,7 @@ USAGE
 
 conf={
     'lido': 'http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd',
-    'mpx': '../../lib/mpx20.xsd'
+    'mpx': '../../../lib/mpx20.xsd'
 }
 
 
