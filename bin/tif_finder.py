@@ -1,16 +1,31 @@
-'''
+"""
 USAGE:
-    tif_finder.py -u path/to/dir: makes new cache (not typical update)
-    tif_finder.py -s needle: just report found files
+    tif_finder.py -u scan_dir     starts a new cache by scanning dir for *.tif*
+    tif_finder.py -s needle       look up needle in cache and report found files
 
-    tif_finder.py -s needle -t target_dir: copy found tifs for needle to target_dir.
+    tif_finder.py -s needle -t target_dir
+        lookup needle in cache and copy found tifs to target_dir
 
-    tif_finder.py -x excel_fn: just reports found tifs
-    tif_finder.py -x excel_fn: -t target_dir: copy found tifs to target dir
+    tif_finder.py -x excel_fn     get needles from xlsx file, report found tifs
+    tif_finder.py -x excel_fn -t target_dir
+        read excel file, look for identNr in first column of first sheet
+        look up all identNr in cache and copy found tifs to target dir using
+        the convention:
+            target_dir/filename.tif
+            target_dir/filename (1).tif
     
-    tif_finder.py -S: show cache
-'''
+    tif_finder.py -S              show cache
+    tif_finder.py -S -c cache_fn  show cache using specified cache_fn
+
+    tif_finder.py -m mpx_fn -c cache_fn -t target_dir
+        read mpx, lookup all identNr in cache and copy found files to target_dir 
+        using the convention 
+            target_dir/$objId.filename.tif
+            target_dir/$objId.filename (1).tif
+"""
+
 import os, sys, argparse
+from os.path import expanduser
 
 lib=os.path.realpath(os.path.join(__file__,'../../lib'))
 sys.path.append (lib)
@@ -19,18 +34,23 @@ from Tif_finder import Tif_finder
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-u', '--update_cache')
+    parser.add_argument('-c', '--cache_fn')
+    parser.add_argument('-m', '--mpx')
     parser.add_argument('-s', '--search')
-    parser.add_argument('-x', '--xls')
-    parser.add_argument('-t', '--target_dir')
     parser.add_argument('-S', '--show_cache', action='store_true')
+    parser.add_argument('-t', '--target_dir')
+    parser.add_argument('-u', '--update_cache')
+    parser.add_argument('-x', '--xls')
 
     args = parser.parse_args()
+    if args.cache_fn is None:
+        home = expanduser("~")
+        args.cache_fn=os.path.join(home, '.tif_finder.json')
 
-    t=Tif_finder()
+    t=Tif_finder(args.cache_fn, args.update_cache)
 
     if args.update_cache is not None:
-        t.mk_new_cache(args.update_cache)
+        t.scandir(args.update_cache)
     elif args.show_cache:
         t.show()
     elif args.search is not None and args.target_dir is not None:
@@ -43,5 +63,7 @@ if __name__ == "__main__":
         t.search_xls (args.xls, args.target_dir)
     elif args.xls is not None and not args.target_dir:
         t.search_xls(args.xls)
+    elif args.mpx is not None and args.target_dir is not None:
+        t.search_mpx(args.mpx, args.target_dir)
     else:
         raise ValueError ('Unknown command line argument')

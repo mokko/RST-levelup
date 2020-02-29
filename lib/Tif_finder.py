@@ -1,7 +1,7 @@
 import shutil, json, os
 from pathlib import Path
 from openpyxl import Workbook, load_workbook
-from os.path import expanduser
+from lxml import etree
 
 """
     Find tif images by filename/identNr. Sometimes we have a single needle (identNr), sometimes 
@@ -21,7 +21,7 @@ from os.path import expanduser
 
 class Tif_finder:
    
-    def __init__(self, scan_dir=None, cache_fn=None): 
+    def __init__(self, cache_fn, scan_dir=None): 
         """
         scan_dir: directory that should be scanned (optional); 
         in CLI mode this can be specified later.
@@ -32,46 +32,51 @@ class Tif_finder:
         For CLI mode assume that cache is at ~/.tif_finder.json; -> todo
         For use inside of levelup expect location from data directory
         """
-        if cache_fn is None:
-            home = expanduser("~")
-            cache_fn=os.path.join(home, '.tif_finder.json')
         self.cache_fn=cache_fn
         #print ('cache_fn %s' % cache_fn)
 
-        if os.path.exists(cache_fn):
+        if os.path.exists(self.cache_fn):
             #print ('cache exists, loading')
-            with open(cache_fn, 'r') as f:
+            with open(self.cache_fn, 'r') as f:
                 self.cache = json.load(f)
         else:
-            #print ('* Cache file not found!')
-            if scan_dir is not None: # in cli mode you need to update your cache manually
-                self.mk_new_cache(scan_dir)
+            # in cli mode you probably want to update your cache manually
+            if scan_dir is not None: 
+                self.scandir(scan_dir)
 
 
-    def mk_new_cache (self, scan_dir):
+    def scandir (self, scan_dir):
         """
-        Scans directory and writes results to cache file, overwriting any
-        previous contents, if any. 
-        
-        scan_dir needs to be a directory
+        Scans directory for *.tif? files and writes results to cache file, 
+        updating existing info in cache file.
+
+        scan_dir needs to be a directory.
+
+        Update does not remove cache entries for files that have been removed 
+        from disk.
+
+        You can scan multiple directories by running the scan multiple times.
         """
-        print (F"* Making new cache: {scan_dir}")
         if (not os.path.isdir (scan_dir)):
-            raise ValueError (F"Target dir '{scan_dir}' does not exist")
+            raise ValueError (f"Scan dir '{scan_dir}' does not exist")
 
-        self.cache={}
-        ext='*.tif*'
+        if os.path.exists(self.cache_fn):
+            with open(self.cache_fn, 'r') as f:
+                self.cache = json.load(f)
 
-        print (F"* About to scan {scan_dir}" )
-        for path in Path(scan_dir).rglob(ext):
+        if not hasattr(self, 'cache'):
+            self.cache={}
+
+        print (f"* About to scan {scan_dir}")
+        for path in Path(scan_dir).rglob('*.tif?'):
             abs = path.resolve()
             base = os.path.basename(abs)
             (trunk,ext)=os.path.splitext(base)
-            print (F"{abs}")
+            print (f"{abs}")
             #print (str(trunk))
             self.cache[str(abs)]=str(trunk)
 
-        print ('* Writing new cache file')
+        print ('* Writing updated cache file')
         with open(self.cache_fn, 'w') as f:
             json.dump(self.cache, f)
 
@@ -92,8 +97,7 @@ class Tif_finder:
             if needle in self.cache[path]:
                 c+=1
                 ret.append(path) 
-                #print (path)
-        print (F"{needle} -> {c}")
+        #print (f"{needle} -> {c}")
         return ret
 
 
@@ -104,22 +108,20 @@ class Tif_finder:
         paths to STDOUT
         """
 
-        print (F"* Searching cache for needles from Excel file {xls_fn}")
+        print (f"* Searching cache for needles from Excel file {xls_fn}")
 
         self.wb=self._prepare_wb(xls_fn)
         #ws = self.wb.active # last active sheet
         ws = self.wb.worksheets[0]
-        print (F"* Sheet title: {ws.title}")
+        print (f"* Sheet title: {ws.title}")
         col = ws['A'] # zero or one based?
         for needle in col:
             #print ('Needle: %s' % needle.value)
             if needle != 'None':
                 found=self.search(needle.value)
-                if target_dir is None:
-                    print(F'found {found}')
-                else:
+                print(f'found {found}')
+                if target_dir is not None:
                     for f in found:
-                        #print ('   FOUND: %s' % f)
                         self._copy_to_dir(f,target_dir)
 
 
@@ -128,33 +130,39 @@ class Tif_finder:
         for each identNr from mpx look for tifs in cache and copy them to 
         target_dir
         """
-
+        
         if os.path.isdir (target_dir):
-            print('tif dir exists already, not attempting new copy')
+            print(f"{target_dir} exists already, nothing copied")
         else:
+            target_dir=os.path.realpath(target_dir)
             os.makedirs (target_dir)
-            from lxml import etree
             tree = etree.parse(mpx_fn)
-            r = tree.xpath('/m:museumPlusExport/m:sammlungsobjekt/m:identNr', namespaces={'m':'http://www.mpx.org/mpx'})
+            r = tree.xpath('/m:museumPlusExport/m:sammlungsobjekt/m:identNr', 
+                namespaces={'m':'http://www.mpx.org/mpx'})
 
-            for identNr in r:
-                ls=self.search (identNr.text)
-                for positive in ls:
-                    t._copy_to_dir(positive, target_dir)
+            for identNr_node in r:
+                tifs=self.search (identNr_node.text)
+                #print(identNr.text)
+                objId=tree.xpath(f"/m:museumPlusExport/m:sammlungsobjekt/@objId[../m:identNr = '{identNr_node.text}']", 
+                    namespaces={'m':'http://www.mpx.org/mpx'})[0]
+                for positive in tifs:
+                    #print(f"{identNr_node.text}:{objId}")
+                    self._copy_to_dir(positive, target_dir, objId)
 
 
     def show(self):
         """prints contents of cache to STDOUT"""
 
-        print ('*Displaying cache contents')
+        print ('* Displaying cache contents')
         if hasattr (self, 'cache'):
             for item in self.cache:
-                print (' %s' % item)
-            print (F"{len(self.cache)} total number of found items")
+                print (f"  {item}")
+            print (f"Number of tifs in cache: {len(self.cache)}")
         else:
             print (' Cache does not exist!')
 
-    #############
+
+#############
 
 
     def _target_fn (self, fn):
@@ -171,16 +179,19 @@ class Tif_finder:
         while os.path.exists (new):
             #print ('Target exists already')
             trunk,ext=os.path.splitext(fn)
-            new= F"{trunk} {i} {ext}"
+            new= f"{trunk} {i} {ext}"
             i+=1
-        print (F"[{i}] {new}")
+        print (f"[{i}] {new}")
         return new
 
 
-    def _copy_to_dir(self, source,target_dir):
+    def _copy_to_dir(self, source,target_dir, objId=None):
         """ 
         Copy source file to target dir. If there already is a file with 
         that name find a new name that doesn't exist yet. 
+        
+        If objId is specified it's added to the target target filename in the form
+            $objId.filename.tif
         
         Upside: we can have multiple tifs for one identNr. 
         Downside: new filenames don't necessarily match the old ones and it 
@@ -189,23 +200,25 @@ class Tif_finder:
         """
         if target_dir != '':
             #print ('cp %s -> %s' %(source, target_dir))
-            base = os.path.basename(source)
-            target_fn=self._target_fn (os.path.join(target_dir, base)) # should be full path
-            
+            s_base = os.path.basename(source)
+            if objId is not None:
+                s_base=f"{objId}.{s_base}"
+            target_fn=self._target_fn (os.path.join(target_dir, s_base)) # should be full path
+            print (f"cp:{source} -> {target_fn}")
             try: 
                 shutil.copy(source, target_fn) # copy2 attempts to preserve file info;
             except:
-                print (F"File not found: {source}")
+                print (f"File not found: {source}")
 
 
     def _prepare_wb (self, xls_fn):
-        """Read existing xls and return workbook"""
+        """Read existing xlsx and return workbook"""
 
         if os.path.isfile (xls_fn):
-            print (F"File exists ({xls_fn})")
+            #print (f"File exists ({xls_fn})")
             return load_workbook(filename = xls_fn)
         else:
-            raise (F"Excel file not found: {xls_fn}")
+            raise (f"Excel file not found: {xls_fn}")
 
 
 if __name__ == "__main__":

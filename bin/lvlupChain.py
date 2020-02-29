@@ -121,7 +121,10 @@ if __name__ == "__main__":
                 c.standardbilder('shf/Standardbilder')
                 c.freigegeben('shf/Freigegeben')
                 from Tif_finder import Tif_finder
-                tf=Tif_finder('.', '../../../.tif_finder.json')
+                #you might need to prepare or delete the cache file manually
+                tf=Tif_finder('../../../.tif_finder.json')
+                #tf.scandir ('M:\MuseumPlus\Produktiv\EM)
+                #tf.scandir ('M:\MuseumPlus\Produktiv\AKu)
                 tf.search_mpx(conf['lvlupmpx'], conf['tifdir'])
                 import test_shf as tshf
                 tshf.main(conf['lvlupmpx'], conf ['shfnpx'])
