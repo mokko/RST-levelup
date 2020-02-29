@@ -20,7 +20,6 @@ from lxml import etree
 """
 
 class Tif_finder:
-   
     def __init__(self, cache_fn, scan_dir=None): 
         """
         scan_dir: directory that should be scanned (optional); 
@@ -40,7 +39,7 @@ class Tif_finder:
             with open(self.cache_fn, 'r') as f:
                 self.cache = json.load(f)
         else:
-            # in cli mode you probably want to update your cache manually
+            #we can only fill the empty cache if we have a scan_dir
             if scan_dir is not None: 
                 self.scandir(scan_dir)
 
@@ -190,7 +189,7 @@ class Tif_finder:
         Copy source file to target dir. If there already is a file with 
         that name find a new name that doesn't exist yet. 
         
-        If objId is specified it's added to the target target filename in the form
+        If objId is specified it's added to the target target filename: 
             $objId.filename.tif
         
         Upside: we can have multiple tifs for one identNr. 

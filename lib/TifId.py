@@ -2,6 +2,12 @@
 (1) Examine tifs on hard disk
 (2) compare with mpx
 (3) write info in xls for manual proof reading and as persistent storage
+
+This tool was begun to analyze the feasability of importing tifs to RIA. But 
+it might also be useful inside the levelup process, e.g. MDVOS
+
+For MDVOS we currently, considering copying tifs to 
+    $objId.oldname.tif
 '''
 
 import os, lxml
