@@ -367,7 +367,7 @@
 
 <xsd:element name="standort">
 	<xsd:annotation>
-		<xsd:documentation>Todo</xsd:documentation>
+		<xsd:documentation>Standort (aus Standortgeschichte)</xsd:documentation>
 	</xsd:annotation>
 	
 	<xsd:complexType>
@@ -380,6 +380,7 @@
 				<xsd:attribute name="bearbDat" type="xsd:string"/>
 				<xsd:attribute name="datumVon" type="xsd:string"/>
 				<xsd:attribute name="datumBis" type="xsd:string"/>
+				<xsd:attribute name="kommentar" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
@@ -396,10 +397,10 @@
 
 <xsd:element name="verknüpftesObjekt" type="xsd:string">
  <xsd:annotation>
-  <xsd:documentation> Ein (!) mit dieser Person verknüpftes Objekt aus den
-    Sammlungen
-    (Umschlag). Es handelt sich bei der Nummer um eine ObjId, die auf einen
-    Sammlungsobjektdatensatz referziert.
+  <xsd:documentation>
+  	Ein mit dieser Person verknüpftes Objekt aus den Sammlungen. Es handelt 
+  	sich bei der Nummer um eine ObjId, die auf einen Sammlungsobjektdatensatz 
+  	referziert.
    </xsd:documentation>
   </xsd:annotation>
 </xsd:element>
@@ -423,6 +424,7 @@
    <xsd:element ref="anzahlTeile" minOccurs="0" maxOccurs="unbounded"/>
    <xsd:element ref="ausstellung" minOccurs="0" maxOccurs="unbounded"/>
    <xsd:element ref="bearbDatum" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element ref="bearbStand" minOccurs="0" maxOccurs="1"/>
     <!-- belichtungszeit (Foto) -->
     <!-- bemerkung (Foto; sollte wohl besser "fotoBemerkung" heißen) -->
    <xsd:element ref="bemerkungSammlung" minOccurs="0" maxOccurs="unbounded"/>
@@ -484,6 +486,7 @@
    <xsd:element ref="oov" minOccurs="0" maxOccurs="unbounded"/>
    <xsd:element ref="objStatus" minOccurs="0" maxOccurs="1"/>
    <xsd:element ref="objekttyp" minOccurs="0" maxOccurs="1"/>
+   <xsd:element ref="onlineBeschreibung" minOccurs="0" maxOccurs="1"/>
     <!-- oov (Objekt-Objekt-Beziehungen, neu) -->
     <!-- personKörperschaft (doppelter Singualar) statt personenKörperschaften -->
    <xsd:element ref="personenKörperschaften" minOccurs="0" maxOccurs="unbounded"/>
@@ -578,6 +581,12 @@
   </xsd:annotation>
 </xsd:element>
 
+<xsd:element name="bearbStand" type="xsd:string">
+	<xsd:annotation>
+		<xsd:documentation>missing.</xsd:documentation>
+	</xsd:annotation>
+</xsd:element>
+
 <xsd:element name="datierung">
  <xsd:annotation>
   <xsd:documentation> Bei Sammlungsobjekten: Ein mit dem Objekt assoziertes
@@ -600,6 +609,7 @@
     <xsd:attribute name="bisJahr" type="xsd:string"/>
     <xsd:attribute name="bisMonat" type="xsd:string"/>
     <xsd:attribute name="bisTag" type="xsd:string"/>
+    <xsd:attribute name="sort" type="xsd:integer"/>
     </xsd:extension>
    </xsd:simpleContent>
   </xsd:complexType>
@@ -642,6 +652,9 @@
 				<xsd:attribute name="ort" type="xsd:string"/>
 				<xsd:attribute name="Jahr" type="xsd:string"/>
 				<xsd:attribute name="internExtern" type="xsd:string"/>
+				<xsd:attribute name="entscheid" type="xsd:string"/>
+				<xsd:attribute name="datumVon" type="xsd:string"/>
+				<xsd:attribute name="datumBis" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
@@ -939,27 +952,6 @@
   </xsd:complexType>
 </xsd:element>
 
- <!-- Multimedia scheint es nicht mehr zu geben.
-  Stattdessen verweisen, die Multimedia-Datensätze
-  gegenwärtig auf diese OBjekte-DSe
-
- <xsd:element name="multimedia">
- <xsd:annotation>
- <xsd:documentation>
-  Verweise auf multimedia objekte. Wird vorwiegend für
-  Fotos verwendet.
-  </xsd:documentation>
-  </xsd:annotation>
- <xsd:complexType>
- <xsd:simpleContent>
- <xsd:extension base="xsd:string">
- <xsd:attribute name="path" type="xsd:string" />
-  </xsd:extension>
-  </xsd:simpleContent>
-  </xsd:complexType>
- </xsd:element>
- -->
-
  <!-- Zusatz: Audio/Film? -->
 <xsd:element name="musikgattung" type="xsd:string">
  <xsd:annotation>
@@ -987,8 +979,13 @@
   </xsd:annotation>
 </xsd:element>
 
- <!-- objStatus -->
 <xsd:element name="objStatus" type="xsd:string">
+ <xsd:annotation>
+  <xsd:documentation>missing.</xsd:documentation>
+  </xsd:annotation>
+</xsd:element>
+
+<xsd:element name="onlineBeschreibung" type="xsd:string">
  <xsd:annotation>
   <xsd:documentation>missing.</xsd:documentation>
   </xsd:annotation>
