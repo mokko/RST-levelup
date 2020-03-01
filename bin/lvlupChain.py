@@ -46,6 +46,7 @@ conf={
     'vfixmpx': '2-MPX/vfix.mpx',
     'datenblatto': '3-datenblatt/o.html',
     'tifdir': 'shf/tif',
+    'datenblatthtml': '3-datenblatt/fromLido.html',
 
     #xsl    
     'joinColxsl': 'joinCol.xsl',
@@ -56,6 +57,7 @@ conf={
     'lido2html': 'lido2html.xsl',
     'Datenblatt': 'datenblatt.xsl',
     'splitLido': 'splitLido.xsl',
+    'lido2datenblatt': 'datenblattLido.xsl',
 
     #new path    
     'shfnpx' : 'shf/shf.xml',
@@ -104,6 +106,9 @@ if __name__ == "__main__":
         #input from 1-XML writes to 2-MPX
         s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx']) 
 
+        import test_mpx as tm
+        tm.main(conf['lvlupmpx'])
+
     #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
     #todo: use indexes produced by ExcelTool to cleanup the output
     
@@ -117,9 +122,9 @@ if __name__ == "__main__":
             if os.path.isfile(conf['lvlupmpx']):     
                 s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
                 n=Npx2csv (conf['shfnpx'], conf['shfcsv'])
-                c=ResourceCp (conf['lvlupmpx']) # init
-                c.standardbilder('shf/Standardbilder')
-                c.freigegeben('shf/Freigegeben')
+                rc=ResourceCp (conf['lvlupmpx']) # init
+                rc.standardbilder('shf/Standardbilder')
+                rc.freigegeben('shf/Freigegeben')
                 from Tif_finder import Tif_finder
                 #you might need to prepare or delete the cache file manually
                 tf=Tif_finder('../../../.tif_finder.json')
@@ -140,17 +145,20 @@ if __name__ == "__main__":
             print ('*Converting to LIDO...')
             if os.path.isfile(conf['lvlupmpx']): #soon input file will be vfixmpx     
                 s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
-                s.dirTransform(conf['outlido'], conf['splitLido'], conf['out'])
-                s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
+                rc=ResourceCp (conf['lvlupmpx'])
+                rc.mulId ('3-Lido/mulId') 
+                #s.dirTransform(conf['outlido'], conf['splitLido'], conf['out'])
+                #s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
+                #s.dirTransform(conf['outlido'], conf['lido2datenblatt'], conf['datenblatthtml'])
 
         elif sys.argv[1].lower() == 'boris':
             print ('*Working on Boris Test...')
             if os.path.isfile(conf['lvlupmpx']):
-                c=ResourceCp (conf['lvlupmpx']) 
-                c.boris_test('boris_test')
+                rc=ResourceCp (conf['lvlupmpx']) 
+                rc.boris_test('boris_test')
 
         elif sys.argv[1].lower() == 'datenblatt':
             print ('*Converting to Deckblatt HTML ...')
             #if os.path.isfile(conf['lvlupmpx']):
             s.dirTransform(conf['lvlupmpx'], conf['Datenblatt'], conf['datenblatto'])
-                #s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
+            #s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])

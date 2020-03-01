@@ -22,6 +22,18 @@
 			<lido:resourceID lido:type="mulId">
 				<xsl:value-of select="@mulId" />
 			</lido:resourceID>
+			<lido:resourceRepresentation lido:type="Vorschaubild">
+				<lido:linkResource lido:formatResource="jpg">
+					<xsl:value-of select="@mulId" />
+					<xsl:text>.</xsl:text>
+					<xsl:value-of select="mpx:erweiterung"/>
+				</lido:linkResource>
+					<!-- lido:resourceMeasurementsSet>
+						<lido:measurementType>width</lido:measurementType>
+						<lido:measurementUnit>pixel</lido:measurementUnit>
+						<lido:measurementValue>120</lido:measurementValue>
+					</lido:resourceMeasurementsSet -->
+				</lido:resourceRepresentation>
 			<lido:resourceType>
 				<lido:term xml:lang="EN">digital image</lido:term>
 			</lido:resourceType>
