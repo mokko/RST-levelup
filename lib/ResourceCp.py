@@ -192,7 +192,7 @@ class ResourceCp:
             return vpfad, out
 
     def _mulId (self, mume):
-        mulId=mume.find('@mulIdObjekt', self.ns).text
+        mulId=mume.find('@mulId', self.ns).text
         try:
             erw=mume.find('mpx:erweiterung', self.ns).text
         except:
@@ -226,7 +226,7 @@ class ResourceCp:
         if error==1:
             self.write_log(f'Path incomplete mulId: {mulId}')
             return #returns None, right?
-        return f"{pfad}\\[datei}.{erw}"
+        return f"{pfad}\\{datei}.{erw}"
 
 
 
