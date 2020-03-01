@@ -18,7 +18,7 @@
     <xsl:template match="/mpx:museumPlusExport/mpx:multimediaobjekt">
         <xsl:variable name="objId" select="mpx:verknüpftesObjekt"/>
         <!-- 
-            only export digital representations, not purely analog ones 
+            only export digital representations to LIDO, not purely analog ones 
             Don't record MM records with veröffentlichen = nein
             I would like to include veröffentlichen field into LIDO, but dont see where that fits
         -->
@@ -31,6 +31,9 @@
                     </xsl:choose>
                 </xsl:attribute>
                 <lido:resourceID lido:type="mulId">
+                <!-- according to pdf specification resourceID can have 
+                     attribute encodinganalog; according to xsd it can't have 
+                     it. 
                     <xsl:attribute name="encodinganalog">
                         <xsl:value-of select="mpx:pfadangabe"/>
                         <xsl:text>\</xsl:text>
@@ -38,6 +41,7 @@
                         <xsl:text>.</xsl:text>
                         <xsl:value-of select="mpx:erweiterung"/>
                     </xsl:attribute>
+                -->
                     <xsl:value-of select="@mulId" />
                 </lido:resourceID>
                 <lido:resourceRepresentation>
@@ -132,10 +136,15 @@
                     </lido:resourceDescription>
     </xsl:template>
 
+    <!-- 
+        resourceDateTaken is part of xsd, given in LIDO examples, but not 
+        part in pdf specification -->
     <xsl:template match="mpx:anfertDat">
-                    <lido:resourceDateTaken>
-                        <xsl:value-of select="."/>
-                    </lido:resourceDateTaken> 
+        <lido:resourceDateTaken>
+            <lido:displayDate>
+                <xsl:value-of select="."/>
+            </lido:displayDate>
+        </lido:resourceDateTaken> 
     </xsl:template>
 
 </xsl:stylesheet>
