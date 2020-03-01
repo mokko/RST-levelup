@@ -35,6 +35,8 @@ def test_mume_pfad (mpx_fn):
             raise ValueError (f"MM path incomplete: mulId {e}")
 
 
+"""Todo: I could test if a MM Standardbild has veröffentlichen = nein"""
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
