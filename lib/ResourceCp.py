@@ -191,8 +191,9 @@ class ResourceCp:
             out=f"{objId}.{erw.lower()}"
             return vpfad, out
 
+
     def _mulId (self, mume):
-        mulId=mume.find('@mulId', self.ns).text
+        mulId=mume.get('mulId') # dont forget get in etree for attributes AGAIN
         try:
             erw=mume.find('mpx:erweiterung', self.ns).text
         except:

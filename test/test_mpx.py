@@ -36,7 +36,8 @@ def test_mume_pfad (mpx_fn):
             mulId=mume.xpath("@mulId")[0]
             e.append(mulId)
         if len(e) > 0:
-            raise ValueError (f"MM path incomplete: mulId {e}")
+            #raise ValueError (f"MM path incomplete: mulId {e}")
+            print (f"WARNUNG: MM Pfad ist unvollständig: mulId {e}")
 
 
 def standardbild_veröffentlichen (mpx_fn):
@@ -60,7 +61,7 @@ def standardbild_veröffentlichen (mpx_fn):
                 mulId=mume.xpath ("@mulId")[0]
                 e.append(mulId)
     if len(e) > 0:
-        print (f"Warnung: Standardbild nicht freigegeben: mulId {e}")
+        print (f"WARNUNG: Standardbild nicht freigegeben: mulId {e}")
 
 
 def anzahl_definitiver_STO (mpx_fn):
