@@ -57,7 +57,7 @@ conf={
     'lido2html': 'lido2html.xsl',
     'Datenblatt': 'datenblatt.xsl',
     'splitLido': 'splitLido.xsl',
-    'lido2datenblatt': 'datenblattLido.xsl',
+    'lido2datenblatt': 'lido2datenblatt.xsl',
 
     #new path    
     'shfnpx' : 'shf/shf.xml',
