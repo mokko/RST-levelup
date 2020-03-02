@@ -145,11 +145,12 @@ if __name__ == "__main__":
             print ('*Converting to LIDO...')
             if os.path.isfile(conf['lvlupmpx']): #soon input file will be vfixmpx     
                 s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
-                rc=ResourceCp (conf['lvlupmpx'])
-                rc.mulId ('3-Lido/mulId') 
+                s.dirTransform(conf['outlido'], conf['lido2datenblatt'], conf['datenblatthtml'])
+
                 #s.dirTransform(conf['outlido'], conf['splitLido'], conf['out'])
                 #s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
-                #s.dirTransform(conf['outlido'], conf['lido2datenblatt'], conf['datenblatthtml'])
+                rc=ResourceCp (conf['lvlupmpx'])
+                rc.mulId ('3-Lido/mulId') 
 
         elif sys.argv[1].lower() == 'boris':
             print ('*Working on Boris Test...')
