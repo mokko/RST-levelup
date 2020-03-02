@@ -27,7 +27,7 @@
                     </style>
                 </head>
                 <body>
-                    <xsl:text>[* Inhalte in eckigen Klammern werden auf Datenblatt NICHT angezeigt.]</xsl:text>
+                    In dieser Darstellung sind leere Felder leere Zellen in der Tabelle.
                     <xsl:apply-templates select="/lido:lidoWrap/lido:lido"/>
                 </body>
             </html>
@@ -57,7 +57,7 @@
                 <td width="70%"><h4>Content</h4></td>
             </tr>
             <tr>
-                <td align="center" colspan="3">Descriptive Metadata</td>
+                <td align="center" colspan="3"><h4>Descriptive Metadata</h4></td>
             </tr>
             <tr>
                 <td>objId</td>
@@ -65,11 +65,17 @@
                 <td><xsl:value-of select="lido:lidoRecID"/></td>
             </tr>
             <tr>
+                <td align="left" colspan="3"><h5>ObjectClassificationWrap</h5></td>
+            </tr>
+            <tr>
                 <td>Sachbegriff</td>
                 <td>objectWorkType</td>
                 <td>
                     <xsl:value-of select="lido:descriptiveMetadata/lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType[min(@lido:sortorder)][1]/lido:term"/>
                 </td>
+            </tr>
+            <tr>
+                <td align="left" colspan="3"><h5>ObjectIdentificationWrap</h5></td>
             </tr>
             <tr>
                 <td>Titel</td>
@@ -86,23 +92,84 @@
                 </td>
             </tr>
             <tr>
-                <td align="center" colspan="3">Administrative Metadata</td>
+                <td align="left" colspan="3"><h5>EventWrap</h5></td>
             </tr>
             <tr>
-                <td>MM.Pfadangabe, MM.Dateiname, MM.Erweiterung, mulId</td>
-                <td>linkResource [@lido:sortorder = 1]</td>
+                <td>Datierung</td>
+                <td>event (Herstellung), display date</td>
                 <td>
-                    <xsl:value-of select="lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet[@lido:sortorder = 1]/lido:resourceRepresentation/lido:linkResource"/>
+                    <xsl:value-of select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term = 'Herstellung']/lido:eventDate/lido:displayDate" />
                 </td>
+            </tr>
+            <tr>
+                <td>Datierung</td>
+                <td>event (Herstellung), date (earlierst-latest). </td>
+                <td>
+                    <xsl:if test="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term = 'Herstellung']/lido:eventDate/lido:date/lido:earliestDate 
+                        or lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term = 'Herstellung']/lido:eventDate/lido:date/lido:latestDate">
+                        <xsl:value-of select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term = 'Herstellung']/lido:eventDate/lido:date/lido:earliestDate" />
+                        <xsl:text> - </xsl:text>
+                        <xsl:value-of select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term = 'Herstellung']/lido:eventDate/lido:date/lido:latestDate" />
+                    </xsl:if>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">In Lido kann es praktisch nur ein Datum pro 
+                Event geben. In Lido wird nur M+Datierung mit niedrigstem Sort
+                berücksichtigt.
+                </td>
+            </tr>
+
+            <tr>
+                <td>Geogr. Bezug</td>
+                <td>eventPlace/display place (Hersteller)</td>
+                <td>
+                    <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term = 'Herstellung']/lido:eventPlace/lido:displayPlace">
+                        <xsl:sort select="../@sortorder" data-type="number"/>
+                        <xsl:value-of select="." />
+                        <xsl:if test="position()!=last()">
+                            <xsl:text> &gt; </xsl:text>
+                        </xsl:if>
+                    </xsl:for-each>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">nach eventPlace/@sortorder sortiert (von großer Zahl nach kleiner)</td>
+            </tr>
+            <tr>
+                <td>Geogr. Bezug</td>
+                <td>eventPlace/place (Hersteller)</td>
+                <td>
+                    <xsl:value-of select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term = 'Herstellung']/lido:eventPlace/lido:place/lido:place/lido:appellationValue" />
+                    <xsl:value-of select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term = 'Herstellung']/lido:eventPlace/lido:place/lido:place/@lido:geographicalEntity" />
+                    
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">sortorder bei place fehlt momentan im mpx2lido mapping.</td>
+            </tr>
+            <tr>
+                <td align="center" colspan="3"><h4>Administrative Metadata</h4></td>
+            </tr>
+            <tr>
+                <td>MM.Erweiterung, mulId</td>
+                <td>linkResource [@lido:sortorder = 1] entspricht Standardbild</td>
+                <td>
+                    <xsl:value-of select="lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet[@lido:sortorder = 1]/lido:resourceRepresentation/lido:linkResource" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">Standardbild in M+ wird zu lido:resourceSet[@sortorder = 1]</td>
             </tr>
             <tr>
                 <td>Urheb/Fotograf</td>
-                <td>rightsholder</td>
+                <td>rightsholder (Urheber)</td>
                 <td>
-                    <xsl:value-of select="lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet[@lido:sortorder = 1]/lido:rightsResource[lido:rightsType/lido:term ='Urheber']/lido:rightsHolder/lido:legalBodyName/lido:appellationValue"/>
+                    <xsl:value-of select="lido:administrativeMetadata/lido:resourceWrap/lido:resourceSet[@lido:sortorder = 1]/lido:rightsResource[lido:rightsType/lido:term ='Urheber']/lido:rightsHolder/lido:legalBodyName/lido:appellationValue" />
                 </td>
             </tr>
         </table>
+        <br/>
         <br/>
     </xsl:template>
 </xsl:stylesheet>
