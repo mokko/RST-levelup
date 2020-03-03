@@ -168,9 +168,9 @@
                 <td>Geogr. Bezug</td>
                 <td>display place</td>
                 <td>
-                    <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term = 'Herstellung']/lido:eventPlace/lido:displayPlace">
-                        <xsl:sort select="../@sortorder" data-type="number"/>
-                        <xsl:value-of select="." />
+                    <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term = 'Herstellung']/lido:eventPlace">
+                        <xsl:sort select="@sortorder" data-type="number" order="descending"/>
+                        <xsl:value-of select="lido:displayPlace" />
                         <xsl:if test="position()!=last()">
                             <xsl:text> &gt; </xsl:text>
                         </xsl:if>
@@ -188,7 +188,7 @@
                 <td>place (@lido:geographicalEntity)</td>
                 <td>
                     <xsl:for-each select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term = 'Herstellung']/lido:eventPlace">
-                        <xsl:sort select="@sortorder" data-type="number"/>
+                        <xsl:sort select="@sortorder" data-type="number" order="descending"/>
                         <xsl:value-of select="lido:place/lido:namePlaceSet/ lido:appellationValue" />
                         <xsl:text> (</xsl:text>
                         <xsl:value-of select="lido:place/@lido:geographicalEntity" />
@@ -252,10 +252,17 @@
                 <td align="left" colspan="3"><h4>rightsWorkWrap</h4></td>
             </tr>
             <tr>
-                <td>Credits</td>
-                <td>rightsWorkSet (todo)?</td>
+                <td>Credits?</td>
+                <td>rightsWorkSet</td>
                 <td>
                     <xsl:value-of select="lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:rightsHolder/lido:legalBodyName/lido:appellationValue" />
+                </td>
+            </tr>
+            <tr>
+                <td>Credits</td>
+                <td>creditLine (object)</td>
+                <td>
+                    <xsl:value-of select="lido:administrativeMetadata/lido:rightsWorkWrap/lido:rightsWorkSet/lido:creditLine" />
                 </td>
             </tr>
             <tr>
