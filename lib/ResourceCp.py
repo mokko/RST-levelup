@@ -73,28 +73,37 @@ class ResourceCp:
 
 
     def standardbilder (self, outdir):
-        """
-        (1) copy all resources that are marked as standardbild
-        (2) Output filename: $objId.$erweiterung --> there can be only one
+        """cp standardbild to outdir/$objId.$erweiterung
+        
+        For SHF. There can be only one standardbild per object.
         """
         self._genericCopier(outdir, 'standardbilder')
 
 
     def cpFile (self, in_path, out_path):
-        '''
-        self.cpFile (in, out): cp file to target path while reporting missing files 
-        '''
-        #shutil.copy doesn't seem to raise exception if source file not found
-        if os.path.isfile(in_path):
-            if not os.path.exists(out_path): #no overwrite
-                #print (in_path +'->'+out_path)
-                try: 
-                    # copy2 preserves file info
-                    shutil.copy2(in_path, out_path) 
-                except:
-                    print(f"Unexpected error: {sys.exc_info()[0]}")
-        else:
+        """cp file to target path while reporting missing files 
+
+        If out_path exists already, overwrite only if source is newer than target.
+        """
+        if not os.path.isfile(in_path):
             self.write_log(f'File not found: {in_path}')
+            return
+        if os.path.exists(out_path): 
+            #overwrite ONLY if source is newer
+            if os.path.getmtime(out_path) > os.path.getmtime(out_path):
+                self._cpFile(in_path, out_path)
+        else:
+                self._cpFile(in_path, out_path)
+
+
+    def _cpFile(self, in_path, out_path):
+        #print (in_path +'->'+out_path)
+        #shutil.copy doesn't seem to raise exception if source file not found
+        try: 
+            # copy2 preserves file info
+            shutil.copy2(in_path, out_path) 
+        except:
+            print(f"Unexpected error: {sys.exc_info()[0]}")
 
 
     def boris_test (self, outdir):
