@@ -47,18 +47,20 @@ if __name__ == "__main__":
         home = expanduser("~")
         args.cache_fn=os.path.join(home, '.tif_finder.json')
 
-    t=Tif_finder(args.cache_fn, args.update_cache)
+    t=Tif_finder(args.cache_fn)
 
     if args.update_cache is not None:
         t.scandir(args.update_cache)
     elif args.show_cache:
         t.show()
     elif args.search is not None and args.target_dir is not None:
-        ls=t.search (args.search)
-        for positive in ls:
-            t._copy_to_dir(positive, args.target_dir)
+        print(f"*Searching for '{args.search}' with target_dir '{args.target_dir}'")
+        t.search (args.search, args.target_dir)
     elif args.search is not None and not args.target_dir:
-        t.search(args.search)
+        print(f"*Searching for '{args.search}' without target_dir")
+        ls=t.search(args.search)
+        for positive in ls:
+            print(positive)
     elif args.xls is not None and args.target_dir is not None:
         t.search_xls (args.xls, args.target_dir)
     elif args.xls is not None and not args.target_dir:

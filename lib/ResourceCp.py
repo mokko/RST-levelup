@@ -48,7 +48,6 @@ class ResourceCp:
         self._log.write(f"[{datetime.datetime.now()}] {msg}\n")
         print (msg)
 
-
     def close_log (self):
         self._log.close()
 
@@ -81,10 +80,10 @@ class ResourceCp:
 
 
     def cpFile (self, in_path, out_path):
-        """cp file to target path while reporting missing files 
+        """cp file to out_path while reporting missing files 
 
-        If out_path exists already, overwrite only if source is newer than target.
-        """
+        If out_path exists already, overwrite only if source is newer than target."""
+
         if not os.path.isfile(in_path):
             self.write_log(f'File not found: {in_path}')
             return
@@ -107,14 +106,11 @@ class ResourceCp:
 
 
     def boris_test (self, outdir):
-        """
-        Boris hätte gerne einen Test für aller Bilder, die einen Pfad haben. 
-        Haben diese Pfade eine Datei am angegebenen Ort?
+        """ Boris möchte alle Bilder, die einen Pfad haben auf dead links testen. 
         
         Wie erkenne ich Bilder im Unterschied zu anderen Resourcen? An der Erweiterung? 
             jpg, tif, tiff, jpeg
-        Wenn Erweiterung ausgefüllt, nehme ich das ein Pfad vorhanden sein soll. 
-        """
+        Wenn Erweiterung ausgefüllt, nehme ich das ein Pfad vorhanden sein soll."""
 
         if os.path.isdir(outdir): #anything to do at all?
             print (outdir+' exists already, nothing tested') #this message is not important enough for logger
