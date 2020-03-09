@@ -48,7 +48,7 @@ class Tif_finder:
         #print ('cache_fn %s' % cache_fn)
 
         if os.path.exists(self.cache_fn):
-            #print ('cache exists, loading')
+            print (f"*cache exists, loading '{self.cache_fn}'")
             with open(self.cache_fn, 'r') as f:
                 self.cache = json.load(f)
         else:
@@ -56,28 +56,32 @@ class Tif_finder:
 
 
     def scandir (self, scan_dir):
-        """Scans directory for *.tif|*.tiff files recursively and writes results to
-        cache file, updating existing cache file or starting new one.
+        """Scans directory for *.tif|*.tiff files recursively and writes
+        results to cache file, updating existing cache file or starting new 
+        one.
 
         scan_dir needs to be a directory.
 
         Does a sloppy update, i.e will not remove cache entries for files that
         have been removed from disk.
 
-        Scan multiple directories by running the scan multiple times."""
+        Scan multiple directories by running the scan multiple times.
+        
+        TODO: I could scan all items in cache and check if they still exist
+        on disk, and delete cache items accordingly. to make update not 
+        sloppy."""
 
         if not os.path.isdir (scan_dir):
             raise ValueError (f"Scan dir '{scan_dir}' does not exist")
 
         print (f"* About to scan {scan_dir}")
-        files=Path(scan_dir).rglob('*.tif')
-        files.extend (Path(scan_dir).rglob('*.tiff'))
-        for path in files:
+        files=Path(scan_dir).rglob('*.tif') # returns generator
+        files2=Path(scan_dir).rglob('*.tiff')
+        for path in list(files) +list(files2):
             abs = path.resolve()
             base = os.path.basename(abs)
             (trunk,ext)=os.path.splitext(base)
             print (f"{abs}")
-            #print (str(trunk))
             self.cache[str(abs)]=str(trunk)
 
         print ('* Writing updated cache file')
@@ -122,33 +126,34 @@ class Tif_finder:
                         self._simple_copy(f,target_dir)
 
 
-    def search_mpx (self, mpx_fn, target_dir):
+    def search_mpx (self, mpx_fn, target_dir=None):
         """For each identNr from mpx look for corresponding tifs in cache and 
         copy them to target_dir"""
         
-        if os.path.isdir (target_dir):
-            print(f"{target_dir} exists already, nothing copied")
-        else:
+        if target_dir is not None:
             target_dir=os.path.realpath(target_dir)
-            os.makedirs (target_dir)
-            tree = etree.parse(mpx_fn)
-            r = tree.xpath('/m:museumPlusExport/m:sammlungsobjekt/m:identNr', 
-                namespaces={'m':'http://www.mpx.org/mpx'})
+            if not os.path.isdir(target_dir):
+                os.makedirs (target_dir)
+        tree = etree.parse(mpx_fn)
+        r = tree.xpath('/m:museumPlusExport/m:sammlungsobjekt/m:identNr', 
+            namespaces={'m':'http://www.mpx.org/mpx'})
 
-            for identNr_node in r:
-                tifs=self.search (identNr_node.text)
-                #print(identNr.text)
-                objId=tree.xpath(f"/m:museumPlusExport/m:sammlungsobjekt/@objId[../m:identNr = '{identNr_node.text}']", 
-                    namespaces={'m':'http://www.mpx.org/mpx'})[0]
-                for positive in tifs:
-                    #print(f"{identNr_node.text}:{objId}")
-                    self._hash_copy(positive, target_dir, objId)
+        for identNr_node in r:
+            tifs=self.search (identNr_node.text)
+            objId=tree.xpath(f"/m:museumPlusExport/m:sammlungsobjekt/@objId[../m:identNr = '{identNr_node.text}']", 
+                namespaces={'m':'http://www.mpx.org/mpx'})[0]
+            #print(f"{identNr_node.text}->{objId}")
+            found=self.search(identNr_node.text)
+            for f in found:
+                print (f"{identNr_node.text}->{objId}->{f}")
+                if target_dir is not None:
+                    self._hash_copy(f, target_dir, objId)
 
 
     def show(self):
         """Prints contents of cache to STDOUT"""
 
-        print ('* Displaying cache contents')
+        print ('*Displaying cache contents')
         if hasattr (self, 'cache'):
             for item in self.cache:
                 print (f"  {item}")

@@ -46,6 +46,9 @@ if __name__ == "__main__":
     if args.cache_fn is None:
         home = expanduser("~")
         args.cache_fn=os.path.join(home, '.tif_finder.json')
+        print ('*No cache specified, looking at default location')
+    else:
+        print (f"*Loading specified cache '{args.cache_fn}'")
 
     t=Tif_finder(args.cache_fn)
 
@@ -65,7 +68,8 @@ if __name__ == "__main__":
         t.search_xls (args.xls, args.target_dir)
     elif args.xls is not None and not args.target_dir:
         t.search_xls(args.xls)
-    elif args.mpx is not None and args.target_dir is not None:
+    elif args.mpx is not None:
+        print("*MPX mode")
         t.search_mpx(args.mpx, args.target_dir)
     else:
         raise ValueError ('Unknown command line argument')
