@@ -1,5 +1,4 @@
-'''
-ResourceCp.py: A class to copy resources listed with paths in xml to a destination directory of your choice
+""" class that copies resources listed in xml to a destination directory of your choice
 
 - expects sourceXml to be mpx
 - writes a log with encountered problems into outdir/report.log 
@@ -9,13 +8,14 @@ USAGE:
     c.Freigegeben (outdir)
     c.Standardbilder (outdir)
 
-After repeated use there is a chance that images which have been deleted from source are still in the destination folder;
-to avoid this: delete all image resources manually before repeated use
-
-Doesn't do anything is destination folder already exists, so that once images have copied, they are not copied again when 
-process is repeated. User needs to delete/move/backup the folder if they want to copy again. This mechanism is consistent 
-with other rst-levelup modules. 
-'''
+Sloppy Update:
+    ResourceCp used to copy files only when outdir didn't exist; now it copies
+    resources as long as target file doesn't exist. There is no overwriting
+    of old file in case resource has changed. 
+    Also files deleted from sourceXML are not deleted from cache directory.
+    Currently, you need to manually delete the respective cache directories 
+    to trigger the creation of an up-to-date cache.
+"""
 
 import xml.etree.ElementTree as ET
 import os
@@ -45,9 +45,8 @@ class ResourceCp:
         self._log=open(outdir+'/report.log', mode="a", buffering=1)
 
     def write_log (self, msg):
-        self._log.write("[" + str(datetime.datetime.now()) + "] "+ msg+'\n' )
+        self._log.write(f"[{datetime.datetime.now()}] {msg}\n")
         print (msg)
-
 
     def close_log (self):
         self._log.close()
@@ -73,37 +72,45 @@ class ResourceCp:
 
 
     def standardbilder (self, outdir):
-        """
-        (1) copy all resources that are marked as standardbild
-        (2) Output filename: $objId.$erweiterung --> there can be only one
+        """cp standardbild to outdir/$objId.$erweiterung
+        
+        For SHF. There can be only one standardbild per object.
         """
         self._genericCopier(outdir, 'standardbilder')
 
 
     def cpFile (self, in_path, out_path):
-        '''
-        self.cpFile (in, out): cp file to target path while reporting missing files 
-        '''
-        #shutil.copy doesn't seem to raise exception if source file not found
-        if os.path.isfile(in_path):
-            #print (in_path +'->'+out_path)
-            try: 
-                shutil.copy2(in_path, out_path) # copy2 attempts to preserve file info; why not
-            except:
-                print("Unexpected error:", sys.exc_info()[0])
+        """cp file to out_path while reporting missing files 
+
+        If out_path exists already, overwrite only if source is newer than target."""
+
+        if not os.path.isfile(in_path):
+            self.write_log(f'File not found: {in_path}')
+            return
+        if os.path.exists(out_path): 
+            #overwrite ONLY if source is newer
+            if os.path.getmtime(out_path) > os.path.getmtime(out_path):
+                self._cpFile(in_path, out_path)
         else:
-            self.write_log('File not found: ' + in_path)
+                self._cpFile(in_path, out_path)
+
+
+    def _cpFile(self, in_path, out_path):
+        #print (in_path +'->'+out_path)
+        #shutil.copy doesn't seem to raise exception if source file not found
+        try: 
+            # copy2 preserves file info
+            shutil.copy2(in_path, out_path) 
+        except:
+            print(f"Unexpected error: {sys.exc_info()[0]}")
 
 
     def boris_test (self, outdir):
-        """
-        Boris hätte gerne einen Test für aller Bilder, die einen Pfad haben. 
-        Haben diese Pfade eine Datei am angegebenen Ort?
+        """ Boris möchte alle Bilder, die einen Pfad haben auf dead links testen. 
         
         Wie erkenne ich Bilder im Unterschied zu anderen Resourcen? An der Erweiterung? 
             jpg, tif, tiff, jpeg
-        Wenn Erweiterung ausgefüllt, nehme ich das ein Pfad vorhanden sein soll. 
-        """
+        Wenn Erweiterung ausgefüllt, nehme ich das ein Pfad vorhanden sein soll."""
 
         if os.path.isdir(outdir): #anything to do at all?
             print (outdir+' exists already, nothing tested') #this message is not important enough for logger
@@ -130,13 +137,11 @@ class ResourceCp:
     #############
 
     def _genericCopier (self, outdir, mode):
-        if os.path.isdir(outdir): #anything to do at all?
-            print (outdir+' exists already, nothing copied') #this message is not important enough for logger
-            return
-        os.makedirs(outdir)
+        if not os.path.isdir(outdir): #anything to do at all?
+            os.makedirs(outdir)
         self.init_log(outdir) 
 
-        print ('*Working on %s' % mode)
+        print (f'*Working on {mode}')
         
         for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
             if mode == 'freigegeben':

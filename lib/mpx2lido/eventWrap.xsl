@@ -116,6 +116,9 @@
 
     <xsl:template match="mpx:geogrBezug[@bezeichnung ne 'Kultur' and @bezeichnung ne 'Ethnie']">
         <lido:eventPlace>
+            <xsl:attribute name="lido:sortorder">
+                <xsl:value-of select="@sort"/>
+            </xsl:attribute>
             <lido:displayPlace>
                 <xsl:value-of select="."/>
                 <xsl:if test="@bezeichnung">

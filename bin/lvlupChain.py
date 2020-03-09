@@ -33,6 +33,7 @@ conf={
     #dirs
     'zerodir' : '0-IN',
     'onedir'  : '1-XML',
+    'tifdir': '../tif',
 
     #in and out files etc.
     'emptympx' : 'leer.mpx', #still necessary 
@@ -45,7 +46,6 @@ conf={
     'vindexconf': '../vindex.json',
     'vfixmpx': '2-MPX/vfix.mpx',
     'datenblatto': '3-datenblatt/o.html',
-    'tifdir': 'shf/tif',
     'datenblatthtml': '3-datenblatt/fromLido.html',
 
     #xsl    
@@ -123,8 +123,8 @@ if __name__ == "__main__":
                 s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
                 n=Npx2csv (conf['shfnpx'], conf['shfcsv'])
                 rc=ResourceCp (conf['lvlupmpx']) # init
-                rc.standardbilder('shf/Standardbilder')
-                rc.freigegeben('shf/Freigegeben')
+                rc.standardbilder('..\Standardbilder')
+                rc.freigegeben('..\Freigegeben')
                 from Tif_finder import Tif_finder
                 #you might need to prepare or delete the cache file manually
                 tf=Tif_finder('../../../.tif_finder.json')
@@ -150,7 +150,7 @@ if __name__ == "__main__":
                 #s.dirTransform(conf['outlido'], conf['splitLido'], conf['out'])
                 #s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
                 rc=ResourceCp (conf['lvlupmpx'])
-                rc.mulId ('3-Lido/mulId') 
+                rc.mulId ('../mulId') 
 
         elif sys.argv[1].lower() == 'boris':
             print ('*Working on Boris Test...')

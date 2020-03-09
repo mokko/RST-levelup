@@ -46,24 +46,30 @@ if __name__ == "__main__":
     if args.cache_fn is None:
         home = expanduser("~")
         args.cache_fn=os.path.join(home, '.tif_finder.json')
+        print ('*No cache specified, looking at default location')
+    else:
+        print (f"*Loading specified cache '{args.cache_fn}'")
 
-    t=Tif_finder(args.cache_fn, args.update_cache)
+    t=Tif_finder(args.cache_fn)
 
     if args.update_cache is not None:
         t.scandir(args.update_cache)
     elif args.show_cache:
         t.show()
     elif args.search is not None and args.target_dir is not None:
-        ls=t.search (args.search)
-        for positive in ls:
-            t._copy_to_dir(positive, args.target_dir)
+        print(f"*Searching for '{args.search}' with target_dir '{args.target_dir}'")
+        t.search (args.search, args.target_dir)
     elif args.search is not None and not args.target_dir:
-        t.search(args.search)
+        print(f"*Searching for '{args.search}' without target_dir")
+        ls=t.search(args.search)
+        for positive in ls:
+            print(positive)
     elif args.xls is not None and args.target_dir is not None:
         t.search_xls (args.xls, args.target_dir)
     elif args.xls is not None and not args.target_dir:
         t.search_xls(args.xls)
-    elif args.mpx is not None and args.target_dir is not None:
+    elif args.mpx is not None:
+        print("*MPX mode")
         t.search_mpx(args.mpx, args.target_dir)
     else:
         raise ValueError ('Unknown command line argument')

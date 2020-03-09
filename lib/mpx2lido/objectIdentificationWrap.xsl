@@ -122,13 +122,9 @@
         <lido:objectMeasurementsWrap>
             <lido:objectMeasurementsSet>
                 <lido:displayObjectMeasurements>
-                    <xsl:if test="@typ">
-                        <xsl:value-of select="@typ" />
-                        <xsl:text>: </xsl:text>
-                    </xsl:if>
                     <xsl:value-of select="."/>
                 </lido:displayObjectMeasurements>
-                <!-- no lido:objectMeasurements b/c we don't need them for RST project; maybe later -->
+                <!-- no @typ, no lido:objectMeasurements b/c we don't need them for RST project; maybe later -->
             </lido:objectMeasurementsSet>
         </lido:objectMeasurementsWrap>
     </xsl:template>
