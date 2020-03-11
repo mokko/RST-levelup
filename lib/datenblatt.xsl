@@ -298,16 +298,15 @@
 					</td>
 				</tr>
 			</xsl:if>
+			<xsl:apply-templates select="mpx:verwaltendeInstitution" />
 			<xsl:apply-templates select="mpx:erwerbDatum" />
 			<xsl:apply-templates select="mpx:erwerbungsart" />
+			<xsl:apply-templates select="mpx:credits" />
 
-			<!-- RECHTE -->
-			<xsl:apply-templates select="mpx:verwaltendeInstitution" />
 			<xsl:apply-templates select="mpx:identNr[not(@art) or @art='Ident. Nr.']" />
 			<xsl:if test="count (mpx:identNr) = 1">
 				<xsl:apply-templates select="mpx:identNr[@art='Ident. Unternummer']" />
 			</xsl:if>
-			<xsl:apply-templates select="mpx:credits" />
 			<xsl:apply-templates select="mpx:onlineBeschreibung" />
 
 			<xsl:if test="/mpx:museumPlusExport/mpx:multimediaobjekt[
@@ -366,7 +365,6 @@
 			<xsl:apply-templates select="mpx:ausstellung[starts-with(., 'HUFO')]" />
 			<xsl:apply-templates select="mpx:sachbegriffHierarchisch" />
 			<xsl:apply-templates select="mpx:systematikArt" />
-			<xsl:apply-templates select="mpx:objekttyp" />
 		</table>
 		<br />
 		<br />
@@ -472,7 +470,7 @@
 
 	<xsl:template match="mpx:erwerbDatum">
 		<xsl:call-template name="genericRow">
-			<xsl:with-param name="header">Erwerbsdatum</xsl:with-param>
+			<xsl:with-param name="header">Eingangsdatum</xsl:with-param>
 			<xsl:with-param name="node"><xsl:value-of select="." /></xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
@@ -523,7 +521,7 @@
 
 	<xsl:template match="mpx:onlineBeschreibung">
 		<tr>
-			<td>Beschreibung</td>
+			<td>Beschreibung [online]</td>
 			<td>
 				<xsl:value-of select="." />
 			</td>
@@ -543,7 +541,6 @@
 		<tr>
 			<td>
 				<xsl:value-of select="@funktion"/>
-				<xsl:text>: </xsl:text>
 			</td>
 			<td>
 				<xsl:value-of select="." />
@@ -565,16 +562,9 @@
 	</xsl:template>
 
 
-	<xsl:template match="mpx:objekttyp">
-		<xsl:call-template name="genericRow">
-			<xsl:with-param name="header">objekttyp: </xsl:with-param>
-			<xsl:with-param name="node"><xsl:value-of select="." /></xsl:with-param>
-		</xsl:call-template>
-	</xsl:template>
-
 	<xsl:template match="mpx:systematikArt">
 		<xsl:call-template name="genericRow">
-			<xsl:with-param name="header">systematikArt: </xsl:with-param>
+			<xsl:with-param name="header">SystematikArt</xsl:with-param>
 			<xsl:with-param name="node"><xsl:value-of select="." /></xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
