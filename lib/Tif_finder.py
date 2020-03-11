@@ -242,7 +242,7 @@ class Tif_finder:
         print (f"About to hash '{fn}'...", end='')
         with open(fn, "rb") as f:
             file_hash = hashlib.md5()
-            while chunk := f.read(8192):
+            while chunk := f.read(8192): #walrus operator requires python 3.8
                 file_hash.update(chunk)
         print('done')
         return file_hash.hexdigest()
