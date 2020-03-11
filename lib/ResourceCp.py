@@ -83,7 +83,7 @@ class ResourceCp:
         """cp file to out_path while reporting missing files 
 
         If out_path exists already, overwrite only if source is newer than target."""
-
+        print (f"Checking {out_path}")
         if not os.path.isfile(in_path):
             self.write_log(f'File not found: {in_path}')
             return
@@ -93,16 +93,6 @@ class ResourceCp:
                 self._cpFile(in_path, out_path)
         else:
                 self._cpFile(in_path, out_path)
-
-
-    def _cpFile(self, in_path, out_path):
-        #print (in_path +'->'+out_path)
-        #shutil.copy doesn't seem to raise exception if source file not found
-        try: 
-            # copy2 preserves file info
-            shutil.copy2(in_path, out_path) 
-        except:
-            print(f"Unexpected error: {sys.exc_info()[0]}")
 
 
     def boris_test (self, outdir):
@@ -136,6 +126,63 @@ class ResourceCp:
     #############
     #############
 
+
+    def _cpFile(self, in_path, out_path):
+        #print (in_path +'->'+out_path)
+        #shutil.copy doesn't seem to raise exception if source file not found
+        try: 
+            # copy2 preserves file info
+            shutil.copy2(in_path, out_path) 
+        except:
+            print(f"Unexpected error: {sys.exc_info()[0]}")
+
+
+    def _fullpath (self, mume):
+        """
+        Expects multimediaobjekt node and returns full mume path. If path 
+        has no pfadangabe or dateiname it writes an error message to logfile
+        and returns None
+        """
+        error=0
+        mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
+        try:
+            pfad=mume.find('mpx:pfadangabe', self.ns).text
+        except:
+            error=1
+        try:
+            erw=mume.find('mpx:erweiterung', self.ns).text
+        except:
+            error=1
+        try:
+            datei=mume.find('mpx:dateiname', self.ns).text
+        except:
+            error=1
+
+        if error==1:
+            self.write_log(f'Path incomplete mulId: {mulId}')
+            return #returns None, right?
+        return f"{pfad}\\{datei}.{erw}"
+
+
+    def _freigegeben (self, mume):
+        """ See self.freigegeben """
+
+        fg=mume.find('mpx:veröffentlichen', self.ns)
+        stdb=mume.find('mpx:standardbild', self.ns)
+
+        if (fg is not None and stdb is None):
+            if (fg.text.lower() == "ja"):
+                mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
+                #print (f'freigegeben-mulId: {mulId}')
+                vpfad=self._fullpath(mume)
+                try:
+                    erw=mume.find('mpx:erweiterung', self.ns).text #higher chances that it doesn't exists
+                except:
+                    return # incomplete path test has been reported by _fullpath already
+                out=f"{mulId}.{erw.lower()}"
+                return vpfad, out
+
+
     def _genericCopier (self, outdir, mode):
         if not os.path.isdir(outdir): #anything to do at all?
             os.makedirs(outdir)
@@ -160,25 +207,6 @@ class ResourceCp:
                 except:
                     self.write_log (f'File not found: {vpfad}')
         self.close_log()
-
-
-    def _freigegeben (self, mume):
-        """ See self.freigegeben """
-
-        fg=mume.find('mpx:veröffentlichen', self.ns)
-        stdb=mume.find('mpx:standardbild', self.ns)
-
-        if (fg is not None and stdb is None):
-            if (fg.text.lower() == "ja"):
-                mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
-                print (f'freigegeben-mulId: {mulId}')
-                vpfad=self._fullpath(mume)
-                try:
-                    erw=mume.find('mpx:erweiterung', self.ns).text #higher chances that it doesn't exists
-                except:
-                    return # incomplete path test has been reported by _fullpath already
-                out=f"{mulId}.{erw.lower()}"
-                return vpfad, out
 
 
     def _standardbilder(self, mume):
@@ -207,32 +235,6 @@ class ResourceCp:
         vpfad=self._fullpath(mume)
         return vpfad,out
 
-
-    def _fullpath (self, mume):
-        """
-        Expects multimediaobjekt node and returns full mume path. If path 
-        has no pfadangabe or dateiname it writes an error message to logfile
-        and returns None
-        """
-        error=0
-        mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
-        try:
-            pfad=mume.find('mpx:pfadangabe', self.ns).text
-        except:
-            error=1
-        try:
-            erw=mume.find('mpx:erweiterung', self.ns).text
-        except:
-            error=1
-        try:
-            datei=mume.find('mpx:dateiname', self.ns).text
-        except:
-            error=1
-
-        if error==1:
-            self.write_log(f'Path incomplete mulId: {mulId}')
-            return #returns None, right?
-        return f"{pfad}\\{datei}.{erw}"
 
 
 
