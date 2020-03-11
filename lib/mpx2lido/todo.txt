@@ -1,4 +1,0 @@
-What's next?
-1. Install at work
-2. Analyse Frank's LIDO. Dont deviate from Franks template unless there is a good reason.
-3. For RST, we only need to map data needed for RST. Let's make a check list of fields.  
