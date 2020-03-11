@@ -56,25 +56,18 @@ class Tif_finder:
 
 
     def scandir (self, scan_dir):
-        """Scans directory for *.tif|*.tiff files recursively and writes
-        results to cache file, updating existing cache file or starting new 
-        one.
-
-        scan_dir needs to be a directory.
-
-        Does a sloppy update, i.e will not remove cache entries for files that
-        have been removed from disk.
-
-        Scan multiple directories by running the scan multiple times.
+        """Scan dir for tif and store result in tif cache.
         
-        TODO: I could scan all items in cache and check if they still exist
-        on disk, and delete cache items accordingly. to make update not 
-        sloppy."""
+        Scans directory for *.tif|*.tiff recursively and write results to
+        cache file, updating existing cache file or starting new one.
+        
+        Does a sloppy update, i.e will not remove cache entries for files that
+        have been removed from disk. See iscandir to avoid that.
 
-        if not os.path.isdir (scan_dir):
-            raise ValueError (f"Scan dir '{scan_dir}' does not exist")
+        Scan multiple directories by running the scan multiple times."""
 
         print (f"* About to scan {scan_dir}")
+
         files=Path(scan_dir).rglob('*.tif') # returns generator
         files2=Path(scan_dir).rglob('*.tiff')
         for path in list(files) +list(files2):
@@ -89,9 +82,34 @@ class Tif_finder:
             json.dump(self.cache, f)
 
 
+    def iscandir (self, scan_dir):
+        """intelligent directory scan
+
+        Do the same scan as in scandir, but also remove cache items whose files
+        don't exist on disk anymore and do a repeated scan only if cache is 
+        older than 1 day."""
+
+        print (f"* About to iscan {scan_dir}")
+        import time
+        cache_mtime=os.path.getmtime(self.cache_fn)
+        now=time.time()
+        #only if cache is older than one day
+        print (f"DIFF:{now-cache_mtime}")
+        if now-cache_mtime > 3600*24:
+            #remove items from cache if their file doesn't exist anymore
+            for path in self.cache:
+                if not os.path.exists (path):
+                    del self.cache[path]
+            self.scandir(scan_dir)
+
+
     def search (self, needle, target_dir=None):
-        """Search cache for a single needle, returns list of matches
-            ls=self.search(needle)"""
+        """Search tif cache for a single needle.
+
+        Return list of matches:
+            ls=self.search(needle)
+            
+        If target_dir is provided copy matches to that dir."""
 
         #print ("* Searching cache for needle '%s'" % needle)
         ret=[path for path in self.cache if needle in self.cache[path]]
@@ -104,8 +122,9 @@ class Tif_finder:
 
 
     def search_xls (self, xls_fn, target_dir=None):
-        """Search tifs for needles in Excel file (first sheet, column A)
+        """Search tif cache for needles from Excel file.
 
+        Needles are expected (first sheet, column A)
         If target_dir is not None, copy the file to respective directory.
         If target_dir is None just report matching paths to STDOUT"""
 
@@ -127,8 +146,10 @@ class Tif_finder:
 
 
     def search_mpx (self, mpx_fn, target_dir=None):
-        """For each identNr from mpx look for corresponding tifs in cache and 
-        copy them to target_dir"""
+        """Search tif cache for identNr from mpx.
+        
+        For each identNr from mpx look for corresponding tifs in cache; if 
+        target_dir exists, copy them to target_dir."""
         
         if target_dir is not None:
             target_dir=os.path.realpath(target_dir)
@@ -242,7 +263,8 @@ class Tif_finder:
         print (f"About to hash '{fn}'...", end='')
         with open(fn, "rb") as f:
             file_hash = hashlib.md5()
-            while chunk := f.read(8192): #walrus operator requires python 3.8
+            for chunk in iter(lambda: f.read(8192), b''):
+            #while chunk := f.read(8192): #walrus operator requires python 3.8
                 file_hash.update(chunk)
         print('done')
         return file_hash.hexdigest()
@@ -259,5 +281,5 @@ class Tif_finder:
 
 
 if __name__ == "__main__":
-    
-    f=Tif_Finder()
+    tf=Tif_finder('.tif_finder.json')
+    tf.iscandir ('.')
