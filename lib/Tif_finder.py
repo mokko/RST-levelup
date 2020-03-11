@@ -63,8 +63,8 @@ class Tif_finder:
         
         Does a sloppy update, i.e will not remove cache entries for files that
         have been removed from disk. See iscandir to avoid that.
-
-        Scan multiple directories by running the scan multiple times."""
+        
+        Repeat to scan multiple dirs."""
 
         print (f"* About to scan {scan_dir}")
 
@@ -85,9 +85,15 @@ class Tif_finder:
     def iscandir (self, scan_dir):
         """intelligent directory scan
 
+        scan_dir can be a list
+
         Do the same scan as in scandir, but also remove cache items whose files
         don't exist on disk anymore and do a repeated scan only if cache is 
-        older than 1 day."""
+        older than 1 day.
+        
+        Scan multiple directories by passing a list:
+            tf.iscandir (['.', '.']) 
+        """
 
         print (f"* About to iscan {scan_dir}")
         import time
@@ -95,12 +101,13 @@ class Tif_finder:
         now=time.time()
         #only if cache is older than one day
         print (f"DIFF:{now-cache_mtime}")
-        if now-cache_mtime > 3600*24:
+        if now-cache_mtime > 3600*24*2:
             #remove items from cache if their file doesn't exist anymore
             for path in self.cache:
                 if not os.path.exists (path):
                     del self.cache[path]
-            self.scandir(scan_dir)
+            for dir in scan_dir:
+                self.scandir(dir)
 
 
     def search (self, needle, target_dir=None):
@@ -283,3 +290,4 @@ class Tif_finder:
 if __name__ == "__main__":
     tf=Tif_finder('.tif_finder.json')
     tf.iscandir ('.')
+    tf.iscandir (['.', '.'])
