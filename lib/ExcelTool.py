@@ -36,9 +36,8 @@ USAGE
     t.apply_fix (conf_fn, out_fn) # writes cleanup version to out_fn
 """
 
-
 import os
-from os import path
+#from os import path
 import xml.etree.ElementTree as ET
 #from lxml import etree #has getParent()
 from openpyxl import Workbook, load_workbook
@@ -99,8 +98,6 @@ class ExcelTool:
 
     def from_conf (conf_fn, source): #no self
         """Constructor that executes commands from conf_fn"""
-        
-        #print (f'conf_fn: {conf_fn}')
 
         t=ExcelTool (source,os.path.dirname(conf_fn))
 
@@ -318,7 +315,7 @@ class ExcelTool:
         
         Returns workbook."""
 
-        if path.isfile (xls_fn):
+        if os.path.isfile (xls_fn):
             print (f'Excel vocabulary exists ({xls_fn})')
             return load_workbook(filename = xls_fn)
         else:
@@ -413,4 +410,3 @@ class ExcelTool:
 if __name__ == '__main__': 
     t=ExcelTool ('data/AKu-StuSam/20200226/2-MPX/levelup.mpx', '.')
     #t.index("./mpx:sammlungsobjekt/mpx:personenKörperschaften")
-    
