@@ -2,7 +2,5 @@
     "tasks":[
         {"index":"./mpx:sammlungsobjekt/mpx:sachbegriff"},
         {"index_with_attribute": ["./mpx:sammlungsobjekt/mpx:geogrBezug","bezeichnung"]}, 
-        {"index":"./mpx:sammlungsobjekt/mpx:geogrBezug[@bezeichnung = 'Ethnie']"},
-        {"index":"./mpx:sammlungsobjekt/mpx:geogrBezug[@bezeichnung = 'Land']"}
     ]
 }
