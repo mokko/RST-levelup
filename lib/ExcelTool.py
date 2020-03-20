@@ -243,6 +243,10 @@ class ExcelTool:
 
 
     def _iterterms (self, xpath):
+        """Finds all xpaths nodes and their verantwortlich. 
+        
+        Returns iterable."""
+        
         xp_parent,xp_child = self._xpath_split(xpath)
 
         for so in self.tree.findall(xp_parent, self.ns):
@@ -264,7 +268,7 @@ class ExcelTool:
                     #print (each.value + ' is before ' + needle_term)
                 #else:
                     #print (each.value + ' is NOT before ' + needle_term)
-            c+=1
+            c += 1
         return c
 
 
@@ -273,14 +277,14 @@ class ExcelTool:
         
         Sheet title is based on xpath expression"""
 
-        core=self._xpath2core(xpath) 
+        core = self._xpath2core(xpath) 
 
         try:
             ws = self.wb[core]
         except: 
             if self.new_file == 1:
-                ws=self.wb.active
-                ws.title=core
+                ws = self.wb.active
+                ws.title = core
                 self.new_file = None
                 return ws
             else:
@@ -292,7 +296,7 @@ class ExcelTool:
     def _prepare_header (self, ws):
         '''If Header columns are empty, fill them with default values'''
         from openpyxl.styles import Font
-        columns={
+        columns = {
             'A1': 'GEWIMMEL', 
             'B1': 'QUALI', #create this column even if not used
             'C1': 'VERANTWORTLICHKEIT', 
@@ -304,8 +308,8 @@ class ExcelTool:
 
         for key in columns:
             if ws[key].value is None:
-                ws[key]=columns[key]
-                c=ws[key]
+                ws[key] = columns[key]
+                c = ws[key]
                 c.font = Font(bold=True)
 
 
@@ -331,7 +335,7 @@ class ExcelTool:
 
 
     def _term_exists (self, ws, term, verant):
-        """Tests whether term is already in column A of the sheet.
+        """Tests if the combination of term and verantwortlich exists already.
 
         Should we include Verantwortlichkeit in identity check?
 
@@ -341,7 +345,7 @@ class ExcelTool:
         lno=1 # 1-based line counter 
         for each in ws['A']:
             if lno > 1: #IGNORE HEADER
-                if each.value==term and ws[f'C{lno}'].value == verant:
+                if each.value == term and ws[f'C{lno}'].value == verant:
                     #print(f"{each.value} ({verant}) == {term} ({ws[f'C{lno}'].value})")
                     return lno #found
             lno+=1
@@ -349,9 +353,12 @@ class ExcelTool:
 
 
     def _term_quali_exists(self,ws, term,quali, verant):
-        """Tests whether the combination of term/qualifier already exists.
+        """Tests if the combination of term/qualifier/verantwortlich exists.
 
-        Usage in analogy to _term_exists.
+        Returns 0 if combination not found. Otherwise, returns line number 
+        of first occurrence. 
+
+        SEE ALSO: _term_exists
 
         If user deletes verantwortlich anywhere in Excel file, program will 
         die."""
