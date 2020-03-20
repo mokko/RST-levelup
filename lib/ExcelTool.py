@@ -1,35 +1,47 @@
-"""
-USAGE
+"""Creates, updates and uses vocabulary indexes in an Excel file.
 
-    #traditional constructor
-    t=ExcelTool (source_fn)
-    t.index ('mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:sachbegriff)
-        creates or updates ./index.xlsx with sheet "sachbegriff" 
+Extracts terms from mpx (source), needs configuration from a json file to know
+what fields to work on. It creates or updates an XLS file.
 
-    #alternative Constructor
-    t=ExcelTool.from_conf (conf_fn,source_fn) # runs the commands in the conf_fn
-    t.apply_fix (conf_fn, out_fn)
+It can also write cleaned up version of the source mpx, where syns are replaced
+with prefs.
+
+For our purposes, a vocabulary index is an alphabetical list of terms with 
+their frequency in the source data. The terms are regarded as synonyms and 
+associated with preferred terms. Preferred terms can be replace synonyms
+in the data as a way of cleaning up the data.
 
 Excel Format
     Row 1: headers
     Column A: Gewimmel/Begriffe/Ausdrücke
     Column B: Qualifier 
-    Column C: Occurences (if qualifier is filled in it counts term and qualifier)
+    Column C: Occurences (if qualifier exists in it counts term and qualifier)
 
+TODO: We assume that terms in excel are unique. They are unique when we first
+write them, but user could create non-unique terms. I could check if uniqueness
+is still given.
 
-TODO: We assume that terms in excel are unique. I should check if that is the case.
-
-preferred location in dir root dir for the data set: 
+This class is agnostic as to where you locate conf_fn, but I recommend
     data/EM-SM/vindex-config.json
     data/EM-SM/20200113/2-MPX/levelup.mpx
+
+USAGE
+    #low level constructor
+    t=ExcelTool (source_fn)
+    t.index ('mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:sachbegriff)
+        creates or updates ./index.xlsx with sheet "sachbegriff" 
+
+    #high level constructor (using commands from conf file)
+    t=ExcelTool.from_conf (conf_fn,source_fn) # runs the commands in the conf_fn
+    t.apply_fix (conf_fn, out_fn) # writes cleanup version to out_fn
 """
+
 
 import os
 from os import path
 import xml.etree.ElementTree as ET
 #from lxml import etree #has getParent()
 from openpyxl import Workbook, load_workbook
-
 #from cx_Freeze.samples.openpyxl.test_openpyxl import wb
 
 class ExcelTool:
@@ -59,22 +71,20 @@ class ExcelTool:
         for task,cmd in self._itertasks(conf_fn):
             print (f"{cmd}: {task[cmd]}")
             if cmd == 'index': 
-                #self._fix_index(task[cmd])
                 xpath = task[cmd]
             elif cmd == 'index_with_attribute':
-                print ('...index with attribute') 
                 xpath = task[cmd][0]
                 attribute = task[cmd][1]
             ws=self._get_ws (xpath) #get right worksheet or die
             print (f'**Working on sheet {ws.title}')
 
             for term, verant in self._iterterms(xpath):
-                term_str=self._term2str (term) #if there is whitespace we don't want it
+                term_str=self._term2str (term) #strip whitespace
                 if cmd == 'index': 
-                    l = self._term_exists(ws, term_str)
+                    l = self._term_exists(ws, term_str, verant)
                 elif cmd == 'index_with_attribute':
-                    quali = self._get_attribute 
-                    l = self._term_quali_exists(ws, term_str,quali)
+                    quali = self._get_attribute (term, attribute) 
+                    l = self._term_quali_exists(ws, term_str,quali, verant)
                 if l: 
                     pref_de=ws[f'E{l}'].value
                     if pref_de is not None:
@@ -82,12 +92,13 @@ class ExcelTool:
                     #print ("Term '%s' exists in xls line=%i" % (term_str,l))
                     #print ("Term '%s' -> pref %s" % (term_str,pref_de))
 
-        print ('About to write xml to %s'%out_fn)
-        ET.register_namespace('', 'http://www.mpx.org/mpx')
+        print (f"About to write xml to {out_fn}")
+        ET.register_namespace('', 'http://www.mpx.org/mpx') #why? default ns?
         self.tree.write(out_fn, encoding="UTF-8", xml_declaration=True)
 
+
     def from_conf (conf_fn, source): #no self
-        """Constructor that runs commands from conf_fn"""
+        """Constructor that executes commands from conf_fn"""
         
         #print (f'conf_fn: {conf_fn}')
 
@@ -114,7 +125,7 @@ class ExcelTool:
         self._col_to_zero(ws, 'D') #drop all frequencies when we run a new index
         for term, verant in self._iterterms(xpath):
             term_str=self._term2str (term) #if there is whitespace we don't want it 
-            row=self._term_exists(ws, term_str)
+            row=self._term_exists(ws, term_str, verant)
             if row: 
                 #print ('term exists already: '+str(row))
                 cell=f"D{row}" # frequency in column D 
@@ -140,19 +151,18 @@ class ExcelTool:
         self._prepare_header(ws)
         self._col_to_zero(ws, 'D') # set occurrences to 0
         for term, verant in self._iterterms(xpath):
-            qu=self._get_attribute(term, quali)
+            qu_value=self._get_attribute(term, quali)
             term_str=self._term2str (term) #if there is whitespace we don't want it 
-            row=self._term_quali_exists(ws, term_str,qu)
+            row=self._term_quali_exists(ws, term_str,qu_value, verant)
             #etree doesn't allow way to access parent like this ../mpx:verantwortlich
-            #print (f"**quali: {qu}")
             if row:
                 #print ('term exists already: '+str(row))
                 cell=f'D{row}' # frequency now in D!
                 value=ws[cell].value
                 ws[cell]=value+1
             else:
-                print (f'new term: {term_str}({qu})')
-                self.insert_alphabetically(ws, term_str, verant, qu)
+                print (f'new term: {term_str}({qu_value})')
+                self.insert_alphabetically(ws, term_str, verant, qu_value)
             #print ('QUALI: '+ quali+': '+ str(qu))
         self.wb.save(self.xls_fn) 
 
@@ -302,13 +312,13 @@ class ExcelTool:
     def _prepare_wb (self, xls_fn):
         """Read existing xls or make new one.
         
-        'Return' values in self"""
+        Returns workbook."""
 
         if path.isfile (xls_fn):
-            print ('File exists ('+ xls_fn+')')
+            print (f'Excel vocabulary exists ({xls_fn})')
             return load_workbook(filename = xls_fn)
         else:
-            print ('Excel File doesn\'t exist yet, making it ('+ xls_fn+')')
+            print (f"Excel File doesn't exist yet, making it ({xls_fn}")
             self.new_file=1
             return Workbook()
 
@@ -320,35 +330,41 @@ class ExcelTool:
         return data
 
 
-    def _term_exists (self, ws, term):
+    def _term_exists (self, ws, term, verant):
         """Tests whether term is already in column A of the sheet.
+
+        Should we include Verantwortlichkeit in identity check?
 
         Ignores first row assuming it's a header. Returns row of first 
         occurrence."""
 
-        c=1 # 1-based line counter 
+        lno=1 # 1-based line counter 
         for each in ws['A']:
-            if c != 1: #IGNORE HEADER
-                #print (f"{c}: {each.value}")
-                if each.value==term:
-                    return c #found
-            c+=1
-        return 0 #not found
+            if lno > 1: #IGNORE HEADER
+                if each.value==term and ws[f'C{lno}'].value == verant:
+                    #print(f"{each.value} ({verant}) == {term} ({ws[f'C{lno}'].value})")
+                    return lno #found
+            lno+=1
+        return 0 #term not found
 
 
-    def _term_quali_exists(self,ws, term,quali):
-        '''
-        Tests whether the combination of term/qualifier already exists. Usage in analogy to _term_exists.
-        '''
-        c=1 # 1-based line counter 
+    def _term_quali_exists(self,ws, term,quali, verant):
+        """Tests whether the combination of term/qualifier already exists.
+
+        Usage in analogy to _term_exists.
+
+        If user deletes verantwortlich anywhere in Excel file, program will 
+        die."""
+
+        lno=1 # 1-based line counter 
         for each in ws['A']:
-            if c != 1: #IGNORE HEADER
+            if lno != 1: #IGNORE HEADER
                 #print (f"{c}: {each.value}")
-                xlsqu=ws[f'B{c}'].value # quali is in column B
-                if each.value==term and xlsqu == quali:
-                    #print ('xls: %s(%s) VS %s(%s)' % (each.value, xlsqu, term, quali))
-                    return c #found
-            c+=1
+                if (each.value == term 
+                    and ws[f'B{lno}'].value == quali 
+                    and ws[f'C{lno}'].value == verant) :
+                    return lno #found
+            lno+=1
         return 0 #not found
 
 
@@ -375,10 +391,9 @@ class ExcelTool:
 
 
     def _get_attribute (self, node, attribute):
-        qu=node.get(attribute)
-        if qu is not None:
-            qu=qu.strip() #strip everything we get from M+
-        return qu
+        value=node.get(attribute)
+        if value is not None:
+            return value.strip() #strip everything we get from M+
 
 
     def _term2str (self, term_node):
