@@ -109,7 +109,7 @@
 						<xsl:element name="img">
 							<xsl:attribute name="style">width: 50%</xsl:attribute>
 							<xsl:attribute name="src">
-								<xsl:text>../shf/Standardbilder/</xsl:text>
+								<xsl:text>../../Standardbilder/</xsl:text>
 								<xsl:value-of select="$objId" />
 									<xsl:text>.</xsl:text>
 									<xsl:value-of select="$stdbld/mpx:erweiterung" />
@@ -125,38 +125,6 @@
 				</td>
 			</tr>
 
-			<xsl:if test="mpx:sachbegriff[@art = 'Weiterer Sachbegriff']">
-				<tr>
-					<td width="140" valign="top">
-						<xsl:text>Weitere Sachbegriffe:</xsl:text>
-					</td>
-					<td valign="top">
-						<xsl:for-each select="mpx:sachbegriff[@art = 'Weiterer Sachbegriff']">
-							<xsl:value-of select="."/>
-							<xsl:if test="position()!=last()">
-								<xsl:text>; </xsl:text>
-							</xsl:if>
-						</xsl:for-each>
-					</td>
-				</tr>
-			</xsl:if>
-			<xsl:if test="mpx:sachbegriff[@art = 'Sachbegriff engl.']">
-				<tr>
-					<td valign="top">
-						<xsl:text>[Englischer SB:</xsl:text>
-					</td>
-					<td valign="top">
-						<xsl:for-each select="mpx:sachbegriff[@art = 'Sachbegriff engl.']">
-							<xsl:value-of select="."/>
-							<xsl:if test="position()!=last()">
-								<xsl:text>; </xsl:text>
-							</xsl:if>
-						</xsl:for-each>
-						<xsl:text>]</xsl:text>
-					</td>
-				</tr>
-			</xsl:if>
-
 			<!-- HERSTELLUNG implizit-->
 			<!-- an Herstellung beteiligte PK -->
 			<xsl:apply-templates select="mpx:personenKörperschaften[
@@ -164,45 +132,50 @@
 				@funktion eq 'Maler' or
 				@funktion eq 'Künstler']" />
 
-			<xsl:for-each select="mpx:datierung">
-				<xsl:sort select="@sort" data-type="number"/>
-				<tr>
-					<td></td>
-					<td>
-						<xsl:choose>
-							<xsl:when test="@vonJahr and @bisJahr">
-								<xsl:value-of select="." />
-								<xsl:text> (</xsl:text>
-								<xsl:value-of select="@vonJahr" />
-								<xsl:text> - </xsl:text>
-								<xsl:value-of select="@bisJahr" />
-								<xsl:text>)</xsl:text>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="." />
-							</xsl:otherwise>
-						</xsl:choose>
-						<xsl:if test="@art or @sort">
-							<xsl:text> [</xsl:text>
-                            <xsl:if test="@art">
-								<xsl:value-of select="@art" />
-                            </xsl:if>
-                            <xsl:if test="@art and @sort">
-                                <xsl:text> </xsl:text>
-                            </xsl:if>
-                            <xsl:if test="@sort">
-                                <xsl:text>s:</xsl:text>
-								<xsl:value-of select="@sort" />
-                            </xsl:if>
-							<xsl:text>]</xsl:text>
-						</xsl:if>
-					</td>
-				</tr>
-			</xsl:for-each>
+                <xsl:if test="mpx:datierung">
+                    <tr>
+                        <td>Datierung</td>
+                        <td>
+                            <xsl:for-each select="mpx:datierung[not (@art) or @art != 'Datierung engl.']">
+                                <xsl:sort select="@sort" data-type="number"/>
+                                <xsl:choose>
+                                    <xsl:when test="@vonJahr and @bisJahr">
+                                        <xsl:value-of select="." />
+                                        <xsl:text> (</xsl:text>
+                                        <xsl:value-of select="@vonJahr" />
+                                        <xsl:text> - </xsl:text>
+                                        <xsl:value-of select="@bisJahr" />
+                                        <xsl:text>)</xsl:text>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:value-of select="." />
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                                <xsl:if test="@art or @sort">
+                                    <xsl:text> [</xsl:text>
+                                    <xsl:if test="@art">
+                                        <xsl:value-of select="@art" />
+                                    </xsl:if>
+                                    <xsl:if test="@art and @sort">
+                                        <xsl:text> </xsl:text>
+                                    </xsl:if>
+                                    <xsl:if test="@sort">
+                                        <xsl:text>s:</xsl:text>
+                                        <xsl:value-of select="@sort" />
+                                    </xsl:if>
+                                    <xsl:text>]</xsl:text>
+                                </xsl:if>
+                                <xsl:if test="position()!=last()">
+                                    <xsl:text>; </xsl:text>
+                                </xsl:if>
+                            </xsl:for-each>
+                        </td>
+                    </tr>
+                </xsl:if>
 
 			<xsl:if test="mpx:geogrBezug[@bezeichnung ne 'Kultur' and @bezeichnung ne 'Ethnie' or not(@bezeichnung)]">
 				<tr>
-					<td valign="top">Ort: </td>
+					<td valign="top">Geographischer Bezug</td>
 					<td>
 						<xsl:for-each select="mpx:geogrBezug[(@bezeichnung ne 'Kultur' and @bezeichnung ne 'Ethnie') or not(@bezeichnung)]">
 							<xsl:sort select="@sort" data-type="number"/>
@@ -244,10 +217,13 @@
 
 			<xsl:if	test="mpx:geogrBezug[@bezeichnung eq 'Kultur' or @bezeichnung eq 'Ethnie']">
 				<tr>
-					<td>Gruppe/Kultur: </td>
+					<td>Gruppe/Kultur</td>
 					<td>
 						<xsl:for-each select="mpx:geogrBezug[@bezeichnung eq 'Kultur' or @bezeichnung eq 'Ethnie']">
 							<xsl:value-of select="." />
+							<xsl:text> [</xsl:text>
+							<xsl:value-of select="@bezeichnung" />
+							<xsl:text>]</xsl:text>
 							<xsl:if test="position()!=last()">
 								<xsl:text> </xsl:text>
 							</xsl:if>
@@ -272,7 +248,7 @@
 							@funktion eq 'Vorbesitzer' or
 							@funktion eq 'Veräußerer']|mpx:erwerbungVon">
 				<tr>
-					<td valign="top">Vorbesitzer:</td>
+					<td valign="top">Vorbesitzer</td>
 					<td valign="top">
 						<xsl:for-each select="mpx:personenKörperschaften[
 							@funktion eq 'Sammler' or
@@ -295,16 +271,15 @@
 					</td>
 				</tr>
 			</xsl:if>
+			<xsl:apply-templates select="mpx:verwaltendeInstitution" />
 			<xsl:apply-templates select="mpx:erwerbDatum" />
 			<xsl:apply-templates select="mpx:erwerbungsart" />
+			<xsl:apply-templates select="mpx:credits" />
 
-			<!-- RECHTE -->
-			<xsl:apply-templates select="mpx:verwaltendeInstitution" />
 			<xsl:apply-templates select="mpx:identNr[not(@art) or @art='Ident. Nr.']" />
 			<xsl:if test="count (mpx:identNr) = 1">
 				<xsl:apply-templates select="mpx:identNr[@art='Ident. Unternummer']" />
 			</xsl:if>
-			<xsl:apply-templates select="mpx:credits" />
 			<xsl:apply-templates select="mpx:onlineBeschreibung" />
 
 			<xsl:if test="/mpx:museumPlusExport/mpx:multimediaobjekt[
@@ -323,7 +298,7 @@
 								lower-case(mpx:veröffentlichen) = 'ja' and
 								not(mpx:standardbild)]">
 							<xsl:variable name="pfad">
-									<xsl:text>../shf/freigegeben/</xsl:text>
+									<xsl:text>../../freigegeben/</xsl:text>
 									<xsl:value-of select="@mulId" />
 									<xsl:text>.</xsl:text>
 									<xsl:value-of select="mpx:erweiterung" />
@@ -344,11 +319,57 @@
 					<h2>[Unsichtbares]</h2>
 				</td>
 			</tr>
+			<xsl:if test="mpx:sachbegriff[@art = 'Weiterer Sachbegriff']">
+				<tr>
+					<td width="140" valign="top">
+						<xsl:text>Weitere Sachbegriffe</xsl:text>
+					</td>
+					<td valign="top">
+						<xsl:for-each select="mpx:sachbegriff[@art = 'Weiterer Sachbegriff']">
+							<xsl:value-of select="."/>
+							<xsl:if test="position()!=last()">
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+						</xsl:for-each>
+					</td>
+				</tr>
+			</xsl:if>
+
+			<xsl:if test="mpx:sachbegriff[@art = 'Sachbegriff engl.']">
+				<tr>
+					<td valign="top">
+						<xsl:text>Englischer SB:</xsl:text>
+					</td>
+					<td valign="top">
+						<xsl:for-each select="mpx:sachbegriff[@art = 'Sachbegriff engl.']">
+							<xsl:value-of select="."/>
+							<xsl:if test="position()!=last()">
+								<xsl:text>; </xsl:text>
+							</xsl:if>
+						</xsl:for-each>
+					</td>
+				</tr>
+			</xsl:if>
+
+			<tr>
+				<xsl:variable name="link">
+					<xsl:text>http://smb-digital.de/eMuseumPlus?service=ExternalInterface</xsl:text>
+					<xsl:text>&amp;module=collection&amp;objectId=</xsl:text>
+					<xsl:value-of select="$objId"/>
+					<xsl:text>&amp;viewType=detailView</xsl:text>
+				</xsl:variable>
+				<td>SMB Digital Link</td>
+				<td>
+					<xsl:element name="a">
+					<xsl:attribute name="href"><xsl:value-of select="$link"/></xsl:attribute>
+						<xsl:value-of select="$link"/>
+					</xsl:element>
+				</td>
+			</tr>
 			<xsl:apply-templates select="mpx:bearbStand" />
 			<xsl:apply-templates select="mpx:ausstellung[starts-with(., 'HUFO')]" />
 			<xsl:apply-templates select="mpx:sachbegriffHierarchisch" />
 			<xsl:apply-templates select="mpx:systematikArt" />
-			<xsl:apply-templates select="mpx:objekttyp" />
 		</table>
 		<br />
 		<br />
@@ -423,13 +444,13 @@
 
 	<xsl:template match="mpx:ausstellung">
 		<tr>
-			<td>Ausstellung:</td>
+			<td>Ausstellung</td>
 			<td>
 				<xsl:value-of select="." />
 			</td>
 		</tr>
 		<tr>
-			<td>Sektion:</td>
+			<td>Sektion</td>
 			<td>
 				<xsl:value-of select="@sektion" />
 			</td>
@@ -439,14 +460,14 @@
 
 	<xsl:template match="mpx:bearbStand">
 		<xsl:call-template name="genericRow">
-			<xsl:with-param name="header">BearbStand:</xsl:with-param>
+			<xsl:with-param name="header">BearbStand</xsl:with-param>
 			<xsl:with-param name="node"><xsl:value-of select="." /></xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
 
 	<xsl:template match="mpx:credits">
 		<xsl:call-template name="genericRow">
-			<xsl:with-param name="header">Credit:</xsl:with-param>
+			<xsl:with-param name="header">Credit</xsl:with-param>
 			<xsl:with-param name="node"><xsl:value-of select="." /></xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
@@ -454,7 +475,7 @@
 
 	<xsl:template match="mpx:erwerbDatum">
 		<xsl:call-template name="genericRow">
-			<xsl:with-param name="header">Erwerbsdatum:</xsl:with-param>
+			<xsl:with-param name="header">Eingangsdatum</xsl:with-param>
 			<xsl:with-param name="node"><xsl:value-of select="." /></xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
@@ -472,9 +493,9 @@
 
 	<xsl:template match="mpx:identNr">
 		<tr>
-			<td>Inventarnummer: </td>
+			<td>Inventarnummer</td>
 			<td>
-				<xsl:value-of select="." />
+				<xsl:value-of select="." /> 
 			</td>
 		</tr>
 	</xsl:template>
@@ -482,9 +503,9 @@
 
 	<xsl:template match="mpx:materialTechnik">
 		<tr>
-			<td></td>
+			<td>Material/Technik</td>
 			<td>
-				<xsl:value-of select="." />
+				<xsl:value-of select="." /> [Ausgabe]
 			</td>
 		</tr>
 	</xsl:template>
@@ -492,7 +513,7 @@
 
 	<xsl:template match="mpx:maßangaben">
 		<tr>
-			<td></td>
+			<td>Maße</td>
 			<td>
 				<xsl:value-of select="." />
 				<xsl:text> [</xsl:text>
@@ -504,8 +525,9 @@
 
 
 	<xsl:template match="mpx:onlineBeschreibung">
+        <tr><td colspan="2"><xsl:text> </xsl:text><br/></td></tr>
 		<tr>
-			<td></td>
+			<td>Beschreibung [online]</td>
 			<td>
 				<xsl:value-of select="." />
 			</td>
@@ -515,7 +537,7 @@
 
 	<xsl:template match="mpx:sachbegriffHierarchisch">
 		<xsl:call-template name="genericRow">
-			<xsl:with-param name="header">Sachbegriff hierarchisch:</xsl:with-param>
+			<xsl:with-param name="header">Sachbegriff hierarchisch</xsl:with-param>
 			<xsl:with-param name="node"><xsl:value-of select="." /></xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
@@ -525,7 +547,6 @@
 		<tr>
 			<td>
 				<xsl:value-of select="@funktion"/>
-				<xsl:text>: </xsl:text>
 			</td>
 			<td>
 				<xsl:value-of select="." />
@@ -547,16 +568,9 @@
 	</xsl:template>
 
 
-	<xsl:template match="mpx:objekttyp">
-		<xsl:call-template name="genericRow">
-			<xsl:with-param name="header">objekttyp: </xsl:with-param>
-			<xsl:with-param name="node"><xsl:value-of select="." /></xsl:with-param>
-		</xsl:call-template>
-	</xsl:template>
-
 	<xsl:template match="mpx:systematikArt">
 		<xsl:call-template name="genericRow">
-			<xsl:with-param name="header">systematikArt: </xsl:with-param>
+			<xsl:with-param name="header">SystematikArt</xsl:with-param>
 			<xsl:with-param name="node"><xsl:value-of select="." /></xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
