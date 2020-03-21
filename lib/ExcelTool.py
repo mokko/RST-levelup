@@ -14,12 +14,13 @@ in the data as a way of cleaning up the data.
 Excel Format
     Row 1: headers
     Column A: Gewimmel/Begriffe/Ausdrücke
-    Column B: Qualifier 
-    Column C: Occurences (if qualifier exists in it counts term and qualifier)
+    Column B: Qualifier
+    Column C: Division
+    Column C: Frequency
 
 TODO: We assume that terms in excel are unique. They are unique when we first
-write them, but user could create non-unique terms. I could check if uniqueness
-is still given.
+write them, but user could create non-unique terms. I could check if 
+uniqueness.
 
 This class is agnostic as to where you locate conf_fn, but I recommend
     data/EM-SM/vindex-config.json
@@ -37,11 +38,8 @@ USAGE
 """
 
 import os
-#from os import path
-import xml.etree.ElementTree as ET
-#from lxml import etree #has getParent()
+from lxml import etree #has getParent()
 from openpyxl import Workbook, load_workbook
-#from cx_Freeze.samples.openpyxl.test_openpyxl import wb
 
 class ExcelTool:
     def __init__ (self, source,outdir='.'):
@@ -49,9 +47,9 @@ class ExcelTool:
             'npx': 'http://www.mpx.org/npx', #npx is no mpx
             'mpx': 'http://www.mpx.org/mpx', 
         }
-        self.tree = ET.parse(source)
+        self.tree = etree.parse(source)
         self.new_file=0
-        self.xls_fn=os.path.join (outdir,'vindex.xlsx')
+        self.xls_fn=os.path.relpath(os.path.realpath(os.path.join (outdir,'vindex.xlsx')))
         self.wb=self._prepare_wb(self.xls_fn)
 
 
@@ -62,7 +60,10 @@ class ExcelTool:
         2. Read xls_fn and use matching sheet
         3. Read xml source and parse it with xpath from conf
         4. Replace xml elements where necessary
-        5. save xml as out_fn"""
+        5. save xml as out_fn
+        
+        TODO: Add index_for_attribute
+        """
 
         print ('*About to apply vocabulary control')
         
@@ -74,13 +75,13 @@ class ExcelTool:
             elif cmd == 'index_with_attribute':
                 xpath = task[cmd][0]
                 attribute = task[cmd][1]
-            ws=self._get_ws (xpath) #get right worksheet or die
-            print (f'**Working on sheet {ws.title}')
+            ws = self._get_ws (xpath) #get right worksheet or die
+            print (f'**working on sheet {ws.title}')
 
             for term, verant in self._iterterms(xpath):
                 term_str=self._term2str (term) #strip whitespace
                 if cmd == 'index': 
-                    l = self._term_exists(ws, term_str, verant)
+                    l = self._term_verant_exists(ws, term_str, verant)
                 elif cmd == 'index_with_attribute':
                     qu_value = self._get_attribute (term, attribute) 
                     l = self._term_quali_exists(ws, term_str,qu_value, verant)
@@ -92,7 +93,7 @@ class ExcelTool:
                     #print ("Term '%s' -> pref %s" % (term_str,pref_de))
 
         print (f"About to write xml to {out_fn}")
-        ET.register_namespace('', 'http://www.mpx.org/mpx') #why? default ns?
+        #register_namespace('', 'http://www.mpx.org/mpx') #why? default ns?
         self.tree.write(out_fn, encoding="UTF-8", xml_declaration=True)
 
 
@@ -107,6 +108,8 @@ class ExcelTool:
                 t.index(task[cmd])
             elif cmd == 'index_with_attribute':
                 t.index_with_attribute (task[cmd][0], task[cmd][1])
+            elif cmd == 'attribute_index':
+                t.index_for_attribute (task[cmd][0], task[cmd][1])
         return t
 
 
@@ -115,52 +118,81 @@ class ExcelTool:
 
         Sheet depends on xpath expression."""
 
-        ws = self._prepare_ws(xpath)
-        #print ('ws.title: '+ws.title)
-        #print ('XPATH'+xpath)
-        self._prepare_header(ws)
-        self._col_to_zero(ws, 'D') #drop all frequencies when we run a new index
+        print(f"* Working on index for {xpath}")
+        ws=self._prepare_indexing(xpath)
+
         for term, verant in self._iterterms(xpath):
             term_str = self._term2str (term) #if there is whitespace we don't want it 
-            row = self._term_exists(ws, term_str, verant)
+            row = self._term_verant_exists(ws, term_str, verant)
             if row: 
                 #print ('term exists already: '+str(row))
-                cell = f"D{row}" # frequency in column D 
-                value = ws[cell].value
-                if value == '':
-                    ws[cell] = 1
-                else:
-                    ws[cell] = value + 1
+                self._update_frequency (ws, row)
             else:
                 print (f"new term: {term_str}")
                 self._insert_alphabetically(ws, term_str, verant)
         self.wb.save(self.xls_fn) 
 
 
-    def index_with_attribute (self, xpath, quali): 
-        """Write vocabulary index with qualifier to the right xls sheet
+    def index_for_attribute (self, xpath, vv=''):
+        """Make vocabulary index for an attribute
         
+        Assuming the xpath expression ends with something like:
+            mpx:bla/@attribute
+        
+        Once I have the attribute value I dont get back to parent. Even in 
+        lxml."""
+
+        print(f"* Working on attribute index for {xpath}")
+        ws=self._prepare_indexing(xpath)
+        last=xpath.split('/')[-1]
+        if last.startswith("@"):
+            xitems = xpath.split('/')[:-1]
+            xpath_normal = '/'.join(xitems)
+        else:
+            print (f"Error: Expect attribute in last position: {xpath}")
+            sys.exit(1)
+
+
+        for term, verant in self._iterterms(xpath_normal):
+            value = term.get(last[1:])
+            if value is not None:
+                #print (f"***Value {value}")
+                if vv == 'verantwortlich':
+                    row = self._term_verant_exists(ws, value, verant)
+                    #print ("verantwortlich is part of the identity test")
+                else:
+                    #print ("verantwortlich is NOT part of the identity test")
+                    row = self._term_exists(ws, value)
+                if row:
+                    self._update_frequency (ws, row)
+                else:
+                    print (f"new attribute: {value}")
+                    if vv == 'verantwortlich':
+                        self._insert_alphabetically(ws, value, verant)
+                    else:
+                        self._insert_alphabetically(ws, value)
+        self.wb.save(self.xls_fn) 
+
+
+    def index_with_attribute (self, xpath, quali): 
+        """Write vocabulary index for an element with qualifier
+
         Treats terms with different qualifiers as two different terms, e.g. 
         lists both Indien (Land) and Indien ()."""
 
-        ws=self._prepare_ws(xpath) # get the right worksheet
-        #print ('ws.title: '+ws.title)
-        self._prepare_header(ws)
-        self._col_to_zero(ws, 'D') # set occurrences to 0
+        print(f"*Working on index with attribute for {xpath}")
+        ws=self._prepare_indexing(xpath)
+
         for term, verant in self._iterterms(xpath):
             qu_value = self._get_attribute(term, quali)
-            term_str = self._term2str (term) #if there is whitespace we don't want it 
+            term_str = self._term2str (term) #no whitespace 
             row = self._term_quali_exists(ws, term_str,qu_value, verant)
-            #etree doesn't allow way to access parent like this ../mpx:verantwortlich
             if row:
                 #print ('term exists already: '+str(row))
-                cell = f'D{row}' # frequency now in D!
-                value = ws[cell].value
-                ws[cell] = value+1
+                self._update_frequency (ws, row)
             else:
-                print (f'new term: {term_str}({qu_value})')
+                print (f'new term: {term_str} ({qu_value})')
                 self._insert_alphabetically(ws, term_str, verant, qu_value)
-            #print ('QUALI: '+ quali+': '+ str(qu))
         self.wb.save(self.xls_fn) 
 
 
@@ -206,28 +238,23 @@ class ExcelTool:
     def _get_attribute (self, node, attribute):
         value = node.get(attribute)
         if value is not None:
-            return value.strip() #strip ^probably unnecessary when M+
+            return value.strip() #strip probably unnecessary when M+
 
 
     def _get_ws (self,xpath):
-        """Get existing worksheet based on xpath or die"""
+        """Get existing worksheet based on xpath or die
+        
+        Compare with _prepare_ws which doesn't die"""
 
         core=self._xpath2core(xpath) #extracts keyword from xpath for use as sheet.title
         return self.wb[core] # dies if sheet with title=core doesn't exist
 
 
-    def _insert_alphabetically (self, ws, term, verant, quali=None): 
-        """inserts new term into column A alphabetically
+    def _insert_alphabetically (self, ws, term, verant=None, quali=None): 
+        """Inserts new term into column A alphabetically.
         
-        after the first existing term
-        
-        ex: if we have list A,B,C, we want to put B between B und C
-
-        looping current terms from xls
-        each time comparing new term vs xls term
-        needle_term is after first term
-        needle_term is after second term
-        needle_term is BEFORE third term -> so return a 2"""
+        ex: if we have list A,B,C, we want to put another B between B und C
+        """
 
         line=self._line_alphabetically(ws, term)
         ws.insert_rows(line)
@@ -246,26 +273,17 @@ class ExcelTool:
 
 
     def _iterterms (self, xpath):
-        """Finds all xpaths nodes and their verantwortlich. 
+        """Finds all xpaths nodes and who is verantwortlich. 
         
-        Returns iterable. 
-        
-        This is a terrible idea. I'm making my own xpath parser here. 
-        No longer accepts all kinds of xpath expressions."""
-        last=xpath.split('/')[-1]
-        if last.startswith("@"):
-            xitems = xpath.split('/')[:-1]
-            xpath = '/'.join(xitems)
-        xp_parent, xp_child = self._xpath_split(xpath)
+        Assumes that verantwortlich is a sibling node.
 
-        for so in self.tree.findall(xp_parent, self.ns):
-            verant = so.find('mpx:verantwortlich', self.ns).text #assuming that it exists always 
-            term = so.find(xp_child, self.ns) # this term is not str
-            if term is not None and last.startswith("@"):
-                term = term.get(last[1:]) #this term is a str 
-                #print (f"***QUALI: {term}")
+        Returns iterable. Since we're using lxml we don't really need a 
+        generator, but why not."""
+
+        for term in self.tree.findall(xpath, self.ns):
+            verant = term.find('../mpx:verantwortlich', self.ns).text #assuming that it exists always 
             if term is not None:
-                yield term, verant #should be a tuple
+                yield term, verant
 
 
     def _line_alphabetically (self, ws, needle_term):
@@ -282,37 +300,45 @@ class ExcelTool:
         return lno #if needle not found, return 1
 
 
+    def _prepare_indexing(self, xpath):
+        ws = self._prepare_ws(xpath)
+        self._prepare_header(ws)
+        self._col_to_zero(ws, 'D') #drop all frequencies when working on index
+        print (f"   sheet {ws.title}")
+        return ws
+
+
     def _prepare_ws (self, xpath):
         """Get existing sheet or make new one. 
         
-        Sheet title is based on xpath expression"""
+        Sheet title is based on xpath expression."""
 
-        core = self._xpath2core(xpath) 
+        sheet_label = self._xpath2core(xpath) 
 
         try:
-            ws = self.wb[core]
+            ws = self.wb[sheet_label]
         except: 
             if self.new_file == 1:
                 ws = self.wb.active
-                ws.title = core
+                ws.title = sheet_label
                 self.new_file = None
                 return ws
             else:
-                return self.wb.create_sheet(core)
+                return self.wb.create_sheet(sheet_label)
         else:
-            return ws  #Sheet exists already, just return it
+            return ws #Sheet exists already, just return it
 
 
     def _prepare_header (self, ws):
-        """If Header columns are empty, fill them with default values"""
+        """Fill header columns with default values, if they are empty."""
 
         from openpyxl.styles import Font
         columns = {
-            'A1': 'GEWIMMEL', 
+            'A1': 'GEWIMMEL',
             'B1': 'QUALI', #create this column even if not used
-            'C1': 'VERANTWORTLICHKEIT', 
-            'D1': 'HÄUFIGKEIT', 
-            'E1': 'PREF (DE)', 
+            'C1': 'VERANTWORTLICHKEIT',
+            'D1': 'HÄUFIGKEIT',
+            'E1': 'PREF (DE)',
             'F1': 'PREF (EN)',
             'G1': 'NOTIZEN'
         }
@@ -330,10 +356,10 @@ class ExcelTool:
         Returns workbook."""
 
         if os.path.isfile (xls_fn):
-            print (f'Excel vocabulary exists ({xls_fn})')
+            print (f'Excel file exists ({xls_fn})')
             return load_workbook(filename = xls_fn)
         else:
-            print (f"Excel File doesn't exist yet, making it ({xls_fn}")
+            print (f"Excel file doesn't exist yet, making it ({xls_fn})")
             self.new_file=1
             return Workbook()
 
@@ -346,17 +372,35 @@ class ExcelTool:
 
 
     def _term2str (self, term_node):
-        if isinstance(term_node, str): #ugly design
-            return term_node 
+        #if isinstance(term_node, str): #ugly design
+        #    return term_node 
         term_str = term_node.text
         if term_str is not None: #if there is whitespace we want to ignore it in the index
             return term_str.strip()
 
 
-    def _term_exists (self, ws, term, verant):
+    def _term_exists (self, ws, term):
         """Tests if the combination of term and verantwortlich exists already.
 
-        Should we include Verantwortlichkeit in identity check?
+        Should we include Verantwortlich in identity check?
+
+        Ignores first row assuming it's a header. Returns row of first 
+        occurrence."""
+
+        lno=1 # 1-based line counter 
+        for each in ws['A']:
+            if lno > 1: #IGNORE HEADER
+                if each.value == term:
+                    #print(f"{each.value} ({verant}) == {term} ({ws[f'C{lno}'].value})")
+                    return lno #found
+            lno+=1
+        return 0 #term not found
+
+
+    def _term_verant_exists (self, ws, term, verant):
+        """Tests if the combination of term and verantwortlich exists already.
+
+        Should we include Verantwortlich in identity check?
 
         Ignores first row assuming it's a header. Returns row of first 
         occurrence."""
@@ -394,12 +438,15 @@ class ExcelTool:
         return 0 #not found
 
 
-    def _xpath_split(self, xpath):
-        all = xpath.split('/')
-        parent = '/'.join(all[:-1])
-        child = './'+all[-1]
-        #print (f"parent {parent} child {child}")
-        return parent, child
+    def _update_frequency (self, ws, row_no):
+        """Adds one to frequency column"""
+
+        cell = f"D{row_no}" #frequency in column D 
+        value = ws[cell].value
+        if value == '':
+            ws[cell] = 1
+        else:
+            ws[cell] = value + 1
 
 
     def _xpath2core (self,xpath):
@@ -416,10 +463,11 @@ class ExcelTool:
         core = core.replace('[','').replace(']','').replace(' ','').replace('=','').replace('\'','')
         if len(core) > 31:
             core=core[:24]+'...'
-        #print (f'xpath->core: {xpath} -> {core}')
+        #print (f"***xpath->core: {xpath} -> {core}")
         return core
 
 
 if __name__ == '__main__': 
-    t=ExcelTool ('data/AKu-StuSam/20200226/2-MPX/levelup.mpx', '.')
-    #t.index("./mpx:sammlungsobjekt/mpx:personenKörperschaften")
+    t=ExcelTool ('2-MPX/levelup.mpx', '.')
+    t.index("./mpx:sammlungsobjekt/mpx:personenKörperschaften")
+    t.index_for_attribute("./mpx:sammlungsobjekt/mpx:geogrBezug/@bezeichnung", "")
