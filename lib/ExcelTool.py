@@ -82,8 +82,8 @@ class ExcelTool:
                 if cmd == 'index': 
                     l = self._term_exists(ws, term_str, verant)
                 elif cmd == 'index_with_attribute':
-                    quali = self._get_attribute (term, attribute) 
-                    l = self._term_quali_exists(ws, term_str,quali, verant)
+                    qu_value = self._get_attribute (term, attribute) 
+                    l = self._term_quali_exists(ws, term_str,qu_value, verant)
                 if l: 
                     pref_de=ws[f'E{l}'].value
                     if pref_de is not None:
@@ -115,25 +115,25 @@ class ExcelTool:
 
         Sheet depends on xpath expression."""
 
-        ws=self._prepare_ws(xpath)
+        ws = self._prepare_ws(xpath)
         #print ('ws.title: '+ws.title)
         #print ('XPATH'+xpath)
         self._prepare_header(ws)
         self._col_to_zero(ws, 'D') #drop all frequencies when we run a new index
         for term, verant in self._iterterms(xpath):
-            term_str=self._term2str (term) #if there is whitespace we don't want it 
-            row=self._term_exists(ws, term_str, verant)
+            term_str = self._term2str (term) #if there is whitespace we don't want it 
+            row = self._term_exists(ws, term_str, verant)
             if row: 
                 #print ('term exists already: '+str(row))
-                cell=f"D{row}" # frequency in column D 
-                value=ws[cell].value
-                if value=='':
-                    ws[cell]=1
+                cell = f"D{row}" # frequency in column D 
+                value = ws[cell].value
+                if value == '':
+                    ws[cell] = 1
                 else:
-                    ws[cell]=value+1
+                    ws[cell] = value + 1
             else:
                 print (f"new term: {term_str}")
-                self.insert_alphabetically(ws, term_str, verant)
+                self._insert_alphabetically(ws, term_str, verant)
         self.wb.save(self.xls_fn) 
 
 
@@ -148,42 +148,20 @@ class ExcelTool:
         self._prepare_header(ws)
         self._col_to_zero(ws, 'D') # set occurrences to 0
         for term, verant in self._iterterms(xpath):
-            qu_value=self._get_attribute(term, quali)
-            term_str=self._term2str (term) #if there is whitespace we don't want it 
-            row=self._term_quali_exists(ws, term_str,qu_value, verant)
+            qu_value = self._get_attribute(term, quali)
+            term_str = self._term2str (term) #if there is whitespace we don't want it 
+            row = self._term_quali_exists(ws, term_str,qu_value, verant)
             #etree doesn't allow way to access parent like this ../mpx:verantwortlich
             if row:
                 #print ('term exists already: '+str(row))
-                cell=f'D{row}' # frequency now in D!
-                value=ws[cell].value
-                ws[cell]=value+1
+                cell = f'D{row}' # frequency now in D!
+                value = ws[cell].value
+                ws[cell] = value+1
             else:
                 print (f'new term: {term_str}({qu_value})')
-                self.insert_alphabetically(ws, term_str, verant, qu_value)
+                self._insert_alphabetically(ws, term_str, verant, qu_value)
             #print ('QUALI: '+ quali+': '+ str(qu))
         self.wb.save(self.xls_fn) 
-
-
-    def insert_alphabetically (self, ws, term, verant, quali=None): 
-        """inserts new term into column A alphabeticallyof worksheet ws after the first existing term
-        
-        Should be private: _insert_alphabetically
-
-        ex: if we have list A,B,C, we want to put B between B und C
-
-        looping current terms from xls
-        each time comparing new term vs xls term
-        needle_term is after first term
-        needle_term is after second term
-        needle_term is BEFORE third term -> so return a 2"""
-
-        line=self._line_alphabetically(ws, term)
-        ws.insert_rows(line)
-        ws[f'A{line}']=term
-        ws[f'B{line}']=quali
-        ws[f'C{line}']=verant
-        ws[f'D{line}']=1 #this is a new term
-        #print ('...insert at line '+str(line))
 
 
 #
@@ -225,11 +203,39 @@ class ExcelTool:
         return c
 
 
+    def _get_attribute (self, node, attribute):
+        value = node.get(attribute)
+        if value is not None:
+            return value.strip() #strip ^probably unnecessary when M+
+
+
     def _get_ws (self,xpath):
         """Get existing worksheet based on xpath or die"""
 
         core=self._xpath2core(xpath) #extracts keyword from xpath for use as sheet.title
         return self.wb[core] # dies if sheet with title=core doesn't exist
+
+
+    def _insert_alphabetically (self, ws, term, verant, quali=None): 
+        """inserts new term into column A alphabetically
+        
+        after the first existing term
+        
+        ex: if we have list A,B,C, we want to put B between B und C
+
+        looping current terms from xls
+        each time comparing new term vs xls term
+        needle_term is after first term
+        needle_term is after second term
+        needle_term is BEFORE third term -> so return a 2"""
+
+        line=self._line_alphabetically(ws, term)
+        ws.insert_rows(line)
+        ws[f'A{line}'] = term
+        ws[f'B{line}'] = quali
+        ws[f'C{line}'] = verant
+        ws[f'D{line}'] = 1 #this is a new term
+        #print ('...insert at line '+str(line))
 
 
     def _itertasks(self, conf_fn):
@@ -242,31 +248,38 @@ class ExcelTool:
     def _iterterms (self, xpath):
         """Finds all xpaths nodes and their verantwortlich. 
         
-        Returns iterable."""
+        Returns iterable. 
         
-        xp_parent,xp_child = self._xpath_split(xpath)
+        This is a terrible idea. I'm making my own xpath parser here. 
+        No longer accepts all kinds of xpath expressions."""
+        last=xpath.split('/')[-1]
+        if last.startswith("@"):
+            xitems = xpath.split('/')[:-1]
+            xpath = '/'.join(xitems)
+        xp_parent, xp_child = self._xpath_split(xpath)
 
         for so in self.tree.findall(xp_parent, self.ns):
             verant = so.find('mpx:verantwortlich', self.ns).text #assuming that it exists always 
-            term = so.find(xp_child, self.ns)
+            term = so.find(xp_child, self.ns) # this term is not str
+            if term is not None and last.startswith("@"):
+                term = term.get(last[1:]) #this term is a str 
+                #print (f"***QUALI: {term}")
             if term is not None:
                 yield term, verant #should be a tuple
 
 
     def _line_alphabetically (self, ws, needle_term):
-        """Uppercase and lowercase in alphabetical order ignored"""
+        """Assuming alphabetical sort, return line where term fits
+        
+        Uppercase and lowercase in alphabetical order ignored."""
 
-        c=1 # 1-based line counter 
+        lno=1 # 1-based line counter 
         for xlsterm in ws['A']:
-            if c != 1: #IGNORE HEADER
-                #print (str(c)+': '+each.value)
+            if lno > 1: #IGNORE HEADER
                 if  needle_term.lower() < xlsterm.value.lower():
-                    return c #found
-                    #print (each.value + ' is before ' + needle_term)
-                #else:
-                    #print (each.value + ' is NOT before ' + needle_term)
-            c += 1
-        return c
+                    return lno #found
+            lno += 1
+        return lno #if needle not found, return 1
 
 
     def _prepare_ws (self, xpath):
@@ -291,7 +304,8 @@ class ExcelTool:
 
 
     def _prepare_header (self, ws):
-        '''If Header columns are empty, fill them with default values'''
+        """If Header columns are empty, fill them with default values"""
+
         from openpyxl.styles import Font
         columns = {
             'A1': 'GEWIMMEL', 
@@ -329,6 +343,14 @@ class ExcelTool:
         with open(conf_fn, encoding='utf-8') as json_data_file:
             data = json.load(json_data_file)
         return data
+
+
+    def _term2str (self, term_node):
+        if isinstance(term_node, str): #ugly design
+            return term_node 
+        term_str = term_node.text
+        if term_str is not None: #if there is whitespace we want to ignore it in the index
+            return term_str.strip()
 
 
     def _term_exists (self, ws, term, verant):
@@ -373,11 +395,10 @@ class ExcelTool:
 
 
     def _xpath_split(self, xpath):
-        all=xpath.split('/')
-        parent='/'.join(all[:-1])
-        child='./'+all[-1]
-        #print (f"parent {parent}")
-        #print (f"child {child}")
+        all = xpath.split('/')
+        parent = '/'.join(all[:-1])
+        child = './'+all[-1]
+        #print (f"parent {parent} child {child}")
         return parent, child
 
 
@@ -386,25 +407,17 @@ class ExcelTool:
         
         This algorithm is pretty stupid, but it'll do for the moment."""
 
-        core=xpath.split('/')[-1]
-        core=core.split(':')[1].replace('[','').replace(']','').replace(' ','').replace('=','').replace('\'','')
+        core = xpath.split('/')[-1]
+        if core.startswith('@'): #assumes that attributes don't have ns
+            core = xpath.split('/')[-2] + core
+        try:
+            core = core.split(':')[1]
+        except: pass
+        core = core.replace('[','').replace(']','').replace(' ','').replace('=','').replace('\'','')
         if len(core) > 31:
             core=core[:24]+'...'
         #print (f'xpath->core: {xpath} -> {core}')
         return core
-
-
-    def _get_attribute (self, node, attribute):
-        value=node.get(attribute)
-        if value is not None:
-            return value.strip() #strip everything we get from M+
-
-
-    def _term2str (self, term_node):
-        term_str=term_node.text
-        if term_str is not None: #if there is whitespace we want to ignore it in the index
-            term_str=term_str.strip()
-        return term_str #returns stripped text or None 
 
 
 if __name__ == '__main__': 
