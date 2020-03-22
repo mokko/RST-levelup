@@ -1,7 +1,10 @@
-"""Creates, updates and uses vocabulary indexes in an Excel file.
+"""Creates and updates vocabulary indexes in an Excel file.
 
-Extracts terms from mpx (source), needs configuration from a json file to know
-what fields to work on. It creates or updates an XLS file.
+Can also replaces syns with prefs.
+
+Extracts terms from mpx (source), needs a configuration json file. It creates
+or updates an XLS file with the vocabulary and can output new mpx based on
+changes made to the XLS file.
 
 It can also write cleaned up version of the source mpx, where syns are replaced
 with prefs.
@@ -42,68 +45,90 @@ from lxml import etree #has getParent()
 from openpyxl import Workbook, load_workbook
 
 class ExcelTool:
-    def __init__ (self, source,outdir='.'):
+    def __init__ (self, source_xml,xls_dir='.'):
         self.ns = {
             'npx': 'http://www.mpx.org/npx', #npx is no mpx
             'mpx': 'http://www.mpx.org/mpx', 
         }
-        self.tree = etree.parse(source)
-        self.new_file=0
-        self.xls_fn=os.path.relpath(os.path.realpath(os.path.join (outdir,'vindex.xlsx')))
-        self.wb=self._prepare_wb(self.xls_fn)
+        self.tree = etree.parse(source_xml)
+        self.new_file = 0
+        self.xls_fn = os.path.relpath(os.path.realpath(os.path.join (xls_dir,'vindex.xlsx')))
+        self.wb = self._prepare_wb(self.xls_fn)
 
 
     def apply_fix (self, conf_fn, out_fn):
         """Replace syns with prefs in out_fn
         
+        Preparation: read three files
         1. Read conf and process every task
         2. Read xls_fn and use matching sheet
-        3. Read xml source and parse it with xpath from conf
-        4. Replace xml elements where necessary
-        5. save xml as out_fn
-        
-        TODO: Add index_for_attribute
-        """
+        3. Read xml/mpx source 
+        Rewrite 
+        4. mpx according to instructions from conf and prefs in xls
+        5. save new xml/mpx to out_fn"""
 
         print ('*About to apply vocabulary control')
         
         #primitive Domain Specific Language (DSL)
-        for task,cmd in self._itertasks(conf_fn):
-            print (f"{cmd}: {task[cmd]}")
+        for task, cmd in self._itertasks(conf_fn):
             if cmd == 'index': 
                 xpath = task[cmd]
+                ws = self._get_ws (xpath) #get right worksheet or die
             elif cmd == 'index_with_attribute':
                 xpath = task[cmd][0]
                 attribute = task[cmd][1]
-            ws = self._get_ws (xpath) #get right worksheet or die
-            print (f'**working on sheet {ws.title}')
+                ws = self._get_ws (xpath) #get right worksheet or die
+            elif cmd == 'attribute_index':
+                xpath = task[cmd][0] # need original xpath for correct ws.title
+                include_verant = task[cmd][1]
+                ws = self._get_ws (xpath)
+                xpath, attrib = self._attribute_split(xpath) #rewrite xpath for iterterms
+
+            print (f"**Checking for replacments from sheet '{ws.title}'")
+            print (f"   {cmd}: {task[cmd]}")
 
             for term, verant in self._iterterms(xpath):
                 term_str=self._term2str (term) #strip whitespace
                 if cmd == 'index': 
-                    l = self._term_verant_exists(ws, term_str, verant)
+                    lno = self._term_verant_exists(ws, term_str, verant)
+                    #print(f"syn term found '{term.text}' {lno}")
                 elif cmd == 'index_with_attribute':
                     qu_value = self._get_attribute (term, attribute) 
-                    l = self._term_quali_exists(ws, term_str,qu_value, verant)
-                if l: 
-                    pref_de=ws[f'E{l}'].value
-                    if pref_de is not None:
-                        term.text=pref_de.strip() # modify xml
-                    #print ("Term '%s' exists in xls line=%i" % (term_str,l))
-                    #print ("Term '%s' -> pref %s" % (term_str,pref_de))
+                    lno = self._term_quali_exists(ws, term_str,qu_value, verant)
+                    #print(f"syn term found '{term.text}' {lno}")
+                elif cmd == 'attribute_index':
+                    try:
+                        value=term.attrib[attrib]
+                    except: pass
+                    if include_verant == 'verantwortlich':
+                        lno = self._term_verant_exists(ws, value, verant)
+                    else:
+                        lno = self._term_exists(ws, value)
+                    #print(f"syn attribute found {value} {lno}")
 
-        print (f"About to write xml to {out_fn}")
+                if lno: # no replace if term is not in xls
+                    pref_de = ws[f'E{lno}'].value
+                    if pref_de is not None: #no replace if pref is not given
+                        #print (f"pref found: {pref_de}")
+                        if cmd == 'index' or cmd == 'index_with_attribute': #if value?
+                            print (f"   replace term: {term_str}->{pref_de}")
+                            term.text = pref_de.strip() # modify xml
+                        else:
+                            print (f"   replace attribute '{attrib}': {value}->{pref_de}")
+                            term.attrib[attrib] = pref_de.strip() # modify xml
+
+        print (f"*About to write xml to {out_fn}")
         #register_namespace('', 'http://www.mpx.org/mpx') #why? default ns?
         self.tree.write(out_fn, encoding="UTF-8", xml_declaration=True)
 
 
-    def from_conf (conf_fn, source): #no self
+    def from_conf (conf_fn, source_xml): #no self
         """Constructor that executes commands from conf_fn"""
 
-        t=ExcelTool (source,os.path.dirname(conf_fn))
+        t=ExcelTool (source_xml,os.path.dirname(conf_fn))
 
         for task,cmd in t._itertasks(conf_fn): #sort of a Domain Specific Language DSL
-            print (f"{cmd}: {task[cmd]}")
+            #print (f"from_conf: {cmd}: {task[cmd]}")
             if cmd == 'index':
                 t.index(task[cmd])
             elif cmd == 'index_with_attribute':
@@ -118,7 +143,7 @@ class ExcelTool:
 
         Sheet depends on xpath expression."""
 
-        print(f"* Working on index for {xpath}")
+        print(f"*Creating/updating voc-index for {xpath} in xls")
         ws=self._prepare_indexing(xpath)
 
         for term, verant in self._iterterms(xpath):
@@ -133,7 +158,7 @@ class ExcelTool:
         self.wb.save(self.xls_fn) 
 
 
-    def index_for_attribute (self, xpath, vv=''):
+    def index_for_attribute (self, xpath, include_verant=''):
         """Make vocabulary index for an attribute
         
         Assuming the xpath expression ends with something like:
@@ -142,35 +167,27 @@ class ExcelTool:
         Once I have the attribute value I dont get back to parent. Even in 
         lxml."""
 
-        print(f"* Working on attribute index for {xpath}")
-        ws=self._prepare_indexing(xpath)
-        last=xpath.split('/')[-1]
-        if last.startswith("@"):
-            xitems = xpath.split('/')[:-1]
-            xpath_normal = '/'.join(xitems)
-        else:
-            print (f"Error: Expect attribute in last position: {xpath}")
-            sys.exit(1)
+        print(f"*Creating/updating voc-index for attribute {xpath} in xls")
+        ws = self._prepare_indexing(xpath)
 
+        main_xpath, attrib = self._attribute_split(xpath)
 
-        for term, verant in self._iterterms(xpath_normal):
-            value = term.get(last[1:])
+        for term, verant in self._iterterms(main_xpath):
+            value = term.get(attrib)
             if value is not None:
                 #print (f"***Value {value}")
-                if vv == 'verantwortlich':
+                if include_verant == 'verantwortlich':
                     row = self._term_verant_exists(ws, value, verant)
                     #print ("verantwortlich is part of the identity test")
                 else:
                     #print ("verantwortlich is NOT part of the identity test")
+                    verant=None
                     row = self._term_exists(ws, value)
                 if row:
                     self._update_frequency (ws, row)
                 else:
                     print (f"new attribute: {value}")
-                    if vv == 'verantwortlich':
-                        self._insert_alphabetically(ws, value, verant)
-                    else:
-                        self._insert_alphabetically(ws, value)
+                    self._insert_alphabetically(ws, value, verant)
         self.wb.save(self.xls_fn) 
 
 
@@ -180,7 +197,7 @@ class ExcelTool:
         Treats terms with different qualifiers as two different terms, e.g. 
         lists both Indien (Land) and Indien ()."""
 
-        print(f"*Working on index with attribute for {xpath}")
+        print(f"*Creating/updating voc-index for attribute {xpath} in xls")
         ws=self._prepare_indexing(xpath)
 
         for term, verant in self._iterterms(xpath):
@@ -199,6 +216,14 @@ class ExcelTool:
 #
 #    PRIVATE STUFF
 #
+    def _attribute_split (self, xpath):
+        attrib = xpath.split('/')[-1]
+        if attrib.startswith("@"):
+            elems = xpath.split('/')[:-1]
+            main_xpath = '/'.join(elems)
+        else:
+            raise ValueError(f"Error: Expect attribute in last position: {xpath}")
+        return main_xpath, attrib[1:]
 
 
     def _col_to_zero (self,ws,col):
@@ -253,8 +278,7 @@ class ExcelTool:
     def _insert_alphabetically (self, ws, term, verant=None, quali=None): 
         """Inserts new term into column A alphabetically.
         
-        ex: if we have list A,B,C, we want to put another B between B und C
-        """
+        ex: if we have list A,B,C, we want to put another B between B und C"""
 
         line=self._line_alphabetically(ws, term)
         ws.insert_rows(line)
@@ -262,7 +286,6 @@ class ExcelTool:
         ws[f'B{line}'] = quali
         ws[f'C{line}'] = verant
         ws[f'D{line}'] = 1 #this is a new term
-        #print ('...insert at line '+str(line))
 
 
     def _itertasks(self, conf_fn):
@@ -334,10 +357,10 @@ class ExcelTool:
 
         from openpyxl.styles import Font
         columns = {
-            'A1': 'GEWIMMEL',
-            'B1': 'QUALI', #create this column even if not used
-            'C1': 'VERANTWORTLICHKEIT',
-            'D1': 'HÄUFIGKEIT',
+            'A1': 'GEWIMMEL*',
+            'B1': 'QUALI*', #create this column even if not used
+            'C1': 'VERANTWORTLICHKEIT*',
+            'D1': 'HÄUFIGKEIT*',
             'E1': 'PREF (DE)',
             'F1': 'PREF (EN)',
             'G1': 'NOTIZEN'
@@ -356,10 +379,10 @@ class ExcelTool:
         Returns workbook."""
 
         if os.path.isfile (xls_fn):
-            print (f'Excel file exists ({xls_fn})')
+            print (f'*Excel file exists ({xls_fn})')
             return load_workbook(filename = xls_fn)
         else:
-            print (f"Excel file doesn't exist yet, making it ({xls_fn})")
+            print (f"*Excel file doesn't exist yet, making it ({xls_fn})")
             self.new_file=1
             return Workbook()
 
@@ -372,8 +395,6 @@ class ExcelTool:
 
 
     def _term2str (self, term_node):
-        #if isinstance(term_node, str): #ugly design
-        #    return term_node 
         term_str = term_node.text
         if term_str is not None: #if there is whitespace we want to ignore it in the index
             return term_str.strip()
@@ -468,6 +489,9 @@ class ExcelTool:
 
 
 if __name__ == '__main__': 
-    t=ExcelTool ('2-MPX/levelup.mpx', '.')
-    t.index("./mpx:sammlungsobjekt/mpx:personenKörperschaften")
-    t.index_for_attribute("./mpx:sammlungsobjekt/mpx:geogrBezug/@bezeichnung", "")
+    #t=ExcelTool ('2-MPX/levelup.mpx', '.')
+    #t.index("./mpx:sammlungsobjekt/mpx:personenKörperschaften")
+    #t.index_for_attribute("./mpx:sammlungsobjekt/mpx:geogrBezug/@bezeichnung", "dont test and record verant")
+    #paths expect that you run it from the date directory (e.g. 20200226)
+    t=ExcelTool.from_conf('../vindex.json', '2-MPX/levelup.mpx')
+    t.apply_fix('../vindex.json', 'test-fix.mpx')
