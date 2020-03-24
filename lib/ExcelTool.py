@@ -298,13 +298,17 @@ class ExcelTool:
     def _iterterms (self, xpath):
         """Finds all xpaths nodes and who is verantwortlich. 
         
-        Assumes that verantwortlich is a sibling node.
-
-        Returns iterable. Since we're using lxml we don't really need a 
-        generator, but why not."""
+        Assumes that verantwortlich is a sibling node."""
 
         for term in self.tree.findall(xpath, self.ns):
-            verant = term.find('../mpx:verantwortlich', self.ns).text #assuming that it exists always 
+            verant_node = term.find("../mpx:verantwortlich", self.ns) #assuming that it always exists 
+            try: 
+                verant = verant_node.text
+            except:
+                verant = None
+                #Im MM Modul gibt es keine verantwortlichkeit
+                #print ("*****niemand verantwortlich")
+
             if term is not None:
                 yield term, verant
 
