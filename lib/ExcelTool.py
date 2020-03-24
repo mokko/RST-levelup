@@ -84,7 +84,7 @@ class ExcelTool:
                 ws = self._get_ws (xpath)
                 xpath, attrib = self._attribute_split(xpath) #rewrite xpath for iterterms
 
-            print (f"**Checking for replacments from sheet '{ws.title}'")
+            print (f"**Checking replacements from sheet '{ws.title}'")
             print (f"   {cmd}: {task[cmd]}")
 
             for term, verant in self._iterterms(xpath):
