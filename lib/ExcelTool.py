@@ -366,8 +366,7 @@ class ExcelTool:
             'C1': 'VERANTWORTLICHKEIT*',
             'D1': 'HÄUFIGKEIT*',
             'E1': 'PREF (DE)',
-            'F1': 'PREF (EN)',
-            'G1': 'NOTIZEN'
+            'F1': 'NOTIZEN'
         }
 
         for key in columns:
