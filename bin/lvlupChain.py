@@ -145,8 +145,6 @@ if __name__ == "__main__":
                 # Übersetzungs-Excel
                 # Was passiert, wenn ein Begriff aus xml-Quelle entfällt?
                 # Dann steht bei Frequenz 0
-                #print ("*TRANSLATE")
-                #tt = ExcelTool.from_conf (conf['transconf'],conf['vfixmpx'])
             else: 
                 raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
 
