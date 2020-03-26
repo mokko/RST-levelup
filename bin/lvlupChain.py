@@ -44,6 +44,7 @@ conf={
     'out' : '3-Lido/out', 
     'lidohtml' : '3-Lido/lido.html', 
     'vindexconf': '../vindex.json',
+    'transconf': '../../translate.json',
     'vfixmpx': '2-MPX/vfix.mpx',
     'datenblatto': '3-datenblatt/o.html',
     'datenblatthtml': '3-datenblatt/fromLido.html',
@@ -88,16 +89,19 @@ if __name__ == "__main__":
     from Saxon import Saxon
     from ResourceCp import ResourceCp
     from Npx2csv import Npx2csv
+    from ExcelTool import ExcelTool
+    from Tif_finder import Tif_finder
+    import test_shf as tshf
     
     print ('*Looking for input...')
-    o=Xls2xml(conf) 
+    o = Xls2xml(conf) 
     o.mv2zero() # moves files to 0-IN
 
     print ('*First conversion...')
     o.transformAll() #input from 0-IN output to 1-XML  
 
     print ('*Joining...')
-    s=Saxon(conf, conf['lib'])
+    s = Saxon(conf, conf['lib'])
     if os.path.isdir(conf['onedir']): 
         s.join (conf['emptympx'], conf['joinColxsl'], conf['joinmpx'])
 
@@ -119,27 +123,32 @@ if __name__ == "__main__":
             (2) alle freigegebenen Bilder in Unterverzeichnis Freigegeben mit Muster $mulId.$erweiterung
             '''
             print ('*Converting to SHF format...')
-            if os.path.isfile(conf['lvlupmpx']):     
+            if os.path.isfile(conf['lvlupmpx']):
                 s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
-                n=Npx2csv (conf['shfnpx'], conf['shfcsv'])
-                rc=ResourceCp (conf['lvlupmpx']) # init
+                n = Npx2csv (conf['shfnpx'], conf['shfcsv'])
+                rc = ResourceCp (conf['lvlupmpx']) # init
                 rc.standardbilder('..\Standardbilder')
                 rc.freigegeben('..\Freigegeben')
-                from Tif_finder import Tif_finder
                 #you might need to prepare or delete the cache file manually
-                tf=Tif_finder('../../../.tif_finder.json')
+                tf = Tif_finder('../../../.tif_finder.json')
                 #tf.scandir ('M:\MuseumPlus\Produktiv\EM)
                 #tf.scandir ('M:\MuseumPlus\Produktiv\AKu)
                 tf.search_mpx(conf['lvlupmpx'], conf['tifdir'])
-                import test_shf as tshf
                 tshf.main(conf['lvlupmpx'], conf ['shfnpx'])
 
         elif sys.argv[1].lower() == 'index':
             print ('*Vocabulary index...')
             if os.path.isfile(conf['vindexconf']):
-                from ExcelTool import ExcelTool
-                t=ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx']) #make index if there is none
+                #make index if there is none
+                t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx']) 
                 t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
+                # Übersetzungs-Excel
+                # Was passiert, wenn ein Begriff aus xml-Quelle entfällt?
+                # Dann steht bei Frequenz 0
+                #print ("*TRANSLATE")
+                #tt = ExcelTool.from_conf (conf['transconf'],conf['vfixmpx'])
+            else: 
+                raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
 
         elif sys.argv[1].lower() == 'lido':
             print ('*Converting to LIDO...')
@@ -149,13 +158,13 @@ if __name__ == "__main__":
 
                 #s.dirTransform(conf['outlido'], conf['splitLido'], conf['out'])
                 #s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
-                rc=ResourceCp (conf['lvlupmpx'])
+                rc = ResourceCp (conf['lvlupmpx'])
                 rc.mulId ('../mulId') 
 
         elif sys.argv[1].lower() == 'boris':
             print ('*Working on Boris Test...')
             if os.path.isfile(conf['lvlupmpx']):
-                rc=ResourceCp (conf['lvlupmpx']) 
+                rc = ResourceCp (conf['lvlupmpx']) 
                 rc.boris_test('boris_test')
 
         elif sys.argv[1].lower() == 'datenblatt':
