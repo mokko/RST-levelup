@@ -230,6 +230,7 @@ class ExcelTool:
     def translate_element (self, xpath):
         """Write/update translation xls based on source_xml"""
 
+        print(f"*Creating/updating translation xls for {xpath}")
         ws = self._prepare_ws(xpath, self.twb)
         self._prepare_header_trans(ws)
         self._col_to_zero(ws, 'D') #drop all frequencies and begin again
@@ -246,12 +247,12 @@ class ExcelTool:
     def translate_attribute (self, xpath):
         """Write/update translation xls for attribute"""
 
+        print(f"*Creating/updating translation xls for {xpath}")
         ws = self._prepare_ws(xpath, self.twb)
+        print (f"   sheet {ws.title}")
         self._prepare_header_trans(ws)
         self._col_to_zero(ws, 'D') #drop all frequencies and begin again
-        print (f"   sheet {ws.title}")
         base_xpath, attrib = self._attribute_split(xpath)
-        print (f"   sheet {ws.title}")
         for term, verant in self._iterterms(base_xpath): 
             value = term.get(attrib)
             if value is not None:

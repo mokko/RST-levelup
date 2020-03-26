@@ -141,7 +141,10 @@ if __name__ == "__main__":
             if os.path.isfile(conf['vindexconf']):
                 #make index if there is none
                 t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx']) 
-                t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
+                #only apply fix if fix doesn't exist yet
+                #dont forget to delete old fix to get new info....
+                if not os.path.exists(conf['vfixmpx']): 
+                    t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
                 # Übersetzungs-Excel
                 # Was passiert, wenn ein Begriff aus xml-Quelle entfällt?
                 # Dann steht bei Frequenz 0
