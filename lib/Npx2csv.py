@@ -1,15 +1,13 @@
-'''
+"""Converts npx to csv
+
 npx is not mpx; it's simplified
 
 conditions
 -no xml attributes
 -no repeated elements (Wiederholfelder)
--only root/objects/aspects 
-
-For SHF export, they want data in csv, i.e. dumbed down to one table
-
-Right now it seems more efficient to write a separate little tool than to integrate this functionality
-into tableData.
+-qualifier are written in field in pre or post position
+x
+For SHF export, they want data in csv, now two table
 
 <npx>
     <sammlungsobjekt>
@@ -20,9 +18,8 @@ into tableData.
 csv format
 -columns in first row sorted alphabetically
 -only distinct column names allowed
--attributes in the format aspectBAttribute
--Wiederholfelder in colonList form, should already be part of source format
-'''
+-attributes written inside the fields or consecutive order aspectBAttribute
+"""
 
 _verbose=1
 def verbose (msg):
@@ -37,34 +34,40 @@ import csv
 
 class Npx2csv:
 
-    def __init__(self, infile, outfile):
+    def __init__(self, infile):
         
         self.ns = {
             'npx': 'http://www.mpx.org/npx', #npx is no mpx
         }
         
-        if path.isfile (outfile):
-            print (outfile + ' exists already, no overwrite')
-            return
-        
-        
-        verbose ('Npx2csv: outfile %s' % outfile)
-        
         self.tree = ET.parse(infile)
-        columns=set() # distinct list for columns for csv table
+        
+        cmd={
+            'shf/shf-so.csv': 'npx:sammlungsobjekt',
+            'shf/shf-mm.csv': 'npx:multimediaobjekt'
+        }
+        
+        for each in cmd:
+            self.write_csv (each, cmd[each])
+
+    def write_csv (self, outfile, xpath):
+        if os.path.exists(outfile):
+            print (f"Outfile exists already, nothing overwritten: {outfile}")
+            return
+        columns = set() # distinct list for columns for csv table
 
         #Loop1: identify attributes
-        for so in self.tree.findall("./npx:sammlungsobjekt", self.ns):
+        for so in self.tree.findall(f"./{xpath}", self.ns):
             for aspect in so.findall('*'):
                 tag=aspect.tag.split('}')[1] 
                 columns.add(tag)
-                
+        #verbose (sorted (columns))
         with open(outfile, mode='w', newline='', encoding='utf-8') as csvfile:
             out = csv.writer(csvfile, dialect='excel')
             out.writerow(sorted(columns)) # headers
             #print (sorted(columns))
 
-            for so in self.tree.findall('./npx:sammlungsobjekt', self.ns):
+            for so in self.tree.findall(f"./{xpath}", self.ns):
                 row=[]
                 for aspect in sorted(columns):
                     element=so.find('./npx:'+aspect, self.ns)
@@ -74,10 +77,7 @@ class Npx2csv:
                     else:
                         row.append('')
                 out.writerow(row) # headers
-    
-        verbose ('csv written to %s' % outfile)
-
-
+        verbose (f"csv written to {outfile}")
 
 if __name__ == '__main__': 
     
@@ -86,4 +86,4 @@ if __name__ == '__main__':
     #parser.add_argument('-i', '--input', required=True)
     #args = parser.parse_args()
    
-    Npx2csv('data/WAF55/20190927/2-MPX/shf.xml', 'data/WAF55/20190927/2-MPX/shf.csv')     
+    Npx2csv('shf/shf.xml')
