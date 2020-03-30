@@ -133,6 +133,27 @@ class ExcelTool:
         #register_namespace('', 'http://www.mpx.org/mpx') #why? default ns?
         self.tree.write(out_fn, encoding="UTF-8", xml_declaration=True)
 
+    def translate_from_conf (conf_fn, source_xml, xls_dir = None):
+        """constructor or regular method?
+        
+        New version as constructor to be more expectable."""
+
+        if xls_dir is None:
+            xls_dir=os.path.dirname(conf_fn)
+        t=ExcelTool (source_xml,xls_dir)
+
+        for task,cmd in t._itertasks(conf_fn): #sort of a Domain Specific Language DSL
+            if cmd == "translate_element": 
+                t.translate_element (task[cmd])
+            elif cmd == "translate_attribute": 
+                t.translate_attribute (task[cmd])
+            elif cmd == "index_with_attribute": pass
+            elif cmd == "attribute_index": pass
+            elif cmd == "index": pass
+            else: 
+                print (f"WARNING: Unknown command in conf {cmd}")
+        return t
+
     def from_conf (conf_fn, source_xml, xls_dir = None): #no self
         """Constructor that executes commands from conf_fn"""
         # as default use the same dir for xls as for conf_fn
@@ -148,12 +169,10 @@ class ExcelTool:
                 t.index_with_attribute (task[cmd][0], task[cmd][1])
             elif cmd == "attribute_index":
                 t.index_for_attribute (task[cmd][0], task[cmd][1])
-            elif cmd == "translate_element":
-                t.translate_element (task[cmd])
-            elif cmd == "translate_attribute":
-                t.translate_attribute (task[cmd])
+            elif cmd == "translate_element": pass
+            elif cmd == "translate_attribute": pass
             else:
-                print (f"WARNING: Unknown command found in conf {cmd}")
+                print (f"WARNING: Unknown command in conf {cmd}")
         return t
 
     def index (self, xpath):
@@ -161,7 +180,7 @@ class ExcelTool:
 
         Sheet depends on xpath expression."""
 
-        print(f"*Creating/updating voc-index for {xpath} in xls")
+        print(f"*Creating/updating voc-index for element {xpath}")
         ws = self._prepare_indexing(xpath, self.wb)
 
         for term, verant in self._iterterms(xpath):
@@ -184,7 +203,7 @@ class ExcelTool:
         Once I have the attribute value I dont get back to parent. Even in 
         lxml."""
 
-        print(f"*Creating/updating voc-index for attribute {xpath} in xls")
+        print(f"*Creating/updating voc-index for attribute {xpath}")
         ws = self._prepare_indexing(xpath, self.wb)
         base_xpath, attrib = self._attribute_split(xpath)
 
@@ -194,7 +213,6 @@ class ExcelTool:
                 #print (f"***Value {value}")
                 if include_verant == 'verantwortlich':
                     row = self._term_verant_exists(ws, value, verant)
-                    #print ("verantwortlich is part of the identity test")
                 else:
                     #print ("verantwortlich is NOT part of the identity test")
                     verant=None
@@ -212,7 +230,7 @@ class ExcelTool:
         Treats terms with different qualifiers as two different terms, e.g. 
         lists both Indien (Land) and Indien ()."""
 
-        print(f"*Creating/updating voc-index for attribute {xpath} in xls")
+        print(f"*Creating/updating voc-index for element with attribute {xpath}")
         ws = self._prepare_indexing(xpath, self.wb)
 
         for term, verant in self._iterterms(xpath):
@@ -227,27 +245,10 @@ class ExcelTool:
                 self._insert_alphabetically(ws, term_str, verant, qu_value)
         self.wb.save(self.xls_fn) 
 
-    def translate_element (self, xpath):
-        """Write/update translation xls based on source_xml"""
-
-        print(f"*Creating/updating translation xls for {xpath}")
-        ws = self._prepare_ws(xpath, self.twb)
-        self._prepare_header_trans(ws)
-        self._col_to_zero(ws, 'D') #drop all frequencies and begin again
-        print (f"   sheet {ws.title}")
-        for term, verant in self._iterterms(xpath): 
-            row = self._term_exists (ws, term.text)
-            if row:
-                self._update_frequency (ws, row)
-            else:
-                print (f"new term: {term.text}")
-                self._insert_alphabetically(ws, term.text)
-        self.twb.save(self.trans_xls) 
-
     def translate_attribute (self, xpath):
         """Write/update translation xls for attribute"""
 
-        print(f"*Creating/updating translation xls for {xpath}")
+        print(f"*Creating/updating translation sheet for attribute {xpath}")
         ws = self._prepare_ws(xpath, self.twb)
         print (f"   sheet {ws.title}")
         self._prepare_header_trans(ws)
@@ -264,6 +265,24 @@ class ExcelTool:
                     self._insert_alphabetically(ws, value)
         self.twb.save(self.trans_xls) 
 
+    def translate_element (self, xpath):
+        """Write/update translation xls based on source_xml"""
+
+        print(f"*Creating/updating translation sheet for {xpath}")
+        ws = self._prepare_ws(xpath, self.twb)
+        self._prepare_header_trans(ws)
+        self._col_to_zero(ws, 'D') #drop all frequencies and begin again
+        print (f"   sheet {ws.title}")
+        for term, verant in self._iterterms(xpath): 
+            row = self._term_exists (ws, term.text)
+            if row:
+                self._update_frequency (ws, row)
+            else:
+                print (f"new term: {term.text}")
+                self._insert_alphabetically(ws, term.text)
+        self.twb.save(self.trans_xls) 
+
+        
 #    PRIVATE STUFF
 
     def _attribute_split (self, xpath):

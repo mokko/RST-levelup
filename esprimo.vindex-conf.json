@@ -1,6 +1,0 @@
-{
-    "tasks":[
-        {"index":"./mpx:sammlungsobjekt/mpx:sachbegriff"},
-        {"index_with_attribute": ["./mpx:sammlungsobjekt/mpx:geogrBezug","bezeichnung"]}, 
-    ]
-}

@@ -43,7 +43,7 @@ conf={
     'outlido' : '3-Lido/out.lido', 
     'out' : '3-Lido/out', 
     'lidohtml' : '3-Lido/lido.html', 
-    'vindexconf': '../vindex.json',
+    'vindexconf': '../../generalvindex.json',
     'transconf': '../../translate.json',
     'vfixmpx': '2-MPX/vfix.mpx',
     'datenblatto': '3-datenblatt/o.html',
@@ -140,7 +140,7 @@ if __name__ == "__main__":
             print ('*Vocabulary index...')
             if os.path.isfile(conf['vindexconf']):
                 #make index if there is none
-                t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx']) 
+                t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
                 #only apply fix if fix doesn't exist yet
                 #dont forget to delete old fix to get new info....
                 if not os.path.exists(conf['vfixmpx']): 
@@ -148,6 +148,8 @@ if __name__ == "__main__":
                 # Übersetzungs-Excel
                 # Was passiert, wenn ein Begriff aus xml-Quelle entfällt?
                 # Dann steht bei Frequenz 0
+                #use fix as source mpx
+                t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..') 
             else: 
                 raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
 

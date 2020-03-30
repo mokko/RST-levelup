@@ -1,0 +1,13 @@
+{
+    "tasks":[
+        {"index":"./mpx:sammlungsobjekt/mpx:sachbegriff"},
+        {"attribute_index": ["./mpx:sammlungsobjekt/mpx:sachbegriff/@art", "no verantwortlich"]},
+        {"index_with_attribute": ["./mpx:sammlungsobjekt/mpx:geogrBezug", "art"]},
+        {"attribute_index": ["./mpx:sammlungsobjekt/mpx:geogrBezug/@bezeichnung","no verantwortlich"]},
+		
+        {"translate_element":"./mpx:sammlungsobjekt/mpx:sachbegriff"},
+        {"translate_attribute":"./mpx:sammlungsobjekt/mpx:sachbegriff/@art"},
+        {"translate_element":"./mpx:sammlungsobjekt/mpx:geogrBezug"},
+        {"translate_attribute":"./mpx:sammlungsobjekt/mpx:geogrBezug/@bezeichnung"}
+    ]
+}
