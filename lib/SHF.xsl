@@ -17,9 +17,9 @@
 			<xsl:comment>
                 <xsl:text>Format: 
                 (1) without xml attributes;
-				(2) repeated values are written into semicolon separated single field;
-				(3) qualifiers are either as "value (qualifier)" (aka attributes in inside value position) or
-				(4)	two consecutive elements of the form $element $elementAttribute (aka attributes in consecutive elements position).</xsl:text>
+				(2) repeated values are written as list in single element separated by semicolon 
+				(3) NEW qualifiers are either as "value [qualifier]" (aka attributes in post position) or
+				(4)	NEW qualifiers in preposition as "qualifier:: value".</xsl:text>
 			</xsl:comment>
 
 			<xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt" />
@@ -115,13 +115,13 @@
 						select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:geogrBezug">
 						<xsl:if test="@art">
 							<xsl:value-of select="@art" />
-							<xsl:text>: </xsl:text>
+							<xsl:text>:: </xsl:text>
 						</xsl:if>
 						<xsl:value-of select="normalize-space()" />
 						<xsl:if test="@bezeichnung">
-							<xsl:text> (</xsl:text>
+							<xsl:text> [</xsl:text>
 							<xsl:value-of select="@bezeichnung" />
-							<xsl:text>)</xsl:text>
+							<xsl:text>]</xsl:text>
 						</xsl:if>
 						<xsl:if test="position()!=last()">
 							<xsl:text>; </xsl:text>
@@ -150,9 +150,9 @@
 					</xsl:message-->
 						<xsl:value-of select="." />
 						<xsl:if test="@art">
-							<xsl:text> (</xsl:text>
+							<xsl:text> [</xsl:text>
 							<xsl:value-of select="@art"/>
-							<xsl:text>)</xsl:text>
+							<xsl:text>]</xsl:text>
 						</xsl:if>
 						<xsl:if test="position()!=last()">
 							<xsl:text>; </xsl:text>
@@ -177,9 +177,9 @@
 					<xsl:for-each select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:maßangaben">
 						<xsl:value-of select="normalize-space()" />
 						<xsl:if test="@typ">
-							<xsl:text> (</xsl:text>
+							<xsl:text> [</xsl:text>
 							<xsl:value-of select="@typ" />
-							<xsl:text>)</xsl:text>
+							<xsl:text>]</xsl:text>
 						</xsl:if>
 						<xsl:if test="position()!=last()">
 							<xsl:text>; </xsl:text>
@@ -203,9 +203,9 @@
 						select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId eq $objId]/mpx:sachbegriff">
 						<xsl:value-of select="normalize-space()" />
 						<xsl:if test="@art">
-							<xsl:text> (</xsl:text>
+							<xsl:text> [</xsl:text>
 							<xsl:value-of select="@art" />
-							<xsl:text>)</xsl:text>
+							<xsl:text>]</xsl:text>
 						</xsl:if>
 						<xsl:if test="position()!=last()">
 							<xsl:text>; </xsl:text>
