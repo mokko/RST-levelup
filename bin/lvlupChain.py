@@ -1,4 +1,4 @@
-'''
+"""
 lvlupChain.py: expects input files in current directory and generally writes its output to several sub-directories
 
 Expects several xls files that begin with mm, so or pk.
@@ -20,7 +20,7 @@ Optional function via command line parameter:
     If you want levelup to make the shf export, you need to run it with
 
     levelup.py shf
-'''
+"""
 
 import os
 import subprocess
@@ -62,7 +62,7 @@ conf={
 
     #new path    
     'shfnpx' : 'shf/shf.xml',
-    'shfcsv' : 'shf/shf.csv',
+    #'shfcsv' : 'shf/shf.csv', #baked into Npx2xcsv
 }
 
 conf['t']=os.path.realpath(os.path.join(__file__,'../../test'))
@@ -127,12 +127,10 @@ if __name__ == "__main__":
                 s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
                 n = Npx2csv (conf['shfnpx'], conf['shfcsv'])
                 rc = ResourceCp (conf['lvlupmpx']) # init
-                rc.standardbilder('..\Standardbilder')
-                rc.freigegeben('..\Freigegeben')
+                rc.standardbilder('..\pix', 'mulId.dateiname')
+                rc.freigegebene('..\pix', 'mulId.dateiname')
                 #you might need to prepare or delete the cache file manually
                 tf = Tif_finder('../../../.tif_finder.json')
-                #tf.scandir ('M:\MuseumPlus\Produktiv\EM)
-                #tf.scandir ('M:\MuseumPlus\Produktiv\AKu)
                 tf.search_mpx(conf['lvlupmpx'], conf['tifdir'])
                 tshf.main(conf['lvlupmpx'], conf ['shfnpx'])
 

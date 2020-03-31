@@ -1,12 +1,20 @@
-""" class that copies resources listed in xml to a destination directory of your choice
+""" class that copies resources listed in xml to a destination directory
 
 - expects sourceXml to be mpx
 - writes a log with encountered problems into outdir/report.log 
 
-USAGE:
-    c=ResourceCp(sourceXml)
-    c.Freigegeben (outdir)
-    c.Standardbilder (outdir)
+USAGE
+ rc = ResourceCp (mpx)
+ #loop thru mume implicitly
+ #factor1: outdir
+ #factor2: out_fn
+ #factor3: selection of mume records to be exported
+ 
+ rc.standardbilder ('pix', 'mulId.dateiname')
+ rc.freigegebene ('pix', 'mulId.dateiname')
+ rc.freigegebene ('pix_ln', 'mulId', 'link')
+ rc.tifs (outdir, 'muilId.origname')
+ 
 
 Sloppy Update:
     ResourceCp used to copy files only when outdir didn't exist; now it copies
@@ -39,75 +47,62 @@ class ResourceCp:
             'mpx': 'http://www.mpx.org/mpx',
         }
 
-
-    def init_log (self,outdir):
-        #line buffer so everything gets written when it's written, so I can CTRL+C the program
-        self._log=open(outdir+'/report.log', mode="a", buffering=1)
-
-    def write_log (self, msg):
-        self._log.write(f"[{datetime.datetime.now()}] {msg}\n")
-        print (msg)
-
-    def close_log (self):
-        self._log.close()
-
-
-    def freigegeben (self, outdir):
-        """
-        freigegeben are only those photos that fulfill both conditions 
-        a) are not Standardbilder
-        b) mpx:veröffentlichen = ja
-        Output filename: mulId.jpg (where erweiterung is always lowercase)
-
-        We are considering to rename them to something like: oldfilename.mulId.jpg. Advantage would
-        be to preserve the original filename, disadvantage would that I can't guess the filename any longer
-        just from knowing the mulId. So what should I do?
-        """
-        self._genericCopier(outdir, 'freigegeben')
-
-
-    def mulId (self, outdir):
-        """cp resources to mulId.jpg"""
-        self._genericCopier(outdir, 'mulId')
-
-
-    def standardbilder (self, outdir):
-        """cp standardbild to outdir/$objId.$erweiterung
+    def freigegebene (self, outdir, pattern):
+        """Copy approved resources to outdir/pattern.ext.
         
-        For SHF. There can be only one standardbild per object.
-        """
-        self._genericCopier(outdir, 'standardbilder')
+        freigegeben are only those photos that are both a) not Standardbilder  
+        and b) have mpx:veröffentlichen = ja"""
 
+        self._init_log(outdir) 
 
-    def cpFile (self, in_path, out_path):
-        """cp file to out_path while reporting missing files 
+        for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
+            fg=mume.find('mpx:veröffentlichen', self.ns)
+            stdb=mume.find('mpx:standardbild', self.ns)
 
-        If out_path exists already, overwrite only if source is newer than target."""
-        print (f"Checking {out_path}")
-        if not os.path.isfile(in_path):
-            self.write_log(f'File not found: {in_path}')
-            return
-        if os.path.exists(out_path): 
-            #overwrite ONLY if source is newer
-            if os.path.getmtime(out_path) > os.path.getmtime(out_path):
-                self._cpFile(in_path, out_path)
-        else:
-                self._cpFile(in_path, out_path)
+            if (fg is not None and stdb is None):
+                if (fg.text.lower() == "ja"):
+                    old_path, new_path=self._out_fn(mume, outdir, pattern)
+                    try:
+                        self._cpFile (path, out)
+                    except:
+                        self._write_log (f'File not found: {old_path}')
+        self._close_log()
 
+    def standardbilder (self, outdir, pattern):
+        """Copy standardbilder to outdir/pattern.ext."""
+
+        self._init_log(outdir) 
+
+        for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
+            sb=mume.find('mpx:standardbild', self.ns)
+            if (sb is not None):
+                old_path, new_path=self._out_fn(mume, outdir, pattern)
+                try:
+                    self._cpFile (path, out)
+                except:
+                    self._write_log (f'File not found: {old_path}')
+        self._close_log()
+
+    def tifs (self, outdir, pattern): 
+        """Copy tifs based on identNr to outdir/pattern.ext.
+        
+        Not sure if I should put this is ResourceCp. Right now it's in
+        TIFFinder.py"""
+        
+        pass
 
     def boris_test (self, outdir):
-        """ Boris möchte alle Bilder, die einen Pfad haben auf dead links testen. 
+        """Test all resources with a path for dead links. 
         
-        Wie erkenne ich Bilder im Unterschied zu anderen Resourcen? An der Erweiterung? 
-            jpg, tif, tiff, jpeg
-        Wenn Erweiterung ausgefüllt, nehme ich das ein Pfad vorhanden sein soll."""
+        Only jpg, tif, tiff, jpeg extensions are treated."""
 
         if os.path.isdir(outdir): #anything to do at all?
             print (outdir+' exists already, nothing tested') #this message is not important enough for logger
             return
         os.makedirs(outdir)
-        self.init_log(outdir) 
+        self._init_log(outdir) 
 
+        needles=['jpg', 'jpeg', 'tif', 'tiff']
         for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
             try:
                 erw=mume.find('mpx:erweiterung', self.ns).text
@@ -115,19 +110,39 @@ class ResourceCp:
             else: 
                 mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
                 #print ('Testing mulId %s %s' % (mulId, erw))
-                if erw.lower() == 'jpg' or erw.lower == 'jpeg' or erw.lower == 'tif' or erw.lower == 'tiff':
-                    vpfad=self._fullpath(mume) # will log incomplete path
-                    if vpfad is not None:
-                        if not os.path.isfile(vpfad):
-                            self.write_log('%s: %s: Datei nicht am Ort' % (mulId, vpfad))
-        self.close_log()
+                for each in needles:
+                    if each == erw.lower():
+                        path=self._fullpath(mume) # will log incomplete path
+                        if path is not None:
+                            if not os.path.isfile(path):
+                                self.write_log(f'{mulId}: {path}: Datei nicht am Ort')
+        self._close_log()
 
 
-    #############
-    #############
+    ##############
+    #PRIVATE STUFF
+    ##############
 
+    def _close_log (self):
+        self._log.close()
 
-    def _cpFile(self, in_path, out_path):
+    def _cpFile (self, in_path, out_path):
+        """cp file to out_path while reporting missing files 
+
+        If out_path exists already, overwrite only if source is newer than target."""
+
+        print (f"Checking {out_path}")
+        if not os.path.isfile(in_path):
+            self.write_log(f'File not found: {in_path}')
+            return
+        if os.path.exists(out_path): 
+            #overwrite ONLY if source is newer
+            if os.path.getmtime(out_path) > os.path.getmtime(out_path):
+                self._cpFile2(in_path, out_path)
+        else:
+                self._cpFile2(in_path, out_path)
+
+    def _cpFile2(self, in_path, out_path):
         #print (in_path +'->'+out_path)
         #shutil.copy doesn't seem to raise exception if source file not found
         try: 
@@ -136,13 +151,12 @@ class ResourceCp:
         except:
             print(f"Unexpected error: {sys.exc_info()[0]}")
 
-
     def _fullpath (self, mume):
-        """
-        Expects multimediaobjekt node and returns full mume path. If path 
-        has no pfadangabe or dateiname it writes an error message to logfile
-        and returns None
-        """
+        """Expects multimediaobjekt node and returns full mume path.
+
+        If path has no pfadangabe or dateiname it writes an error message to 
+        logfile and returns None"""
+
         error=0
         mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
         try:
@@ -161,84 +175,38 @@ class ResourceCp:
         if error==1:
             self.write_log(f'Path incomplete mulId: {mulId}')
             return #returns None, right?
-        return f"{pfad}\\{datei}.{erw}"
+        return f"{pfad}\{datei}.{erw}"
 
-
-    def _freigegeben (self, mume):
-        """ See self.freigegeben """
-
-        fg=mume.find('mpx:veröffentlichen', self.ns)
-        stdb=mume.find('mpx:standardbild', self.ns)
-
-        if (fg is not None and stdb is None):
-            if (fg.text.lower() == "ja"):
-                mulId=mume.get('mulId', self.ns) #might be ok to assume it always exists
-                #print (f'freigegeben-mulId: {mulId}')
-                vpfad=self._fullpath(mume)
-                try:
-                    erw=mume.find('mpx:erweiterung', self.ns).text #higher chances that it doesn't exists
-                except:
-                    return # incomplete path test has been reported by _fullpath already
-                out=f"{mulId}.{erw.lower()}"
-                return vpfad, out
-
-
-    def _genericCopier (self, outdir, mode):
-        if not os.path.isdir(outdir): #anything to do at all?
+    def _init_log (self,outdir):
+        if not os.path.isdir(outdir): 
             os.makedirs(outdir)
-        self.init_log(outdir) 
+        #line buffer so everything gets written when it's written
+        #so CTRL+C ends the program
+        self._log=open(outdir+'/report.log', mode="a", buffering=1)
 
-        print (f'*Working on {mode}')
-        
-        for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
-            if mode == 'freigegeben':
-                ret=self._freigegeben(mume)
-            elif mode == 'standardbilder':
-                ret=self._standardbilder(mume)
-            elif mode == 'mulId':
-                ret=self._mulId(mume)
-            else:
-                raise RuntimeError ('Unknown mode. Internal error.')
-            if type(ret) is tuple:
-                vpfad,out=ret
-                out=outdir+'/'+out
-                try:
-                    self.cpFile (vpfad, out)
-                except:
-                    self.write_log (f'File not found: {vpfad}')
-        self.close_log()
+    def _out_fn (self, mume, outdir, pattern):
+        old=self._fullpath (mume)
+        ls=pattern.split ('.')
+        out=[]
+        for each in ls:
+            if each == 'mulId':
+                out.append(mume.get('mulId', self.ns))
+            if each == 'objId':
+                out.append(mume.find('mpx:verknüpftesObjekt', self.ns).text)
+            if each == 'dateiname':
+                out.append(mume.find('mpx:dateiname', self.ns).text)
+        #always implicitly add file extension, but lower-cased.
+        out.append (mume.find('mpx:erweiterung', self.ns).text.lower())
+        fn='.'.join(out)
+        new=os.path.join(outdir,fn)
+        return old, new
 
-
-    def _standardbilder(self, mume):
-
-        sb=mume.find('mpx:standardbild', self.ns)
-        if (sb is not None):
-            #print ('   '+str(sb))
-
-            objId=mume.find('mpx:verknüpftesObjekt', self.ns).text
-            vpfad=self._fullpath(mume)
-            try:
-                erw=mume.find('mpx:erweiterung', self.ns).text
-            except:
-                return # incomplete path test has been reported by _fullpath already
-            out=f"{objId}.{erw.lower()}"
-            return vpfad, out
-
-
-    def _mulId (self, mume):
-        mulId=mume.get('mulId') # dont forget get in etree for attributes AGAIN
-        try:
-            erw=mume.find('mpx:erweiterung', self.ns).text
-        except:
-            return # incomplete path test has been reported by _fullpath already
-        out=f"{mulId}.{erw.lower()}"
-        vpfad=self._fullpath(mume)
-        return vpfad,out
-
-
+    def _write_log (self, msg):
+        self._log.write(f"[{datetime.datetime.now()}] {msg}\n")
+        print (msg)
 
 
 if __name__ == "__main__":
-    c=ResourceCp('data/WAF55/20190927/2-MPX/levelup.mpx')
-    c.standardbilder('data/WAF55/20190927/shf/Standardbilder')
-    c.freigegeben('data/WAF55/20190927/shf/freigegeben')
+    c=ResourceCp('2-MPX/levelup.mpx')
+    c.standardbilder('pix', 'mulId.dateiname')
+    c.freigegebene('pix', 'mulId.dateiname')
