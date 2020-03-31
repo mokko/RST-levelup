@@ -80,7 +80,6 @@ class Npx2csv:
         verbose (f"csv written to {outfile}")
 
 if __name__ == '__main__': 
-    
     #import argparse
     #parser = argparse.ArgumentParser()
     #parser.add_argument('-i', '--input', required=True)

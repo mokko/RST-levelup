@@ -54,6 +54,7 @@ class ResourceCp:
         and b) have mpx:veröffentlichen = ja"""
 
         self._init_log(outdir) 
+        self._write_log ("RUN FREIGEGEBENE")
 
         for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
             fg=mume.find('mpx:veröffentlichen', self.ns)
@@ -63,7 +64,7 @@ class ResourceCp:
                 if (fg.text.lower() == "ja"):
                     old_path, new_path=self._out_fn(mume, outdir, pattern)
                     try:
-                        self._cpFile (path, out)
+                        self._cpFile (old_path, new_path)
                     except:
                         self._write_log (f'File not found: {old_path}')
         self._close_log()
@@ -72,13 +73,14 @@ class ResourceCp:
         """Copy standardbilder to outdir/pattern.ext."""
 
         self._init_log(outdir) 
+        self._write_log ("FREIGEGEBENE")
 
         for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
             sb=mume.find('mpx:standardbild', self.ns)
             if (sb is not None):
                 old_path, new_path=self._out_fn(mume, outdir, pattern)
                 try:
-                    self._cpFile (path, out)
+                    self._cpFile (old_path, new_path)
                 except:
                     self._write_log (f'File not found: {old_path}')
         self._close_log()
@@ -131,12 +133,13 @@ class ResourceCp:
 
         If out_path exists already, overwrite only if source is newer than target."""
 
-        print (f"Checking {out_path}")
-        if not os.path.isfile(in_path):
-            self.write_log(f'File not found: {in_path}')
+        #print (f"Working on {in_path}")
+        if not os.path.exists(in_path):
+            self.write_log(f'Source file not found: {in_path}')
             return
         if os.path.exists(out_path): 
             #overwrite ONLY if source is newer
+            #print (f"outfile exists already {out_path}")
             if os.path.getmtime(out_path) > os.path.getmtime(out_path):
                 self._cpFile2(in_path, out_path)
         else:
@@ -145,6 +148,7 @@ class ResourceCp:
     def _cpFile2(self, in_path, out_path):
         #print (in_path +'->'+out_path)
         #shutil.copy doesn't seem to raise exception if source file not found
+        #print (f"cpFile2: {in_path} -> {out_path}")
         try: 
             # copy2 preserves file info
             shutil.copy2(in_path, out_path) 
@@ -208,5 +212,5 @@ class ResourceCp:
 
 if __name__ == "__main__":
     c=ResourceCp('2-MPX/levelup.mpx')
-    c.standardbilder('pix', 'mulId.dateiname')
-    c.freigegebene('pix', 'mulId.dateiname')
+    c.standardbilder('../pix', 'mulId.dateiname')
+    c.freigegebene('../pix', 'mulId.dateiname')
