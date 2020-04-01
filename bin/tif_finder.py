@@ -17,11 +17,12 @@ USAGE:
     tif_finder.py -S              show cache
     tif_finder.py -S -c cache_fn  show cache using specified cache_fn
 
+    tif_finder.py -m mpx_fn -c cache_fn 
+        read mpx file, lookup all identNr in cache and REPORT files to STDOUT
     tif_finder.py -m mpx_fn -c cache_fn -t target_dir
-        read mpx, lookup all identNr in cache and copy found files to target_dir 
-        using the convention 
-            target_dir/$objId.filename.tif
-            target_dir/$objId.filename (1).tif
+        read mpx, lookup all identNr in cache and COPY found files to 
+        target_dir using the convention 
+            target_dir/objId.hash.tif (CHECK)
 """
 
 import os, sys, argparse
@@ -55,7 +56,7 @@ if __name__ == "__main__":
     if args.update_cache is not None:
         t.scandir(args.update_cache)
     elif args.show_cache:
-        t.show()
+        t.show_cache()
     elif args.search is not None and args.target_dir is not None:
         print(f"*Searching for '{args.search}' with target_dir '{args.target_dir}'")
         t.search (args.search, args.target_dir)

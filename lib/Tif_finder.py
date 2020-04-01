@@ -1,43 +1,47 @@
-""" Find *.tif? files by filename/identNr 
+""" Find *.tif and *.tiff files by identNr 
 
-    Uses a json file as cache to store path information (e.g. .tif_finder.json)
+    Uses a json file as cache to store path information (e.g. .tif_cache.json)
 
     USAGE:
         tf=Tif_finder(cache_fn)
-        tf.scandir(scan_dir) #scans recursively for *.tif?
-        tf.show() #prints cache to STDOUT 
+        #work with cache
+        tf.scandir(scan_dir)  # scans recursively for *.tif|*.tiff
+        tf.iscandir(scan_dir) # rescans dir if cache is older than 1d
+        tf.show_cache()       # prints cache to STDOUT 
 
-        ls=tf.search (needle) #matching path in list
-        tf.search_xls(needle) #with needles from xls, search cache & report to
-                              #STDOUT
+        #three different searches
+        ls=tf.search (needle) # matching path in list, for single needle
+        tf.search_xls(needle) # with multiple needles from xls, 
+                              # search cache & report to STDOUT
 
-        tf.search_xls(xls_fn, outdir) #search cache for needles from xls and 
-                              #copy found tifs to outdir
-        tf.search_mpx(mpx_fn, outdir) #search for all identNr in mpx and copy
-                              #to outdir 
+        tf.search_xls(xls_fn, outdir) 
+                              # search cache for needles from xls, copy found 
+                              # tifs to outdir
+                              # output: orig-filename (no).tif
+        tf.search_mpx(mpx_fn, outdir) 
+                              # search for all identNr in mpx, copy to outdir
+                              # output: objId.hash.tif
 
+    In search_xls the original filename is usually preserved; only if multiple 
+    tifs have the same name they are varied by adding a number. The downside 
+    of this naming scheme is that if Tif_finder is run multiple times, same  
+    files will be copied multiple times (because there is no identity). This 
+    may naming scheme may be useful for some uses, just beware.
     
-    Filename is usually preserved; only if multiple tifs have the same name
-    they are varied by adding a number.
+    search_mpx uses other naming scheme:
+        objId.hash.tif
+"""
 
-    The downside of this naming scheme is that if Tif_finder is run multiple 
-    times, same files will be copied multiple times. For use inside a CLI util 
-    that may still work, for other cases we will need different naming 
-    convention.
-    
-    $objId.$hash.tif
-    Before I program that, I want to see that I can actually find the right 
-    objId RELIABLY."""
-
-import shutil
-import json
-import os
-import hashlib
 import datetime
-from pathlib import Path
-from openpyxl import Workbook, load_workbook
+import hashlib
+import json
 from lxml import etree
-
+import os
+from openpyxl import Workbook, load_workbook
+from pathlib import Path
+import shutil
+import time
+#import MiniLogger?
 
 class Tif_finder:
     def __init__(self, cache_fn): 
@@ -53,7 +57,6 @@ class Tif_finder:
                 self.cache = json.load(f)
         else:
             self.cache={}
-
 
     def scandir (self, scan_dir):
         """Scan dir for tif and store result in tif cache.
@@ -78,9 +81,7 @@ class Tif_finder:
             self.cache[str(abs)]=str(trunk)
 
         print ('* Writing updated cache file')
-        with open(self.cache_fn, 'w') as f:
-            json.dump(self.cache, f)
-
+        self._write_cache()
 
     def iscandir (self, scan_dir):
         """intelligent directory scan
@@ -95,20 +96,19 @@ class Tif_finder:
             tf.iscandir (['.', '.']) 
         """
 
-        print (f"* About to iscan {scan_dir}")
-        import time
+        print (f"* About to i-scan {scan_dir}")
         cache_mtime = os.path.getmtime(self.cache_fn)
         now = time.time()
-        #only if cache is older than one day
-        print (f"DIFF:{now-cache_mtime}")
-        if now-cache_mtime > 3600*24*2:
-            #remove items from cache if their file doesn't exist anymore
-            for path in self.cache:
+        # print (f"DIFF:{now-cache_mtime}")
+        # only if cache is older than one day
+        if now-cache_mtime > 3600*24:
+            # remove items from cache if file doesn't exist anymore
+            for path in list(self.cache)    :
                 if not os.path.exists (path):
+                    print (f"File doesn't exist anymore; remove from cache {path}")
                     del self.cache[path]
             for dir in scan_dir:
-                self.scandir(dir)
-
+                self.scandir(dir) # writes cache
 
     def search (self, needle, target_dir=None):
         """Search tif cache for a single needle.
@@ -118,14 +118,13 @@ class Tif_finder:
             
         If target_dir is provided copy matches to that dir."""
 
-        #print ("* Searching cache for needle '%s'" % needle)
+        # print ("* Searching cache for needle '%s'" % needle)
         ret = [path for path in self.cache if needle in self.cache[path]]
 
         if target_dir is not None:
             for f in ret:
                 self._simple_copy(f,target_dir)
         return ret
-
 
     def search_xls (self, xls_fn, target_dir=None):
         """Search tif cache for needles from Excel file.
@@ -150,12 +149,12 @@ class Tif_finder:
                     for f in found:
                         self._simple_copy(f,target_dir)
 
-
     def search_mpx (self, mpx_fn, target_dir=None):
         """Search tif cache for identNr from mpx.
         
         For each identNr from mpx look for corresponding tifs in cache; if 
-        target_dir exists, copy them to target_dir."""
+        target_dir exists, copy them to target_dir. If target_dir doesn't exist
+        just report them to STDOUT."""
         
         if target_dir is not None:
             target_dir = os.path.realpath(target_dir)
@@ -176,8 +175,7 @@ class Tif_finder:
                 if target_dir is not None:
                     self._hash_copy(f, target_dir, objId)
 
-
-    def show(self):
+    def show_cache (self):
         """Prints contents of cache to STDOUT"""
 
         print ('*Displaying cache contents')
@@ -189,7 +187,7 @@ class Tif_finder:
             print (' Cache does not exist!')
 
 
-#############
+############# PRIVATE STUFF #############
 
     def _init_log (self,outdir):
         #line buffer so everything gets written when it's written, so I can CTRL+C the program
@@ -201,7 +199,6 @@ class Tif_finder:
 
     def _close_log (self):
         self._log.close()
-
 
     def _target_fn (self, fn):
         """Return filename that doesn't exist yet. 
@@ -222,7 +219,6 @@ class Tif_finder:
             i += 1
         print (f"[{i}] {new}")
         return new
-
 
     def _simple_copy(self, source, target_dir):
         """Copy source file to target dir, typically keeping original 
@@ -247,9 +243,8 @@ class Tif_finder:
                 self._write_log(f"File not found: {source}")
         self._close_log()
 
-
     def _hash_copy (self, source, target_dir, objId):
-        """ Copy *.tif to target_dir/$objId.$hash.tif"""
+        """ Copy *.tif to target_dir/objId.hash.tif"""
 
         if not os.path.isdir(target_dir):
             raise ValueError ("Error: Target is not directory!")
@@ -264,17 +259,16 @@ class Tif_finder:
                 self._write_log(f"File not found: {source}")
         self._close_log()
 
-
     def _file_hash (self, fn):
         print (f"About to hash '{fn}'...", end='')
         with open(fn, "rb") as f:
             file_hash = hashlib.md5()
-            for chunk in iter(lambda: f.read(8192), b''):
             #while chunk := f.read(8192): #walrus operator requires python 3.8
+            #we dont need that if not necessary
+            for chunk in iter(lambda: f.read(8192), b''):
                 file_hash.update(chunk)
         print('done')
         return file_hash.hexdigest()
-
 
     def _prepare_wb(self, xls_fn):
         """Read existing xlsx and return workbook"""
@@ -285,6 +279,9 @@ class Tif_finder:
         else:
             raise ValueError (f"Excel file not found: {xls_fn}")
 
+    def _write_cache (self):
+        with open(self.cache_fn, 'w') as f:
+            json.dump(self.cache, f)
 
 if __name__ == "__main__":
     tf=Tif_finder('.tif_cache.json')
