@@ -49,7 +49,7 @@ conf={
     'datenblatto': '3-datenblatt/o.html',
     'datenblatthtml': '3-datenblatt/fromLido.html',
 
-    #xsl    
+    #xsl
     'joinColxsl': 'joinCol.xsl',
     'lvlupxsl': 'lupmpx2.xsl',
     'fixxsl': 'mpx-fix.xsl', 
@@ -125,7 +125,7 @@ if __name__ == "__main__":
             print ('*Converting to SHF format...')
             if os.path.isfile(conf['lvlupmpx']):
                 s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
-                n = Npx2csv (conf['shfnpx'], conf['shfcsv'])
+                n = Npx2csv (conf['shfnpx'])
                 rc = ResourceCp (conf['lvlupmpx']) # init
                 rc.standardbilder('..\pix', 'mulId.dateiname')
                 rc.freigegebene('..\pix', 'mulId.dateiname')
