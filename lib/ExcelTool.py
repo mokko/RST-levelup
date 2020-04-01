@@ -150,6 +150,7 @@ class ExcelTool:
             elif cmd == "index_with_attribute": pass
             elif cmd == "attribute_index": pass
             elif cmd == "index": pass
+            elif cmd == "index_with_2attributes": pass
             else: 
                 print (f"WARNING: Unknown command in conf {cmd}")
         return t
@@ -164,9 +165,11 @@ class ExcelTool:
         for task,cmd in t._itertasks(conf_fn): #sort of a Domain Specific Language DSL
             #print (f"from_conf: {cmd}: {task[cmd]}")
             if cmd == "index":
-                t.index (task[cmd])
+                t.index (task[cmd][0], task[cmd][1])
             elif cmd == "index_with_attribute":
                 t.index_with_attribute (task[cmd][0], task[cmd][1])
+            elif cmd == "index_with_2attributes":
+                t.index_with_2attributes (task[cmd][0], task[cmd][1], task[cmd][2])
             elif cmd == "attribute_index":
                 t.index_for_attribute (task[cmd][0], task[cmd][1])
             elif cmd == "translate_element": pass
@@ -175,17 +178,22 @@ class ExcelTool:
                 print (f"WARNING: Unknown command in conf {cmd}")
         return t
 
-    def index (self, xpath):
+    def index (self, xpath, include_verant=''):
         """Write vocabulary index to the right xls sheet.
 
         Sheet depends on xpath expression."""
 
-        print(f"*Creating/updating voc-index for element {xpath}")
+        print(f"**Creating/updating voc-index for element {xpath}")
         ws = self._prepare_indexing(xpath, self.wb)
 
         for term, verant in self._iterterms(xpath):
             term_str = self._term2str (term) #if there is whitespace we don't want it 
-            row = self._term_verant_exists(ws, term_str, verant)
+            if include_verant == 'verantwortlich':
+                row = self._term_verant_exists(ws, term_str, verant)
+            else:
+                #print ("verantwortlich is NOT part of the identity test")
+                verant=None
+                row = self._term_exists(ws, term_str)
             if row: 
                 #print ('term exists already: '+str(row))
                 self._update_frequency (ws, row)
@@ -203,7 +211,7 @@ class ExcelTool:
         Once I have the attribute value I dont get back to parent. Even in 
         lxml."""
 
-        print(f"*Creating/updating voc-index for attribute {xpath}")
+        print(f"**Creating/updating voc-index for attribute {xpath}")
         ws = self._prepare_indexing(xpath, self.wb)
         base_xpath, attrib = self._attribute_split(xpath)
 
@@ -224,13 +232,37 @@ class ExcelTool:
                     self._insert_alphabetically(ws, value, verant)
         self.wb.save(self.xls_fn) 
 
-    def index_with_attribute (self, xpath, quali): 
-        """Write vocabulary index for an element with qualifier
+    def index_with_2attributes (self, xpath, quali1, quali2): 
+        """Write vocabulary index for an element with 2 qualifiers
 
         Treats terms with different qualifiers as two different terms, e.g. 
         lists both Indien (Land) and Indien ()."""
 
-        print(f"*Creating/updating voc-index for element with attribute {xpath}")
+        print(f"**Creating/updating voc-index for element with 2attributes {xpath} {quali1} {quali2}")
+        ws = self._prepare_indexing(xpath, self.wb)
+
+        for term, verant in self._iterterms(xpath):
+            qu_value1 = self._get_attribute(term, quali1)
+            qu_value2 = self._get_attribute(term, quali2)
+            #print (f"{quali1}:{qu_value1}; {quali2}:{qu_value2}")
+            term_str = self._term2str (term) #no whitespace 
+            qu_value=f"{qu_value1} - {qu_value2}"
+            #print (f"{qu_value}")
+            row = self._term_quali_exists(ws, term_str,qu_value, verant)
+            if row:
+                #print ('term exists already: '+str(row))
+                self._update_frequency (ws, row)
+            else:
+                print (f'new term: {term_str} ({qu_value})')
+                self._insert_alphabetically(ws, term_str, verant, qu_value)
+        self.wb.save(self.xls_fn) 
+        
+    def index_with_attribute (self, xpath, quali): 
+        """Write vocabulary index for an element with qualifier
+        Treats terms with different qualifiers as two different terms, e.g. 
+        lists both Indien (Land) and Indien ()."""
+
+        print(f"**Creating/updating voc-index for element with attribute {xpath}")
         ws = self._prepare_indexing(xpath, self.wb)
 
         for term, verant in self._iterterms(xpath):
@@ -244,7 +276,7 @@ class ExcelTool:
                 print (f'new term: {term_str} ({qu_value})')
                 self._insert_alphabetically(ws, term_str, verant, qu_value)
         self.wb.save(self.xls_fn) 
-
+        
     def translate_attribute (self, xpath):
         """Write/update translation xls for attribute"""
 
@@ -420,7 +452,7 @@ class ExcelTool:
             'B1': 'QUALI*', #create this column even if not used
             'C1': 'VERANTWORTLICHKEIT*',
             'D1': 'FREQUENZ*',
-            'E1': 'PREF (DE)',
+            'E1': 'VORZUGSBEZEICHNUNG',
             'F1': 'NOTIZEN'
         }
         self._write_header(columns,ws)
@@ -440,10 +472,10 @@ class ExcelTool:
         Returns workbook."""
 
         if os.path.isfile (xls_fn):
-            print (f'*Excel file exists ({xls_fn})')
+            print (f'   Excel file exists ({xls_fn})')
             return load_workbook(filename = xls_fn)
         else:
-            print (f"*Excel file doesn't exist yet, making it ({xls_fn})")
+            print (f"   Excel file doesn't exist yet, making it ({xls_fn})")
             self.new_file=1
             return Workbook()
 

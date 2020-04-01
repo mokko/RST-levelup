@@ -41,7 +41,7 @@ from openpyxl import Workbook, load_workbook
 from pathlib import Path
 import shutil
 import time
-#import MiniLogger?
+import MiniLogger
 
 class Tif_finder:
     def __init__(self, cache_fn): 
@@ -79,7 +79,6 @@ class Tif_finder:
             (trunk,ext)=os.path.splitext(base)
             print (f"{abs}")
             self.cache[str(abs)]=str(trunk)
-
         print ('* Writing updated cache file')
         self._write_cache()
 

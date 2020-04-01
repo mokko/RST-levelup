@@ -80,7 +80,7 @@ elif os.getlogin() == 'mauri':
 if __name__ == "__main__":
     
     import sys
-    print ("lib: %s" % conf['lib'])
+    #print ("lib: %s" % conf['lib'])
     sys.path.append (conf['lib'])
     sys.path.append (conf['t'])
     
