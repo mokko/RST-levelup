@@ -1,0 +1,20 @@
+{
+    "tasks":[
+        {"index_with_2attributes": ["./mpx:sammlungsobjekt/mpx:datierung", "vonJahr", "bisJahr"]},
+        {"index":  ["./mpx:sammlungsobjekt/mpx:erwerbungsart", "no verantwortlich"]},
+        {"index_with_attribute": ["./mpx:sammlungsobjekt/mpx:geogrBezug", "art"]},
+        {"attribute_index": ["./mpx:sammlungsobjekt/mpx:geogrBezug/@bezeichnung","no verantwortlich"]},
+        {"attribute_index": ["./mpx:sammlungsobjekt/mpx:geogrBezug/@art","no verantwortlich"]},
+        {"attribute_index": ["./mpx:sammlungsobjekt/mpx:maßangaben/@typ","no verantwortlich"]},
+        {"index": ["./mpx:sammlungsobjekt/mpx:materialTechnik[@art = 'Ausgabe']", "no verantwortlich"]},
+        {"index_with_attribute":["./mpx:sammlungsobjekt/mpx:sachbegriff", "art"]},
+        {"attribute_index": ["./mpx:sammlungsobjekt/mpx:sachbegriff/@art", "no verantwortlich"]},
+        {"index_with_attribute": ["./mpx:sammlungsobjekt/mpx:titel", "art"]},
+		
+        {"translate_element":"./mpx:sammlungsobjekt/mpx:geogrBezug"},
+        {"translate_attribute":"./mpx:sammlungsobjekt/mpx:geogrBezug/@bezeichnung"},
+        {"translate_element":"./mpx:sammlungsobjekt/mpx:sachbegriff"},
+        {"translate_attribute":"./mpx:sammlungsobjekt/mpx:sachbegriff/@art"}
+    ]
+}
+
