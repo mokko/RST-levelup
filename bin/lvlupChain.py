@@ -130,7 +130,7 @@ if __name__ == "__main__":
                 rc.standardbilder('..\pix', 'mulId.dateiname')
                 rc.freigegebene('..\pix', 'mulId.dateiname')
                 #you might need to prepare or delete the cache file manually
-                tf = Tif_finder('../../../.tif_finder.json')
+                tf = Tif_finder('../../../.tif_cache.json')
                 tf.search_mpx(conf['lvlupmpx'], conf['tifdir'])
                 tshf.main(conf['lvlupmpx'], conf ['shfnpx'])
 

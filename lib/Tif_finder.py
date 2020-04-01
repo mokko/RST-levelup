@@ -70,7 +70,7 @@ class Tif_finder:
 
         files=Path(scan_dir).rglob('*.tif') # returns generator
         files2=Path(scan_dir).rglob('*.tiff')
-        for path in list(files) +list(files2):
+        for path in list(files) + list(files2):
             abs = path.resolve()
             base = os.path.basename(abs)
             (trunk,ext)=os.path.splitext(base)
@@ -97,8 +97,8 @@ class Tif_finder:
 
         print (f"* About to iscan {scan_dir}")
         import time
-        cache_mtime=os.path.getmtime(self.cache_fn)
-        now=time.time()
+        cache_mtime = os.path.getmtime(self.cache_fn)
+        now = time.time()
         #only if cache is older than one day
         print (f"DIFF:{now-cache_mtime}")
         if now-cache_mtime > 3600*24*2:
@@ -119,12 +119,11 @@ class Tif_finder:
         If target_dir is provided copy matches to that dir."""
 
         #print ("* Searching cache for needle '%s'" % needle)
-        ret=[path for path in self.cache if needle in self.cache[path]]
+        ret = [path for path in self.cache if needle in self.cache[path]]
 
         if target_dir is not None:
             for f in ret:
                 self._simple_copy(f,target_dir)
-
         return ret
 
 
@@ -137,7 +136,7 @@ class Tif_finder:
 
         print (f"* Searching cache for needles from Excel file {xls_fn}")
 
-        self.wb=self._prepare_wb(xls_fn)
+        self.wb = self._prepare_wb(xls_fn)
         #ws = self.wb.active # last active sheet
         ws = self.wb.worksheets[0]
         print (f"* Sheet title: {ws.title}")
@@ -145,7 +144,7 @@ class Tif_finder:
         for needle in col:
             #print ('Needle: %s' % needle.value)
             if needle != 'None':
-                found=self.search(needle.value)
+                found = self.search(needle.value)
                 print(f'found {found}')
                 if target_dir is not None:
                     for f in found:
@@ -159,7 +158,7 @@ class Tif_finder:
         target_dir exists, copy them to target_dir."""
         
         if target_dir is not None:
-            target_dir=os.path.realpath(target_dir)
+            target_dir = os.path.realpath(target_dir)
             if not os.path.isdir(target_dir):
                 os.makedirs (target_dir)
         tree = etree.parse(mpx_fn)
@@ -167,11 +166,11 @@ class Tif_finder:
             namespaces={'m':'http://www.mpx.org/mpx'})
 
         for identNr_node in r:
-            tifs=self.search (identNr_node.text)
-            objId=tree.xpath(f"/m:museumPlusExport/m:sammlungsobjekt/@objId[../m:identNr = '{identNr_node.text}']", 
+            tifs = self.search (identNr_node.text)
+            objId = tree.xpath(f"/m:museumPlusExport/m:sammlungsobjekt/@objId[../m:identNr = '{identNr_node.text}']", 
                 namespaces={'m':'http://www.mpx.org/mpx'})[0]
             #print(f"{identNr_node.text}->{objId}")
-            found=self.search(identNr_node.text)
+            found = self.search(identNr_node.text)
             for f in found:
                 print (f"{identNr_node.text}->{objId}->{f}")
                 if target_dir is not None:
@@ -214,13 +213,13 @@ class Tif_finder:
             path/to/base (2).ext
             ..."""
 
-        new=fn
-        i=1
+        new = fn
+        i = 1
         while os.path.exists (new):
             #print ('Target exists already')
-            trunk,ext=os.path.splitext(fn)
-            new=f"{trunk} ({i}).{ext}"
-            i+=1
+            trunk,ext = os.path.splitext(fn)
+            new = f"{trunk} ({i}).{ext}"
+            i += 1
         print (f"[{i}] {new}")
         return new
 
@@ -239,7 +238,7 @@ class Tif_finder:
         #print ('cp %s -> %s' %(source, target_dir))
         self._init_log(target_dir)
         s_base = os.path.basename(source)
-        target_fn=self._target_fn(os.path.join(target_dir, s_base)) # should be full path
+        target_fn = self._target_fn(os.path.join(target_dir, s_base)) # should be full path
         if not os.path.isfile(target_fn): #no overwrite
             self._write_log(f"{source} -> {target_fn}") 
             try: 
@@ -255,8 +254,8 @@ class Tif_finder:
         if not os.path.isdir(target_dir):
             raise ValueError ("Error: Target is not directory!")
         self._init_log(target_dir)
-        hash=self._file_hash(source)
-        target_fn=os.path.join(target_dir, f"{objId}.{hash}.tif")
+        hash = self._file_hash(source)
+        target_fn = os.path.join(target_dir, f"{objId}.{hash}.tif")
         if not os.path.isfile(target_fn): #no overwrite
             self._write_log(f"{source} -> {target_fn}") 
             try: 
@@ -288,6 +287,6 @@ class Tif_finder:
 
 
 if __name__ == "__main__":
-    tf=Tif_finder('.tif_finder.json')
+    tf=Tif_finder('.tif_cache.json')
     tf.iscandir ('.')
     tf.iscandir (['.', '.'])
