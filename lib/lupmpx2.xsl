@@ -292,7 +292,8 @@
             </xsl:if>
 
             <xsl:if test="../ausstellungJahr">
-                <xsl:attribute name="Jahr">
+                <!-- should be lower-case: jahr -->
+                <xsl:attribute name="jahr">
                         <xsl:value-of select="../ausstellungJahr" />
                 </xsl:attribute>
             </xsl:if>
@@ -358,8 +359,6 @@
 				</xsl:attribute>
 			</xsl:if>
 
-			<!-- TODO: ist da wirklich immer ein Jahr drin oder sind da auch andere Formate erlaubt? 
-            Wenn nicht wäre jetzt die Gelegenheit, das umzubenennen-->
 			<xsl:if test="../datierungJahrBis">
 				<xsl:attribute name="bisJahr">
 					<xsl:value-of select="../datierungJahrBis" />
@@ -618,6 +617,7 @@
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/titel">
 		<xsl:call-template name="wAttrib">
 			<xsl:with-param name="attrib" select="../titelArt" />
+            <xsl:with-param name="attrib" select="../titelBemerkung" />
 		</xsl:call-template>
 	</xsl:template>
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/titelArt"/>

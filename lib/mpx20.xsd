@@ -491,6 +491,7 @@
     <!-- personKörperschaft (doppelter Singualar) statt personenKörperschaften -->
    <xsd:element ref="personenKörperschaften" minOccurs="0" maxOccurs="unbounded"/>
    <xsd:element ref="sachbegriff" minOccurs="0" maxOccurs="unbounded"/>
+   <xsd:element ref="sachbegriffHierarchisch" minOccurs="0" maxOccurs="unbounded"/>
     <!-- schnitt (Film) -->
    <xsd:element ref="standort" minOccurs="0" maxOccurs="unbounded"/>
     <!-- stativ (Foto?) -->
@@ -603,12 +604,12 @@
    <xsd:extension base="xsd:string">
     <xsd:attribute name="art" type="xsd:string"/>
     <xsd:attribute name="bemerkung" type="xsd:string"/>
-    <xsd:attribute name="vonJahr" type="xsd:string"/>
-    <xsd:attribute name="vonMonat" type="xsd:string"/>
-    <xsd:attribute name="vonTag" type="xsd:string"/>
     <xsd:attribute name="bisJahr" type="xsd:string"/>
     <xsd:attribute name="bisMonat" type="xsd:string"/>
     <xsd:attribute name="bisTag" type="xsd:string"/>
+    <xsd:attribute name="vonJahr" type="xsd:string"/>
+    <xsd:attribute name="vonMonat" type="xsd:string"/>
+    <xsd:attribute name="vonTag" type="xsd:string"/>
     <xsd:attribute name="sort" type="xsd:integer"/>
     </xsd:extension>
    </xsd:simpleContent>
@@ -642,19 +643,20 @@
 <xsd:element name="ausstellung">
 	<xsd:annotation>
 	<xsd:documentation>
-		dokumentierte Ausstellung bei denen das Objekt gezeigt wurde
+		dokumentierte Ausstellung, bei denen das Objekt gezeigt wurde
 	</xsd:documentation>
 	</xsd:annotation>
 	<xsd:complexType>
 		<xsd:simpleContent>
 			<xsd:extension base="xsd:string">
-				<xsd:attribute name="sektion" type="xsd:string"/>
-				<xsd:attribute name="ort" type="xsd:string"/>
-				<xsd:attribute name="Jahr" type="xsd:string"/>
-				<xsd:attribute name="internExtern" type="xsd:string"/>
 				<xsd:attribute name="entscheid" type="xsd:string"/>
 				<xsd:attribute name="datumVon" type="xsd:string"/>
 				<xsd:attribute name="datumBis" type="xsd:string"/>
+                <xsd:attribute name="internExtern" type="xsd:string"/>
+                <xsd:attribute name="jahr" type="xsd:string"/>
+                <xsd:attribute name="katalogNr" type="xsd:string"/>
+                <xsd:attribute name="ort" type="xsd:string"/>
+                <xsd:attribute name="sektion" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>
@@ -1056,7 +1058,23 @@
   </xsd:complexType>
 </xsd:element>
 
- <!-- ständigerStandort -->
+<xsd:element name="sachbegriffHierarchisch">
+ <xsd:annotation>
+  <xsd:documentation> Sachbegriff mit allen Begriffen in der Hierarchie der 
+  Systematik. Z.B. Tongefäß (04. Wohnkultur, Architektur / Hausrat / 
+  Nutzgegenstände / Aufbewahren / Behälter und Gefäße (allgemein) / 
+  allgemeine Gefäße und Zubehör)
+   </xsd:documentation>
+  </xsd:annotation>
+ <xsd:complexType>
+  <xsd:simpleContent>
+   <xsd:extension base="xsd:string">
+    <xsd:attribute name="art" type="xsd:string"/>
+    </xsd:extension>
+   </xsd:simpleContent>
+  </xsd:complexType>
+</xsd:element>
+
 <xsd:element name="ständigerStandort" type="xsd:string">
  <xsd:annotation>
   <xsd:documentation> Ständiger Standort des Gegenstandes innerhalb der
@@ -1065,7 +1083,6 @@
   </xsd:annotation>
 </xsd:element>
 
- <!-- SWD (neu) -->
 <xsd:element name="swd">
  <xsd:annotation>
   <xsd:documentation> Verschlagwortung des Objekts mit SWD-Begriffen
@@ -1119,6 +1136,7 @@
   <xsd:simpleContent>
    <xsd:extension base="xsd:string">
     <xsd:attribute name="art" type="xsd:string"/>
+    <xsd:attribute name="bemerkung" type="xsd:string"/>
     </xsd:extension>
    </xsd:simpleContent>
   </xsd:complexType>
