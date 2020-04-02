@@ -141,7 +141,8 @@ if __name__ == "__main__":
                 t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
                 #only apply fix if fix doesn't exist yet
                 #dont forget to delete old fix to get new info....
-                if not os.path.exists(conf['vfixmpx']): 
+                if not os.path.exists(conf['vfixmpx']):
+                    print ("*APPLYING FIX")
                     t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
                 # Übersetzungs-Excel
                 # Was passiert, wenn ein Begriff aus xml-Quelle entfällt?

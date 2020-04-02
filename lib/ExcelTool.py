@@ -42,13 +42,12 @@ TODO: new translation feature (
 : instructions are in conf.json
 : target_dir specified during from_conf"""
 
+import json
 import os
 from lxml import etree #has getParent()
 from openpyxl import Workbook, load_workbook
 
-
 class ExcelTool:
-
     def __init__ (self, source_xml,xls_dir = '.'):
         self.ns = {
             'npx': 'http://www.mpx.org/npx', #npx is no mpx
@@ -77,23 +76,17 @@ class ExcelTool:
         #primitive Domain Specific Language (DSL)
         for task, cmd in self._itertasks(conf_fn):
             xpath = task[cmd][0]
-            if cmd == 'index': pass
-            elif cmd == 'index_with_attribute':
+            if cmd == 'index_with_attribute':
                 attribute = task[cmd][1]
-            elif cmd == 'index_with_2attributes': pass
             elif cmd == 'attribute_index':
                 include_verant = task[cmd][1]
-                xpath, attrib = self._attribute_split(task[cmd][0]) #rewrite xpath for iterterms
-            elif cmd == "translate_element": pass
-            elif cmd == "translate_attribute": pass
-            else:
-                print (f"WARNING: Unknown command found in conf {cmd}")
-            ws = self._get_ws (task[cmd][0]) 
-
+                xpath, attrib = self._attribute_split(task[cmd][0]) 
+ 
             if (cmd == 'index' 
                 or cmd == 'index_with_attribute'
                 or cmd == 'index_with_2attributes'
                 or cmd == 'attribute_index'):
+                ws = self._get_ws (task[cmd][0]) 
                 print (f"**Checking replacements from sheet '{ws.title}'")
                 print (f"   {cmd}: {task[cmd]}")
     
@@ -107,9 +100,7 @@ class ExcelTool:
                         lno = self._term_quali_exists(ws, term_str, qu_value, verant)
                         #print(f"syn term found '{term.text}' {lno}")
                     elif cmd == 'index_with_2attributes':
-                        quv1 = self._get_attribute (term, task[cmd][1]) 
-                        quv2 = self._get_attribute (term, task[cmd][2]) 
-                        qu_value=f"{quv1} - {quv2}"
+                        qu_value = self._2attributes(term, quali1, quali2)
                         lno = self._term_quali_exists(ws, term_str, qu_value, verant)
                     elif cmd == 'attribute_index':
                         try:
@@ -150,12 +141,6 @@ class ExcelTool:
                 t.translate_element (task[cmd])
             elif cmd == "translate_attribute": 
                 t.translate_attribute (task[cmd])
-            elif cmd == "index_with_attribute": pass
-            elif cmd == "attribute_index": pass
-            elif cmd == "index": pass
-            elif cmd == "index_with_2attributes": pass
-            else: 
-                print (f"WARNING: Unknown command in conf {cmd}")
         return t
 
     def from_conf (conf_fn, source_xml, xls_dir = None): #no self
@@ -245,11 +230,8 @@ class ExcelTool:
         ws = self._prepare_indexing(xpath, self.wb)
 
         for term, verant in self._iterterms(xpath):
-            qu_value1 = self._get_attribute(term, quali1)
-            qu_value2 = self._get_attribute(term, quali2)
-            #print (f"{quali1}:{qu_value1}; {quali2}:{qu_value2}")
+            qu_value = self._2attributes(term, quali1, quali2)
             term_str = self._term2str (term) #no whitespace 
-            qu_value=f"{qu_value1} - {qu_value2}"
             #print (f"{qu_value}")
             row = self._term_quali_exists(ws, term_str,qu_value, verant)
             if row:
@@ -319,6 +301,11 @@ class ExcelTool:
 
         
 #    PRIVATE STUFF
+
+    def _2attributes(self, term, quali1, quali2):
+        qu_value1 = self._get_attribute(term, quali1)
+        qu_value2 = self._get_attribute(term, quali2)
+        return f"{qu_value1} - {qu_value2}"
 
     def _attribute_split (self, xpath):
         attrib = xpath.split('/')[-1]
@@ -453,7 +440,7 @@ class ExcelTool:
         columns = {
             'A1': 'GEWIMMEL*',
             'B1': 'QUALI*', #create this column even if not used
-            'C1': 'VERANTWORTLICHKEIT*',
+            'C1': 'VERANTWORTLICH*',
             'D1': 'FREQUENZ*',
             'E1': 'VORZUGSBEZEICHNUNG',
             'F1': 'NOTIZEN'
@@ -483,14 +470,13 @@ class ExcelTool:
             return Workbook()
 
     def _read_conf (self, conf_fn):
-        import json
         with open(conf_fn, encoding='utf-8') as json_data_file:
             data = json.load(json_data_file)
         return data
 
     def _term2str (self, term_node):
         term_str = term_node.text
-        if term_str is not None: #if there is whitespace we want to ignore it in the index
+        if term_str is not None: 
             return term_str.strip()
 
     def _term_exists (self, ws, term):
