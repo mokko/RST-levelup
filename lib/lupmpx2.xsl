@@ -494,25 +494,22 @@
 					<xsl:value-of select="../objBezArt" />
 				</xsl:attribute>
 			</xsl:if>
-
 			<xsl:if test="../objBezBemerkung">
 				<xsl:attribute name="bemerkung">
 					<xsl:value-of select="../objBezBemerkung" />
 				</xsl:attribute>
 			</xsl:if>
-
 			<xsl:if test="../objBezSachbegriff">
 				<xsl:attribute name="sachbegriff">
 					<xsl:value-of select="../objBezSachbegriff" />
 				</xsl:attribute>
 			</xsl:if>
-
 			<xsl:value-of select="." />
 		</xsl:element>
 	</xsl:template>
-	<xsl:template match="/museumPlusExport/sammlungsobjekt/objBezSachbegriff
-		|/museumPlusExport/sammlungsobjekt/objBezBemerkung
-		|/museumPlusExport/sammlungsobjekt/objBezArt"/>
+	<xsl:template match="/museumPlusExport/sammlungsobjekt/objBezSachbegriff"/>
+    <xsl:template match="/museumPlusExport/sammlungsobjekt/objBezBemerkung"/>
+    <xsl:template match="/museumPlusExport/sammlungsobjekt/objBezArt"/>
 
 
 	<!-- irregular names? personKörperschaft oder personenKörperschaft -->
@@ -592,7 +589,6 @@
 					<xsl:value-of select="../standortBearbDat" />
 				</xsl:attribute>
 			</xsl:if>
-
 			<xsl:value-of select="." />
 		</xsl:element>
     </xsl:template>
@@ -621,5 +617,5 @@
 		</xsl:call-template>
 	</xsl:template>
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/titelArt"/>
-
+    <xsl:template match="/museumPlusExport/sammlungsobjekt/titelBemerkung"/>
 </xsl:stylesheet>
