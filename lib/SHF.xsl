@@ -364,7 +364,8 @@
     <xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:titel">
         <xsl:element name="{name()}">
             <xsl:value-of select="." />
-            <xsl:if test="@art ne 'Titel'">
+            <!-- @kommentar bislang nicht exportiert -->
+            <xsl:if test="@art">
                 <xsl:text> [</xsl:text>
                     <xsl:value-of select="@art" />
                 <xsl:text>]</xsl:text>

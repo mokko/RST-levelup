@@ -76,25 +76,23 @@ class ExcelTool:
         
         #primitive Domain Specific Language (DSL)
         for task, cmd in self._itertasks(conf_fn):
-            if cmd == 'index': 
-                xpath = task[cmd]
-                ws = self._get_ws (xpath) #get right worksheet or die
+            xpath = task[cmd][0]
+            if cmd == 'index': pass
             elif cmd == 'index_with_attribute':
-                xpath = task[cmd][0]
                 attribute = task[cmd][1]
-                ws = self._get_ws (xpath) #get right worksheet or die
+            elif cmd == 'index_with_2attributes': pass
             elif cmd == 'attribute_index':
-                xpath = task[cmd][0] # need original xpath for correct ws.title
                 include_verant = task[cmd][1]
-                ws = self._get_ws (xpath)
-                xpath, attrib = self._attribute_split(xpath) #rewrite xpath for iterterms^
-            elif (cmd == "translate_element"
-                or cmd == "translate_attribute"): pass
+                xpath, attrib = self._attribute_split(task[cmd][0]) #rewrite xpath for iterterms
+            elif cmd == "translate_element": pass
+            elif cmd == "translate_attribute": pass
             else:
                 print (f"WARNING: Unknown command found in conf {cmd}")
+            ws = self._get_ws (task[cmd][0]) 
 
             if (cmd == 'index' 
                 or cmd == 'index_with_attribute'
+                or cmd == 'index_with_2attributes'
                 or cmd == 'attribute_index'):
                 print (f"**Checking replacements from sheet '{ws.title}'")
                 print (f"   {cmd}: {task[cmd]}")
@@ -106,8 +104,13 @@ class ExcelTool:
                         #print(f"syn term found '{term.text}' {lno}")
                     elif cmd == 'index_with_attribute':
                         qu_value = self._get_attribute (term, attribute) 
-                        lno = self._term_quali_exists(ws, term_str,qu_value, verant)
+                        lno = self._term_quali_exists(ws, term_str, qu_value, verant)
                         #print(f"syn term found '{term.text}' {lno}")
+                    elif cmd == 'index_with_2attributes':
+                        quv1 = self._get_attribute (term, task[cmd][1]) 
+                        quv2 = self._get_attribute (term, task[cmd][2]) 
+                        qu_value=f"{quv1} - {quv2}"
+                        lno = self._term_quali_exists(ws, term_str, qu_value, verant)
                     elif cmd == 'attribute_index':
                         try:
                             value=term.attrib[attrib]
@@ -117,7 +120,7 @@ class ExcelTool:
                         else:
                             lno = self._term_exists(ws, value)
                         #print(f"syn attribute found {value} {lno}")
-    
+
                     if lno: # no replace if term is not in xls
                         pref_de = ws[f'E{lno}'].value
                         if pref_de is not None: #no replace if pref is not given

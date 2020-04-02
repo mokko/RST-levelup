@@ -613,7 +613,7 @@
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/titel">
 		<xsl:call-template name="wAttrib">
 			<xsl:with-param name="attrib" select="../titelArt" />
-            <xsl:with-param name="attrib" select="../titelBemerkung" />
+            <xsl:with-param name="attrib2" select="../titelBemerkung" />
 		</xsl:call-template>
 	</xsl:template>
 	<xsl:template match="/museumPlusExport/sammlungsobjekt/titelArt"/>
