@@ -47,6 +47,10 @@ TODO:
   a) frequency = 0 and 
   b) no translation is entered
 
+* We would like to merge individual translations lists and write them one table;
+  if I use one translation table for multiple exports the frequency count doesn't work anymore.
+  compromise might be to find a way to run all current exports one in a row.
+
 """
 
 import json
@@ -54,7 +58,7 @@ import os
 from lxml import etree #has getParent()
 from openpyxl import Workbook, load_workbook
 
-class ExcelTool:
+class ExcelTool ():
     def __init__ (self, source_xml,xls_dir = '.'):
         self.ns = {
             'npx': 'http://www.mpx.org/npx', #npx is no mpx
@@ -97,6 +101,7 @@ class ExcelTool:
                 print (f"**Checking replacements from sheet '{ws.title}'")
                 print (f"   {cmd}: {task[cmd]}")
     
+                known=set()
                 for term, verant in self._iterterms(xpath):
                     term_str=self._term2str (term) #strip whitespace
                     if cmd == 'index': 
@@ -107,7 +112,7 @@ class ExcelTool:
                         lno = self._term_quali_exists(ws, term_str, qu_value, verant)
                         #print(f"syn term found '{term.text}' {lno}")
                     elif cmd == 'index_with_2attributes':
-                        qu_value = self._2attributes(term, quali1, quali2)
+                        qu_value = self._2attributes(term, task[cmd][1], task[cmd][2])
                         lno = self._term_quali_exists(ws, term_str, qu_value, verant)
                     elif cmd == 'attribute_index':
                         try:
@@ -120,24 +125,31 @@ class ExcelTool:
                         #print(f"syn attribute found {value} {lno}")
 
                     if lno: # no replace if term is not in xls
-                        pref_de = ws[f'E{lno}'].value
-                        if pref_de is not None: #no replace if pref is not given
-                            #print (f"pref found: {pref_de}")
-                            if cmd == 'index' or cmd == 'index_with_attribute': #if value?
-                                print (f"   replace term: {term_str}->{pref_de}")
-                                term.text = pref_de.strip() # modify xml
-                            else:
-                                print (f"   replace attribute '{attrib}': {value}->{pref_de}")
-                                term.attrib[attrib] = pref_de.strip() # modify xml
+                        pref = ws[f'E{lno}'].value
+                        if pref is not None: #no replace if pref is not given
+                            #print (f"pref found: {pref}")
+                            if (cmd == 'index' 
+                                or cmd == 'index_with_attribute'
+                                or cmd == 'index_with_2attributes'): #if value?
+                                if term_str not in known:
+                                    known.add(term_str)
+                                    print (f"   replace term: {term_str}->{pref}")
+                                term.text = pref.strip() # modify xml
+                            elif cmd == 'attribute_index':
+                                if attrib not in known:
+                                    known.add(attrib)
+                                    print (f"   replace attribute '{attrib}': {value}->{pref}")
+                                term.attrib[attrib] = pref.strip() # modify xml
 
         print (f"*About to write xml to {out_fn}")
         #register_namespace('', 'http://www.mpx.org/mpx') #why? default ns?
         self.tree.write(out_fn, encoding="UTF-8", xml_declaration=True)
 
     def translate_from_conf (conf_fn, source_xml, xls_dir = None):
-        """constructor or regular method?
+        """It's a CONSTRUCTOR analog to from_conf
         
-        New version as constructor to be more expectable."""
+        Parses conf file and updates xls translation file.
+        """
 
         if xls_dir is None:
             xls_dir=os.path.dirname(conf_fn)
