@@ -11,10 +11,16 @@
         {"attribute_index": ["./mpx:sammlungsobjekt/mpx:sachbegriff/@art", "no verantwortlich"]},
         {"index_with_attribute": ["./mpx:sammlungsobjekt/mpx:titel", "art"]},
 		
+        {"translate_element":"./mpx:sammlungsobjekt/mpx:erwerbungsart"},
         {"translate_element":"./mpx:sammlungsobjekt/mpx:geogrBezug"},
         {"translate_attribute":"./mpx:sammlungsobjekt/mpx:geogrBezug/@bezeichnung"},
+        {"translate_attribute":"./mpx:sammlungsobjekt/mpx:geogrBezug/@art"},
+        {"translate_attribute":"./mpx:sammlungsobjekt/mpx:maßangaben/@typ"},
+        {"translate_element":"./mpx:sammlungsobjekt/mpx:materialTechnik[@art = 'Ausgabe']"},
         {"translate_element":"./mpx:sammlungsobjekt/mpx:sachbegriff"},
-        {"translate_attribute":"./mpx:sammlungsobjekt/mpx:sachbegriff/@art"}
+        {"translate_attribute":"./mpx:sammlungsobjekt/mpx:sachbegriff/@art"},
+        {"translate_element": "./mpx:sammlungsobjekt/mpx:titel"},
+        {"translate_attribute": "./mpx:sammlungsobjekt/mpx:titel/@art"}
     ]
 }
 

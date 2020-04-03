@@ -40,7 +40,14 @@ USAGE
 TODO: new translation feature (
 : are triggered in from_conf
 : instructions are in conf.json
-: target_dir specified during from_conf"""
+: target_dir specified during from_conf
+
+TODO:
+* We might like to have a method that deletes lines in translation file if
+  a) frequency = 0 and 
+  b) no translation is entered
+
+"""
 
 import json
 import os
@@ -410,7 +417,7 @@ class ExcelTool:
     def _prepare_indexing(self, xpath, wb):
         ws = self._prepare_ws(xpath, wb)
         self._prepare_header(ws)
-        self._col_to_zero(ws, 'D') #drop all frequencies when working on index
+        self._col_to_zero(ws, 'D') #drop all frequencies when updating index
         print (f"   sheet {ws.title}")
         return ws
 
