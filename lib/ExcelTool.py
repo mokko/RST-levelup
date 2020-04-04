@@ -29,20 +29,19 @@ This class is agnostic as to where you locate conf_fn, but I recommend
     data/EM-SM/20200113/2-MPX/levelup.mpx
 
 USAGE
-    #low level constructor
-    t=ExcelTool (source_xml, [xls_dir])
-    t.index ('mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:sachbegriff)
-        creates or updates ./index.xlsx with sheet "sachbegriff" 
-
     #high level constructor (using commands from conf file)
     t=ExcelTool.from_conf (conf_fn,source_fn) # runs the commands in the conf_fn
     t.apply_fix (conf_fn, out_fn) # writes cleanup version to out_fn
+    t=ExcelTool.from_conf (conf_fn,source_fn) # runs the commands in the conf_fn
+    
+    t=translate_from_conf (conf_fn,source_fn)
+    
 TODO: new translation feature (
 : are triggered in from_conf
 : instructions are in conf.json
 : target_dir specified during from_conf
 
-TODO:
+TODO
 * We might like to have a method that deletes lines in translation file if
   a) frequency = 0 and 
   b) no translation is entered
@@ -87,10 +86,7 @@ class ExcelTool ():
         #primitive Domain Specific Language (DSL)
         for task, cmd in self._itertasks(conf_fn):
             xpath = task[cmd][0]
-            if cmd == 'index_with_attribute':
-                attribute = task[cmd][1]
-            elif cmd == 'attribute_index':
-                include_verant = task[cmd][1]
+            if cmd == 'attribute_index':
                 xpath, attrib = self._attribute_split(task[cmd][0]) 
  
             if (cmd == 'index' 
@@ -108,7 +104,7 @@ class ExcelTool ():
                         lno = self._term_verant_exists(ws, term_str, verant)
                         #print(f"syn term found '{term.text}' {lno}")
                     elif cmd == 'index_with_attribute':
-                        qu_value = self._get_attribute (term, attribute) 
+                        qu_value = self._get_attribute (term, task[cmd][1]) 
                         lno = self._term_quali_exists(ws, term_str, qu_value, verant)
                         #print(f"syn term found '{term.text}' {lno}")
                     elif cmd == 'index_with_2attributes':
@@ -123,7 +119,7 @@ class ExcelTool ():
                         else:
                             lno = self._term_exists(ws, value)
                         #print(f"syn attribute found {value} {lno}")
-
+                    
                     if lno: # no replace if term is not in xls
                         pref = ws[f'E{lno}'].value
                         if pref is not None: #no replace if pref is not given
@@ -299,6 +295,7 @@ class ExcelTool ():
                 else:
                     print (f"new term: {term.text}")
                     self._insert_alphabetically(ws, value)
+        self._del0frequency (ws)
         self.twb.save(self.trans_xls) 
 
     def translate_element (self, xpath):
@@ -316,6 +313,7 @@ class ExcelTool ():
             else:
                 print (f"new term: {term.text}")
                 self._insert_alphabetically(ws, term.text)
+        self._del0frequency (ws)
         self.twb.save(self.trans_xls) 
 
         
@@ -366,6 +364,24 @@ class ExcelTool ():
                 each.value='' # None doesn't work
             c+=1
         return c
+
+    def _del0frequency (self, ws):
+        """
+        Delete lines with frequency = 0 and EN=None from translate.xlsx
+        """
+        
+        lno=1 # 1-based line counter
+        for freq in ws['D']:
+            B=ws[f"B{lno}"]
+            if (lno > 1 
+                and int(freq.value) == 0
+                and B.value is None):
+                    A=ws[f"A{lno}"]
+                    print (f"\tdel zero translation: {lno} {A.value}")
+                    ws.delete_rows (lno)
+            else: # correct lno for deleted rows
+                lno+=1 
+
 
     def _get_attribute (self, node, attribute):
         value = node.get(attribute)
@@ -418,9 +434,13 @@ class ExcelTool ():
         
         Uppercase and lowercase in order ignored."""
 
+        if needle_term is None:
+            raise ValueError ("ERROR: Can't locate position for none")
+
         lno=1 # 1-based line counter 
         for xlsterm in ws['A']:
-            if lno > 1: #IGNORE HEADER
+            if lno > 1 and xlsterm.value is not None: 
+                #raise ValueError ("ERROR no entry in xls column A")
                 if  needle_term.lower() < xlsterm.value.lower():
                     return lno #found
             lno += 1
@@ -592,5 +612,6 @@ if __name__ == '__main__':
     #t.index("./mpx:sammlungsobjekt/mpx:personenKörperschaften")
     #t.index_for_attribute("./mpx:sammlungsobjekt/mpx:geogrBezug/@bezeichnung", "dont test and record verant")
     #paths expect that you run it from the date directory (e.g. 20200226)
-    t=ExcelTool.from_conf('../vindex.json', '2-MPX/levelup.mpx')
-    t.apply_fix('../vindex.json', 'test-fix.mpx')
+    #t=ExcelTool.from_conf('../vindex.json', '2-MPX/levelup.mpx')
+    #t.apply_fix('../vindex.json', '2-MPX/vfix.mpx')
+    t=ExcelTool.translate_from_conf('../../generalvindex.json', '2-MPX/vfix.mpx', '..')
