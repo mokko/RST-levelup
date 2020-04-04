@@ -114,6 +114,7 @@ class ExcelTool ():
                         try:
                             value=term.attrib[attrib]
                         except: pass
+                        include_verant = task[cmd][1]
                         if include_verant == 'verantwortlich':
                             lno = self._term_verant_exists(ws, value, verant)
                         else:
@@ -479,10 +480,11 @@ class ExcelTool ():
         columns = {
             'A1': 'GEWIMMEL*',
             'B1': 'QUALI*', #create this column even if not used
-            'C1': 'VERANTWORTLICH*',
+            'C1': 'VERANTWORTL.*',
             'D1': 'FREQUENZ*',
-            'E1': 'VORZUGSBEZEICHNUNG',
-            'F1': 'NOTIZEN'
+            'E1': 'PREF',
+            'F1': 'NOTIZEN',
+            'G1': 'KONSULTIERTE QUELLEN'
         }
         self._write_header(columns,ws)
 
@@ -491,7 +493,8 @@ class ExcelTool ():
             'A1': 'DE*',
             'B1': 'EN',
             'C1': 'NOTIZEN',
-            'D1': 'FREQUENZ*'
+            'D1': 'FREQUENZ*',
+            'E1': 'KONSULTIERTE QUELLEN'
         }
         self._write_header(columns,ws)
 
