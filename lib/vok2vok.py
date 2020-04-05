@@ -147,7 +147,7 @@ class vok2vok (XlsTools):
         scope_nd.text=scope
         if comment_xls:
             comment_nd = ET.SubElement(concept_nd, "comment")
-            comment_nd.text = comment
+            comment_nd.text = comment_xls
         if src is not None: 
             #just append another element sources if multiple  
             sources_nd = ET.SubElement(concept_nd, "sources")
