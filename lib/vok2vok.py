@@ -56,7 +56,7 @@ big translation file to begin with.
 
 Second question is if we can merge translations from different elements/fields.
 I guess that would be just about possible. What are the chances that two 
-different fields have the same term, but insist on translating them 
+different fields have the same t    erm, but insist on translating them 
 differently? Not so big. I mean "London" in one field will still be "London" in
 the next field. Okay, but to build a structure where that is not possible even
 a single time? I don't think so. 
@@ -68,17 +68,13 @@ so it will just write a completely new list every time.
 
 We still have to check if term exists already.
 
-->gtranslation.xml
+PROBLEMS
+It's still possible to have multiple translations of the same term. At the 
+moment, they should all be called pref[@lang="en"]. That's not acceptable.
 
-Pseudo Algorithm
-*find & open translations xls files
-*for each sheet
-*for each term
-*test if term/translation already exists, 
-if not add it
 """
 
-#import os
+import os
 import glob
 import openpyxl
 from lxml import etree as ET
@@ -88,7 +84,7 @@ needle_fn="translate.xlsx"
 
 class vok2vok (XlsTools):
     def __init__(self, dir, out_fn):
-        root = ET.Element("voc") # start a new document
+        root = ET.Element("mpxvoc") # start a new document
         #tree = ET.parse("gtranslate.xml") #load existing document
         #root = tree.getroot()
 
@@ -99,43 +95,74 @@ class vok2vok (XlsTools):
             for sheet in wb.worksheets:
                 print (f"   {sheet.title}")
                 self._per_sheet (sheet, root, path)
-
         ET.indent (root)
         doc = ET.ElementTree (root)
         with open(out_fn, 'wb') as f:
             doc.write(f, encoding="UTF-8", method="xml", 
-                      xml_declaration=True, pretty_print=True)
+                xml_declaration=True, pretty_print=True)
 
 
     ### PRIVATE ###
 
 
-    def _add_necessary_stuff (self, xml, term_xls, translation, src):
-        if translation is not None:
-            #todo: check if term exists
-            #print (f"Checking if {term.value} exists already.")
-            term_node = xml.xpath (f"//term[@prefde = '{term_xls}']")
-            if term_node:
-                #print (f"\current translation exists already: {translation}")
-                en = xml.xpath (f"//term[@prefde = '{term_xls}']/en[. = '{translation}']")
-                if not en: #current translation exist already?
-                    self._add_new_translation(term_node[0], src, translation)
-            else:
-                #print (f"->TERM does NOT yet exist {term.value}")
-                self._add_new_term (xml, term_xls, src, translation)
-
-    def _add_new_translation (self, term_node, path, translation):
-        print (f"\tAlternate translation: {term_node.text}:{translation}")
-        term_node = ET.SubElement (sub, "en")
-        term_node.set ("src",path)
-        term_node.text = translation
-
-    def _add_new_term (self, xml, term, path, cell):
-        sub = ET.SubElement (xml, "term")
-        sub.set ("prefde",term)
-        sub2 = ET.SubElement (sub, "en")
-        sub2.set ("src",path)
-        sub2.text = cell
+    def _add_concept (self, xml, context, row, scope):
+        term_xls = row[0].value
+        translation = row[1].value
+        comment = row[2].value
+        freq_xls = row[3].value #xml attribs must be string
+        try:
+            src = row[4].value
+        except: 
+            src = None
+        #print (f"context:{context}")
+        #(1)Does concept exist already?
+        rls = xml.xpath (f"//mpxvoc/context[@name = '{context}']")
+        if len(rls) > 0:
+            context_nd = rls[0]
+        else:
+            #print (f"\tContext doesn't exists yet: {context}")
+            context_nd = ET.SubElement(xml, "context", attrib={"name":context})
+        #(2)Does pref_de exist yet?
+        rls = context_nd.xpath (f"./concept/pref[@lang='de' and .='{term_xls}']")
+        if len(rls) > 0:
+            pref_de = rls[0]
+            concept_nd = pref_de.xpath (f"..")[0]
+            freq_xml = int(concept_nd.get("freq"))
+            concept_nd.set("freq", str(freq_xml+freq_xls))
+            
+        else:
+            #print (f"\tconcept/pref doesn't exist yet: {term_xls} ")
+            concept_nd = ET.SubElement(context_nd, "concept", attrib={"freq": str(freq_xls)})
+            pref_de = ET.SubElement(concept_nd, "pref", attrib={"lang":"de"})
+            pref_de.text = term_xls
+        scope_nd = ET.SubElement(concept_nd, "scope")
+        scope_nd.text=scope
+        if comment:
+            comment_nd = ET.SubElement(concept_nd, "comment")
+            comment_nd.text = comment
+        if src is not None: 
+            #(3) check if sources exists and append 
+            #rls = ET.SubElement(concept_nd, "sources")
+            #if len(rls) > 0:
+            #    src_nd = rls[0]
+            #    src_nd.text = src_nd.text + '; ' + src
+            #else:
+                sources_nd = ET.SubElement(concept_nd, "sources")
+                sources_nd.text = src
+        #(3)Does translation exist yet?
+        rls = pref_de.xpath (f"../pref[@lang = 'en' and .='{translation}']")
+        if rls:
+            pref_en = rls[0]
+        else:
+            #print (f"\ttranslation doesn't exist yet {translation}")
+            pref_en=ET.SubElement (concept_nd, "pref", attrib={"lang":"en"})
+            pref_en.text = translation
+        #https://stackoverflow.com/questions/40154757/sorting-xml-tags-by-child-elements-python
+        concept_nd[:] = sorted(concept_nd, key=lambda e: e.tag)
+                
+    def _mk_src (self, path):
+        npath=os.path.dirname(os.path.abspath(path))
+        return npath.replace('\\','/')
 
     def _per_sheet (self, sheet, xml, path): 
         lno=1 # 1-based line counter 
@@ -143,14 +170,15 @@ class vok2vok (XlsTools):
             if lno > 1: #IGNORE HEADER
                 #print (f"\t{sheet[name].value}")
                 translation=sheet[f"B{lno}"].value
-                npath = path.replace('\\','/')
-                src=f"{npath}/{sheet.title}"
+                src=self._mk_src(path)
+
                 #print (f"\t{term_xls.value} {src}")
                 freq=int(sheet[f"D{lno}"].value)
-                if freq > 0:
-                    self._add_necessary_stuff(xml, term_xls.value, translation, src)
+                if freq > 0 and translation is not None:
+                    self._add_concept(xml, sheet.title, sheet[lno], src)
             lno += 1
+
 
 if __name__ == '__main__': 
     #execute from ./data
-    vok2vok('.', 'gtranslate.xml')
+    vok2vok('.', 'mpxvoc.xml')
