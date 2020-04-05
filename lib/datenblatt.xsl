@@ -36,8 +36,8 @@
 
     <xsl:template name="htmlHead">
         <head>
-            <title>Datenblatt v0.2</title>
             <meta charset="UTF-8" />
+            <title>Datenblatt v0.3</title>
             <style>h2 {padding-top: 20px;}</style>
         </head>
     </xsl:template>
@@ -142,7 +142,9 @@
                                 <xsl:text>../../pix/</xsl:text>
                                 <xsl:value-of select="$objId" />
                                     <xsl:text>.</xsl:text>
-                                    <xsl:value-of select="$stdbld/mpx:erweiterung" />
+                                    <xsl:value-of select="$stdbld/mpx:dateiname" />
+                                    <xsl:text>.</xsl:text>
+                                    <xsl:value-of select="lower-case($stdbld/mpx:erweiterung)" />
                             </xsl:attribute>
                         </xsl:element>
                         <br/>
@@ -245,7 +247,10 @@
                 </tr>
             </xsl:if>
 
-            <xsl:if    test="mpx:geogrBezug[@bezeichnung eq 'Kultur' or @bezeichnung eq 'Ethnie']">
+            <xsl:if    test="mpx:geogrBezug[@bezeichnung eq 'Kultur' 
+                                or @bezeichnung eq 'Ethnie'
+                                or @bezeichnung eq 'Sprachgruppe'
+                            ]">
                 <tr>
                     <td>Gruppe/Kultur</td>
                     <td>
@@ -264,6 +269,7 @@
 
             <xsl:apply-templates select="mpx:materialTechnik[@art='Ausgabe']" />
             <xsl:apply-templates select="mpx:maßangaben" />
+            <xsl:apply-templates select="mpx:onlineBeschreibung" />
 
             <!-- PROVENIENZ -->
             <tr>
@@ -310,7 +316,6 @@
             <xsl:if test="count (mpx:identNr) = 1">
                 <xsl:apply-templates select="mpx:identNr[@art='Ident. Unternummer']" />
             </xsl:if>
-            <xsl:apply-templates select="mpx:onlineBeschreibung" />
 
             <xsl:if test="/mpx:museumPlusExport/mpx:multimediaobjekt[
                 mpx:verknüpftesObjekt = $objId and 
@@ -413,35 +418,24 @@
         <xsl:choose>
             <xsl:when test="mpx:verwaltendeInstitution eq 'Ethnologisches Museum, Staatliche Museen zu Berlin'">
                 <h1>
-                    <xsl:for-each select="mpx:titel">
-                        <xsl:value-of select="." />
-                        <xsl:text> [t]</xsl:text>
-                        <xsl:if test="position()!=last()">
-                            <xsl:text>, </xsl:text>
-                        </xsl:if>
-                    </xsl:for-each>
-                    <xsl:if test="mpx:titel and mpx:sachbegriff">
-                        <xsl:text>, </xsl:text>
-                    </xsl:if>
-                    <xsl:for-each select="mpx:sachbegriff[not(
+                    <xsl:for-each select="mpx:titel|mpx:sachbegriff[not(
                         @art eq 'weiterer Sachbegriff' or 
                         @art eq 'Weiterer Sachbegriff' or 
                         @art eq 'Sachbegriff engl.' or 
                         @art eq 'Alte Bezeichnung')]">
                         <xsl:sort select="@art"/>
-                        <xsl:value-of select="." />
-                        <xsl:choose>
-                            <xsl:when test="@art">
-                                <xsl:text> [</xsl:text>
+                        <xsl:if test="position() &lt; 3">
+                            <xsl:value-of select="." />
+                            <xsl:text> [</xsl:text>
+                            <xsl:value-of select="name()"/>
+                            <xsl:if test="@art">
+                               <xsl:text> </xsl:text>
                                 <xsl:value-of select="@art" />
-                                <xsl:text>]</xsl:text>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:text> [sb]</xsl:text>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                        <xsl:if test="position()!=last()">
-                            <xsl:text>, </xsl:text>
+                            </xsl:if>
+                            <xsl:text>]</xsl:text>
+                            <xsl:if test="position() &lt; 2 and position() &lt; last()">
+                                <xsl:text>, </xsl:text>
+                            </xsl:if>
                         </xsl:if>
                     </xsl:for-each>
                 </h1>
@@ -537,7 +531,8 @@
         <tr>
             <td>Material/Technik</td>
             <td>
-                <xsl:value-of select="." /> [Ausgabe]
+                <xsl:value-of select="." />
+                <xsl:text> [Ausgabe]</xsl:text>
             </td>
         </tr>
     </xsl:template>
@@ -557,7 +552,6 @@
 
 
     <xsl:template match="mpx:onlineBeschreibung">
-        <tr><td colspan="2"><xsl:text> </xsl:text><br/></td></tr>
         <tr>
             <td>Beschreibung [online]</td>
             <td>

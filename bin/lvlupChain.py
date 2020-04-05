@@ -154,7 +154,7 @@ if __name__ == "__main__":
 
         elif sys.argv[1].lower() == 'lido':
             print ('*Converting to LIDO...')
-            if os.path.isfile(conf['lvlupmpx']): #soon input file will be vfixmpx     
+            if os.path.isfile(conf['vfixmpx']): #was: lvlupmpx      
                 s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
                 s.dirTransform(conf['outlido'], conf['lido2datenblatt'], conf['datenblatthtml'])
 

@@ -1,4 +1,4 @@
-"""
+"""From several smaller translation tables to one bigger xml vocabulary.
 
 To apply the translations which are now stored in Excel to LIDO, we could
 transform them FIRST into xml; so we can include them into the normal 
@@ -13,7 +13,7 @@ Possibility 1
     <de>Begriff 1</de>
     <en>english translation</en>
 
-POssibility 2 
+Possibility 2 
 <voc>
     <term id="number">
         <pref_de">Begriff 1</pref_de>
@@ -154,7 +154,7 @@ class vok2vok (XlsTools):
             sources_nd.text = src
         #https://stackoverflow.com/questions/40154757/sorting-xml-tags-by-child-elements-python
         concept_nd[:] = sorted(concept_nd, key=lambda e: e.tag)
-                
+
     def _mk_scope (self, path):
         npath=os.path.dirname(os.path.abspath(path))
         return npath.replace('\\','/')
