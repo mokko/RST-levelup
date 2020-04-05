@@ -107,8 +107,8 @@ class vok2vok (XlsTools):
 
     def _add_concept (self, xml, context, row, scope):
         term_xls = row[0].value
-        translation = row[1].value
-        comment = row[2].value
+        translation_xls = row[1].value
+        comment_xls = row[2].value
         freq_xls = row[3].value #xml attribs must be string
         try:
             src = row[4].value
@@ -129,38 +129,33 @@ class vok2vok (XlsTools):
             concept_nd = pref_de.xpath (f"..")[0]
             freq_xml = int(concept_nd.get("freq"))
             concept_nd.set("freq", str(freq_xml+freq_xls))
-            
         else:
             #print (f"\tconcept/pref doesn't exist yet: {term_xls} ")
             concept_nd = ET.SubElement(context_nd, "concept", attrib={"freq": str(freq_xls)})
             pref_de = ET.SubElement(concept_nd, "pref", attrib={"lang":"de"})
             pref_de.text = term_xls
-        scope_nd = ET.SubElement(concept_nd, "scope")
-        scope_nd.text=scope
-        if comment:
-            comment_nd = ET.SubElement(concept_nd, "comment")
-            comment_nd.text = comment
-        if src is not None: 
-            #(3) check if sources exists and append 
-            #rls = ET.SubElement(concept_nd, "sources")
-            #if len(rls) > 0:
-            #    src_nd = rls[0]
-            #    src_nd.text = src_nd.text + '; ' + src
-            #else:
-                sources_nd = ET.SubElement(concept_nd, "sources")
-                sources_nd.text = src
         #(3)Does translation exist yet?
-        rls = pref_de.xpath (f"../pref[@lang = 'en' and .='{translation}']")
-        if rls:
+        rls = pref_de.xpath (f"../pref[@lang = 'en' and .='{translation_xls}']")
+        if len(rls) > 0:
             pref_en = rls[0]
         else:
             #print (f"\ttranslation doesn't exist yet {translation}")
             pref_en=ET.SubElement (concept_nd, "pref", attrib={"lang":"en"})
-            pref_en.text = translation
+            pref_en.text = translation_xls
+        #there should always be scope 
+        scope_nd = ET.SubElement(concept_nd, "scope")
+        scope_nd.text=scope
+        if comment_xls:
+            comment_nd = ET.SubElement(concept_nd, "comment")
+            comment_nd.text = comment
+        if src is not None: 
+            #just append another element sources if multiple  
+            sources_nd = ET.SubElement(concept_nd, "sources")
+            sources_nd.text = src
         #https://stackoverflow.com/questions/40154757/sorting-xml-tags-by-child-elements-python
         concept_nd[:] = sorted(concept_nd, key=lambda e: e.tag)
                 
-    def _mk_src (self, path):
+    def _mk_scope (self, path):
         npath=os.path.dirname(os.path.abspath(path))
         return npath.replace('\\','/')
 
@@ -168,14 +163,11 @@ class vok2vok (XlsTools):
         lno=1 # 1-based line counter 
         for term_xls in sheet['A']:
             if lno > 1: #IGNORE HEADER
-                #print (f"\t{sheet[name].value}")
+                scope=self._mk_scope(path)
                 translation=sheet[f"B{lno}"].value
-                src=self._mk_src(path)
-
-                #print (f"\t{term_xls.value} {src}")
                 freq=int(sheet[f"D{lno}"].value)
                 if freq > 0 and translation is not None:
-                    self._add_concept(xml, sheet.title, sheet[lno], src)
+                    self._add_concept(xml, sheet.title, sheet[lno], scope)
             lno += 1
 
 

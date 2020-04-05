@@ -313,9 +313,9 @@
             <xsl:apply-templates select="mpx:onlineBeschreibung" />
 
             <xsl:if test="/mpx:museumPlusExport/mpx:multimediaobjekt[
-                                mpx:verknüpftesObjekt = $objId and 
-                                lower-case(mpx:veröffentlichen) = 'ja' and
-                                not(mpx:standardbild)]">
+                mpx:verknüpftesObjekt = $objId and 
+                lower-case(mpx:veröffentlichen) = 'ja' and
+                not(mpx:standardbild)]">
                 <tr>
                     <td colspan="2">
                         <h2>Weitere Medien</h2>
