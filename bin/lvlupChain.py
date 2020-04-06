@@ -132,7 +132,7 @@ if __name__ == "__main__":
                 #you might need to prepare or delete the cache file manually
                 tf = Tif_finder('../../../.tif_cache.json')
                 tf.search_mpx(conf['lvlupmpx'], conf['tifdir'])
-                tshf.main(conf['lvlupmpx'], conf ['shfnpx'])
+                tshf.main(conf['vfixmpx'], conf ['shfnpx'])
 
         elif sys.argv[1].lower() == 'index':
             print ('*Vocabulary index...')
@@ -172,5 +172,5 @@ if __name__ == "__main__":
         elif sys.argv[1].lower() == 'datenblatt':
             print ('*Converting to Deckblatt HTML ...')
             #if os.path.isfile(conf['lvlupmpx']):
-            s.dirTransform(conf['lvlupmpx'], conf['Datenblatt'], conf['datenblatto'])
+            s.dirTransform(conf['vfixmpx'], conf['Datenblatt'], conf['datenblatto'])
             #s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
