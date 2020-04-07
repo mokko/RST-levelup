@@ -23,7 +23,7 @@ Optional function via command line parameter:
 """
 
 import os
-import subprocess
+import subprocess #more imports below
 
 
 conf={
@@ -92,7 +92,8 @@ if __name__ == "__main__":
     from ExcelTool import ExcelTool
     from Tif_finder import Tif_finder
     import test_shf as tshf
-    
+    import test_mpx as tm
+
     print ('*Looking for input...')
     o = Xls2xml(conf) 
     o.mv2zero() # moves files to 0-IN
@@ -110,12 +111,24 @@ if __name__ == "__main__":
         #input from 1-XML writes to 2-MPX
         s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx']) 
 
-        import test_mpx as tm
-        tm.main(conf['lvlupmpx'])
+    tm.main(conf['lvlupmpx'])
 
-    #s.dirTransform(conf['lvlupmpx'], conf['fixxsl'], conf['fixmpx'])
-    #todo: use indexes produced by ExcelTool to cleanup the output
-    
+
+    if not os.path.exists(conf['vfixmpx']):
+        print ('*Updating vindex...')
+        if os.path.isfile(conf['vindexconf']): #make/update vindex 
+            t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
+        else: 
+            raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
+            print ("*APPLYING FIX")
+        t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
+        t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..') 
+
+
+    rc = ResourceCp (conf['lvlupmpx'])
+    rc.standardbilder('..\pix', 'mulId.dateiname')
+    rc.freigegebene('..\pix', 'mulId.dateiname')
+
     if len(sys.argv) > 1:
         if sys.argv[1].lower() == 'shf':
             ''' 
@@ -126,31 +139,10 @@ if __name__ == "__main__":
             if os.path.isfile(conf['lvlupmpx']):
                 s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
                 n = Npx2csv (conf['shfnpx'])
-                rc = ResourceCp (conf['lvlupmpx']) # init
-                rc.standardbilder('..\pix', 'mulId.dateiname')
-                rc.freigegebene('..\pix', 'mulId.dateiname')
                 #you might need to prepare or delete the cache file manually
                 tf = Tif_finder('../../../.tif_cache.json')
                 tf.search_mpx(conf['lvlupmpx'], conf['tifdir'])
                 tshf.main(conf['vfixmpx'], conf ['shfnpx'])
-
-        elif sys.argv[1].lower() == 'index':
-            print ('*Vocabulary index...')
-            if os.path.isfile(conf['vindexconf']):
-                #make index if there is none
-                t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
-                #only apply fix if fix doesn't exist yet
-                #dont forget to delete old fix to get new info....
-                if not os.path.exists(conf['vfixmpx']):
-                    print ("*APPLYING FIX")
-                    t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
-                # Übersetzungs-Excel
-                # Was passiert, wenn ein Begriff aus xml-Quelle entfällt?
-                # Dann steht bei Frequenz 0
-                #use fix as source mpx
-                t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..') 
-            else: 
-                raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
 
         elif sys.argv[1].lower() == 'lido':
             print ('*Converting to LIDO...')

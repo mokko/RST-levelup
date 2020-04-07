@@ -54,7 +54,7 @@ class ResourceCp:
         and b) have mpx:veröffentlichen = ja"""
 
         self._init_log(outdir) 
-        self._write_log ("RUN FREIGEGEBENE")
+        self._write_log ("RUN freigegebene")
 
         for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
             fg=mume.find('mpx:veröffentlichen', self.ns)
@@ -73,7 +73,7 @@ class ResourceCp:
         """Copy standardbilder to outdir/pattern.ext."""
 
         self._init_log(outdir) 
-        self._write_log ("FREIGEGEBENE")
+        self._write_log ("RUN standardbilder")
 
         for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
             sb=mume.find('mpx:standardbild', self.ns)
@@ -199,10 +199,11 @@ class ResourceCp:
                 out.append(mume.find('mpx:verknüpftesObjekt', self.ns).text)
             if each == 'dateiname':
                 out.append(mume.find('mpx:dateiname', self.ns).text)
-        #always implicitly add file extension, but lower-cased.
+        #always implicitly add lower-cased file extension.
         out.append (mume.find('mpx:erweiterung', self.ns).text.lower())
         fn='.'.join(out)
         new=os.path.join(outdir,fn)
+        #print (f"{pattern}:::::{old} ->{new}")
         return old, new
 
     def _write_log (self, msg):
