@@ -29,26 +29,35 @@ This class is agnostic as to where you locate conf_fn, but I recommend
     data/EM-SM/20200113/2-MPX/levelup.mpx
 
 USAGE
-    #low level constructor
-    t=ExcelTool (source_xml, [xls_dir])
-    t.index ('mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:sachbegriff)
-        creates or updates ./index.xlsx with sheet "sachbegriff" 
-
     #high level constructor (using commands from conf file)
     t=ExcelTool.from_conf (conf_fn,source_fn) # runs the commands in the conf_fn
     t.apply_fix (conf_fn, out_fn) # writes cleanup version to out_fn
+    t=ExcelTool.from_conf (conf_fn,source_fn) # runs the commands in the conf_fn
+    
+    t=translate_from_conf (conf_fn,source_fn)
+    
 TODO: new translation feature (
 : are triggered in from_conf
 : instructions are in conf.json
-: target_dir specified during from_conf"""
+: target_dir specified during from_conf
 
+TODO
+* We might like to have a method that deletes lines in translation file if
+  a) frequency = 0 and 
+  b) no translation is entered
+
+* We would like to merge individual translations lists and write them one table;
+  if I use one translation table for multiple exports the frequency count doesn't work anymore.
+  compromise might be to find a way to run all current exports one in a row.
+
+"""
+
+import json
 import os
 from lxml import etree #has getParent()
 from openpyxl import Workbook, load_workbook
 
-
-class ExcelTool:
-
+class ExcelTool ():
     def __init__ (self, source_xml,xls_dir = '.'):
         self.ns = {
             'npx': 'http://www.mpx.org/npx', #npx is no mpx
@@ -77,69 +86,67 @@ class ExcelTool:
         #primitive Domain Specific Language (DSL)
         for task, cmd in self._itertasks(conf_fn):
             xpath = task[cmd][0]
-            if cmd == 'index': pass
-            elif cmd == 'index_with_attribute':
-                attribute = task[cmd][1]
-            elif cmd == 'index_with_2attributes': pass
-            elif cmd == 'attribute_index':
-                include_verant = task[cmd][1]
-                xpath, attrib = self._attribute_split(task[cmd][0]) #rewrite xpath for iterterms
-            elif cmd == "translate_element": pass
-            elif cmd == "translate_attribute": pass
-            else:
-                print (f"WARNING: Unknown command found in conf {cmd}")
-            ws = self._get_ws (task[cmd][0]) 
-
+            if cmd == 'attribute_index':
+                xpath, attrib = self._attribute_split(task[cmd][0]) 
+ 
             if (cmd == 'index' 
                 or cmd == 'index_with_attribute'
                 or cmd == 'index_with_2attributes'
                 or cmd == 'attribute_index'):
+                ws = self._get_ws (task[cmd][0]) 
                 print (f"**Checking replacements from sheet '{ws.title}'")
                 print (f"   {cmd}: {task[cmd]}")
     
+                known=set()
                 for term, verant in self._iterterms(xpath):
                     term_str=self._term2str (term) #strip whitespace
                     if cmd == 'index': 
                         lno = self._term_verant_exists(ws, term_str, verant)
                         #print(f"syn term found '{term.text}' {lno}")
                     elif cmd == 'index_with_attribute':
-                        qu_value = self._get_attribute (term, attribute) 
+                        qu_value = self._get_attribute (term, task[cmd][1]) 
                         lno = self._term_quali_exists(ws, term_str, qu_value, verant)
                         #print(f"syn term found '{term.text}' {lno}")
                     elif cmd == 'index_with_2attributes':
-                        quv1 = self._get_attribute (term, task[cmd][1]) 
-                        quv2 = self._get_attribute (term, task[cmd][2]) 
-                        qu_value=f"{quv1} - {quv2}"
+                        qu_value = self._2attributes(term, task[cmd][1], task[cmd][2])
                         lno = self._term_quali_exists(ws, term_str, qu_value, verant)
                     elif cmd == 'attribute_index':
                         try:
                             value=term.attrib[attrib]
                         except: pass
+                        include_verant = task[cmd][1]
                         if include_verant == 'verantwortlich':
                             lno = self._term_verant_exists(ws, value, verant)
                         else:
                             lno = self._term_exists(ws, value)
                         #print(f"syn attribute found {value} {lno}")
-
+                    
                     if lno: # no replace if term is not in xls
-                        pref_de = ws[f'E{lno}'].value
-                        if pref_de is not None: #no replace if pref is not given
-                            #print (f"pref found: {pref_de}")
-                            if cmd == 'index' or cmd == 'index_with_attribute': #if value?
-                                print (f"   replace term: {term_str}->{pref_de}")
-                                term.text = pref_de.strip() # modify xml
-                            else:
-                                print (f"   replace attribute '{attrib}': {value}->{pref_de}")
-                                term.attrib[attrib] = pref_de.strip() # modify xml
+                        pref = ws[f'E{lno}'].value
+                        if pref is not None: #no replace if pref is not given
+                            #print (f"pref found: {pref}")
+                            if (cmd == 'index' 
+                                or cmd == 'index_with_attribute'
+                                or cmd == 'index_with_2attributes'): #if value?
+                                if term_str not in known:
+                                    known.add(term_str)
+                                    print (f"   replace term: {term_str}->{pref}")
+                                term.text = pref.strip() # modify xml
+                            elif cmd == 'attribute_index':
+                                if attrib not in known:
+                                    known.add(attrib)
+                                    print (f"   replace attribute '{attrib}': {value}->{pref}")
+                                term.attrib[attrib] = pref.strip() # modify xml
 
         print (f"*About to write xml to {out_fn}")
         #register_namespace('', 'http://www.mpx.org/mpx') #why? default ns?
         self.tree.write(out_fn, encoding="UTF-8", xml_declaration=True)
 
     def translate_from_conf (conf_fn, source_xml, xls_dir = None):
-        """constructor or regular method?
+        """It's a CONSTRUCTOR analog to from_conf
         
-        New version as constructor to be more expectable."""
+        Parses conf file and updates xls translation file.
+        """
 
         if xls_dir is None:
             xls_dir=os.path.dirname(conf_fn)
@@ -150,12 +157,6 @@ class ExcelTool:
                 t.translate_element (task[cmd])
             elif cmd == "translate_attribute": 
                 t.translate_attribute (task[cmd])
-            elif cmd == "index_with_attribute": pass
-            elif cmd == "attribute_index": pass
-            elif cmd == "index": pass
-            elif cmd == "index_with_2attributes": pass
-            else: 
-                print (f"WARNING: Unknown command in conf {cmd}")
         return t
 
     def from_conf (conf_fn, source_xml, xls_dir = None): #no self
@@ -245,11 +246,8 @@ class ExcelTool:
         ws = self._prepare_indexing(xpath, self.wb)
 
         for term, verant in self._iterterms(xpath):
-            qu_value1 = self._get_attribute(term, quali1)
-            qu_value2 = self._get_attribute(term, quali2)
-            #print (f"{quali1}:{qu_value1}; {quali2}:{qu_value2}")
+            qu_value = self._2attributes(term, quali1, quali2)
             term_str = self._term2str (term) #no whitespace 
-            qu_value=f"{qu_value1} - {qu_value2}"
             #print (f"{qu_value}")
             row = self._term_quali_exists(ws, term_str,qu_value, verant)
             if row:
@@ -298,6 +296,7 @@ class ExcelTool:
                 else:
                     print (f"new term: {term.text}")
                     self._insert_alphabetically(ws, value)
+        self._del0frequency (ws)
         self.twb.save(self.trans_xls) 
 
     def translate_element (self, xpath):
@@ -315,10 +314,16 @@ class ExcelTool:
             else:
                 print (f"new term: {term.text}")
                 self._insert_alphabetically(ws, term.text)
+        self._del0frequency (ws)
         self.twb.save(self.trans_xls) 
 
         
 #    PRIVATE STUFF
+
+    def _2attributes(self, term, quali1, quali2):
+        qu_value1 = self._get_attribute(term, quali1)
+        qu_value2 = self._get_attribute(term, quali2)
+        return f"{qu_value1} - {qu_value2}"
 
     def _attribute_split (self, xpath):
         attrib = xpath.split('/')[-1]
@@ -360,6 +365,24 @@ class ExcelTool:
                 each.value='' # None doesn't work
             c+=1
         return c
+
+    def _del0frequency (self, ws):
+        """
+        Delete lines with frequency = 0 and EN=None from translate.xlsx
+        """
+        
+        lno=1 # 1-based line counter
+        for freq in ws['D']:
+            B=ws[f"B{lno}"]
+            if (lno > 1 
+                and int(freq.value) == 0
+                and B.value is None):
+                    A=ws[f"A{lno}"]
+                    print (f"\tdel zero translation: {lno} {A.value}")
+                    ws.delete_rows (lno)
+            else: # correct lno for deleted rows
+                lno+=1 
+
 
     def _get_attribute (self, node, attribute):
         value = node.get(attribute)
@@ -412,9 +435,13 @@ class ExcelTool:
         
         Uppercase and lowercase in order ignored."""
 
+        if needle_term is None:
+            raise ValueError ("ERROR: Can't locate position for none")
+
         lno=1 # 1-based line counter 
         for xlsterm in ws['A']:
-            if lno > 1: #IGNORE HEADER
+            if lno > 1 and xlsterm.value is not None: 
+                #raise ValueError ("ERROR no entry in xls column A")
                 if  needle_term.lower() < xlsterm.value.lower():
                     return lno #found
             lno += 1
@@ -423,7 +450,7 @@ class ExcelTool:
     def _prepare_indexing(self, xpath, wb):
         ws = self._prepare_ws(xpath, wb)
         self._prepare_header(ws)
-        self._col_to_zero(ws, 'D') #drop all frequencies when working on index
+        self._col_to_zero(ws, 'D') #drop all frequencies when updating index
         print (f"   sheet {ws.title}")
         return ws
 
@@ -453,10 +480,11 @@ class ExcelTool:
         columns = {
             'A1': 'GEWIMMEL*',
             'B1': 'QUALI*', #create this column even if not used
-            'C1': 'VERANTWORTLICHKEIT*',
+            'C1': 'VERANTWORTL.*',
             'D1': 'FREQUENZ*',
-            'E1': 'VORZUGSBEZEICHNUNG',
-            'F1': 'NOTIZEN'
+            'E1': 'PREF',
+            'F1': 'NOTIZEN',
+            'G1': 'KONSULTIERTE QUELLEN'
         }
         self._write_header(columns,ws)
 
@@ -465,7 +493,8 @@ class ExcelTool:
             'A1': 'DE*',
             'B1': 'EN',
             'C1': 'NOTIZEN',
-            'D1': 'FREQUENZ*'
+            'D1': 'FREQUENZ*',
+            'E1': 'KONSULTIERTE QUELLEN'
         }
         self._write_header(columns,ws)
 
@@ -483,14 +512,13 @@ class ExcelTool:
             return Workbook()
 
     def _read_conf (self, conf_fn):
-        import json
         with open(conf_fn, encoding='utf-8') as json_data_file:
             data = json.load(json_data_file)
         return data
 
     def _term2str (self, term_node):
         term_str = term_node.text
-        if term_str is not None: #if there is whitespace we want to ignore it in the index
+        if term_str is not None: 
             return term_str.strip()
 
     def _term_exists (self, ws, term):
@@ -587,5 +615,6 @@ if __name__ == '__main__':
     #t.index("./mpx:sammlungsobjekt/mpx:personenKörperschaften")
     #t.index_for_attribute("./mpx:sammlungsobjekt/mpx:geogrBezug/@bezeichnung", "dont test and record verant")
     #paths expect that you run it from the date directory (e.g. 20200226)
-    t=ExcelTool.from_conf('../vindex.json', '2-MPX/levelup.mpx')
-    t.apply_fix('../vindex.json', 'test-fix.mpx')
+    #t=ExcelTool.from_conf('../vindex.json', '2-MPX/levelup.mpx')
+    #t.apply_fix('../vindex.json', '2-MPX/vfix.mpx')
+    t=ExcelTool.translate_from_conf('../../generalvindex.json', '2-MPX/vfix.mpx', '..')

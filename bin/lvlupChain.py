@@ -141,7 +141,8 @@ if __name__ == "__main__":
                 t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
                 #only apply fix if fix doesn't exist yet
                 #dont forget to delete old fix to get new info....
-                if not os.path.exists(conf['vfixmpx']): 
+                if not os.path.exists(conf['vfixmpx']):
+                    print ("*APPLYING FIX")
                     t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
                 # Übersetzungs-Excel
                 # Was passiert, wenn ein Begriff aus xml-Quelle entfällt?
@@ -153,7 +154,7 @@ if __name__ == "__main__":
 
         elif sys.argv[1].lower() == 'lido':
             print ('*Converting to LIDO...')
-            if os.path.isfile(conf['lvlupmpx']): #soon input file will be vfixmpx     
+            if os.path.isfile(conf['vfixmpx']): #was: lvlupmpx      
                 s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
                 s.dirTransform(conf['outlido'], conf['lido2datenblatt'], conf['datenblatthtml'])
 
