@@ -9,10 +9,8 @@
     <xsl:strip-space elements="*" />
 
     <!-- 
-        objectClassificarionWrap is required; is it the only required Wrap? 
-        Also required
-            objectWorkTyperWrap
-            objectWorkType
+        objectClassificarionWrap is required; is it the only required wrap? 
+        No: also required is the objectWorkTyperWrap
     -->
 
     <xsl:template name="objectClassificationWrap">

@@ -20,9 +20,7 @@
 
 
     <xsl:template match="/">
-        <lido:lidoWrap xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
             <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt" />
-        </lido:lidoWrap>
     </xsl:template>
 
 
@@ -31,35 +29,38 @@
             <xsl:text>2LIDO-objId: </xsl:text>
             <xsl:value-of select="@objId" />
         </xsl:message>
-
-        <lido:lido>
-            <lido:lidoRecID>
-                <xsl:attribute name="lido:source">
-                    <xsl:value-of select="mpx:verwaltendeInstitution" />
-                </xsl:attribute>
-                <xsl:attribute name="lido:type">local</xsl:attribute>
-                <xsl:text>objId/</xsl:text>
-                <xsl:value-of select="@objId" />
-            </lido:lidoRecID>
-
-            <!-- lido:category -->
-            <xsl:apply-templates select="mpx:objekttyp" />
-
-            <lido:descriptiveMetadata xml:lang="de">
-                <xsl:call-template name="objectClassificationWrap"/>
-                <xsl:call-template name="objectIdentificationWrap"/>
-                <xsl:call-template name="eventWrap"/>
-                <xsl:call-template name="objectRelationWrap"/>
-            </lido:descriptiveMetadata>
-
-            <lido:administrativeMetadata xml:lang="en">
-                <xsl:call-template name="rightsWorkWrap"/>
-                <xsl:call-template name="recordWrap"/>
-                <xsl:call-template name="resourceWrap"/>
-            </lido:administrativeMetadata>
-        </lido:lido>
+        <xsl:variable name="file" select="concat(normalize-space(@objId),'.lido')"/>
+        <xsl:result-document href="{$file}">
+            <lido:lidoWrap xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
+                <lido:lido>
+                    <lido:lidoRecID>
+                        <xsl:attribute name="lido:source">
+                            <xsl:value-of select="mpx:verwaltendeInstitution" />
+                        </xsl:attribute>
+                        <xsl:attribute name="lido:type">local</xsl:attribute>
+                        <xsl:text>objId/</xsl:text>
+                        <xsl:value-of select="@objId" />
+                    </lido:lidoRecID>
+        
+                    <!-- lido:category -->
+                    <xsl:apply-templates select="mpx:objekttyp" />
+        
+                    <lido:descriptiveMetadata xml:lang="de">
+                        <xsl:call-template name="objectClassificationWrap"/>
+                        <xsl:call-template name="objectIdentificationWrap"/>
+                        <xsl:call-template name="eventWrap"/>
+                        <xsl:call-template name="objectRelationWrap"/>
+                    </lido:descriptiveMetadata>
+        
+                    <lido:administrativeMetadata xml:lang="en">
+                        <xsl:call-template name="rightsWorkWrap"/>
+                        <xsl:call-template name="recordWrap"/>
+                        <xsl:call-template name="resourceWrap"/>
+                    </lido:administrativeMetadata>
+                </lido:lido>
+            </lido:lidoWrap>
+        </xsl:result-document>
     </xsl:template>
-
 
     <!-- using objekttyp for main category, not CIDOC terminology -->
     <xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:objekttyp">

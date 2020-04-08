@@ -84,7 +84,7 @@ if __name__ == "__main__":
     sys.path.append (conf['lib'])
     sys.path.append (conf['t'])
     
-    #It's more pythonic to just let python report file not found exception.
+    #It's more pythonic to just let Python report file not found exception.
     from Xls2xml import Xls2xml
     from Saxon import Saxon
     from ResourceCp import ResourceCp
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     from ExcelTool import ExcelTool
     from Tif_finder import Tif_finder
     import test_shf as tshf
-    import test_mpx as tm
+    import test_mpx
 
     print ('*Looking for input...')
     o = Xls2xml(conf) 
@@ -111,19 +111,18 @@ if __name__ == "__main__":
         #input from 1-XML writes to 2-MPX
         s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx']) 
 
-    tm.main(conf['lvlupmpx'])
+    test_mpx.main(conf['lvlupmpx'])
 
+    print ('*Updating vindex...')
+    if os.path.isfile(conf['vindexconf']): #make/update vindex 
+        t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
+    else: 
+        raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
+        print ("*APPLYING FIX")
 
     if not os.path.exists(conf['vfixmpx']):
-        print ('*Updating vindex...')
-        if os.path.isfile(conf['vindexconf']): #make/update vindex 
-            t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
-        else: 
-            raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
-            print ("*APPLYING FIX")
         t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
         t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..') 
-
 
     rc = ResourceCp (conf['lvlupmpx'])
     rc.standardbilder('..\pix', 'mulId.dateiname')
@@ -131,11 +130,7 @@ if __name__ == "__main__":
 
     if len(sys.argv) > 1:
         if sys.argv[1].lower() == 'shf':
-            ''' 
-            (1) copy Standardbilder based on levlup.mpx to subfolder Standardbilder mit Namen $objId.$erweiterung
-            (2) alle freigegebenen Bilder in Unterverzeichnis Freigegeben mit Muster $mulId.$erweiterung
-            '''
-            print ('*Converting to SHF format...')
+            print ('*Converting to SHF csv format...')
             if os.path.isfile(conf['lvlupmpx']):
                 s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
                 n = Npx2csv (conf['shfnpx'])
@@ -148,12 +143,11 @@ if __name__ == "__main__":
             print ('*Converting to LIDO...')
             if os.path.isfile(conf['vfixmpx']): #was: lvlupmpx      
                 s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
-                s.dirTransform(conf['outlido'], conf['lido2datenblatt'], conf['datenblatthtml'])
-
+                s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
                 #s.dirTransform(conf['outlido'], conf['splitLido'], conf['out'])
-                #s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
-                rc = ResourceCp (conf['lvlupmpx'])
-                rc.mulId ('../mulId') 
+                s.dirTransform(conf['outlido'], conf['lido2datenblatt'], conf['datenblatthtml'])
+                #rc = ResourceCp (conf['lvlupmpx'])
+                #rc.mulId ('../mulId') 
 
         elif sys.argv[1].lower() == 'boris':
             print ('*Working on Boris Test...')
@@ -165,4 +159,3 @@ if __name__ == "__main__":
             print ('*Converting to Deckblatt HTML ...')
             #if os.path.isfile(conf['lvlupmpx']):
             s.dirTransform(conf['vfixmpx'], conf['Datenblatt'], conf['datenblatto'])
-            #s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
