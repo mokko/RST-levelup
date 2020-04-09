@@ -2,6 +2,7 @@
     xmlns:lido="http://www.lido-schema.org"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:func="http://www.mpx.org/mpxfunc"
     xmlns:mpx="http://www.mpx.org/mpx" exclude-result-prefixes="mpx"
     xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
 
@@ -74,4 +75,27 @@
             </lido:term>
         </lido:category>
     </xsl:template>
+    
+    <xsl:function name="func:en-from-dict">
+        <xsl:param name="context"/>
+        <xsl:param name="nterm"/>
+        <xsl:variable name="dict" select="document('file:../data/mpxvoc.xml')"/>
+        <xsl:choose>
+            <xsl:when test ="exists($dict/mpxvoc/context[@name eq $context]/concept[pref = $nterm and pref/@lang = 'de']/pref[@lang eq 'en'])">
+                <xsl:variable name="en" select="$dict/mpxvoc/context[@name eq 'geogrBezug']/concept[pref = $nterm and pref/@lang = 'de']/pref[@lang eq 'en']"/>
+                <xsl:value-of select="$en"/>
+                <xsl:message>
+                    ++++++++++++++++++++++++++++++++++
+                    <xsl:value-of select="$nterm"/>
+                    <xsl:text>: </xsl:text>
+                    <xsl:value-of select="$en"/>
+                    ++++++++++++++++++++++++++++++++++ 
+                </xsl:message>
+            </xsl:when>
+            <!-- if there is no English translation use original needle term -->
+            <xsl:otherwise>
+                <xsl:value-of select="$nterm"/>
+            </xsl:otherwise>
+        </xsl:choose>        
+    </xsl:function>
 </xsl:stylesheet>

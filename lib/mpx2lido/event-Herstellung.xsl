@@ -2,6 +2,7 @@
     xmlns:lido="http://www.lido-schema.org"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:func="http://www.mpx.org/mpxfunc"
     xmlns:mpx="http://www.mpx.org/mpx" exclude-result-prefixes="mpx"
     xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
 
@@ -106,13 +107,10 @@
     </xsl:template>
 
     <xsl:template mode="Ort" match="mpx:geogrBezug[@bezeichnung != 'Kultur' 
-        or @bezeichnung != 'Ethnie'
-        or @bezeichnung != 'Sprachgruppe']">
-        <xsl:message>+++++++EVENT PLACE+++++++
-            <xsl:value-of select="../@objId"/>
-            <xsl:text>+++++++++++++</xsl:text>
-        </xsl:message>
+            or @bezeichnung != 'Ethnie'
+            or @bezeichnung != 'Sprachgruppe']">
         <lido:eventPlace>
+            <xsl:variable name="nterm" select="."/>
             <xsl:if test="@bezeichnung">
                 <xsl:attribute name="lido:type">
                     <xsl:value-of select="@bezeichnung"/>
@@ -135,7 +133,7 @@
             <lido:displayPlace>
                 <xsl:attribute name="xml:lang">en</xsl:attribute>
                 <xsl:attribute name="lido:encodinganalog">mpxvoc</xsl:attribute>
-                    <xsl:value-of select="."/>
+                    <xsl:value-of select="func:en-from-dict('geogrBezug',$nterm)"/>
                 <xsl:if test="@art">
                     <xsl:text> (</xsl:text>
                     <xsl:value-of select="@art"/>
