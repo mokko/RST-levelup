@@ -108,25 +108,77 @@
     <xsl:template mode="Ort" match="mpx:geogrBezug[@bezeichnung != 'Kultur' 
         or @bezeichnung != 'Ethnie'
         or @bezeichnung != 'Sprachgruppe']">
-        <xsl:message>-------------------------------
-            <xsl:value-of select="."/>
+        <xsl:message>+++++++EVENT PLACE+++++++
+            <xsl:value-of select="../@objId"/>
+            <xsl:text>+++++++++++++</xsl:text>
         </xsl:message>
         <lido:eventPlace>
+            <xsl:if test="@bezeichnung">
+                <xsl:attribute name="lido:type">
+                    <xsl:value-of select="@bezeichnung"/>
+                </xsl:attribute>
+            </xsl:if>
             <xsl:attribute name="lido:sortorder">
                 <xsl:value-of select="@sort"/>
             </xsl:attribute>
+            <!-- use displayPlace for rst -->
             <lido:displayPlace>
+                <xsl:attribute name="xml:lang">de</xsl:attribute>
+                <xsl:attribute name="lido:encodinganalog">mpx:geogrBezug</xsl:attribute>
                 <xsl:value-of select="."/>
-                <xsl:if test="@bezeichnung">
+                <xsl:if test="@art">
                     <xsl:text> (</xsl:text>
-                    <xsl:value-of select="@bezeichnung"/>
+                    <xsl:value-of select="@art"/>
                     <xsl:text>)</xsl:text>
                 </xsl:if>
             </lido:displayPlace>
+            <lido:displayPlace>
+                <xsl:attribute name="xml:lang">en</xsl:attribute>
+                <xsl:attribute name="lido:encodinganalog">mpxvoc</xsl:attribute>
+                    <xsl:value-of select="."/>
+                <xsl:if test="@art">
+                    <xsl:text> (</xsl:text>
+                    <xsl:value-of select="@art"/>
+                    <xsl:text>)</xsl:text>
+                </xsl:if>
+            </lido:displayPlace>
+            <!-- eigentlich haben wir nur displayPlace; 
+            place is sort of fake since no thesaurus -->
             <lido:place>
-                <xsl:attribute name="lido:geographicalEntity">
-                    <xsl:value-of select="@bezeichnung"/>
-                </xsl:attribute>
+                <xsl:choose>
+                    <xsl:when test="@bezeichnung = 'Atoll'
+                        or @bezeichnung = 'Bach'
+                        or @bezeichnung = 'Bach/Zufluss'
+                        or @bezeichnung = 'Berg'
+                        or @bezeichnung = 'Bucht'
+                        or @bezeichnung = 'Fluss'
+                        or @bezeichnung = 'Fluss, Bucht und Dorf'
+                        or @bezeichnung = 'Flussmündung'
+                        or @bezeichnung = 'Gebirge'
+                        or @bezeichnung = 'Hafen'
+                        or @bezeichnung = 'Halbinsel'
+                        or @bezeichnung = 'Insel'
+                        or @bezeichnung = 'Insel/Region'
+                        or @bezeichnung = 'Inselgruppe'
+                        or @bezeichnung = 'Kap'
+                        or @bezeichnung = 'Kontinent'
+                        or @bezeichnung = 'Kontintentteil'
+                        or @bezeichnung = 'Küste'
+                        or @bezeichnung = 'Meerenge'
+                        or @bezeichnung = 'Nebenfluss'
+                        or @bezeichnung = 'See/Gebiet'
+                        or @bezeichnung = 'Tal'">
+                        <xsl:attribute name="lido:geographicalEntity">
+                            <xsl:value-of select="@bezeichnung"/>
+                        </xsl:attribute>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:attribute name="lido:politicalEntity">
+                            <xsl:value-of select="@bezeichnung"/>
+                        </xsl:attribute>
+                    </xsl:otherwise>
+                </xsl:choose>
+                
                 <lido:namePlaceSet>
                     <lido:appellationValue>
                         <xsl:value-of select="."/>
