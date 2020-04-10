@@ -91,6 +91,7 @@ if __name__ == "__main__":
     from Npx2csv import Npx2csv
     from ExcelTool import ExcelTool
     from Tif_finder import Tif_finder
+    from vok2vok import vok2vok
     import test_shf as tshf
     import test_mpx
 
@@ -113,22 +114,27 @@ if __name__ == "__main__":
 
     test_mpx.main(conf['lvlupmpx'])
 
-    print ('*Updating vindex...')
-    if os.path.isfile(conf['vindexconf']): #make/update vindex 
-        t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
-    else: 
-        raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
-        print ("*APPLYING FIX")
+    if sys.argv[1].lower() != 'short':
+        print ('*Updating vindex...')
+        if os.path.isfile(conf['vindexconf']): #make/update vindex 
+            t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
+        else: 
+            raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
+            print ("*APPLYING FIX")
 
     if not os.path.exists(conf['vfixmpx']):
         t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
+        #writes individual translate.xlsx files
         t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..') 
-
-    rc = ResourceCp (conf['lvlupmpx'])
-    rc.standardbilder('..\pix', 'mulId.dateiname')
-    rc.freigegebene('..\pix', 'mulId.dateiname')
+    print ("*VOK2VOK") #assembles individual dictionaries into one
+    vok2vok ('../..', '../../mpxvoc.xml') # work on data dir
 
     if len(sys.argv) > 1:
+        if sys.argv[1].lower() != 'short':
+            rc = ResourceCp (conf['lvlupmpx'])
+            rc.standardbilder('..\pix', 'mulId.dateiname')
+            rc.freigegebene('..\pix', 'mulId.dateiname')
+
         if sys.argv[1].lower() == 'shf':
             print ('*Converting to SHF csv format...')
             if os.path.isfile(conf['lvlupmpx']):

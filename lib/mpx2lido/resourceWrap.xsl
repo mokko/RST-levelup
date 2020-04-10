@@ -31,7 +31,7 @@
                     </xsl:choose>
                 </xsl:attribute>
                 <lido:resourceID lido:type="mulId">
-                <!-- according to pdf specification resourceID can have 
+                <!-- according to LIDO's pdf specification resourceID can have
                      attribute encodinganalog; according to xsd it can't have 
                      it. 
                     <xsl:attribute name="encodinganalog">
@@ -65,8 +65,10 @@
                         <xsl:attribute name="lido:formatResource">
                             <xsl:value-of select="lower-case(mpx:erweiterung)"/>
                         </xsl:attribute>
-                        <xsl:text>mulId/</xsl:text>
+                        <xsl:text>../../pix/</xsl:text>
                         <xsl:value-of select="@mulId" />
+                        <xsl:text>.</xsl:text>
+                        <xsl:value-of select="mpx:dateiname"/>
                         <xsl:text>.</xsl:text>
                         <xsl:value-of select="mpx:erweiterung"/>
                     </lido:linkResource>

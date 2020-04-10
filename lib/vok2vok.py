@@ -1,4 +1,8 @@
-"""From several smaller translation tables to one bigger xml vocabulary.
+"""From several smaller translation tables to one bigger xml dictionary.
+
+USAGE:
+    vok2vok(src_dir, out_xml)
+
 
 To apply the translations which are now stored in Excel to LIDO, we could
 transform them FIRST into xml; so we can include them into the normal 
@@ -84,11 +88,13 @@ needle_fn="translate.xlsx"
 
 class vok2vok (XlsTools):
     def __init__(self, dir, out_fn):
+        print (f"**vok2vok source dir {dir}")
         root = ET.Element("mpxvoc") # start a new document
         #tree = ET.parse("gtranslate.xml") #load existing document
         #root = tree.getroot()
-
-        for path in glob.iglob(f"./**/{needle_fn}", recursive=True):
+        needle_path=os.path.realpath(os.path.join(dir,f"./**/{needle_fn}"))
+        print (needle_path)
+        for path in glob.iglob(needle_path, recursive=True):
             wb=self._prepare_wb (path)
             print (f"*Processing translation table: {path}")
             
@@ -97,6 +103,7 @@ class vok2vok (XlsTools):
                 self._per_sheet (sheet, root, path)
         ET.indent (root)
         doc = ET.ElementTree (root)
+        print (f"**About to write to {out_fn}, overwriting old file")
         with open(out_fn, 'wb') as f:
             doc.write(f, encoding="UTF-8", method="xml", 
                 xml_declaration=True, pretty_print=True)
@@ -173,4 +180,4 @@ class vok2vok (XlsTools):
 
 if __name__ == '__main__': 
     #execute from ./data
-    vok2vok('.', 'mpxvoc.xml')
+    vok2vok('..', 'mpxvoc3.xml')
