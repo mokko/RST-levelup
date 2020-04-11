@@ -59,7 +59,7 @@ class Saxon:
         else:
             print (f"*WRITING REPORT TO {report_fn}")
             log = open(report_fn, mode='wb')
-            with Popen(cmd, bufsize=0, stdout=PIPE, stderr=subprocess.STDOUT) as proc:
+            with Popen(cmd, stdout=PIPE, stderr=subprocess.STDOUT) as proc:
                 line = proc.stdout.read()
                 print (line)
                 log.write(line)
