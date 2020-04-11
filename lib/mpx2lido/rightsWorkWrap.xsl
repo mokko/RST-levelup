@@ -21,7 +21,6 @@
     Bei DLG hat jemand anders die Rechte?
     -->
 
-
     <xsl:template name="rightsWorkWrap">
         <lido:rightsWorkWrap>
             <lido:rightsWorkSet>
@@ -30,7 +29,6 @@
             </lido:rightsWorkSet>
         </lido:rightsWorkWrap>
     </xsl:template>
-
 
     <xsl:template match="mpx:credits">
         <lido:creditLine>
@@ -63,5 +61,4 @@
             </xsl:choose>
         </lido:rightsHolder>
     </xsl:template>
-
 </xsl:stylesheet>

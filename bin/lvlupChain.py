@@ -23,8 +23,8 @@ Optional function via command line parameter:
 """
 
 import os
+import sys
 import subprocess #more imports below
-
 
 conf={
     #rougly in the order they are used...
@@ -79,7 +79,6 @@ elif os.getlogin() == 'mauri':
 
 if __name__ == "__main__":
     
-    import sys
     #print ("lib: %s" % conf['lib'])
     sys.path.append (conf['lib'])
     sys.path.append (conf['t'])

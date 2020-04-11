@@ -8,6 +8,17 @@
         indent="yes" />
     <xsl:strip-space elements="*" />
 
+    <!-- 
+    FIELDs: subject, displaySubject, relatedWork
+
+    LIDO SPEC: 
+    A subject "may be the visual content (e.g. the iconography of a painting)
+    or what the object is about."
+    
+    HISTORY:
+    -We used to take systematikArt both for classification and subject. Now 
+    only for classification. 20200411.
+    -->
 
     <xsl:template name="objectRelationWrap">
         <xsl:if test="mpx:oov">
@@ -17,15 +28,8 @@
                 </lido:relatedWorksWrap>
             </lido:objectRelationWrap>
         </xsl:if>
-        <xsl:if test="mpx:systematikArt or mpx:sachebgriffHierarch">
-            <lido:subjectWrap>
-                <xsl:apply-templates select="mpx:systematikArt"/>
-                <xsl:apply-templates select="mpx:sachbegriffHierarch"/>
-            </lido:subjectWrap>
-        </xsl:if>
     </xsl:template>
 
-    
     <xsl:template match="mpx:oov">
         <lido:relatedWorkSet>
             <lido:relatedWork>
@@ -39,30 +43,5 @@
                 </lido:term>
             </lido:relatedWorkRelType>
         </lido:relatedWorkSet>
-    </xsl:template>
-
-
-    <xsl:template match="mpx:systematikArt">
-        <lido:subjectSet>
-            <lido:displaySubject>
-                <xsl:value-of select="."/>
-            </lido:displaySubject>
-            <lido:subject>
-                <xsl:value-of select="."/>
-            </lido:subject>
-        </lido:subjectSet>
-    </xsl:template>
-
-
-    <!-- untested due to lack of example data -->
-    <xsl:template match="mpx:sachbegriffHierarch">
-        <lido:subjectSet>
-            <lido:displaySubject>
-                <xsl:value-of select="."/>
-            </lido:displaySubject>
-            <lido:subject>
-                <xsl:value-of select="."/>
-            </lido:subject>
-        </lido:subjectSet>
     </xsl:template>
 </xsl:stylesheet>

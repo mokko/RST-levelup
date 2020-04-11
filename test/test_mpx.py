@@ -4,8 +4,10 @@ import argparse
 def main (mpx_fn):
     test_identNr(mpx_fn)
     test_mume_pfad(mpx_fn)
+    test_kein_sachbegriff (mpx_fn)
     standardbild_veröffentlichen (mpx_fn)
     anzahl_definitiver_STO (mpx_fn)
+    
     #sto_inkongruenz (mpx_fn) sample data doesn't have definitive sto. Why?
 
 def test_identNr(xml_fn):
@@ -15,10 +17,18 @@ def test_identNr(xml_fn):
         namespaces={'m': 'http://www.mpx.org/mpx'})
     #r should be empty
     if r:
-        raise ValueError (f'Es soll keine DS ohne identNr geben {r}')
+        raise ValueError (f'Fehler: DS ohne identNr {r}')
     #else:
     #    print ('all good')
 
+def test_kein_sachbegriff (xml_fn):
+    """Schreibe Fehler, wenn DS keinen Sachbegriff hat"""
+    tree = etree.parse(xml_fn)
+    r = tree.xpath('/m:museumPlusExport/m:sammlungsobjekt[not(m:sachbegriff)]/@objId',
+        namespaces={'m': 'http://www.mpx.org/mpx'})
+    for fehler in r:
+        print (f"Fehler: DS ohne sachbegriff {fehler}")
+    
 
 def test_mume_pfad (mpx_fn):
     """Fehler wenn Pfadangaben ausgefüllt ist, aber Dateiname oder Erweiterung 

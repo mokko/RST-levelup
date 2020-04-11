@@ -6,6 +6,7 @@
     xmlns:mpx="http://www.mpx.org/mpx" exclude-result-prefixes="mpx"
     xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
 
+    <xsl:import href="mpx2lido/category.xsl" />
     <!-- Descriptive Metadata -->
     <xsl:import href="mpx2lido/objectClassificationWrap.xsl" />
     <xsl:import href="mpx2lido/objectIdentificationWrap.xsl" />
@@ -16,14 +17,25 @@
     <xsl:import href="mpx2lido/recordWrap.xsl" />
     <xsl:import href="mpx2lido/resourceWrap.xsl" />
 
+    <!-- 
+        FIELDS: lidoRecID
+        
+        HISTORY:
+        general stuff (applying to more than one field)
+        -let's try to map every mpx-field to only one LIDO field
+        as long that makes sense semantically; e.g. let's try and use 
+        mpx:objekttyp only for lido:category. 20200411
+
+        specific to one field
+        -lido:category moved to separate xsl file        
+     -->
+
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" />
     <xsl:strip-space elements="*" />
-
 
     <xsl:template match="/">
             <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt" />
     </xsl:template>
-
 
     <xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt">
         <xsl:message>
@@ -44,7 +56,7 @@
                     </lido:lidoRecID>
         
                     <!-- lido:category -->
-                    <xsl:apply-templates select="mpx:objekttyp" />
+                    <xsl:apply-templates mode="category" select="mpx:objekttyp" />
         
                     <lido:descriptiveMetadata xml:lang="de">
                         <xsl:call-template name="objectClassificationWrap"/>
@@ -63,19 +75,6 @@
         </xsl:result-document>
     </xsl:template>
 
-    <!-- using objekttyp for main category, not CIDOC terminology -->
-    <xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:objekttyp">
-        <lido:category>
-            <lido:conceptID lido:type="URI">
-                <xsl:text>http://www.mpx.org/concepts/Objekttyp/</xsl:text>
-                <xsl:value-of select="." />
-            </lido:conceptID>
-            <lido:term xml:lang="de">
-                <xsl:value-of select="." />
-            </lido:term>
-        </lido:category>
-    </xsl:template>
-    
     <xsl:function name="func:en-from-dict">
         <xsl:param name="context"/>
         <xsl:param name="nterm"/>
@@ -85,11 +84,10 @@
                 <xsl:variable name="en" select="$dict/mpxvoc/context[@name eq 'geogrBezug']/concept[pref = $nterm and pref/@lang = 'de']/pref[@lang eq 'en']"/>
                 <xsl:value-of select="$en"/>
                 <xsl:message>
-                    ++++++++++++++++++++++++++++++++++
+                    <xsl:text>en-from-dict: </xsl:text> 
                     <xsl:value-of select="$nterm"/>
                     <xsl:text>: </xsl:text>
                     <xsl:value-of select="$en"/>
-                    ++++++++++++++++++++++++++++++++++ 
                 </xsl:message>
             </xsl:when>
             <!-- if there is no English translation use original needle term -->

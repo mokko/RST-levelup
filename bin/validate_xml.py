@@ -10,21 +10,20 @@ USAGE
 """
 
 import os
+from lxml import etree
+import argparse
 
-conf={
+conf = {
     'lido': 'http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd',
 }
-lib=os.path.realpath(os.path.join(__file__,'../../lib'))
+lib = os.path.realpath(os.path.join(__file__,'../../lib'))
 conf['mpx']=os.path.join (lib, 'mpx20.xsd')
 
-nsmap={ #currently unused
+nsmap = { #currently unused
     'lido' 'http://www.lido-schema.org'
     'mpx': 'http://www.mpx.org/mpx',
     'xsd': 'http://www.w3.org/2001/XMLSchema-instance',
 }
-
-from lxml import etree
-import argparse
 
 if __name__ == "__main__":
 

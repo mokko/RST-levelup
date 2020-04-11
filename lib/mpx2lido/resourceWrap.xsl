@@ -22,7 +22,7 @@
             Don't record MM records with veröffentlichen = nein
             I would like to include veröffentlichen field into LIDO, but dont see where that fits
         -->
-        <xsl:if test="mpx:erweiterung and not (lower-case(mpx:veröffentlichen) = 'nein')">
+        <xsl:if test="mpx:erweiterung and lower-case(mpx:veröffentlichen) = 'ja'">
             <lido:resourceSet>
                 <xsl:attribute name="lido:sortorder">
                     <xsl:choose>

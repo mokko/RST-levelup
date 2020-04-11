@@ -24,9 +24,11 @@ SEE ALSO
     https://www.saxonica.com/documentation/index.html#!using-xsl/commandline
 '''
 
-import subprocess
 import os
 import shutil
+import subprocess
+import sys
+from subprocess import Popen, PIPE
 
 
 class Saxon:
@@ -40,7 +42,7 @@ class Saxon:
             self.lib=lib # default used in dirTransform
 
 
-    def transform (self, source, stylesheet, output):
+    def transform (self, source, stylesheet, output, report_fn=None):
         source=self._escapePath(source)
         stylesheet=self._escapePath(stylesheet)
         output=self._escapePath(output)
@@ -50,10 +52,23 @@ class Saxon:
             cmd='java -Xmx1024m -jar ' + cmd
         print (cmd)
         #check=True:dies on error
-        subprocess.run (cmd, check=True, stderr=subprocess.STDOUT) # overwrites output file without saying anything
+        #https://stackoverflow.com/questions/89228
+        if report_fn is None:
+            print ("NO REPORT")
+            subprocess.run (cmd, check=True, stderr=subprocess.STDOUT) # overwrites output file without saying anything
+        else:
+            print (f"*WRITING REPORT TO {report_fn}")
+            log = open(report_fn, mode='wb')
+            with Popen(cmd, bufsize=0, stdout=PIPE, stderr=subprocess.STDOUT) as proc:
+                line = proc.stdout.read()
+                print (line)
+                log.write(line)
+            #result = subprocess.run(cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            #print (result.stderr)
+            #print (result.stdout)
+            
 
-
-    def dirTransform (self, source, stylesheet, output):
+    def dirTransform (self, source, stylesheet, output, report_fn=None):
         '''
          Like normal transform plus 
          a) it makes the output dir if it doesn't exist already
@@ -69,7 +84,7 @@ class Saxon:
                 os.mkdir(dr) # no chmod
             if hasattr(self, 'lib'):
                 stylesheet=self.lib+'/'+stylesheet    
-            self.transform (source, stylesheet, output)    
+            self.transform (source, stylesheet, output, report_fn)    
 
 
     def _escapePath (self, path): 
