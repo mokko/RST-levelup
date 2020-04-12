@@ -25,7 +25,9 @@ USAGE:
             target_dir/objId.hash.tif (CHECK)
 """
 
-import os, sys, argparse
+import os 
+import sys 
+import argparse
 from os.path import expanduser
 
 lib=os.path.realpath(os.path.join(__file__,'../../lib'))
