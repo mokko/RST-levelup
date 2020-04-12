@@ -1,5 +1,4 @@
-'''
-A very thin wrapper around Saxon that uses Python's subprocess
+""" A very thin wrapper around Saxon that uses Python's subprocess
 
 USAGE 
     s=Saxon(conf,lib) #lib is optional
@@ -22,7 +21,7 @@ SEE ALSO
     transform -s:source -xsl:stylesheet -o:output
 
     https://www.saxonica.com/documentation/index.html#!using-xsl/commandline
-'''
+"""
 
 import os
 import shutil
@@ -30,34 +29,32 @@ import subprocess
 import sys
 from subprocess import Popen, PIPE
 
-
 class Saxon:
     def __init__ (self, conf=None, lib=None):
         self.saxon="C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe" # default
         if 'saxon' in conf:
             self.saxon=conf['saxon']
         if 'java' in conf:
-            self.java=conf['java']
+            self.java = conf['java']
         if lib:
-            self.lib=lib # default used in dirTransform
-
+            self.lib = lib # default used in dirTransform
 
     def transform (self, source, stylesheet, output, report_fn=None):
-        source=self._escapePath(source)
-        stylesheet=self._escapePath(stylesheet)
-        output=self._escapePath(output)
+        source = self._escapePath(source)
+        stylesheet = self._escapePath(stylesheet)
+        output = self._escapePath(output)
         
-        cmd=self.saxon + ' -s:' + source + ' -xsl:' +stylesheet + ' -o:' + output
+        cmd = self.saxon + ' -s:' + source + ' -xsl:' +stylesheet + ' -o:' + output
         if hasattr(self, 'java'):
-            cmd='java -Xmx1024m -jar ' + cmd
+            cmd = 'java -Xmx1024m -jar ' + cmd
         print (cmd)
         #check=True:dies on error
         #https://stackoverflow.com/questions/89228
         if report_fn is None:
-            print ("NO REPORT")
+            print ("no log file written")
             subprocess.run (cmd, check=True, stderr=subprocess.STDOUT) # overwrites output file without saying anything
         else:
-            print (f"*WRITING REPORT TO {report_fn}")
+            print (f"*writing log file to {report_fn}")
             log = open(report_fn, mode='wb')
             with Popen(cmd, stdout=PIPE, stderr=subprocess.STDOUT) as proc:
                 line = proc.stdout.read()
@@ -66,36 +63,33 @@ class Saxon:
             #result = subprocess.run(cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             #print (result.stderr)
             #print (result.stdout)
-            
 
     def dirTransform (self, source, stylesheet, output, report_fn=None):
-        '''
-         Like normal transform plus 
+        """ Like normal transform plus 
          a) it makes the output dir if it doesn't exist already
          b) it prefixes the stylesheet path with self.lib if it exists
-        '''
-        output=os.path.realpath(output)
-        dr=os.path.dirname (output) 
-        
+        """
+
+        output = os.path.realpath(output)
+        dr = os.path.dirname (output) 
+
         if os.path.isfile(output):
             print ("%s exists already, no overwrite" % output)
         else:
             if not os.path.isdir(dr): 
                 os.mkdir(dr) # no chmod
             if hasattr(self, 'lib'):
-                stylesheet=self.lib+'/'+stylesheet    
+                stylesheet = os.path.join(self.lib, stylesheet)
             self.transform (source, stylesheet, output, report_fn)    
 
-
     def _escapePath (self, path): 
-        '''escape path w/ spaces'''
-        return '"'+path+'"'
+        """escape path w/ spaces"""
 
+        return f'"{path}"'
 
     def join (self, source, stylesheet, output):
-        '''
-            Join all lvl1 files into one big join file
-        '''
+        """ Join all lvl1 files into one big join file"""
+
         if os.path.isfile(output): #only join if target doesn't exist yet
             print ("%s exists already, no overwrite" % output) 
         else:
@@ -104,12 +98,11 @@ class Saxon:
             styleorig=self.lib+'/'+stylesheet
             targetdir=os.path.dirname(output)
             styletarget=targetdir+'/'+stylesheet
-            print ('orig: '+ styleorig)
-            print ('target: '+ styletarget)
+            print (f"orig: {styleorig}")
+            print (f"target: {styletarget}")
             shutil.copy(styleorig, styletarget) # cp stylesheet in same dir as *.xml
             self.transform (source, self._escapePath(styletarget), self._escapePath(output))
             os.remove(styletarget)
-
 
 if __name__ == "__main__":
     conf={
