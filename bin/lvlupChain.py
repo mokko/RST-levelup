@@ -113,7 +113,7 @@ if __name__ == "__main__":
 
     test_mpx.main(conf['lvlupmpx'])
 
-    if sys.argv[1].lower() != 'short':
+    if len(sys.argv) > 1 and sys.argv[1].lower() != 'short':
         print ('*Updating vindex...')
         if os.path.isfile(conf['vindexconf']): #make/update vindex 
             t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     if not os.path.exists(conf['vfixmpx']):
         t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
         #writes individual translate.xlsx files
-        t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..') 
+    t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..') 
     print ("*VOK2VOK") #assembles individual dictionaries into one
     vok2vok ('../..', '../../mpxvoc.xml') # work on data dir
 
@@ -144,16 +144,6 @@ if __name__ == "__main__":
                 tf.search_mpx(conf['lvlupmpx'], conf['tifdir'])
                 tshf.main(conf['vfixmpx'], conf ['shfnpx'])
 
-        elif sys.argv[1].lower() == 'lido':
-            print ('*Converting to LIDO...')
-            if os.path.isfile(conf['vfixmpx']): #was: lvlupmpx      
-                s.dirTransform(conf['lvlupmpx'], conf['mpx2lido'], conf['outlido'])
-                s.dirTransform(conf['outlido'], conf['lido2html'], conf['lidohtml'])
-                #s.dirTransform(conf['outlido'], conf['splitLido'], conf['out'])
-                s.dirTransform(conf['outlido'], conf['lido2datenblatt'], conf['datenblatthtml'])
-                #rc = ResourceCp (conf['lvlupmpx'])
-                #rc.mulId ('../mulId') 
-
         elif sys.argv[1].lower() == 'boris':
             print ('*Working on Boris Test...')
             if os.path.isfile(conf['lvlupmpx']):
@@ -162,5 +152,6 @@ if __name__ == "__main__":
 
         elif sys.argv[1].lower() == 'datenblatt':
             print ('*Converting to Deckblatt HTML ...')
+            #this datenblatt is made directly from mpx; other one is made from lido
             #if os.path.isfile(conf['lvlupmpx']):
             s.dirTransform(conf['vfixmpx'], conf['Datenblatt'], conf['datenblatto'])
