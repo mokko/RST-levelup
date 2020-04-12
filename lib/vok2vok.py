@@ -112,13 +112,26 @@ class vok2vok (XlsTools):
     ### PRIVATE ###
 
 
+
     def _add_concept (self, xml, context, row, scope):
-        term_xls = row[0].value
-        translation_xls = row[1].value
-        comment_xls = row[2].value
-        freq_xls = row[3].value #xml attribs must be string
+        #change in place is not Pythonic
+        #i just want value and strip, why is this difficult?
+        new=list()
+        for n in range (4):
+            try:
+                value = row[n].value
+            except:
+                value = None
+            if type(value) is str:
+                value=value.strip().replace("\"", r"'")
+            new.append(value)
+
+        term_xls = new[0]
+        translation_xls = new[1]
+        comment_xls = new[2]
+        freq_xls = new[3] #xml attribs must be string
         try:
-            src = row[4].value
+            src = new[4]
         except: 
             src = None
         #print (f"context:{context}")
@@ -142,7 +155,9 @@ class vok2vok (XlsTools):
             pref_de = ET.SubElement(concept_nd, "pref", attrib={"lang":"de"})
             pref_de.text = term_xls
         #(3)Does translation exist yet?
-        rls = pref_de.xpath (f"../pref[@lang = 'en' and .='{translation_xls}']")
+        xpath=f"../pref[@lang = 'en' and . = \"{translation_xls}\"]"
+        #print(xpath)
+        rls = pref_de.xpath (xpath)
         if len(rls) > 0:
             pref_en = rls[0]
         else:
