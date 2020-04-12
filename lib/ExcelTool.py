@@ -418,7 +418,7 @@ class ExcelTool ():
         
         Assumes that verantwortlich is a sibling node."""
 
-        for term in self.tree.findall(xpath, self.ns):
+        for term in self.tree.xpath(xpath, namespaces=self.ns):
             verant_node = term.find("../mpx:verantwortlich", self.ns) #assuming that it always exists 
             try: 
                 verant = verant_node.text
