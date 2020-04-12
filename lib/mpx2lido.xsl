@@ -38,10 +38,10 @@
     </xsl:template>
 
     <xsl:template match="/mpx:museumPlusExport/mpx:sammlungsobjekt">
-        <xsl:message>
+        <!-- xsl:message>
             <xsl:text>2LIDO-objId: </xsl:text>
             <xsl:value-of select="@objId" />
-        </xsl:message>
+        -->
         <xsl:variable name="file" select="concat(normalize-space(@objId),'.lido')"/>
         <xsl:result-document href="{$file}">
             <lido:lidoWrap xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
@@ -79,18 +79,23 @@
         <xsl:param name="context"/>
         <xsl:param name="nterm"/>
         <xsl:variable name="dict" select="document('file:../data/mpxvoc.xml')"/>
+        <xsl:variable name="en" select="$dict/mpxvoc/context[@name eq $context]/concept[pref = $nterm and pref/@lang = 'de']/pref[@lang eq 'en']"/>
         <xsl:choose>
-            <xsl:when test ="exists($dict/mpxvoc/context[@name eq $context]/concept[pref = $nterm and pref/@lang = 'de']/pref[@lang eq 'en'])">
-                <xsl:variable name="en" select="$dict/mpxvoc/context[@name eq 'geogrBezug']/concept[pref = $nterm and pref/@lang = 'de']/pref[@lang eq 'en']"/>
+            <xsl:when test ="exists($en)">
                 <xsl:value-of select="$en"/>
                 <xsl:message>
+                    <xsl:text>objId/</xsl:text>
+                    <xsl:value-of select="$nterm/../@objId"/>
+                    <xsl:text> </xsl:text>
                     <xsl:text>en-from-dict: </xsl:text> 
+                    <xsl:value-of select="$context"/>
+                    <xsl:text> </xsl:text>
                     <xsl:value-of select="$nterm"/>
                     <xsl:text>: </xsl:text>
                     <xsl:value-of select="$en"/>
                 </xsl:message>
             </xsl:when>
-            <!-- if there is no English translation use original needle term -->
+            <!-- if there is no English translation, use original needle -->
             <xsl:otherwise>
                 <xsl:value-of select="$nterm"/>
             </xsl:otherwise>

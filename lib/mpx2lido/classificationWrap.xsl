@@ -4,16 +4,17 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:mpx="http://www.mpx.org/mpx" exclude-result-prefixes="mpx"
     xsi:schemaLocation="http://www.lido-schema.org http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
-    <xsl:output method="xml" version="1.0" encoding="UTF-8"
-        indent="yes" />
+    <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" />
     <xsl:strip-space elements="*" />
 
     <!-- 
         FIELDS: classification
         
         HISTORY: 
-        - There mpx records without sachbegriff. I think that is a mistake in 
-        in m+ and should not be allow to be exported like that. 
+        20200412 - separate xsl file
+        20200411 - begrudgingly accept terms from two sources, mainly 
+            systematikArt, but also terms from Objekttyp that don't 
+            fit into category.
     -->
 
     <xsl:template name="classificationWrap">

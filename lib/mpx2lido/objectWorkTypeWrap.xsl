@@ -20,18 +20,24 @@
         HISTORY:
         -20200412. separate file. 
         -20200114: sortorder added, TODO: not sure it's always in the right 
-        order, currently known attributes "Sachbegriff" and "weiterer Sachbegriff".
+        order, currently known attributes "Sachbegriff" and "weiterer 
+        Sachbegriff".
         
         gets called in objectClassificationWrap
+        
+        TODO: ideally translation from ExcelTool only gets written when 
+        "Sachbegriff engl." doesn't exist. eg. 4733
     -->
 
     <xsl:template name="objectWorkTypeWrap">
         <lido:objectWorkTypeWrap>
-            <xsl:apply-templates select="mpx:sachbegriff" mode="workType">
+            <xsl:apply-templates mode="workType"
+                select="mpx:sachbegriff[not(@art = 'Einheimische Bezeichnung (lokal)')]">
                 <xsl:sort select="@art" />
             </xsl:apply-templates>
             <xsl:apply-templates select="mpx:sachbegriffHierarchisch"/>
-            <xsl:if test="not (mpx:sachbegriff) and not (mpx:sachbegriffHierarchisch)">
+            <xsl:if test="not (mpx:sachbegriff[not(@art = 'Einheimische Bezeichnung (lokal)')]) 
+                and not (mpx:sachbegriffHierarchisch)">
                 <lido:objectWorkType>
                     <lido:term>kein Sachbegriff</lido:term>
                     <xsl:message>
@@ -47,10 +53,23 @@
         <!-- 
             translations could just be sibling terms (with different lang 
             attributes), but if translation comes from m+, there is no way
-            to know to which German term they refer to.-->
+            to know to which German term they refer to.
+            
+            Soll einheimische Bezeichnung ein lido:workType werden? Wohl eher 
+            nicht.
+            -->
 
         <lido:objectWorkType>
-            <xsl:attribute name="lido:type">Sachbegriff</xsl:attribute>
+            <xsl:attribute name="lido:type">
+                <xsl:choose>
+                    <xsl:when test="@art">
+                        <xsl:value-of select="@art"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>Sachbegriff</xsl:text>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:attribute>
             <xsl:attribute name="lido:sortorder">
                 <xsl:value-of select="position()"/>
             </xsl:attribute>
@@ -64,7 +83,7 @@
                     <lido:term xml:lang="de">
                         <xsl:value-of select="." />
                     </lido:term>
-                    <xsl:variable name="translation" select="func:en-from-dict('sachbegriff',.)"/>
+                    <xsl:variable name="translation" select="func:en-from-dict('sachbegriffnot(@artSachb...',.)"/>
                     <xsl:if test=". ne $translation">
                         <lido:term xml:lang="en">
                             <xsl:value-of select="$translation" />

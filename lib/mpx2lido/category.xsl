@@ -12,32 +12,49 @@
     <!-- 
         FIELDS: category
         
+        DF: "category of which this item is an instance"
+        
+        EXAMPLES FROM SPEC:
+        "CIDOC-CRM concept definitions are given at 
+        http://www.cidoccrm.org/crm-concepts/
+        Data values in the sub-element term may often be: 
+        - Man-Made Object (with conceptID "http://www.cidoc-crm.org/
+          crm-concepts/E22"), 
+        - Man-Made Feature (http://www.cidoc-crm.org/crmconcepts/E25), 
+        - Collection* (http://www.cidoc-crm.org/crmconcepts/E78).
+        
+        E20 Biological Object?        
+
+        My point of view after reading for CIDOC for 20min: badly defined 
+        field. As is, mostly useless. Might be useful for joining hetereo-
+        genous collections (e.g. natural history and art). I cant find a
+        concept for information carrier.
+        
+        E78 information carrier is deprecated
+        
         HISTORY: 
-        -category: I used to take category from objekttyp; now I attempt a
-        mapping to CRM terms as recommended by LIDO spec. 20200411 
-        -lido:cateogry moved to separate xsl file. 20200411
-        - objekttyp=Musikinstrument remains at lido: classification; 
-        it's certainly not a category in the Aristotelian sense 
-        (no top-level classification)20200420 
+        -20200412 E22 Human-Made-Object instead of Man-Made-Object
+        -20200412 category: I used to take category terms literally from objekttyp; 
+        now I do a voc mapping where some objekttyp terms are related to basic
+        CIDOC terms.
+        -20200412 objekttyp=Musikinstrument remains at lido: classification; 
+        it's certainly not a category in the Aristotelian sense (no top-level 
+        classification). 
+        
+        Todo: implement E36 Visual Item
     -->
 
     <xsl:template mode="category" match="/mpx:museumPlusExport/mpx:sammlungsobjekt/mpx:objekttyp">
         <lido:category>
             <xsl:choose>
-                <xsl:when test=". eq 'Allgemein' or . eq 'Musikinstrument' ">
+                <xsl:when test=". eq 'Allgemein' 
+                    or . eq 'Musikinstrument' 
+                    or . eq 'Audio'">
                     <lido:conceptID lido:type="URI">
                         <xsl:text>http://www.cidoc-crm.org/crm-concepts/E22</xsl:text>
                     </lido:conceptID>
                     <lido:term xml:lang="en">
-                        <xsl:text>Man-Made Object</xsl:text>
-                    </lido:term>
-                </xsl:when>
-                <xsl:when test=". eq 'Audio'">
-                    <lido:conceptID lido:type="URI">
-                        <xsl:text>http://www.cidoc-crm.org/crm-concepts/E84</xsl:text>
-                    </lido:conceptID>
-                    <lido:term xml:lang="en">
-                        <xsl:text>Information Carrier</xsl:text>
+                        <xsl:text>Human-Made Object</xsl:text>
                     </lido:term>
                 </xsl:when>
                 <xsl:otherwise>

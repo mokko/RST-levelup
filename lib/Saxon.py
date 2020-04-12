@@ -44,14 +44,14 @@ class Saxon:
         stylesheet = self._escapePath(stylesheet)
         output = self._escapePath(output)
         
-        cmd = self.saxon + ' -s:' + source + ' -xsl:' +stylesheet + ' -o:' + output
+        cmd = f"{self.saxon} -s:{source} -xsl:{stylesheet} -o:{output}"
         if hasattr(self, 'java'):
-            cmd = 'java -Xmx1024m -jar ' + cmd
+            cmd = f"java -Xmx1024m -jar {cmd}"
         print (cmd)
         #check=True:dies on error
         #https://stackoverflow.com/questions/89228
         if report_fn is None:
-            print ("no log file written")
+            #print ("no log file written")
             subprocess.run (cmd, check=True, stderr=subprocess.STDOUT) # overwrites output file without saying anything
         else:
             print (f"*writing log file to {report_fn}")
