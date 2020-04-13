@@ -13,11 +13,15 @@
         indent="yes" />
     <xsl:strip-space elements="*" />
 
+    <!-- 
+        apparently some records with a Sammler dont have the Sammeln-event. ? 
+        Why because i wrote eq Sammler instead of ==. Let that be a lesson!
+    -->
     <xsl:template name="eventWrap">
         <lido:eventWrap>
             <xsl:call-template name="Herstellung"/>
             <xsl:call-template name="Erwerb"/>
-            <xsl:if test="mpx:personenKörperschaften[@funktion eq 'Sammler']">
+            <xsl:if test="mpx:personenKörperschaften[@funktion = 'Sammler']">
                 <xsl:call-template name="Sammeln"/>
             </xsl:if>
         </lido:eventWrap>
