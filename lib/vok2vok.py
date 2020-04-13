@@ -136,14 +136,14 @@ class vok2vok (XlsTools):
             src = None
         #print (f"context:{context}")
         #(1)Does concept exist already?
-        rls = xml.xpath (f"//mpxvoc/context[@name = '{context}']")
+        rls = xml.xpath (f"//mpxvoc/context[@name = \"{context}\"]")
         if len(rls) > 0:
             context_nd = rls[0]
         else:
             #print (f"\tContext doesn't exists yet: {context}")
             context_nd = ET.SubElement(xml, "context", attrib={"name":context})
         #(2)Does pref_de exist yet?
-        rls = context_nd.xpath (f"./concept/pref[@lang='de' and .='{term_xls}']")
+        rls = context_nd.xpath (f"./concept/pref[@lang='de' and .=\"{term_xls}\"]")
         if len(rls) > 0:
             pref_de = rls[0]
             concept_nd = pref_de.xpath (f"..")[0]
