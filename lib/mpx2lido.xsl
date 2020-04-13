@@ -48,7 +48,7 @@
                 <lido:lido>
                     <lido:lidoRecID>
                         <xsl:attribute name="lido:source">
-                            <xsl:value-of select="mpx:verwaltendeInstitution" />
+                            <xsl:text>Staatliche Museen zu Berlin</xsl:text>
                         </xsl:attribute>
                         <xsl:attribute name="lido:type">local</xsl:attribute>
                         <xsl:text>objId/</xsl:text>

@@ -31,7 +31,9 @@
                     In dieser Darstellung sind leere Felder leere Zellen in der Tabelle. 
                     Diese Darstellung folgt in der Reihenfolge und Struktur LIDO, auch wenn
                     sie in erster Spalte M+ Felder anzeigt.</td></tr></table>
-                    <xsl:apply-templates select="/lido:lidoWrap/lido:lido"/>
+                    <xsl:apply-templates select="/lido:lidoWrap/lido:lido">
+                        <xsl:sort select="/lido:lidoWrap/lido:lido/lido:lidoRecID"/>
+                    </xsl:apply-templates>
                 </body>
             </html>
     </xsl:template>

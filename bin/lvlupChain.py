@@ -40,14 +40,10 @@ conf={
     'joinmpx': '1-XML/join.mpx',
     'lvlupmpx': '2-MPX/levelup.mpx',
     'fixmpx': '2-MPX/fix.mpx',
-    'outlido' : '3-Lido/out.lido', 
-    'out' : '3-Lido/out', 
-    'lidohtml' : '3-Lido/lido.html', 
     'vindexconf': '../../generalvindex.json',
     'transconf': '../../translate.json',
     'vfixmpx': '2-MPX/vfix.mpx',
     'datenblatto': '3-datenblatt/o.html',
-    'datenblatthtml': '3-datenblatt/fromLido.html',
 
     #xsl
     'joinColxsl': 'joinCol.xsl',

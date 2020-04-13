@@ -19,8 +19,11 @@
                     <lido:term xml:lang="de">Herstellung</lido:term>
                 </lido:eventType>
 
-                <!-- lido: eventActor -->
-                <xsl:apply-templates mode="Gruppe" select="mpx:geogrBezug[@bezeichnung eq 'Kultur' or @bezeichnung eq 'Ethnie']"/>
+                <xsl:apply-templates mode="eventActor" select="mpx:geogrBezug[
+                    @bezeichnung eq 'Kultur' 
+                    or @bezeichnung eq 'Ethnie'
+                    or @bezeichnung eq 'Sprachgruppe'
+                    ]"/>
                 <!-- Todo: There could be a PK@Hersteller -->
 
                 <!-- lido: eventDate 
@@ -30,10 +33,10 @@
 
                 <xsl:apply-templates select="mpx:datierung[min(@sort)][1]"/>
 
-                <!-- lido: eventPlace -->
-                <xsl:apply-templates mode="Ort" select="mpx:geogrBezug[@bezeichnung ne 'Kultur' 
-                    and @bezeichnung ne 'Ethnie'
-                    and @bezeichnung ne 'Sprachgruppe']"/>
+                <xsl:apply-templates mode="eventPlace" select="mpx:geogrBezug[
+                    not (@bezeichnung eq 'Kultur' 
+                    or @bezeichnung eq 'Ethnie'
+                    or @bezeichnung eq 'Sprachgruppe')]"/>
 
                 <xsl:if test="mpx:materialTechnik">
                     <lido:eventMaterialsTech>
@@ -78,9 +81,7 @@
         ich sehe bei unseren Daten im Moment keinen Vorteil, ist aber auch nicht falsch. 
         Beide Stellen zu nehmen, wäre vielleicht auch nicht schlecht, um unterschiedliche Kunden zu bedienen
     -->
-    <xsl:template mode="Gruppe" match="mpx:geogrBezug[@bezeichnung eq 'Kultur' 
-        or @bezeichnung eq 'Ethnie'
-        or @bezeichnung eq 'Sprachgruppe']">
+    <xsl:template mode="eventActor" match="mpx:geogrBezug">
         <lido:eventActor>
             <lido:displayActorInRole>
                 <xsl:value-of select="."/>
@@ -106,9 +107,7 @@
         </lido:eventActor>
     </xsl:template>
 
-    <xsl:template mode="Ort" match="mpx:geogrBezug[@bezeichnung != 'Kultur' 
-            or @bezeichnung != 'Ethnie'
-            or @bezeichnung != 'Sprachgruppe']">
+    <xsl:template mode="eventPlace" match="mpx:geogrBezug">
         <lido:eventPlace>
             <xsl:variable name="nterm" select="."/>
             <xsl:if test="@bezeichnung">
@@ -155,6 +154,7 @@
                         or @bezeichnung = 'Gebirge'
                         or @bezeichnung = 'Hafen'
                         or @bezeichnung = 'Halbinsel'
+                        or @bezeichnung = 'Höhle'
                         or @bezeichnung = 'Insel'
                         or @bezeichnung = 'Insel/Region'
                         or @bezeichnung = 'Inselgruppe'
