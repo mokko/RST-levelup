@@ -14,7 +14,6 @@
         @outputs RST Deckblatt as html
     -->
 
-
     <xsl:template match="/">
             <html>
                 <head>
@@ -28,17 +27,17 @@
                 </head>
                 <body>
                     <table border="0" width="800"><tr><td>
-                    In dieser Darstellung sind leere Felder leere Zellen in der Tabelle. 
-                    Diese Darstellung folgt in der Reihenfolge und Struktur LIDO, auch wenn
-                    sie in erster Spalte M+ Felder anzeigt.</td></tr></table>
+                    In dieser Darstellung sind leere Felder leere Zellen in 
+					der Tabelle. Diese Darstellung folgt in der Reihenfolge und
+					Struktur LIDO, auch wenn sie in erster Spalte M+ Felder 
+					anzeigt. Gezeigt werden nur Felder, die für das Datenblatt
+					ausgewählt wurden.</td></tr></table>
                     <xsl:apply-templates select="/lido:lidoWrap/lido:lido">
                         <xsl:sort select="/lido:lidoWrap/lido:lido/lido:lidoRecID"/>
                     </xsl:apply-templates>
                 </body>
             </html>
     </xsl:template>
-
-
 
     <!-- DATENBLATT -->
 
@@ -76,26 +75,62 @@
                 <td>Sachbegriff</td>
                 <td>objectWorkType</td>
                 <td>
-                    <xsl:value-of select="lido:descriptiveMetadata/lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType[min(@lido:sortorder)][1]/lido:term"/>
+                    <xsl:for-each select="
+                        lido:descriptiveMetadata/lido:objectClassificationWrap/lido:objectWorkTypeWrap/lido:objectWorkType">
+                        <xsl:value-of select="@lido:type"/>
+                        <xsl:text> sortorder: </xsl:text>
+                        <xsl:value-of select="@lido:sortorder"/><br/>
+                        <xsl:for-each select="lido:term">
+                            <xsl:text>- </xsl:text>
+                            <xsl:value-of select="@xml:lang"/>
+                            <xsl:text>: </xsl:text>
+                            <xsl:value-of select="."/><br/>
+                        </xsl:for-each>
+                    </xsl:for-each>
                 </td>
             </tr>
-
+            <tr>
+                <td colspan="3">Wenn nur ein Sachbegriff gewünscht, den mit 
+                kleinster sortorder wählen. Sachbegriff (Hierarchie) kann noch
+                zu lido:classification werden.</td>
+            </tr>
             <tr>
                 <td align="left" colspan="3"><h4>ObjectIdentificationWrap</h4></td>
             </tr>
             <tr>
                 <td>Titel</td>
-                <td>title (@pref)</td>
+                <td>title (min sortorder)</td>
                 <td>
-                    <xsl:value-of select="lido:descriptiveMetadata/lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet/lido:appellationValue[@lido:pref = 'preferred']"/>
+                    <xsl:for-each 
+                        select="lido:descriptiveMetadata/lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet[min (@lido:sortorder)]">
+                        <xsl:text>sortorder: </xsl:text>
+                        <xsl:value-of select="@lido:sortorder"/><br/>
+                        <xsl:for-each select="lido:appellationValue">
+                            <xsl:value-of select="@xml:lang"/>
+                            <xsl:text>: </xsl:text>
+                            <xsl:value-of select="."/><br/>
+                        </xsl:for-each>
+                    </xsl:for-each> 
                 </td>
             </tr>
             <tr>
                 <td>Weitere Titel</td>
                 <td>title</td>
                 <td>
-                    <xsl:value-of select="lido:descriptiveMetadata/lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet/lido:appellationValue[not(@lido:pref = 'preferred')]"/>
+                    <xsl:for-each 
+                        select="lido:descriptiveMetadata/lido:objectIdentificationWrap/lido:titleWrap/lido:titleSet[not (min (@lido:sortorder))]">
+                        <xsl:text>sortorder: </xsl:text>
+                        <xsl:value-of select="@lido:sortorder"/><br/>
+                        <xsl:for-each select="lido:appellationValue">
+                            <xsl:value-of select="@xml:lang"/>
+                            <xsl:text>: </xsl:text>
+                            <xsl:value-of select="."/><br/>
+                        </xsl:for-each>
+                    </xsl:for-each> 
                 </td>
+            </tr>
+            <tr>
+                <td colspan="3">Preferred Title wird oben angezeigt. Alle weiteren, unter Weitere.</td>
             </tr>
             <tr>
                 <td>verwaltendeInstitution</td>
@@ -245,11 +280,9 @@
                     <xsl:value-of select="lido:descriptiveMetadata/lido:eventWrap/lido:eventSet/lido:event[lido:eventType/lido:term = 'Erwerb']/lido:eventMethod/lido:term" />
                 </td>
             </tr>
-            
             <tr>
                 <td align="center" colspan="3"><h4>Administrative Metadata</h4></td>
             </tr>
-
             <tr>
                 <td align="left" colspan="3"><h4>rightsWorkWrap</h4></td>
             </tr>
@@ -282,7 +315,6 @@
                     </a>
                 </td>
             </tr>
-
             <tr>
                 <td align="left" colspan="3"><h4>resourceWrap</h4></td>
             </tr>

@@ -54,7 +54,47 @@
         </lido:titleWrap>
     </xsl:template>
 
-    <xsl:template mode="title" match="mpx:titel|mpx:sachbegriff">
+    <xsl:template mode="title" match="mpx:sachbegriff">
+        <lido:titleSet>
+            <xsl:if test="@art">
+                <xsl:attribute name="lido:sortorder">
+                    <xsl:value-of select="position()"/>
+                </xsl:attribute>
+                <xsl:attribute name="lido:type">
+                    <xsl:value-of select="name()"/>
+                    <xsl:text>:</xsl:text>
+                    <xsl:value-of select="@art"/>
+                </xsl:attribute>
+            </xsl:if>
+            <lido:appellationValue>
+                <xsl:attribute name="xml:lang">
+                    <xsl:choose>
+                        <xsl:when test="@art = 'Sachbegriff engl.'">
+                            <xsl:text>en</xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:text>de</xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:attribute>
+                <xsl:if test="position() = 1">
+                    <xsl:attribute name="lido:pref">preferred</xsl:attribute>
+                </xsl:if>
+                <xsl:attribute name="lido:encodinganalog">
+                    <xsl:value-of select="name()"/>
+                </xsl:attribute>
+                <xsl:value-of select="." />
+            </lido:appellationValue>
+            <xsl:variable name="translation" select="func:en-from-dict('sachbegriffnot(@artSachb...',.)"/>
+            <xsl:if test=". ne $translation">
+                <lido:appellationValue xml:lang="en">
+                    <xsl:value-of select="$translation" />
+                </lido:appellationValue >
+            </xsl:if>
+        </lido:titleSet>
+    </xsl:template>
+    
+    <xsl:template mode="title" match="mpx:titel">
         <lido:titleSet>
             <xsl:if test="@art">
                 <xsl:attribute name="lido:sortorder">
@@ -91,7 +131,7 @@
                     <xsl:value-of select="$translation" />
                 </lido:appellationValue >
             </xsl:if>
-            
         </lido:titleSet>
     </xsl:template>
+    
 </xsl:stylesheet>
