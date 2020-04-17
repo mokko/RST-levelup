@@ -23,11 +23,16 @@ class LidoMaker:
         """from mpx to lido"""
     
         print("TRANSFORMING TO LIDO")
-        s=Saxon(self.saxon) #lib is where my xsl files are, so a short cut
-        xsl_fn=os.path.join (self.lib, "mpx2lido.xsl")
-        #seem to need asyncio to see progressing output as usual and capturing it
-        #s.dirTransform("2-MPX/vfix.mpx", xsl_fn, "3-lido/o.lido", "3-lido/report.log")
-        s.dirTransform("2-MPX/vfix.mpx", xsl_fn, "3-lido/o.lido") 
+        lock_fn="3-lido/lido.lock"
+        if os.path.exists(lock_fn):
+            print ("Lock file exists, no overwrite") 
+        else:
+            self._write_lock(lock_fn)
+            s=Saxon(self.saxon) #lib is where my xsl files are, so a short cut
+            xsl_fn=os.path.join (self.lib, "mpx2lido.xsl")
+            #seem to need asyncio to see progressing output as usual and capturing it
+            #s.dirTransform("2-MPX/vfix.mpx", xsl_fn, "3-lido/o.lido", "3-lido/report.log")
+            s.dirTransform("2-MPX/vfix.mpx", xsl_fn, "3-lido/o.lido")
     
     def validate (self):
         """validate all lido files"""
@@ -63,6 +68,11 @@ class LidoMaker:
             base=os.path.basename(path)
             out=f"3-lido/{base}.blatt.html"
             s.dirTransform(path, xsl_fn, out)
+
+    def _write_lock (self, path):
+        f = open(path, "w")
+        f.write("")
+        f.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
