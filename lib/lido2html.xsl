@@ -26,7 +26,7 @@
                 </head>
                 <body>
                     <h1><xsl:value-of select="lido:lidoRecID"/></h1>
-                    <table border="1" width="800">
+                    <table border="1" width="1000">
                     <xsl:apply-templates select="*"/>
                     </table> 
                 </body>
@@ -129,6 +129,7 @@
         lido:eventActor|
         lido:eventDate|
         lido:eventMaterialsTech|
+        lido:eventPlace|
         lido:measurementsSet|
         lido:objectMeasurements|
         lido:objectMeasurementsSet|
@@ -159,7 +160,6 @@
         lido:category|
         lido:classification|
         lido:Culture|
-        lido:eventPlace|
         lido:eventType|
         lido:genderActor|
         lido:inscriptions|
@@ -268,4 +268,3 @@
         </xsl:if>
     </xsl:template>    
 </xsl:stylesheet>
-
