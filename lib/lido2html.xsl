@@ -4,18 +4,15 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://www.w3.org/1999/xhtml"
-    exclude-result-prefixes="lido xsi h"
-    >
+    exclude-result-prefixes="lido xsi h">
 
     <xsl:output method="html" name="html" version="1.0" encoding="UTF-8" indent="yes" />
     <xsl:strip-space elements="*" />
-
 
     <!-- ROOT -->
     <xsl:template match="/">
                 <xsl:apply-templates select="/lido:lidoWrap/lido:lido"/>
     </xsl:template>
-
 
     <!-- INTRO -->    
     <xsl:template match="/lido:lidoWrap/lido:lido">
@@ -37,8 +34,6 @@
         </xsl:result-document>
     </xsl:template>
 
-
-
     <xsl:template match="lido:objectPublishedID|lido:lidoRecID">
         <tr>
             <td width="34%">
@@ -51,8 +46,6 @@
         </tr>
     </xsl:template>
 
-
-
     <!-- Don't show twice -->
     <xsl:template match="
         //lido:appellationValue|
@@ -61,8 +54,6 @@
         lido:relatedWork|
         //lido:term
         "/>
-
-
 
     <!-- 
         TOP LEVEL containers:
@@ -80,11 +71,7 @@
         <xsl:apply-templates/>
     </xsl:template>
 
-
-
-    <!--          
-         2nd level container L1-L7 
-     -->
+    <!-- 2nd level container L1-L7 -->
     <xsl:template match="
         lido:eventWrap|
         lido:objectClassificationWrap|
@@ -102,8 +89,6 @@
         </tr>
         <xsl:apply-templates/>
     </xsl:template>
-
-
 
     <!-- 
         3rd level: non-repeatable container without attributes (all remaining wraps)
@@ -130,7 +115,6 @@
         </tr>
         <xsl:apply-templates/>
     </xsl:template>
-
 
     <!-- 
         CONTAINER WITH OPTIONAL ATTRIBUTES (not required, repeatable), e.g. 
@@ -170,10 +154,7 @@
         <xsl:apply-templates/>
     </xsl:template>
 
-
-
-    <!-- FIELD TYPE 1
-    -->
+    <!-- FIELD TYPE 1 -->
     <xsl:template match="
         lido:category|
         lido:classification|
@@ -214,7 +195,6 @@
         <xsl:apply-templates select="*"/>
     </xsl:template>
 
-
     <!--  FIELD TYPE 2: element with attributes plus one value, repeatable -->
     <xsl:template match="
         lido:actorID|
@@ -254,7 +234,6 @@
         </tr>
     </xsl:template>
 
-
     <!-- Linkify in HTML no attributes -->
     <xsl:template match="lido:recordInfoLink|lido:legalBodyWeblink">
         <tr>
@@ -272,10 +251,7 @@
         </tr>
     </xsl:template>
 
-
-    <!-- 
-        NAMED TEMPLATES
-    -->        
+    <!-- NAMED TEMPLATES -->        
     <xsl:template name="attributeList">
         <xsl:if test="@*">
             <xsl:text> (</xsl:text>
@@ -291,6 +267,5 @@
             <xsl:text>)</xsl:text>
         </xsl:if>
     </xsl:template>    
-
 </xsl:stylesheet>
 
