@@ -27,7 +27,7 @@
                 <body>
                     <h1><xsl:value-of select="lido:lidoRecID"/></h1>
                     <table border="1" width="1000">
-                    <xsl:apply-templates select="*"/>
+                        <xsl:apply-templates select="*"/>
                     </table> 
                 </body>
             </html>
