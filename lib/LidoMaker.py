@@ -53,8 +53,7 @@ class LidoMaker:
         for path in glob.iglob("3-lido/*.lido", recursive=True):
             base=os.path.basename(path)
             new=f"{base}.html"
-            print (new)
-            #s.dirTransform(path, xsl_fn, new)
+            s.dirTransform(path, xsl_fn, new)
     
     def datenblatt (self): 
         print("REWRITING LIDO FILES AS DATENBLATT")
@@ -88,4 +87,3 @@ if __name__ == "__main__":
         lm.validate()
         lm.html()
         lm.datenblatt()
-       
