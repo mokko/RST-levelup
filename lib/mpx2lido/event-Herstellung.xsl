@@ -9,7 +9,6 @@
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" />
     <xsl:strip-space elements="*" />
 
-    <!-- for now I assume there will always be at least one piece of information relating to Herstellung -->
     <xsl:template name="Herstellung">
         <lido:eventSet>
             <lido:displayEvent xml:lang="de">Herstellung</lido:displayEvent>
@@ -32,28 +31,19 @@
                 has multiple dates representing multiple estimates.-->
 
                 <xsl:apply-templates select="mpx:datierung[min(@sort)][1]"/>
-
                 <xsl:apply-templates mode="eventPlace" select="mpx:geogrBezug[
                     not (@bezeichnung eq 'Kultur' 
                     or @bezeichnung eq 'Ethnie'
                     or @bezeichnung eq 'Sprachgruppe')]"/>
-
-                <xsl:if test="mpx:materialTechnik">
-                    <lido:eventMaterialsTech>
-                        <xsl:apply-templates select="mpx:materialTechnik[@art eq 'Ausgabe']"/>
-                        <xsl:if test="mpx:materialTechnik[@art ne 'Ausgabe']">
-                            <lido:materialsTech>
-                                <xsl:apply-templates select="mpx:materialTechnik[@art ne 'Ausgabe']"/>
-                            </lido:materialsTech>
-                        </xsl:if>
-                    </lido:eventMaterialsTech>
-                </xsl:if>
+                <xsl:apply-templates select="mpx:materialTechnik"/>
             </lido:event>
         </lido:eventSet>
     </xsl:template>
     
-        <!--  LIDO spec says only one date per event, so let's pick the one with 
-    the lowest sort number -->
+    <!--  
+        LIDO spec says there can only one date per event, so let's pick the one
+        with the lowest sort number 
+    -->
     <xsl:template match="mpx:datierung">
         <lido:eventDate>
             <lido:displayDate>
@@ -78,16 +68,15 @@
 
     <!-- 
         m3: Kultur auf Actor gemappt entsprechend Vorschlag FvH; 
-        ich sehe bei unseren Daten im Moment keinen Vorteil, ist aber auch nicht falsch. 
-        Beide Stellen zu nehmen, wäre vielleicht auch nicht schlecht, um unterschiedliche Kunden zu bedienen
+        ich sehe bei unseren Daten im Moment keinen Vorteil gegenüber 
+        lido: culture element, ist aber auch nicht falsch. Beide Stellen zu 
+        nehmen, wäre vielleicht auch nicht schlecht, um unterschiedliche 
+        Kunden zu bedienen.
     -->
-    <xsl:template mode="eventActor" match="mpx:geogrBezug">
+    <xsl:template match="mpx:geogrBezug" mode="eventActor">
         <lido:eventActor>
             <lido:displayActorInRole>
                 <xsl:value-of select="."/>
-                <xsl:text> (Herstellende </xsl:text>
-                    <xsl:value-of select="@bezeichnung"/>
-                <xsl:text>)</xsl:text>
             </lido:displayActorInRole>
             <lido:actorInRole>
                 <lido:actor lido:type="group of persons">
@@ -107,40 +96,28 @@
         </lido:eventActor>
     </xsl:template>
 
-    <xsl:template mode="eventPlace" match="mpx:geogrBezug">
+    <xsl:template match="mpx:geogrBezug" mode="eventPlace">
         <lido:eventPlace>
             <xsl:variable name="nterm" select="."/>
-            <xsl:if test="@bezeichnung">
+            <xsl:if test="@art">
                 <xsl:attribute name="lido:type">
-                    <xsl:value-of select="@bezeichnung"/>
+                    <xsl:value-of select="@art"/>
                 </xsl:attribute>
             </xsl:if>
             <xsl:attribute name="lido:sortorder">
                 <xsl:value-of select="@sort"/>
             </xsl:attribute>
-            <!-- use displayPlace for rst -->
             <lido:displayPlace>
                 <xsl:attribute name="xml:lang">de</xsl:attribute>
                 <xsl:attribute name="lido:encodinganalog">mpx:geogrBezug</xsl:attribute>
                 <xsl:value-of select="."/>
-                <xsl:if test="@art">
-                    <xsl:text> (</xsl:text>
-                    <xsl:value-of select="@art"/>
-                    <xsl:text>)</xsl:text>
-                </xsl:if>
             </lido:displayPlace>
             <lido:displayPlace>
                 <xsl:attribute name="xml:lang">en</xsl:attribute>
                 <xsl:attribute name="lido:encodinganalog">mpxvoc</xsl:attribute>
-                    <xsl:value-of select="func:en-from-dict('geogrBezug',$nterm)"/>
-                <xsl:if test="@art">
-                    <xsl:text> (</xsl:text>
-                    <xsl:value-of select="@art"/>
-                    <xsl:text>)</xsl:text>
-                </xsl:if>
+                <xsl:value-of select="func:en-from-dict('geogrBezug',$nterm)"/>
             </lido:displayPlace>
-            <!-- eigentlich haben wir nur displayPlace; 
-            place is sort of fake since no thesaurus -->
+            <!-- place is sort of fake since no thesaurus -->
             <lido:place>
                 <xsl:choose>
                     <xsl:when test="@bezeichnung = 'Atoll'
@@ -171,32 +148,45 @@
                         </xsl:attribute>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:attribute name="lido:politicalEntity">
-                            <xsl:value-of select="@bezeichnung"/>
-                        </xsl:attribute>
+                        <xsl:if test="@bezeichnung">
+                            <xsl:attribute name="lido:politicalEntity">
+                                <xsl:value-of select="@bezeichnung"/>
+                            </xsl:attribute>
+                        </xsl:if>
                     </xsl:otherwise>
                 </xsl:choose>
-                
                 <lido:namePlaceSet>
                     <lido:appellationValue>
+                        <xsl:attribute name="xml:lang">de</xsl:attribute>
+                        <xsl:attribute name="lido:encodinganalog">mpx:geogrBezug</xsl:attribute>
                         <xsl:value-of select="."/>
                     </lido:appellationValue>
+                    <lido:appellationValue>
+                        <xsl:attribute name="xml:lang">en</xsl:attribute>
+                        <xsl:attribute name="lido:encodinganalog">mpxvoc</xsl:attribute>
+                        <xsl:value-of select="func:en-from-dict('geogrBezug',$nterm)"/>
+                    </lido:appellationValue>                    
                 </lido:namePlaceSet>
             </lido:place>
         </lido:eventPlace>
     </xsl:template>
 
-    <xsl:template match="mpx:materialTechnik[@art eq 'Ausgabe']">
-        <lido:displayMaterialsTech>
-                <xsl:value-of select="."/>
-        </lido:displayMaterialsTech>
-    </xsl:template>
-
-    <xsl:template match="mpx:materialTechnik[@art ne 'Ausgabe']">
-        <lido:termMaterialsTech lido:type="Material">
-            <lido:term>
-                <xsl:value-of select="."/>
-            </lido:term>
-        </lido:termMaterialsTech>
+   <xsl:template match="mpx:materialTechnik">
+        <lido:eventMaterialsTech>
+             <xsl:if test="mpx:materialTechnik[@art eq 'Ausgabe']">
+                <lido:displayMaterialsTech>
+                        <xsl:value-of select="."/>
+                </lido:displayMaterialsTech>
+            </xsl:if>
+            <xsl:if test="mpx:materialTechnik[@art ne 'Ausgabe']">
+                <lido:materialsTech>
+                    <lido:termMaterialsTech lido:type="Material">
+                        <lido:term>
+                            <xsl:value-of select="."/>
+                        </lido:term>
+                    </lido:termMaterialsTech>
+                </lido:materialsTech>
+            </xsl:if>
+        </lido:eventMaterialsTech>
     </xsl:template>
 </xsl:stylesheet>
