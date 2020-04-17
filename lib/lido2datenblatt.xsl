@@ -43,9 +43,17 @@
                     </style>
                 </head>
                 <body>
-                    <table border="0" width="800">
+                    <table border="1" width="1000">
                         <tr>
-                            <td>
+                            <td colspan="3" align="center">
+                                <h1>LIDO Datenblatt </h1>
+                            </td>
+                        </tr>
+                    <xsl:apply-templates select="/lido:lidoWrap/lido:lido">
+                        <xsl:sort select="/lido:lidoWrap/lido:lido/lido:lidoRecID"/>
+                    </xsl:apply-templates>
+                        <tr>
+                            <td colspan="3">
         In dieser Darstellung sind leere Felder leere Zellen in der Tabelle.
         Diese Darstellung folgt in der Reihenfolge und Struktur LIDO, auch
         wenn sie in erster Spalte M+ Felder anzeigt. Gezeigt werden nur Felder,
@@ -53,9 +61,6 @@
                             </td>
                         </tr>
                     </table>
-                    <xsl:apply-templates select="/lido:lidoWrap/lido:lido">
-                        <xsl:sort select="/lido:lidoWrap/lido:lido/lido:lidoRecID"/>
-                    </xsl:apply-templates>
                 </body>
             </html>
     </xsl:template>
@@ -75,7 +80,6 @@
                 <xsl:value-of select="$lidoRecID" />
             </xsl:attribute>
         </xsl:element>
-        <table border="1" width="800">
             <tr>
                 <td width="15%"><h4>M+</h4></td>
                 <td width="15%"><h4>LIDO</h4></td>
@@ -88,7 +92,6 @@
             </tr>
             <xsl:apply-templates select="lido:descriptiveMetadata"/>
             <xsl:apply-templates select="lido:administrativeMetadata"/>
-        </table>
         <br/>
         <br/>
     </xsl:template>
@@ -176,7 +179,10 @@
         </tr>
         <tr>
             <td colspan="3">
-        Sektion wird nicht verwendet. Todo: Noch nicht im Mapping implementiert.
+            rst.sto hat mehrere Elemente (1) daf.rst.hf für alle Objekte in Recherchestationen 
+            (2) Kennwort für die spezifische Recherchestation; (3) Segment;  (4) Position (v.l.n.r.). 
+            (2) kommt Ausstellungstitel; (3) könnte aus Sektion kommen; (4) muss manuell in AndereNr. 
+            eingegeben werden. Alternativ könnte man sicher auch m+sto verwenden.
             </td>
         </tr>
         <tr>
@@ -258,7 +264,7 @@
         </tr>
         <tr>
             <td>MM.Erweiterung, mulId</td>
-            <td>linkResource [@lido:sortorder = 1] entspricht Standardbild</td>
+            <td>linkResource [@lido:sortorder = 1] (entspricht Standardbild)</td>
             <td>
                 <xsl:value-of select="lido:resourceWrap/lido:resourceSet[@lido:sortorder = 1]/lido:resourceRepresentation/lido:linkResource" />
             </td>
@@ -308,12 +314,20 @@
             <tr>
                 <td>Geogr. Bezug</td>
                 <td>display place</td>
-                <td>
+                <td>de: 
                     <xsl:for-each select="lido:event/lido:eventPlace">
                         <xsl:sort select="@sortorder" data-type="number" order="descending"/>
-                        <xsl:value-of select="lido:displayPlace" />
+                        <xsl:value-of select="lido:displayPlace[@xml:lang ='de']" />
                         <xsl:if test="position()!=last()">
-                            <xsl:text> &gt; </xsl:text>
+                            <xsl:text> &gt;&gt; </xsl:text>
+                        </xsl:if>
+                    </xsl:for-each>
+                    <br/>en: 
+                    <xsl:for-each select="lido:event/lido:eventPlace">
+                        <xsl:sort select="@sortorder" data-type="number" order="descending"/>
+                        <xsl:value-of select="lido:displayPlace[@xml:lang ='en']" />
+                        <xsl:if test="position()!=last()">
+                            <xsl:text> &gt;&gt; </xsl:text>
                         </xsl:if>
                     </xsl:for-each>
                 </td>
@@ -330,14 +344,27 @@
                 <td>
                     <xsl:for-each select="lido:event/lido:eventPlace">
                         <xsl:sort select="@sortorder" data-type="number" order="descending"/>
-                        <xsl:value-of select="lido:place/lido:namePlaceSet/ lido:appellationValue" />
+                        <xsl:if test="@lido:type">
+                            <xsl:value-of select="@lido:type" />
+                            <xsl:text>: </xsl:text>
+                        </xsl:if>
+                        <xsl:value-of select="lido:place/lido:namePlaceSet/lido:appellationValue[@xml:lang ='de']" />
+                        <xsl:text>/</xsl:text>
+                        <xsl:value-of select="lido:place/lido:namePlaceSet/lido:appellationValue[@xml:lang ='en']" />
                         <xsl:text> (</xsl:text>
                         <xsl:value-of select="lido:place/@lido:geographicalEntity" />
+                        <xsl:value-of select="lido:place/@lido:politicalEntity" />
                         <xsl:text>)</xsl:text>
-                        <xsl:if test="position()!=last()">
-                            <xsl:text>; </xsl:text>
-                        </xsl:if>
+                        <br/>
                     </xsl:for-each>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    Viele der unterschiedlichen Orte in M+ sollten mittels 
+                    lido:partOfPlace dargestellt werden. Allerdings gibt es
+                    keine Möglichkeit partOfPlace von nicht-partOfPlace
+                    maschinell zu erkennen.
                 </td>
             </tr>
             <tr>
