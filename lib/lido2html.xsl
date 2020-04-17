@@ -28,7 +28,23 @@
                     <h1><xsl:value-of select="lido:lidoRecID"/></h1>
                     <table border="1" width="1000">
                         <xsl:apply-templates select="*"/>
-                    </table> 
+                    </table>
+                    <tr>
+                        <td colspan="2">
+        In dieser Darstellung sollen alle Inhalte eines Lido Dokuments 
+        dargestellt werden. Es gibt Container und Felder; fast alle Inhalte
+        sind in Feldern, Container gruppieren im Wesentlichen Felder, haben 
+        jedoch auch selbst gelegentlich Inhalte, welche die folgenden Inhalte 
+        qualifizieren. Container werden hier fett geschrieben; Felder nicht. Es
+        werden in der von LIDO vorgegebenen Reihenfolge nur Felder angezeigt, 
+        die vorhanden sind. Die linke Spalte zeigt Feld- oder Container-Labels, 
+        die rechte Spalte Feldinhalte. Beide Spalten können weitere zuge- 
+        hörigen Informationen anzeigen. Diese Information qualifizieren die Inhalte.
+        Ich bin nicht sicher, ob diese Qualifikatoren nicht besser alle in der 
+        rechten Spalte angezeigt werden sollten. Wiederholfelder werden in 
+        einer Zelle angezeigt, wiederholte Container bekommen eigene Zeilen.
+                        </td>
+                    </tr> 
                 </body>
             </html>
         </xsl:result-document>
