@@ -23,8 +23,8 @@ Optional function via command line parameter:
 
     lvlupChain.py shf
     lvlupChain.py short
-    lvlupCHain.py datenblatt # from mpx
-    lvlupCHain.py datenblatt # from mpx
+    lvlupChain.py datenblatt # from mpx
+    lvlupChain.py boris
 """
 
 import os
@@ -79,23 +79,20 @@ if os.getlogin() == 'M-MM0002':
 elif os.getlogin() == 'mauri':
     saxon= "C:/Program Files/Saxonica/SaxonHE9.9N/bin/Transform.exe",
 
-if __name__ == "__main__":
-    
-    #print ("lib: %s" % conf['lib'])
-    sys.path.append (conf['lib'])
-    sys.path.append (conf['t'])
-    
-    #It's more pythonic to just let Python report file not found exception.
-    from Xls2xml import Xls2xml
-    from Saxon import Saxon
-    from ResourceCp import ResourceCp
-    from Npx2csv import Npx2csv
-    from ExcelTool import ExcelTool
-    from Tif_finder import Tif_finder
-    from vok2vok import vok2vok
-    import test_shf as tshf
-    import test_mpx
+def cp_data2 ():
+    print (f"*Copying data for github")
+    files = glob('../**/*.xlsx', recursive=True)
+    for src in files:
+        src=os.path.realpath(src)
+        dst=src.replace("data", "data2", 1)
+        if "bak\\" not in src.lower():
+            #print (f"   {src} ")
+            try:
+                copyfile(src, dst)
+            except Exception as e:
+                print (e)
 
+def mk_mpx (conf):
     print ('*Looking for input...')
     o = Xls2xml(conf) 
     o.mv2zero() # moves files to 0-IN
@@ -115,6 +112,7 @@ if __name__ == "__main__":
 
     test_mpx.main(conf['lvlupmpx'])
 
+def run_ExcelTool(conf):
     if len(sys.argv) > 1 and sys.argv[1].lower() != 'short':
         print ('*Updating vindex...')
         if os.path.isfile(conf['vindexconf']): #make/update vindex 
@@ -128,18 +126,28 @@ if __name__ == "__main__":
         #writes individual translate.xlsx files
     t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..')
 
+if __name__ == "__main__":
+    
+    #print ("lib: %s" % conf['lib'])
+    sys.path.append (conf['lib'])
+    sys.path.append (conf['t'])
+    
+    #It's more pythonic to just let Python report file not found exception.
+    from Xls2xml import Xls2xml
+    from Saxon import Saxon
+    from ResourceCp import ResourceCp
+    from Npx2csv import Npx2csv
+    from ExcelTool import ExcelTool
+    from Tif_finder import Tif_finder
+    from vok2vok import vok2vok
+    import test_shf as tshf
+    import test_mpx
+
+    mk_mpx(conf)
+    run_ExcelTool(conf)
+
     #Let's save some of the "mission critical" data to github
-    print (f"copying data for github")
-    files = glob('../**/*.xlsx', recursive=True)
-    for src in files:
-        src=os.path.realpath(src)
-        dst=src.replace("data", "data2", 1)
-        if "bak\\" not in src.lower():
-            #print (f"   {src} ")
-            try:
-                copyfile(src, dst)
-            except Exception as e:
-                print (e)
+    cp_data2()
      
     print ("*VOK2VOK") #assembles individual dictionaries into one
     vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on data dir
@@ -171,3 +179,5 @@ if __name__ == "__main__":
             #this datenblatt is made directly from mpx; other one is made from lido
             #if os.path.isfile(conf['lvlupmpx']):
             s.dirTransform(conf['vfixmpx'], conf['Datenblatt'], conf['datenblatto'])
+            
+            
