@@ -16,8 +16,8 @@
         Nur Felder des m+ Datenblatts! Dafür ist primitives push Design Pattern
         durchaus geeignet:
         
-        1. Titelzeile: Titel, 
-        2. Titelzeile: Sachbegriff (max. 2 Stück)
+        1. Titelzeile: mpx:Titel, 
+        2. Titelzeile: mpx:Sachbegriff (max. 2 Stück)
         3. GeogrBezug (Wiederholfeld, @bezeichnung wird angezeigt)
         4. Mat/Technik@Ausgabe
         5. Maßangaben (ohne Anzeige der Dimensionen)
