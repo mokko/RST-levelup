@@ -1,0 +1,3193 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mpxvoc>
+  <context name="maßangaben@typ">
+    <concept freq="1">
+      <comment>wir fangen mal mit wörtlichen Übersetzungen an</comment>
+      <pref lang="de">Breite x Tiefe</pref>
+      <pref lang="en">width x height</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+    </concept>
+    <concept freq="51">
+      <pref lang="de">Durchmesser</pref>
+      <pref lang="en">diameter</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Durchmesser (mit Dicke)</pref>
+      <pref lang="en">diameter</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Fläche</pref>
+      <pref lang="en">area</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+    </concept>
+    <concept freq="46">
+      <pref lang="de">Höhe</pref>
+      <pref lang="en">height</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="12">
+      <pref lang="de">Höhe x Breite</pref>
+      <pref lang="en">height x width</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1827">
+      <pref lang="de">Höhe x Breite x Tiefe</pref>
+      <pref lang="en">height x width x depth</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="694">
+      <pref lang="de">Höhe x Durchmesser</pref>
+      <pref lang="en">height x diameter</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="36">
+      <pref lang="de">Länge</pref>
+      <pref lang="en">length</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Länge x Breite x Höhe</pref>
+      <pref lang="en">length x width x height</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Länge x Breite x Tiefe</pref>
+      <pref lang="en">length x width x depth</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Länge x Durchmesser</pref>
+      <pref lang="en">length x diameter</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+    </concept>
+    <concept freq="1570">
+      <pref lang="de">Objektmaß</pref>
+      <pref lang="en">object measurements</pref>
+      <pref lang="en">object measurments</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Andere Maße</pref>
+      <pref lang="en">other measurements</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>Was soll das?</comment>
+      <pref lang="de">Gefäß</pref>
+      <pref lang="en">vessel</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Gewicht</pref>
+      <pref lang="en">weight</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Höhe x Breite x Stärke</pref>
+      <pref lang="en">height x width x depth</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Transportmaß</pref>
+      <pref lang="en">transport measurements</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="9">
+      <pref lang="de">Verpackungsmaß</pref>
+      <pref lang="en">packaging measurements</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+  </context>
+  <context name="erwerbungsart">
+    <concept freq="1255">
+      <pref lang="de">Ankauf</pref>
+      <pref lang="en">acquisition</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="18">
+      <pref lang="de">Ankauf (?)</pref>
+      <pref lang="en">acquisition (?)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="33">
+      <comment>upstream eliminieren</comment>
+      <pref lang="de">Ankauf / Expedition</pref>
+      <pref lang="en">acquisition</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="14">
+      <comment>upstream eliminieren</comment>
+      <pref lang="de">Ankauf / Nachlass</pref>
+      <pref lang="en">acquisition</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="94">
+      <comment>Ist wahrscheinlich keine Erwerbungsart</comment>
+      <pref lang="de">Expedition</pref>
+      <pref lang="en">expedition</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="39">
+      <pref lang="de">Expedition / Ankauf</pref>
+      <pref lang="en">acquisition</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="428">
+      <pref lang="de">Kauf</pref>
+      <pref lang="en">acquisition</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="7">
+      <comment>Ist wahrscheinlich keine Erwerbungsart</comment>
+      <pref lang="de">Nachlass</pref>
+      <pref lang="en">inheritance</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="25">
+      <pref lang="de">Nachlass / Schenkung</pref>
+      <pref lang="en">donation</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="922">
+      <pref lang="de">Schenkung</pref>
+      <pref lang="en">donation</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Schenkung / Nachlass</pref>
+      <pref lang="en">donation</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Schenkung / Überweisung</pref>
+      <pref lang="en">donation</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="42">
+      <pref lang="de">Tausch</pref>
+      <pref lang="en">exchange</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="20">
+      <pref lang="de">Unbekannt</pref>
+      <pref lang="en">unknown</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="64">
+      <pref lang="de">Zugang ungeklärt</pref>
+      <pref lang="en">unknown</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="15">
+      <pref lang="de">Zugang ungeklärt (Expedition)</pref>
+      <pref lang="en">unknown</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="12">
+      <comment>Ist wahrscheinlich keine Erwerbungsart</comment>
+      <pref lang="de">Überweisung</pref>
+      <pref lang="en">transfer</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+  </context>
+  <context name="geogrBezug">
+    <concept freq="52">
+      <pref lang="de">Admiralitäts-Inseln</pref>
+      <pref lang="en">Admiralty Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Afrika</pref>
+      <pref lang="en">Africa</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="16">
+      <pref lang="de">Amazonien</pref>
+      <pref lang="en">Amazon basin</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="27">
+      <pref lang="de">Argentinien</pref>
+      <pref lang="en">Argentina</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Austral-Inseln</pref>
+      <pref lang="en">Austral Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="70">
+      <pref lang="de">Australien</pref>
+      <pref lang="en">Australia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="13">
+      <pref lang="de">Bakuba</pref>
+      <pref lang="en">Bakuba/Kuba</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Bismarck-Archipel</pref>
+      <pref lang="en">Bismarck Archipelago</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Bissagos-Archipel</pref>
+      <pref lang="en">Bissagos Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="6">
+      <pref lang="de">Bolivien</pref>
+      <pref lang="en">Bolivia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="86">
+      <pref lang="de">Brasilien</pref>
+      <pref lang="en">Brazil</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Bundesrepublik Deutschland (?)</pref>
+      <pref lang="en">Germany</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Cenderawasih-Bucht</pref>
+      <pref lang="en">Cenderawasih Bay</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="12">
+      <comment>für rst</comment>
+      <pref lang="de">Cheyenne</pref>
+      <pref lang="en">Cheyenne</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Chimbu-Distrikt</pref>
+      <pref lang="en">Chimbu</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="12">
+      <comment>Tal könnte auch in Quali m+</comment>
+      <pref lang="de">Chimbu-Tal</pref>
+      <pref lang="en">Chimbu Valley</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Cookinseln</pref>
+      <pref lang="en">Cook Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Dan-Kran-Gebiet</pref>
+      <pref lang="en">Dan-Kran</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="23">
+      <pref lang="de">Demokratische Republik Kongo</pref>
+      <pref lang="en">Democratic Republic of the Congo</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Deutsch-Ostafrika</pref>
+      <pref lang="en">German East Africa</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Duke of York-Insel</pref>
+      <pref lang="en">Duke of York Island</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="18">
+      <pref lang="de">Duke of York-Inseln</pref>
+      <pref lang="en">Duke of York Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Elfenbeinküste</pref>
+      <pref lang="en">Ivory Coast</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="8">
+      <pref lang="de">Eremiteninseln</pref>
+      <pref lang="en">Hermit Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Finschhafen</pref>
+      <pref lang="en">Finschhafen</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Gazelle-Halbinsel</pref>
+      <pref lang="en">Gazelle Peninsula</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="17">
+      <pref lang="de">Gesellschaftsinseln</pref>
+      <pref lang="en">Society Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="29">
+      <pref lang="de">Gilbert-Inseln</pref>
+      <pref lang="en">Gilbert Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Golfküste</pref>
+      <pref lang="en">Golf Coast</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Guinea (afrikanische Westküste)</pref>
+      <pref lang="en">Guinea (West Africa)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Hacienda de Casa Grande bei Trujillo, Valle de Chicama</pref>
+      <pref lang="en">Hacienda de Casa Grande, Trujillo, Valle de Chicama</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="10">
+      <pref lang="de">Hochland</pref>
+      <pref lang="en">Highland</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Hochland von Guatemala</pref>
+      <pref lang="en">Guatemalan Highlands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Hügel XII, Westseite</pref>
+      <pref lang="en">western side</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Jacquinot-Bucht</pref>
+      <pref lang="en">Jacquinot-Bay</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="52">
+      <pref lang="de">Kadiweu</pref>
+      <pref lang="en">Kadiweu</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="171">
+      <pref lang="de">Kamerun</pref>
+      <pref lang="en">Cameroon</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Kamerun (?)</pref>
+      <pref lang="en">Cameroon (?)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Kameruner Grasland</pref>
+      <pref lang="en">Cameroon Grassland</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Kanada</pref>
+      <pref lang="en">Canada</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Kaniet (?)</pref>
+      <pref lang="en">Cameroo (?)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Kap Gloucester</pref>
+      <pref lang="en">Cape Gloucester</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="72">
+      <pref lang="de">Karolinen</pref>
+      <pref lang="en">Caroline Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Kenia</pref>
+      <pref lang="en">Kenya</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="37">
+      <pref lang="de">Kolumbien</pref>
+      <pref lang="en">Columbia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="38">
+      <pref lang="de">Kongo</pref>
+      <pref lang="en">Congo</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <comment>upstream auch korrigieren</comment>
+      <pref lang="de">Kongo (Zentralafrika)</pref>
+      <pref lang="en">Congo (Central Africa)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Küste von Benin</pref>
+      <pref lang="en">Benin Coast</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Küste von Togo</pref>
+      <pref lang="en">Togo Coast</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="13">
+      <pref lang="de">Loangoküste</pref>
+      <pref lang="en">Loango Coast</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="44">
+      <pref lang="de">Marianen</pref>
+      <pref lang="en">Mariana Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Marind-anim am Kumbe und Maro-Fluß</pref>
+      <pref lang="en">Marind-anim</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="34">
+      <pref lang="de">Marshall-Inseln</pref>
+      <pref lang="en">Marshall Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="7">
+      <pref lang="de">Massai</pref>
+      <pref lang="en">Maasai</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="277">
+      <pref lang="de">Melanesien</pref>
+      <pref lang="en">Melanesia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="128">
+      <pref lang="de">Mexiko</pref>
+      <pref lang="en">Mexico</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Mexiko/Guatemala</pref>
+      <pref lang="en">Mexico/Guatemala</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="245">
+      <pref lang="de">Mikronesien</pref>
+      <pref lang="en">Micronesia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="13">
+      <pref lang="de">Neubritannien</pref>
+      <pref lang="en">New Britain</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Neuirland</pref>
+      <pref lang="en">New Ireland</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="21">
+      <pref lang="de">Neukaledonien</pref>
+      <pref lang="en">New Caledonia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="36">
+      <pref lang="de">Neuseeland</pref>
+      <pref lang="en">New Zealand</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>typo; upstream korrigieren</comment>
+      <pref lang="de">Neuseland</pref>
+      <pref lang="en">New Zealand</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Nord-Neubritannien</pref>
+      <pref lang="en">North New Britain</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="46">
+      <pref lang="de">Nordamerika</pref>
+      <pref lang="en">North America</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Nordamerika (Nordwestküste)</pref>
+      <pref lang="en">Northwest Coast, North America</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Nordmexiko</pref>
+      <pref lang="en">Northern Mexico</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Nordost-Afrika</pref>
+      <pref lang="en">Northeast Africa</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Nordost-Kongo (Zentralafrika)</pref>
+      <pref lang="en">Northeast Congo</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="45">
+      <pref lang="de">Nordost-Neuguinea</pref>
+      <pref lang="en">Northeast New Guinea</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="7">
+      <pref lang="de">Nordost-Peru</pref>
+      <pref lang="en">Northeast Peru</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Nordost-Sambia</pref>
+      <pref lang="en">Northeast Zambia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="25">
+      <pref lang="de">Nordwest-Australien</pref>
+      <pref lang="en">Northwest Australia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Nordwest-Brasilien</pref>
+      <pref lang="en">Northwest Brazil</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <comment>in m+ prüfen</comment>
+      <pref lang="de">Nordwest-Region</pref>
+      <pref lang="en">Northwestern Region</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <comment>in m+ prüfen</comment>
+      <pref lang="de">Nordwestprovinz</pref>
+      <pref lang="en">Northwestern Provinces</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">North Dakota/Montana am Missouri River</pref>
+      <pref lang="en">North Dakota/Montana, Missouri River</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="10">
+      <pref lang="de">Nuku Hiva</pref>
+      <pref lang="en">Nuku Hiva</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">nördliche Baluba</pref>
+      <pref lang="en">Nothern Baluba</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="9">
+      <pref lang="de">Nördliche Cheyenne</pref>
+      <pref lang="en">Northern Cheyenne</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">nördliche Luba (?)</pref>
+      <pref lang="en">Northern Luba (?)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Oberer Djuma</pref>
+      <pref lang="en">Upper Djuma</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Oberer Mississippi</pref>
+      <pref lang="en">Upper Mississippi</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Oberer Missouri</pref>
+      <pref lang="en">Upper Missouri</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Oberer Nil</pref>
+      <pref lang="en">Upper Nile</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Ogowe</pref>
+      <pref lang="en">Ogooué</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Ogowe (Ogooué) (?)</pref>
+      <pref lang="en">Ogooué (?)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Ogowe (Ogooué) (oberer)</pref>
+      <pref lang="en">upper Ogooué</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Ost-Bamana</pref>
+      <pref lang="en">East Bamana</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="9">
+      <pref lang="de">Ost-Ecuador</pref>
+      <pref lang="en">East Ecuador</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="28">
+      <pref lang="de">Ost-Liberia</pref>
+      <pref lang="en">East Liberia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="7">
+      <pref lang="de">Ost-Peru</pref>
+      <pref lang="en">Eastern Peru</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Ostafrika</pref>
+      <pref lang="en">East Africa</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="29">
+      <pref lang="de">Osterinsel</pref>
+      <pref lang="en">Easter Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="25">
+      <pref lang="de">Papua-Neuguinea</pref>
+      <pref lang="en">Papua New Guinea</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="47">
+      <pref lang="de">Plains und Prärie</pref>
+      <pref lang="en">Plains</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="244">
+      <pref lang="de">Polynesien</pref>
+      <pref lang="en">Polynesia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="8">
+      <pref lang="de">Prärieindianer</pref>
+      <pref lang="en">Plains Indians</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="8">
+      <pref lang="de">Prärien und Plains</pref>
+      <pref lang="en">Plains</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>wegen Verwechslungsgefahr überprüfen</comment>
+      <pref lang="de">Republik Kongo</pref>
+      <pref lang="en">Republic of the Congo</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="65">
+      <pref lang="de">Salomonen</pref>
+      <pref lang="en">Salomon Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Salomonen (?)</pref>
+      <pref lang="en">Salomon Islands (?)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="9">
+      <comment>upstream korrigieren</comment>
+      <pref lang="de">Sambia (Zambia)</pref>
+      <pref lang="en">Zambia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Sankuru (mittlerer)</pref>
+      <pref lang="en">Central Sankuru</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Sankuru (unterer)</pref>
+      <pref lang="en">Lower Sankuru</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schabruma</pref>
+      <pref lang="en">Shabruma</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <comment>?</comment>
+      <pref lang="de">Schabrumaleute</pref>
+      <pref lang="en">Shabruma</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Seeadler-Hafen</pref>
+      <pref lang="en">Seeadler Harbor</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <comment>upstream korrigieren</comment>
+      <pref lang="de">Simbabwe (Zimbabwe)</pref>
+      <pref lang="en">Zimbabwe</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Simbu-Tal</pref>
+      <pref lang="en">Simbu-Valley</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Sklavenküste (Diego Cao)</pref>
+      <pref lang="en">Diego Cao</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>upstream korrigieren</comment>
+      <pref lang="de">Sswahili Küste</pref>
+      <pref lang="en">Swahili Coast</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Swahili-Küste</pref>
+      <pref lang="en">Swahili Coast</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Süd-Chiapas</pref>
+      <pref lang="en">southern Chiapas</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Süd-Malekula</pref>
+      <pref lang="en">southern Malekula</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Süd-Neubritannien</pref>
+      <pref lang="en">Southern New Britain</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Süd-Neuirland</pref>
+      <pref lang="en">southern New Ireland</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Süd-Pare</pref>
+      <pref lang="en">South Pare</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Süd-Sudan</pref>
+      <pref lang="en">South Sudan</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Süd-Usaramo</pref>
+      <pref lang="en">South Usaramo</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Südafrika</pref>
+      <pref lang="en">South Africa</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Südliche Cheyenne</pref>
+      <pref lang="en">Southern Cheyenne</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">südliches Chiapas</pref>
+      <pref lang="en">Southern Chiapas</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Südost-Neuguinea</pref>
+      <pref lang="en">Southeast New Guinea</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Südwest-Sudan</pref>
+      <pref lang="en">Southwest Sudan</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Südwestnigeria</pref>
+      <pref lang="en">Southwest Nigeria</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">südöstlich Edmonton</pref>
+      <pref lang="en">Southeast of Edmonton</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Tabora (Tansania)</pref>
+      <pref lang="en">Tabora (Tanzania)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="7">
+      <pref lang="de">Tami-Inseln</pref>
+      <pref lang="en">Tami</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Tanganyikasee</pref>
+      <pref lang="en">Lake Tanganyika</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Tanganyikasee/Kivusee</pref>
+      <pref lang="en">Lake Tanganyika/Lake Kivu</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="85">
+      <pref lang="de">Tansania</pref>
+      <pref lang="en">Tanzania</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Torres Straße</pref>
+      <pref lang="en">Torres Strait</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="101">
+      <pref lang="de">Vereinigte Staaten (USA)</pref>
+      <pref lang="en">USA</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>upstream korrigieren</comment>
+      <pref lang="de">verm. Guatemala</pref>
+      <pref lang="en">Guatemala (?)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Weißer Nil</pref>
+      <pref lang="en">White Nile</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="23">
+      <pref lang="de">West-Neuguinea</pref>
+      <pref lang="en">Western New Guinea</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">West-Victoria</pref>
+      <pref lang="en">Western Victoria</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Westafrika</pref>
+      <pref lang="en">West Africa</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="25">
+      <pref lang="de">Westaustralien</pref>
+      <pref lang="en">Western Australia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Westbrasilien</pref>
+      <pref lang="en">Western Brazil</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="40">
+      <pref lang="de">Westliche Inseln</pref>
+      <pref lang="en">Western Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Westlicher Bezirk</pref>
+      <pref lang="en">south Bezirk</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Westmexiko</pref>
+      <pref lang="en">Western Mexico</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Woleai</pref>
+      <pref lang="en">south Woleai</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Womatne</pref>
+      <pref lang="en">south Womatne</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Woyo</pref>
+      <pref lang="en">south Woyo</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Wum</pref>
+      <pref lang="en">south Wum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Xingú</pref>
+      <pref lang="en">south Xingú</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Xoxo</pref>
+      <pref lang="en">south Xoxo</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Yaka</pref>
+      <pref lang="en">south Yaka</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="10">
+      <pref lang="de">Yap</pref>
+      <pref lang="en">south Yap</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="13">
+      <pref lang="de">Yap-Inseln</pref>
+      <pref lang="en">Yap</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Yarra-Stamm</pref>
+      <pref lang="en">Yarra</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Zapoteken</pref>
+      <pref lang="en">Zapotecs</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="22">
+      <pref lang="de">Zentral-Australien</pref>
+      <pref lang="en">Central Australia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="23">
+      <pref lang="de">Zentral-Brasilien</pref>
+      <pref lang="en">Central Brazil</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Zentral-Karolinen</pref>
+      <pref lang="en">Central Caroline Islands</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Zentralafrikanische Republik</pref>
+      <pref lang="en">Central African Republic</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Zentrales Hochland</pref>
+      <pref lang="en">south Hochland</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Äquatorialafrika</pref>
+      <pref lang="en">south Äquatorialafrika</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="23">
+      <pref lang="de">Äthiopien</pref>
+      <pref lang="en">Ethiopia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+  </context>
+  <context name="geogrBezug@art">
+    <concept freq="3">
+      <comment>Was heißt das?</comment>
+      <pref lang="de">Bezug</pref>
+      <pref lang="en">reference</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="20">
+      <pref lang="de">Erwerbungsort</pref>
+      <pref lang="en">place of acquisition</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="21">
+      <pref lang="de">Fundort</pref>
+      <pref lang="en">find spot</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Grabungsort</pref>
+      <pref lang="en">excavation site</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="20">
+      <pref lang="de">Herstellungsort</pref>
+      <pref lang="en">place of production</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="22">
+      <pref lang="de">heutige Bezeichnung</pref>
+      <pref lang="en">present-day label</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <comment>Was heißt das?</comment>
+      <pref lang="de">heutige Zuordnung</pref>
+      <pref lang="en">present-day reference</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1976">
+      <pref lang="de">historische Bezeichnung</pref>
+      <pref lang="en">historical label</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+  </context>
+  <context name="geogrBezug@bezeichnung">
+    <concept freq="1">
+      <pref lang="de">Antike Stätte</pref>
+      <pref lang="en">ancient site</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="53">
+      <pref lang="de">Atoll</pref>
+      <pref lang="en">atoll</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Bach/Zufluss</pref>
+      <pref lang="en">stream/confluence</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Berg</pref>
+      <pref lang="en">mountain</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="10">
+      <pref lang="de">Bezirk</pref>
+      <pref lang="en">district</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="6">
+      <pref lang="de">Bucht</pref>
+      <pref lang="en">bay</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="108">
+      <pref lang="de">Bundesstaat</pref>
+      <pref lang="en">federated state</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Department</pref>
+      <pref lang="en">department</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="55">
+      <pref lang="de">Dorf</pref>
+      <pref lang="en">village</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1482">
+      <pref lang="de">Ethnie</pref>
+      <pref lang="en">ethnic group</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="104">
+      <pref lang="de">Fluss</pref>
+      <pref lang="en">river</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>sollte in m+ isoliert eingegeben sein</comment>
+      <pref lang="de">Fluss, Bucht und Dorf</pref>
+      <pref lang="en">river, bay, village</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="20">
+      <pref lang="de">Fluss/Gebiet</pref>
+      <pref lang="en">river/region</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Flussmündung</pref>
+      <pref lang="en">river mouth</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="40">
+      <pref lang="de">Gebiet</pref>
+      <pref lang="en">region</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Gebirge</pref>
+      <pref lang="en">mountain range</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Grenzgebiet</pref>
+      <pref lang="en">boarder area</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="15">
+      <pref lang="de">Großregion</pref>
+      <pref lang="en">greater region</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Hafen</pref>
+      <pref lang="en">harbor</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Halbinsel</pref>
+      <pref lang="en">peninsula</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Handelsposten/Handelsstation</pref>
+      <pref lang="en">trading station</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="353">
+      <pref lang="de">Insel</pref>
+      <pref lang="en">island</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="725">
+      <pref lang="de">Inselgruppe</pref>
+      <pref lang="en">archipelago</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Inselgruppe/Region</pref>
+      <pref lang="en">archipelago</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Kaiserreich</pref>
+      <pref lang="en">empire</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="36">
+      <pref lang="de">Kanton</pref>
+      <pref lang="en">canton</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Kap</pref>
+      <pref lang="en">cape</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Kolonie/Schutzgebiet</pref>
+      <pref lang="en">colony/protectorate</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Kontinent</pref>
+      <pref lang="en">continent</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Kontinentteil</pref>
+      <pref lang="en">region</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="347">
+      <pref lang="de">Kultur</pref>
+      <pref lang="en">culture</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="15">
+      <pref lang="de">Kultur/Ort</pref>
+      <pref lang="en">culture/place</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="47">
+      <pref lang="de">Kulturareal</pref>
+      <pref lang="en">culture area</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="20">
+      <pref lang="de">Königreich</pref>
+      <pref lang="en">kingdom</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Küste</pref>
+      <pref lang="en">coast</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="816">
+      <comment>nicht der präzisere Begriff Staat</comment>
+      <pref lang="de">Land</pref>
+      <pref lang="en">country</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="534">
+      <pref lang="de">Land/Region</pref>
+      <pref lang="en">country/region</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Landschaft</pref>
+      <pref lang="en">landscape</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Meerenge</pref>
+      <pref lang="en">sound</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="12">
+      <pref lang="de">Missionsstation</pref>
+      <pref lang="en">mission</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Nebenfluss</pref>
+      <pref lang="en">tributary</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="248">
+      <pref lang="de">Ort</pref>
+      <pref lang="en">place</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>sollte in m+ isoliert eingegeben sein</comment>
+      <pref lang="de">Ort und Ethnie</pref>
+      <pref lang="en">place, ethnic group</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="52">
+      <pref lang="de">Provinz</pref>
+      <pref lang="en">province</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="346">
+      <pref lang="de">Region</pref>
+      <pref lang="en">region</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <comment>Warum hier eine pol. Kategorie?</comment>
+      <pref lang="de">Republik</pref>
+      <pref lang="en">republic</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">See</pref>
+      <pref lang="en">lake</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">See/Gebiet</pref>
+      <pref lang="en">lake/region</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="83">
+      <pref lang="de">Sprachgruppe</pref>
+      <pref lang="en">linguistic group</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="45">
+      <pref lang="de">Stadt</pref>
+      <pref lang="en">city</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Stadt/Gemeinde</pref>
+      <pref lang="en">city/municipality</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Stadtteil</pref>
+      <pref lang="en">urban district</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>möglicherweise nicht pol. Korrekt.</comment>
+      <pref lang="de">Stamm</pref>
+      <pref lang="en">tribe</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="13">
+      <pref lang="de">Tal</pref>
+      <pref lang="en">valley</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+  </context>
+  <context name="sachbegriffnot(@artSachb...">
+    <concept freq="21">
+      <pref lang="de">Angelhaken</pref>
+      <pref lang="en">fishing hook</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Angelhaken für Bonito</pref>
+      <pref lang="en">fishing hook for Bonito</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Angelhaken mit Schnur</pref>
+      <pref lang="en">fishing hook with line</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Ess-Schale aus Ton</pref>
+      <pref lang="en">food bowl from clay</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Ess-Schüssel</pref>
+      <pref lang="en">food bowl</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Essteller</pref>
+      <pref lang="en">food plate</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Fahrrad (Spielzeug)</pref>
+      <pref lang="en">toy bicycle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Farbbeutel</pref>
+      <pref lang="en">color bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Farbgefäß</pref>
+      <pref lang="en">color vessel</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Federkopfschmuck</pref>
+      <pref lang="en">feathered headdress</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="13">
+      <comment>obsolete</comment>
+      <pref lang="de">Fetisch</pref>
+      <pref lang="en">fetish</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="32">
+      <pref lang="de">Figurengefäß</pref>
+      <pref lang="en">figurative vessel</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Figurengefäß (Fälschung)</pref>
+      <pref lang="en">figurative vessel (forgery)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Figurengefäß mit Steigbügelausguss</pref>
+      <pref lang="en">stirrup spout bottle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="16">
+      <pref lang="de">Figurgefäß</pref>
+      <pref lang="en">figurative vessel</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Figurgefäß aus Ton</pref>
+      <pref lang="en">figurative clay vessel</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="19">
+      <pref lang="de">Figurgefäß mit Steigbügelausguss</pref>
+      <pref lang="en">stirrup spout bottle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Figurgefäß mit Steigbügelausguss (Fragment)</pref>
+      <pref lang="en">stirrup spout bottle (fragment)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Fingertanzschmuck</pref>
+      <pref lang="en">finger dance ornaments</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Fischerhut</pref>
+      <pref lang="en">fisher's hat</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Fischernetz</pref>
+      <pref lang="en">fishing net</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Fischfanggerät</pref>
+      <pref lang="en">fishing equipment</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Fischhaken</pref>
+      <pref lang="en">fishing hook</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Fischkorb</pref>
+      <pref lang="en">fishing basket</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Fischleine mit Angelhaken</pref>
+      <pref lang="en">fishing line with hook</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Flaschenöffner</pref>
+      <pref lang="en">bottle opener</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="8">
+      <pref lang="de">Flöte</pref>
+      <pref lang="en">flute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Fragment einer dreifüßigen Tonschale</pref>
+      <pref lang="en">clay vessel with three feet, fragment</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Frauenrock</pref>
+      <pref lang="en">skirt for women</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Frauensattel</pref>
+      <pref lang="en">saddle for women</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Frauenstiefel</pref>
+      <pref lang="en">boots for women</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Friedenszeichen</pref>
+      <pref lang="en">peace sign</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Fruchtbarkeitspuppe</pref>
+      <pref lang="en">fertility doll</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Fruchtbarkeitszauber</pref>
+      <pref lang="en">fertility charm</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Fruchtbarkeitszauber für Frauen (Skulptur)</pref>
+      <pref lang="en">fertility charm for women (sculpture)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="11">
+      <pref lang="de">Fächer</pref>
+      <pref lang="en">fan</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>?</comment>
+      <pref lang="de">Geburt</pref>
+      <pref lang="en">birth</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Gefäss</pref>
+      <pref lang="en">vessel</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Gefässflöte (ohne ausgebildeten Schnabel)</pref>
+      <pref lang="en">vessel flute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="10">
+      <pref lang="de">Gefäß</pref>
+      <pref lang="en">vessel</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Gefäß für Rotholzpulver</pref>
+      <pref lang="en">vessel for red wood powder</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Gefäß für Schädel</pref>
+      <pref lang="en">vessel for skulls</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="14">
+      <pref lang="de">Gefäß mit Steigbügelausguss</pref>
+      <pref lang="en">vessel with stirrup spout</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Gefäßflöte</pref>
+      <pref lang="en">vessel flute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Gefäßpfeife</pref>
+      <pref lang="en">vessel flute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Gefäßrassel</pref>
+      <pref lang="en">vessel rattle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Gefäßrasseln</pref>
+      <pref lang="en">vessel rattle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Geld</pref>
+      <pref lang="en">money</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Geldstein</pref>
+      <pref lang="en">money stone</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Geländewagen (Spielzeug)</pref>
+      <pref lang="en">toy cross-country vehicle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Geschosse</pref>
+      <pref lang="en">bullet</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="6">
+      <pref lang="de">Gesichtsmaske</pref>
+      <pref lang="en">face mask</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Gewebter Gürtel</pref>
+      <pref lang="en">woven belt</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Gipsabguss einer Felszeichnung</pref>
+      <pref lang="en">plaster cast of a petroglyph</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Gipsabguss einer Figur</pref>
+      <pref lang="en">plaster cast of a figure</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Gipsabguss einer Tabakspfeife</pref>
+      <pref lang="en">plaster cast of a tabacco pipe</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Girlande aus künstlichen Blumen</pref>
+      <pref lang="en">garland of artificial flowers</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Glocke</pref>
+      <pref lang="en">bell</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Glockenspiel</pref>
+      <pref lang="en">set of bells</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Grabstock</pref>
+      <pref lang="en">digging stick</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Gurt</pref>
+      <pref lang="en">strap</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="22">
+      <pref lang="de">Gürtel</pref>
+      <pref lang="en">belt</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="6">
+      <pref lang="de">Gürtel für Frauen</pref>
+      <pref lang="en">belt for women</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Gürtel mit Metallkasten</pref>
+      <pref lang="en">belt with iron box</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="6">
+      <pref lang="de">Haarnadel</pref>
+      <pref lang="en">hairpin</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>pl-&gt;sg upstream</comment>
+      <pref lang="de">Haarnadeln</pref>
+      <pref lang="en">hairpins</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Haarnadeln für Frauen</pref>
+      <pref lang="en">hairpins for women</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Haarstecker</pref>
+      <pref lang="en">hairpin</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Haifischhaken</pref>
+      <pref lang="en">shark hook</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Haitötungskeule</pref>
+      <pref lang="en">club for killing sharks</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Hakenlanze</pref>
+      <pref lang="en">hooked lance</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="11">
+      <pref lang="de">Halsband</pref>
+      <pref lang="en">necklace</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Halsband aus Känguruzähnen</pref>
+      <pref lang="en">necklace with kanguruh teeth</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="12">
+      <pref lang="de">Halskette</pref>
+      <pref lang="en">necklace</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Halskette aus Muscheln</pref>
+      <pref lang="en">shell necklace</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Halskette für Frauen</pref>
+      <pref lang="en">necklace for women</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Halsring</pref>
+      <pref lang="en">neck ring</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Halsring für Männer</pref>
+      <pref lang="en">neck ring for men</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Hammer</pref>
+      <pref lang="en">hammer</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Handtasche</pref>
+      <pref lang="en">hand bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Hausmodell</pref>
+      <pref lang="en">model of a hosue</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Helm</pref>
+      <pref lang="en">helmet</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="11">
+      <pref lang="de">Henkelgefäß</pref>
+      <pref lang="en">vessel with handle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Hirsesieb</pref>
+      <pref lang="en">sorghum sieve</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="27">
+      <pref lang="de">Hocker</pref>
+      <pref lang="en">stool</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Holzbecher</pref>
+      <pref lang="en">wooden cup</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Holzbogen</pref>
+      <pref lang="en">wooden bow</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Holzdose</pref>
+      <pref lang="en">wooden container</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Holzflöte</pref>
+      <pref lang="en">wooden flute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Holzgefäß</pref>
+      <pref lang="en">wooden vessel</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Holzkamm</pref>
+      <pref lang="en">wooden comb</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Holzkeule</pref>
+      <pref lang="en">wooden club</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Holzlöffel</pref>
+      <pref lang="en">wooden spoon</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="11">
+      <pref lang="de">Holzmaske</pref>
+      <pref lang="en">wooden mask</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Holzpfeife</pref>
+      <pref lang="en">wooden pipe</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Holzschale</pref>
+      <pref lang="en">wooden bowl</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Holzschemel</pref>
+      <pref lang="en">wooden stool</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="7">
+      <pref lang="de">Holzschild</pref>
+      <pref lang="en">wooden shield</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Holzschlegel (Werkzeug)</pref>
+      <pref lang="en">wooden mallet</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Holzschüssel</pref>
+      <pref lang="en">wooden bowl</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Horn</pref>
+      <pref lang="en">horn</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Hose</pref>
+      <pref lang="en">trousers</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Hose?</pref>
+      <pref lang="en">trousers (?)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Hosen</pref>
+      <pref lang="en">trousers</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="8">
+      <pref lang="de">Hut</pref>
+      <pref lang="en">hat</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Jagdkeule</pref>
+      <pref lang="en">hunting club</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Jagdnetz</pref>
+      <pref lang="en">hunting net</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="58">
+      <pref lang="de">Kamm</pref>
+      <pref lang="en">comb</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Kamm für Frauen</pref>
+      <pref lang="en">comb for women</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Kampfschild</pref>
+      <pref lang="en">shield</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Kriegshemd</pref>
+      <pref lang="en">war shirt</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Kriegshorn</pref>
+      <pref lang="en">war horn</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Kriegskeule</pref>
+      <pref lang="en">war club</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Kämme</pref>
+      <pref lang="en">combs</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Köcher für Bogen und Pfeile</pref>
+      <pref lang="en">quiver</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Köcher mit Pfeilen</pref>
+      <pref lang="en">quiver with arrows</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Lamellophon</pref>
+      <pref lang="en">lamellophone</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Lampe</pref>
+      <pref lang="en">lamp</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="7">
+      <pref lang="de">Lanzenspitze</pref>
+      <pref lang="en">tip of a lance</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Lederbeutelchen</pref>
+      <pref lang="en">leather pouch</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Lederhemd</pref>
+      <pref lang="en">leather shirt</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Lederhütchen</pref>
+      <pref lang="en">leather hat</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Lederkleid</pref>
+      <pref lang="en">leather dress</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Lederpeitsche</pref>
+      <pref lang="en">leather whip</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="7">
+      <pref lang="de">Lederrassel</pref>
+      <pref lang="en">leather rattle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Lederrock</pref>
+      <pref lang="en">leath skirt</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Ledersäckchen</pref>
+      <pref lang="en">leather bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="15">
+      <pref lang="de">Ledertasche</pref>
+      <pref lang="en">leather bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>sg-&gt;pl</comment>
+      <pref lang="de">Ledertaschen</pref>
+      <pref lang="en">leather bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Ledertrommel</pref>
+      <pref lang="en">lether drum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Ledertäschchen</pref>
+      <pref lang="en">lether bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="16">
+      <pref lang="de">Leggings</pref>
+      <pref lang="en">leggings</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Leggings eines Medizinmannes</pref>
+      <pref lang="en">leggings of a medicine man</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Leggings für Frauen</pref>
+      <pref lang="en">leggings for women</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Leggings für Jungen</pref>
+      <pref lang="en">leggings for boys</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Leggings für Männer</pref>
+      <pref lang="en">leggings for men</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <comment>Es gibt keine Längsflöten, die auch Nasenflöten sind.</comment>
+      <pref lang="de">Längsflöte (Nasenflöte)</pref>
+      <pref lang="en">nose flute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Löffel</pref>
+      <pref lang="en">spoon</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Magische Figur</pref>
+      <pref lang="en">magic figurine</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Mantel</pref>
+      <pref lang="en">coat</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <comment>upstream korrigieren</comment>
+      <pref lang="de">Marimba</pref>
+      <pref lang="en">xylophone</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="50">
+      <pref lang="de">Maske</pref>
+      <pref lang="en">mask</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Maske (Tjiwara oder Sogoni-kun)</pref>
+      <pref lang="en">mask</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Maske (Tjiwara oder Sogoni-Kun)</pref>
+      <pref lang="en">mask</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Maske (Wanddekor, Touristenkunst)</pref>
+      <pref lang="en">mask</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Maske eines Geheimbundes</pref>
+      <pref lang="en">secret mask</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Maske eines Medizinmannes</pref>
+      <pref lang="en">mask of a medicine man</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Matte</pref>
+      <pref lang="en">mat</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Maultrommel</pref>
+      <pref lang="en">jaw's harp</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>wohl kein Sachbegriff</comment>
+      <pref lang="de">Medizin</pref>
+      <pref lang="en">medicine</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Medizin gegen Erkrankung</pref>
+      <pref lang="en">medicine</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Medizinbeutel</pref>
+      <pref lang="en">medicine bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="9">
+      <pref lang="de">Messer</pref>
+      <pref lang="en">knife</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Messer (Waffe)</pref>
+      <pref lang="en">knife (weapon)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Messerklinge</pref>
+      <pref lang="en">knife blade</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Modell eines Dampfers</pref>
+      <pref lang="en">model of a steam boat</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Modell eines Schildes</pref>
+      <pref lang="en">model of a shield</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Mokassinpaar für Kinder</pref>
+      <pref lang="en">pair of mokassins for children</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Mokassins für Frauen</pref>
+      <pref lang="en">women's moccasins</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="9">
+      <pref lang="de">Mokassins für Männer</pref>
+      <pref lang="en">men's moccasins</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <comment>upstream korrigieren</comment>
+      <pref lang="de">Mokkasin</pref>
+      <pref lang="en">moccasin</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Mokkasinpaar für Kinder</pref>
+      <pref lang="en">pair of moccasins for children</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>upstream korrigieren</comment>
+      <pref lang="de">Mokkasins</pref>
+      <pref lang="en">moccasins</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Mokkasins für Frauen</pref>
+      <pref lang="en">women's moccasins</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Mokkasins für Männer</pref>
+      <pref lang="en">men's moccasins</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Mokkasins mit Leggings</pref>
+      <pref lang="en">moccasins  and leggings</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Motorrad (Spielzeug)</pref>
+      <pref lang="en">toy motor cycle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Mundstück einer Rauchpfeife</pref>
+      <pref lang="en">mouth piece of pipe</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Musikpfeife</pref>
+      <pref lang="en">flute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Musikstock</pref>
+      <pref lang="en">idiophone</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Männerhut</pref>
+      <pref lang="en">man's hat</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Männliche Figur</pref>
+      <pref lang="en">male figurine</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Männliche Holzfigur</pref>
+      <pref lang="en">wooden male figurine</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Männliche Plastik</pref>
+      <pref lang="en">male sculpture</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Männliche Skulptur</pref>
+      <pref lang="en">male sculpture</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Männliche Skulpturen</pref>
+      <pref lang="en">male sculptures</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Mörser</pref>
+      <pref lang="en">mortar</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Mörser mit Stössel</pref>
+      <pref lang="en">mortar and pestle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Mütze</pref>
+      <pref lang="en">cap</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="8">
+      <pref lang="de">Nackenstütze</pref>
+      <pref lang="en">neck rest</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Nahrungsstampfer</pref>
+      <pref lang="en">food masher</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Nasenflöte</pref>
+      <pref lang="en">nose flute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Nasenstab</pref>
+      <pref lang="en">nose stick</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Netz</pref>
+      <pref lang="en">net</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Netzbeutel</pref>
+      <pref lang="en">net bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Netznadel</pref>
+      <pref lang="en">net needle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Netztasche</pref>
+      <pref lang="en">net bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Nähnadel</pref>
+      <pref lang="en">sewing needle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Nähnadelbehälter</pref>
+      <pref lang="en">container for sewing needles</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Obsidianmesser</pref>
+      <pref lang="en">obsidian knife</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Obstschale</pref>
+      <pref lang="en">fruit bowl</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">offene Sanduhrtrommel</pref>
+      <pref lang="en">open hourglass drum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Ohrbohrer</pref>
+      <pref lang="en">ear drill</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Ohrring</pref>
+      <pref lang="en">ear ring</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Ohrringe</pref>
+      <pref lang="en">ear rings</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Oktopushaken</pref>
+      <pref lang="en">octopus hook</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Opfermesser</pref>
+      <pref lang="en">sacrifical knife</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="6">
+      <pref lang="de">Orakelbrett</pref>
+      <pref lang="en">oracle board</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Orakelgerät</pref>
+      <pref lang="en">oracle device</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Ornament</pref>
+      <pref lang="en">ornament</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Paar Leggings zum Prachtkriegskleid</pref>
+      <pref lang="en">leggings and war dress</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Paar Mokassins</pref>
+      <pref lang="en">moccasins</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Paar Mokkasins</pref>
+      <pref lang="en">moccasins</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Panflöte</pref>
+      <pref lang="en">panflute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="26">
+      <pref lang="de">Parfleche</pref>
+      <pref lang="en">parfleche</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Peitsche</pref>
+      <pref lang="en">whip</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Perlenarmring</pref>
+      <pref lang="en">pearl arm ring</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>sg.?</comment>
+      <pref lang="de">Perlenarmringe</pref>
+      <pref lang="en">pearl arm rings</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Perlenkragen für Frauen</pref>
+      <pref lang="en">pearl collar for women</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Perlenschmuck</pref>
+      <pref lang="en">pearl jewlery</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Pfeife (Musik)</pref>
+      <pref lang="en">flute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Pfeifen-Tomahawk</pref>
+      <pref lang="en">pipe tomahawk</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Pfeifenbeutel</pref>
+      <pref lang="en">pipe bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="15">
+      <pref lang="de">Pfeifenkopf</pref>
+      <pref lang="en">pipe head</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="22">
+      <pref lang="de">Pfeil</pref>
+      <pref lang="en">arrow</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Pfeil mit Knochenspitze</pref>
+      <pref lang="en">arrow with bone tip</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Pfeil zur Vogeljagd</pref>
+      <pref lang="en">arrow to hunt birds</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Pfeilspitzen</pref>
+      <pref lang="en">arrow tip</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Pferdedecke</pref>
+      <pref lang="en">horse blanket</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Pferdehalfter</pref>
+      <pref lang="en">horse halter</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Pflock</pref>
+      <pref lang="en">peg</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Pflock für Webgestell</pref>
+      <pref lang="en">peg for loom</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Pinsel</pref>
+      <pref lang="en">brush</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Plastik</pref>
+      <pref lang="en">sculpture</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Plateausandale</pref>
+      <pref lang="en">plateau sandal</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Pokal für Palmwein</pref>
+      <pref lang="en">cup for palmwine</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Prachtkriegskleid (Männerhemd)</pref>
+      <pref lang="en">man's war shirt</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="6">
+      <pref lang="de">Puppe</pref>
+      <pref lang="en">doll</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Quadratmalerei auf Tablett</pref>
+      <pref lang="en">square painting on tray</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Quadratmalerei auf Tupperdose</pref>
+      <pref lang="en">square painting on Tupperware</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Querhorn</pref>
+      <pref lang="en">traverse horn</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Quertrompete</pref>
+      <pref lang="en">traverse trumpet</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Quertuba</pref>
+      <pref lang="en">traverse trumpet</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Quipu</pref>
+      <pref lang="en">quipu</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Rahmentrommel</pref>
+      <pref lang="en">frame drum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="12">
+      <pref lang="de">Rassel</pref>
+      <pref lang="en">rattle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Rassel für die Hunka-Zeremonie</pref>
+      <pref lang="en">rattle for hunka ceremony</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Rasseln</pref>
+      <pref lang="en">rattle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Ratespiel</pref>
+      <pref lang="en">guessing game</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Rauchpfeife mit Rohr und Mundstück</pref>
+      <pref lang="en">smoking pipe with tube and mouthpiece</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Rauchpfeifenkopf aus Ton</pref>
+      <pref lang="en">smoking pipe</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Reiterfigur</pref>
+      <pref lang="en">equestrian figurine</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>m+ korrigieren</comment>
+      <pref lang="de">Religiöse Objekte</pref>
+      <pref lang="en">religious objects</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Reuse</pref>
+      <pref lang="en">fish trap</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Räuchergefäß</pref>
+      <pref lang="en">smoking vessel</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Röhrentrommel</pref>
+      <pref lang="en">cylindrical drum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Rührlöffel</pref>
+      <pref lang="en">spoon</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Sack</pref>
+      <pref lang="en">bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <comment>en. In M+ korrigieren</comment>
+      <pref lang="de">Salzgefäß (saltcellar) mit Deckel</pref>
+      <pref lang="en">salt cellar</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Sandalen</pref>
+      <pref lang="en">sandals</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Sandalenpaar</pref>
+      <pref lang="en">sandals</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Sandsteingefäß mit Deckel</pref>
+      <pref lang="en">sandstone receptacle with lid</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Sandsteinkopf</pref>
+      <pref lang="en">sandstone head</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Sanduhrtrommel</pref>
+      <pref lang="en">hour glass drum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Sanduhrtrommel für Kinder</pref>
+      <pref lang="en">children's hour glass drum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Sanduhrtrommel mit Schlegel für Kinder</pref>
+      <pref lang="en">children's hour glass drum with mallet</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Sanza</pref>
+      <pref lang="en">lamellophone</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Sattel</pref>
+      <pref lang="en">saddle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Satteldecke</pref>
+      <pref lang="en">saddle blanket</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="9">
+      <pref lang="de">Satteltasche</pref>
+      <pref lang="en">saddle bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Schaber</pref>
+      <pref lang="en">scaper</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="14">
+      <pref lang="de">Schale</pref>
+      <pref lang="en">bowl</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schalenspießlaute mit Streichbogen</pref>
+      <pref lang="en">bowed box lute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Schamanentrommel</pref>
+      <pref lang="en">frame drum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schelle</pref>
+      <pref lang="en">cymbal</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Scherbe eines Schmelztiegels</pref>
+      <pref lang="en">shard of crucible</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="9">
+      <pref lang="de">Schild</pref>
+      <pref lang="en">shield</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schild für den Tanz</pref>
+      <pref lang="en">dancing shield</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Schlegel</pref>
+      <pref lang="en">mallet</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schlegel (Werkzeug)</pref>
+      <pref lang="en">mallet (tool)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schlegel einer Sanduhrtrommel für Kinder</pref>
+      <pref lang="en">mallet for children's hour glass drum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schleier</pref>
+      <pref lang="en">veil</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schlitztrommel</pref>
+      <pref lang="en">slit drum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schlitztrommel (Modell)</pref>
+      <pref lang="en">slit drum (model)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schmelztiegel</pref>
+      <pref lang="en">crucible</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Schnitzmesser zur Lederbearbeitung</pref>
+      <pref lang="en">knife for leather work</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Schnupftabakbehälter</pref>
+      <pref lang="en">snuff box</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schnupftabakbüchse</pref>
+      <pref lang="en">snuff box</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Schnupftabakdose</pref>
+      <pref lang="en">snuff box</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schnupftabaksdose</pref>
+      <pref lang="en">snuff box</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schuhpaar</pref>
+      <pref lang="en">pair of shoes</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schutzzauber</pref>
+      <pref lang="en">protection charm</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="12">
+      <pref lang="de">Schwert</pref>
+      <pref lang="en">sword</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Schwert mit Schwertscheide</pref>
+      <pref lang="en">sword with scabbard</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Schwertscheide</pref>
+      <pref lang="en">scabbard</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schwirrholz</pref>
+      <pref lang="en">bull roarer</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Schwirrknochen (Spielzeug)</pref>
+      <pref lang="en">bull roarer</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="14">
+      <pref lang="de">Schüssel</pref>
+      <pref lang="en">bowl</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">selbstständige Glocke</pref>
+      <pref lang="en">bell</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">selbstständiger Gong</pref>
+      <pref lang="en">gong</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Sichel</pref>
+      <pref lang="en">scythe</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Signalpfeife</pref>
+      <pref lang="en">signalling whistle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Signaltrommel</pref>
+      <pref lang="en">signalling trumpet</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Signaltrompete</pref>
+      <pref lang="en">signalling trumpet</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Sistrum</pref>
+      <pref lang="en">sistrum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="25">
+      <pref lang="de">Skulptur</pref>
+      <pref lang="en">sculpture</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Sonnenhut</pref>
+      <pref lang="en">sun hat</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Spaten</pref>
+      <pref lang="en">spade</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Spazierstock</pref>
+      <pref lang="en">walking stick</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Speerschleuder</pref>
+      <pref lang="en">spear-thrower</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Speiseschale</pref>
+      <pref lang="en">food bowl</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Speiseschüssel</pref>
+      <pref lang="en">food bowl</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Spiel</pref>
+      <pref lang="en">game</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Spielball</pref>
+      <pref lang="en">ball</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Spielsteine</pref>
+      <pref lang="en">game pieces</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Spielsteine und Spielstäbe</pref>
+      <pref lang="en">game pieces</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Spielstäbe</pref>
+      <pref lang="en">game pieces</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Spielzeug</pref>
+      <pref lang="en">toys</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Spindel</pref>
+      <pref lang="en">spindle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Spindeln</pref>
+      <pref lang="en">spindle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>müssten sanduhr-förmig mit gebogenen Schlägel sein</comment>
+      <pref lang="de">Sprechtrommel</pref>
+      <pref lang="en">talking drum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Stabrassel</pref>
+      <pref lang="en">rattle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Stabrasseln</pref>
+      <pref lang="en">rattle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Stein</pref>
+      <pref lang="en">stone</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Steinfigur</pref>
+      <pref lang="en">stone figur</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Steinmesser</pref>
+      <pref lang="en">stone knife</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Steinwerkzeug</pref>
+      <pref lang="en">stone tool</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <comment>?</comment>
+      <pref lang="de">Streithammer</pref>
+      <pref lang="en">tomahawk</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="3">
+      <pref lang="de">Stuhl</pref>
+      <pref lang="en">chair</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="29">
+      <pref lang="de">Tabakpfeife</pref>
+      <pref lang="en">pipe</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Tablett</pref>
+      <pref lang="en">tray</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Talisman</pref>
+      <pref lang="en">talisman</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Tanzfestmaske</pref>
+      <pref lang="en">dance mask</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Tanzflöte</pref>
+      <pref lang="en">flute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="7">
+      <pref lang="de">Tanzkeule</pref>
+      <pref lang="en">dance club</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="7">
+      <pref lang="de">Tanzmaske</pref>
+      <pref lang="en">dance mask</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Tanzmesser</pref>
+      <pref lang="en">dance knife</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="5">
+      <pref lang="de">Tanzpaddel</pref>
+      <pref lang="en">dance paddle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="29">
+      <pref lang="de">Tasche</pref>
+      <pref lang="en">bag</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Taschen</pref>
+      <pref lang="en">bags</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Thron</pref>
+      <pref lang="en">throne</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Thronhocker</pref>
+      <pref lang="en">throne stool</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Tier (Skulptur)</pref>
+      <pref lang="en">sculpture of an animal</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Wasserpfeife</pref>
+      <pref lang="en">water pipe</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="7">
+      <pref lang="de">Wassertopf</pref>
+      <pref lang="en">water pot</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Wassertopf aus Ton</pref>
+      <pref lang="en">water pot made of clay</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Webrahmen</pref>
+      <pref lang="en">loom</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Zaumzeug</pref>
+      <pref lang="en">bridle</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Zeremonialmesser</pref>
+      <pref lang="en">ceremonial knife</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">Zylindertrommel</pref>
+      <pref lang="en">cylindrical drum</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+  </context>
+  <context name="sachbegriff@art">
+    <concept freq="31">
+      <pref lang="de">Alte Bezeichnung</pref>
+      <pref lang="en">old designation</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="356">
+      <pref lang="de">Einheimische Bezeichnung (lokal)</pref>
+      <pref lang="en">local designation</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="50">
+      <pref lang="de">Katalogbegriff</pref>
+      <pref lang="en">catalog label</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1627">
+      <pref lang="de">Sachbegriff</pref>
+      <pref lang="en">subject heading</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="184">
+      <pref lang="de">Weiterer Sachbegriff</pref>
+      <pref lang="en">other subject heading</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+  </context>
+  <context name="titelnot(@artÜbersetzungengl.)">
+    <concept freq="1">
+      <comment>kein typischer Titel, eher Sachbegriff</comment>
+      <pref lang="de">'Flöte'</pref>
+      <pref lang="en">Flute</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">'Fächer'</pref>
+      <pref lang="en">Fan</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">'Krebs'</pref>
+      <pref lang="en">Crab</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">'Krokodil'</pref>
+      <pref lang="en">Crokodile</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">'Reiter'</pref>
+      <pref lang="en">Rider</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">'Windmühle'</pref>
+      <pref lang="en">wind mill</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Akrobat</pref>
+      <pref lang="en">acrobat</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>kein typischer Titel, eher Sachbegriff</comment>
+      <pref lang="de">Antilope</pref>
+      <pref lang="en">antilope</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <comment>Sachbegriff, kein Titel?</comment>
+      <pref lang="de">Fisch</pref>
+      <pref lang="en">Fish</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="6">
+      <comment>Sachbegriff, kein Titel?</comment>
+      <pref lang="de">Fledermaus</pref>
+      <pref lang="en">Bat</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Fledermausgott</pref>
+      <pref lang="en">Bat God</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Hund</pref>
+      <pref lang="en">Dog</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">jaguar</pref>
+      <pref lang="en">Jaguar</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <comment>Wollen wir die = Schreibweise?</comment>
+      <pref lang="de">turu (= Spielzeug)</pref>
+      <pref lang="en">turu (toy)</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">weidende Antilope</pref>
+      <pref lang="en">Grasing Antilope</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">weidende Antilopen</pref>
+      <pref lang="en">Grasing Antilopes</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="4">
+      <pref lang="de">Zwerg</pref>
+      <pref lang="en">Dwarf</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Zwerg mit vorgehaltenem Spiegel</pref>
+      <pref lang="en">Dwarf With Mirror</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>Sachbegriff, kein Titel?</comment>
+      <pref lang="de">Zylindrische Vase mit Todesgott</pref>
+      <pref lang="en">Cylindrical Vase with Death God</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+  </context>
+</mpxvoc>

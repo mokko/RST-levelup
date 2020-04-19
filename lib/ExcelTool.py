@@ -149,10 +149,11 @@ class ExcelTool ():
         """
 
         if xls_dir is None:
-            xls_dir=os.path.dirname(conf_fn)
-        t=ExcelTool (source_xml,xls_dir)
+            xls_dir = os.path.dirname (conf_fn)
+        #print (f"---XLS_DIR: {xls_dir}")
+        t = ExcelTool (source_xml, xls_dir)
 
-        for task,cmd in t._itertasks(conf_fn): #sort of a Domain Specific Language DSL
+        for task,cmd in t._itertasks (conf_fn): #sort of a Domain Specific Language DSL
             if cmd == "translate_element": 
                 t.translate_element (task[cmd])
             elif cmd == "translate_attribute": 
@@ -163,8 +164,9 @@ class ExcelTool ():
         """Constructor that executes commands from conf_fn"""
         # as default use the same dir for xls as for conf_fn
         if xls_dir is None:
-            xls_dir=os.path.dirname(conf_fn)
-        t=ExcelTool (source_xml,xls_dir)
+            xls_dir = os.path.dirname (conf_fn)
+        #print (f"---XLS_DIR: {xls_dir}")
+        t=ExcelTool (source_xml, xls_dir)
 
         for task,cmd in t._itertasks(conf_fn): #sort of a Domain Specific Language DSL
             #print (f"from_conf: {cmd}: {task[cmd]}")
@@ -317,7 +319,6 @@ class ExcelTool ():
         self._del0frequency (ws)
         self.twb.save(self.trans_xls) 
 
-        
 #    PRIVATE STUFF
 
     def _2attributes(self, term, quali1, quali2):

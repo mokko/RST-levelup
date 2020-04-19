@@ -3,6 +3,8 @@ lvlupChain.py: expects input files in current directory and generally writes its
 
 Expects several xls files that begin with mm, so or pk.
 
+This python works (thinks) pretty much like a shell script
+
 Runs thru the tool chain and only works on files if they are not yet present. 
 Delete them if you want to run that process again.
 
@@ -19,12 +21,17 @@ STEPS:
 Optional function via command line parameter:
     If you want levelup to make the shf export, you need to run it with
 
-    levelup.py shf
+    lvlupChain.py shf
+    lvlupChain.py short
+    lvlupCHain.py datenblatt # from mpx
+    lvlupCHain.py datenblatt # from mpx
 """
 
 import os
 import sys
 import subprocess #more imports below
+from glob import glob
+from shutil import copyfile
 
 conf={
     #rougly in the order they are used...
@@ -40,8 +47,7 @@ conf={
     'joinmpx': '1-XML/join.mpx',
     'lvlupmpx': '2-MPX/levelup.mpx',
     'fixmpx': '2-MPX/fix.mpx',
-    'vindexconf': '../../generalvindex.json',
-    'transconf': '../../translate.json',
+    'vindexconf': '../../../data2/generalvindex.json',
     'vfixmpx': '2-MPX/vfix.mpx',
     'datenblatto': '3-datenblatt/o.html',
 
@@ -115,14 +121,28 @@ if __name__ == "__main__":
             t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
         else: 
             raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
-            print ("*APPLYING FIX")
 
     if not os.path.exists(conf['vfixmpx']):
+        print ("*APPLYING FIX")
         t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
         #writes individual translate.xlsx files
-    t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..') 
+    t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..')
+
+    #Let's save some of the "mission critical" data to github
+    print (f"copying data for github")
+    files = glob('../**/*.xlsx', recursive=True)
+    for src in files:
+        src=os.path.realpath(src)
+        dst=src.replace("data", "data2", 1)
+        if "bak\\" not in src.lower():
+            #print (f"   {src} ")
+            try:
+                copyfile(src, dst)
+            except Exception as e:
+                print (e)
+     
     print ("*VOK2VOK") #assembles individual dictionaries into one
-    vok2vok ('../..', '../../mpxvoc.xml') # work on data dir
+    vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on data dir
 
     if len(sys.argv) > 1:
         if sys.argv[1].lower() != 'short':
