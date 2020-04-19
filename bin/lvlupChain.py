@@ -1,9 +1,15 @@
-"""
-lvlupChain.py: expects input files in current directory and generally writes its output to several sub-directories
+""" make and process mpx.
 
-Expects several xls files that begin with mm, so or pk.
+expects input files in current directory and generally writes its output to 
+several sub-directories
 
-This python works (thinks) pretty much like a shell script
+This Python thingy works much like a shell script: It starts processes, 
+frequently writes stuff to files and processes one thing after the next.
+
+Expects several so*.xls, mm*.xls or pk*.xls in current working directory.
+
+Outputs: 2-MPX/vfix.mpx and mpxvoc.xml, 
+optional: shf.csv
 
 Runs thru the tool chain and only works on files if they are not yet present. 
 Delete them if you want to run that process again.
@@ -12,21 +18,22 @@ STEPS:
 1. Convert xls files to stupid xml
 2. join all stupid xml files together in one big file
 3. levelup that file so we have proper mpx 
-4. (optional) convert to shf output format (also copies standardbilder and freigegebene photos) --> shf
-5. (optional) transform mpx to LIDO and make a html representation of the LIDO data --> lido
-6. (optional) do the boris image test and write report in corresponding directory --> boris
-7. (optional) apply corrections from Excel file --> index
-8. (optional) make a rst deckblatt HTML representation out of the mpx file --> deckblatt (requires image folders from shf)
+4. ExcelTool--> vindex and translate.xlsx are updated
+5. ExcelTool--> vfix.mpx written
+6. copies resources (for deckblatt, lido, shf)
+7. (optional) carry out boris image test and write report in corresponding 
+   directory --> boris
+8. (optional) shf.csv -->shf
+9. (optional) make a rst deckblatt HTML representation out of the mpx file --> datenblatt 
 
 Optional function via command line parameter:
-    If you want levelup to make the shf export, you need to run it with
-
-    lvlupChain.py shf
-    lvlupChain.py short
-    lvlupChain.py datenblatt # from mpx
-    lvlupChain.py boris
+    lvlupChain.py --short #not all steps
+    lvlupChain.py cmd shf
+    lvlupChain.py cmd datenblatt # from mpx
+    lvlupChain.py cmd boris
 """
 
+import argparse
 import os
 import sys
 import subprocess #more imports below
@@ -112,6 +119,11 @@ def mk_mpx (conf):
 
     test_mpx.main(conf['lvlupmpx'])
 
+def copy_resources (conf):
+    rc = ResourceCp (conf['lvlupmpx'])
+    rc.standardbilder('..\pix', 'mulId.dateiname')
+    rc.freigegebene('..\pix', 'mulId.dateiname')
+
 def run_ExcelTool(conf):
     if len(sys.argv) > 1 and sys.argv[1].lower() != 'short':
         print ('*Updating vindex...')
@@ -132,7 +144,6 @@ if __name__ == "__main__":
     sys.path.append (conf['lib'])
     sys.path.append (conf['t'])
     
-    #It's more pythonic to just let Python report file not found exception.
     from Xls2xml import Xls2xml
     from Saxon import Saxon
     from ResourceCp import ResourceCp
@@ -143,41 +154,37 @@ if __name__ == "__main__":
     import test_shf as tshf
     import test_mpx
 
+    parser = argparse.ArgumentParser(description='lvlupChain: batch process mpx')
+    parser.add_argument('-s', '--short', action='store_true')
+    parser.add_argument('-c', '--cmd')
+    args = parser.parse_args()
+
     mk_mpx(conf)
     run_ExcelTool(conf)
-
-    #Let's save some of the "mission critical" data to github
-    cp_data2()
+    cp_data2() # save xlsx to github 
      
     print ("*VOK2VOK") #assembles individual dictionaries into one
     vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on data dir
 
-    if len(sys.argv) > 1:
-        if sys.argv[1].lower() != 'short':
-            rc = ResourceCp (conf['lvlupmpx'])
-            rc.standardbilder('..\pix', 'mulId.dateiname')
-            rc.freigegebene('..\pix', 'mulId.dateiname')
+    copy_resources (conf)
 
-        if sys.argv[1].lower() == 'shf':
-            print ('*Converting to SHF csv format...')
-            if os.path.isfile(conf['lvlupmpx']):
-                s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
-                n = Npx2csv (conf['shfnpx'])
-                #you might need to prepare or delete the cache file manually
-                tf = Tif_finder('../../../.tif_cache.json')
-                tf.search_mpx(conf['lvlupmpx'], conf['tifdir'])
-                tshf.main(conf['vfixmpx'], conf ['shfnpx'])
+    if args.cmd == 'shf':
+        print ('*Converting to SHF csv format...')
+        if os.path.isfile(conf['lvlupmpx']):
+            s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
+            n = Npx2csv (conf['shfnpx'])
+            #you might need to prepare or delete the cache file manually
+            tf = Tif_finder('../../../.tif_cache.json')
+            tf.search_mpx(conf['lvlupmpx'], conf['tifdir'])
+            tshf.main(conf['vfixmpx'], conf ['shfnpx'])
 
-        elif sys.argv[1].lower() == 'boris':
-            print ('*Working on Boris Test...')
-            if os.path.isfile(conf['lvlupmpx']):
-                rc = ResourceCp (conf['lvlupmpx']) 
-                rc.boris_test('boris_test')
+    elif args.cmd == 'boris':
+        print ('*Working on Boris Test...')
+        if os.path.isfile(conf['lvlupmpx']):
+            rc = ResourceCp (conf['lvlupmpx']) 
+            rc.boris_test('boris_test')
 
-        elif sys.argv[1].lower() == 'datenblatt':
-            print ('*Converting to Deckblatt HTML ...')
-            #this datenblatt is made directly from mpx; other one is made from lido
-            #if os.path.isfile(conf['lvlupmpx']):
-            s.dirTransform(conf['vfixmpx'], conf['Datenblatt'], conf['datenblatto'])
-            
-            
+    elif args.cmd == 'datenblatt':
+        print ('*Converting to Deckblatt HTML ...')
+        #this datenblatt is made directly from mpx; other one is made from lido
+        s.dirTransform(conf['vfixmpx'], conf['Datenblatt'], conf['datenblatto'])
