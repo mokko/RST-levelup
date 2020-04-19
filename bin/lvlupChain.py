@@ -112,25 +112,23 @@ def mk_mpx (conf):
     if os.path.isdir(conf['onedir']): 
         s.join (conf['emptympx'], conf['joinColxsl'], conf['joinmpx'])
 
-    print ('*Levelling up...')
+    print ('*Leveling up...')
     if os.path.isfile(conf['joinmpx']): 
-        #input from 1-XML writes to 2-MPX
         s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx']) 
 
     test_mpx.main(conf['lvlupmpx'])
 
-def copy_resources (conf):
+def cp_resources (conf):
     rc = ResourceCp (conf['lvlupmpx'])
     rc.standardbilder('..\pix', 'mulId.dateiname')
     rc.freigegebene('..\pix', 'mulId.dateiname')
 
 def run_ExcelTool(conf):
-    if len(sys.argv) > 1 and sys.argv[1].lower() != 'short':
-        print ('*Updating vindex...')
-        if os.path.isfile(conf['vindexconf']): #make/update vindex 
-            t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
-        else: 
-            raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
+    print ('*Updating vindex...')
+    if os.path.isfile(conf['vindexconf']): #make/update vindex 
+        t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
+    else: 
+        raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
 
     if not os.path.exists(conf['vfixmpx']):
         print ("*APPLYING FIX")
@@ -160,18 +158,18 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     mk_mpx(conf)
-    run_ExcelTool(conf)
-    cp_data2() # save xlsx to github 
-     
-    print ("*VOK2VOK") #assembles individual dictionaries into one
-    vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on data dir
-
-    copy_resources (conf)
+    if not args.short:
+        cp_resources (conf)
+        run_ExcelTool(conf)
+        cp_data2() # save xlsx to github 
+        print ("*VOK2VOK") #assembles individual dictionaries into one
+        vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on data dir
 
     if args.cmd == 'shf':
         print ('*Converting to SHF csv format...')
-        if os.path.isfile(conf['lvlupmpx']):
-            s.dirTransform(conf['lvlupmpx'], conf['shfxsl'], conf['shfnpx'])
+        if os.path.isfile(conf['vfixmpx']):
+            s = Saxon(conf, conf['lib'])
+            s.dirTransform(conf['vfixmpx'], conf['shfxsl'], conf['shfnpx'])
             n = Npx2csv (conf['shfnpx'])
             #you might need to prepare or delete the cache file manually
             tf = Tif_finder('../../../.tif_cache.json')
@@ -184,7 +182,8 @@ if __name__ == "__main__":
             rc = ResourceCp (conf['lvlupmpx']) 
             rc.boris_test('boris_test')
 
+    #this datenblatt is made directly from mpx; other one is made from lido
     elif args.cmd == 'datenblatt':
         print ('*Converting to Deckblatt HTML ...')
-        #this datenblatt is made directly from mpx; other one is made from lido
+        s = Saxon(conf, conf['lib'])
         s.dirTransform(conf['vfixmpx'], conf['Datenblatt'], conf['datenblatto'])

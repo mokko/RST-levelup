@@ -117,7 +117,7 @@ class ResourceCp:
                         path=self._fullpath(mume) # will log incomplete path
                         if path is not None:
                             if not os.path.isfile(path):
-                                self.write_log(f'{mulId}: {path}: Datei nicht am Ort')
+                                self._write_log(f'{mulId}: {path}: Datei nicht am Ort')
         self._close_log()
 
 
