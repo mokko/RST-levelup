@@ -17,6 +17,7 @@
 
 
     <xsl:template match="/">
+        <xsl:call-template name="EM-SM-Plains"/>
         <xsl:call-template name="examples"/>
         <xsl:call-template name="exhibit">
             <xsl:with-param name="file">Amerika-Schaumagazin.htm</xsl:with-param>
@@ -87,7 +88,31 @@
         </xsl:result-document>
     </xsl:template>
 
-    <xsl:template name="examples">
+    <xsl:template name="EM-SM-Plains">
+        <xsl:message>
+            <xsl:text>datenblatt - EM Plains</xsl:text>
+        </xsl:message>
+        <xsl:for-each-group select="/mpx:museumPlusExport/mpx:sammlungsobjekt
+            [mpx:ausstellung = 'HUFO - Ersteinrichtung - Amerika (Schaumagazin)' and 
+            mpx:ausstellung/@sektion &gt; '150.29' ]" 
+            group-by="mpx:ausstellung/@sektion">
+            <xsl:sort select="@objId" data-type="number"/>
+            <xsl:message><xsl:value-of select="concat (current-grouping-key(),'.htm')"/></xsl:message>
+            <xsl:result-document href="{concat (current-grouping-key(),'.htm')}" method="html"
+                encoding="UTF-8">
+                <html>
+                    <xsl:call-template name="htmlHead"/>
+                    <body>
+                    <xsl:for-each select="current-group()">
+                        <xsl:apply-templates select="current-group"/>
+                    </xsl:for-each>
+                    </body>
+                </html>
+            </xsl:result-document>
+        </xsl:for-each-group>
+    </xsl:template>
+    
+     <xsl:template name="examples">
         <xsl:message>
             <xsl:text>datenblatt-exhibit: selected examples</xsl:text>
         </xsl:message>
@@ -111,6 +136,7 @@
             </html>
         </xsl:result-document>
     </xsl:template>
+
 
     <!-- DATENBLATT -->
 
