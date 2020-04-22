@@ -195,4 +195,4 @@ class vok2vok (XlsTools):
 
 if __name__ == '__main__': 
     #execute from ./data
-    vok2vok('..', 'mpxvoc3.xml')
+    vok2vok('..', 'mpxvoc.xml')

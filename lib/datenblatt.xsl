@@ -97,6 +97,7 @@
                 <xsl:call-template name="htmlHead"/>
                 <body>
                     <xsl:call-template name="intro"/>
+                    <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '1659071']"/>
                     <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '939']"/>
                     <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '206054']"/>
                     <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt[@objId = '736347']"/>
