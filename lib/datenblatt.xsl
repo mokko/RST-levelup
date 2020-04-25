@@ -93,18 +93,22 @@
             <xsl:text>datenblatt - EM Plains</xsl:text>
         </xsl:message>
         <xsl:for-each-group select="/mpx:museumPlusExport/mpx:sammlungsobjekt
-            [mpx:ausstellung = 'HUFO - Ersteinrichtung - Amerika (Schaumagazin)' and 
-            mpx:ausstellung/@sektion &gt; '150.29' ]" 
+            [mpx:ausstellung = 'HUFO - Ersteinrichtung - Amerika (Schaumagazin)']" 
             group-by="mpx:ausstellung/@sektion">
+            <xsl:variable name="path" select="concat ('150/' ,current-grouping-key(),'.htm')"/>
             <xsl:sort select="@objId" data-type="number"/>
-            <xsl:message><xsl:value-of select="concat (current-grouping-key(),'.htm')"/></xsl:message>
-            <xsl:result-document href="{concat (current-grouping-key(),'.htm')}" method="html"
+            <xsl:message><xsl:value-of select="$path"/></xsl:message>
+            <xsl:result-document href="{$path}" method="html"
                 encoding="UTF-8">
                 <html>
                     <xsl:call-template name="htmlHead"/>
                     <body>
+
                     <xsl:for-each select="current-group()">
-                        <xsl:apply-templates select="current-group"/>
+                        <!--  xsl:message>
+                            <xsl:value-of select="@objId"/>
+                        -->
+                        <xsl:apply-templates select="."/>
                     </xsl:for-each>
                     </body>
                 </html>
