@@ -95,8 +95,8 @@
         <xsl:for-each-group select="/mpx:museumPlusExport/mpx:sammlungsobjekt
             [mpx:ausstellung = 'HUFO - Ersteinrichtung - Amerika (Schaumagazin)']" 
             group-by="mpx:ausstellung/@sektion">
-            <xsl:variable name="path" select="concat ('150/' ,current-grouping-key(),'.htm')"/>
             <xsl:sort select="@objId" data-type="number"/>
+            <xsl:variable name="path" select="concat ('150/' ,current-grouping-key(),'.htm')"/>
             <xsl:message><xsl:value-of select="$path"/></xsl:message>
             <xsl:result-document href="{$path}" method="html"
                 encoding="UTF-8">
