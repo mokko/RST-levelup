@@ -17,7 +17,6 @@
 
 
     <xsl:template match="/">
-        <xsl:call-template name="EM-SM-Plains"/>
         <xsl:call-template name="examples"/>
         <xsl:call-template name="exhibit">
             <xsl:with-param name="file">Amerika-Schaumagazin.htm</xsl:with-param>
@@ -32,6 +31,7 @@
             <xsl:with-param name="exhibit">HUFO - Ersteinrichtung - Afrika (Schaumagazin)</xsl:with-param>
         </xsl:call-template>
         <xsl:call-template name="noExhibit"/>
+        <xsl:call-template name="EM-SM-Plains"/>
     </xsl:template>
 
 
@@ -195,77 +195,35 @@
                 @funktion eq 'Maler' or
                 @funktion eq 'Künstler']" />
 
-                <xsl:if test="mpx:datierung">
-                    <tr>
-                        <td>Datierung</td>
-                        <td>
-                            <xsl:for-each select="mpx:datierung[not (@art) or @art != 'Datierung engl.']">
-                                <xsl:sort select="@sort" data-type="number"/>
-                                <xsl:choose>
-                                    <xsl:when test="@vonJahr and @bisJahr">
-                                        <xsl:value-of select="." />
-                                        <xsl:text> (</xsl:text>
-                                        <xsl:value-of select="@vonJahr" />
-                                        <xsl:text> - </xsl:text>
-                                        <xsl:value-of select="@bisJahr" />
-                                        <xsl:text>)</xsl:text>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <xsl:value-of select="." />
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                                <xsl:if test="@art or @sort">
-                                    <xsl:text> [</xsl:text>
-                                    <xsl:if test="@art">
-                                        <xsl:value-of select="@art" />
-                                    </xsl:if>
-                                    <xsl:if test="@art and @sort">
-                                        <xsl:text> </xsl:text>
-                                    </xsl:if>
-                                    <xsl:if test="@sort">
-                                        <xsl:text>s:</xsl:text>
-                                        <xsl:value-of select="@sort" />
-                                    </xsl:if>
-                                    <xsl:text>]</xsl:text>
-                                </xsl:if>
-                                <xsl:if test="position()!=last()">
-                                    <xsl:text>; </xsl:text>
-                                </xsl:if>
-                            </xsl:for-each>
-                        </td>
-                    </tr>
-                </xsl:if>
-
-            <xsl:if test="mpx:geogrBezug[@bezeichnung ne 'Kultur' and @bezeichnung ne 'Ethnie' or not(@bezeichnung)]">
+            <xsl:if test="mpx:datierung">
                 <tr>
-                    <td valign="top">Geographischer Bezug</td>
+                    <td>Datierung</td>
                     <td>
-                        <xsl:for-each select="mpx:geogrBezug[(@bezeichnung ne 'Kultur' and @bezeichnung ne 'Ethnie') or not(@bezeichnung)]">
+                        <xsl:for-each select="mpx:datierung[not (@art) or @art != 'Datierung engl.']">
                             <xsl:sort select="@sort" data-type="number"/>
-                            <xsl:value-of select="." />
-                            <xsl:if test="@bezeichnung">
-                                <xsl:text> (</xsl:text>
-                                <xsl:value-of select="@bezeichnung" />
-                                <xsl:text>)</xsl:text>
-                            </xsl:if>
-                            <xsl:if test="@art or @kommentar or @sort">
+                            <xsl:choose>
+                                <xsl:when test="@vonJahr and @bisJahr">
+                                    <xsl:value-of select="." />
+                                    <xsl:text> (</xsl:text>
+                                    <xsl:value-of select="@vonJahr" />
+                                    <xsl:text> - </xsl:text>
+                                    <xsl:value-of select="@bisJahr" />
+                                    <xsl:text>)</xsl:text>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="." />
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:if test="@art or @sort">
                                 <xsl:text> [</xsl:text>
                                 <xsl:if test="@art">
-                                    <xsl:text>a: </xsl:text>
                                     <xsl:value-of select="@art" />
                                 </xsl:if>
-                                <xsl:if test="@art and @kommentar">
-                                    <xsl:text> </xsl:text>
-                                </xsl:if>
-                                <xsl:if test="@kommentar">
-                                    <xsl:text>k: </xsl:text>
-                                    <xsl:value-of select="@kommentar" />
-                                </xsl:if>
-                                <xsl:if test="@art or @kommentar and @sort">
+                                <xsl:if test="@art and @sort">
                                     <xsl:text> </xsl:text>
                                 </xsl:if>
                                 <xsl:if test="@sort">
-                                    <xsl:text>s: </xsl:text>
+                                    <xsl:text>s:</xsl:text>
                                     <xsl:value-of select="@sort" />
                                 </xsl:if>
                                 <xsl:text>]</xsl:text>
@@ -278,25 +236,83 @@
                 </tr>
             </xsl:if>
 
-            <xsl:if    test="mpx:geogrBezug[@bezeichnung eq 'Kultur' 
-                                or @bezeichnung eq 'Ethnie'
-                                or @bezeichnung eq 'Sprachgruppe'
-                            ]">
-                <tr>
-                    <td>Gruppe/Kultur</td>
-                    <td>
-                        <xsl:for-each select="mpx:geogrBezug[@bezeichnung eq 'Kultur' or @bezeichnung eq 'Ethnie']">
-                            <xsl:value-of select="." />
-                            <xsl:text> [</xsl:text>
+            <tr>
+                <td style="padding-top: 7px;" valign="top">Geographischer Bezug</td>
+                <td style="padding-top: 7px; line-height: 66%;" valign="top">
+                    <xsl:for-each select="mpx:geogrBezug[(@bezeichnung ne 'Kultur' 
+                        and @bezeichnung ne 'Ethnie' 
+                        and @bezeichnung ne 'Sprachgruppe')
+                        or not(@bezeichnung)]">
+                        <xsl:sort select="@sort" data-type="number"/>
+                        <xsl:value-of select="." />
+                        <xsl:if test="@bezeichnung or @art">
+                            <xsl:text> (</xsl:text>
                             <xsl:value-of select="@bezeichnung" />
-                            <xsl:text>]</xsl:text>
-                            <xsl:if test="position()!=last()">
+                            <xsl:if test="@bezeichnung and @art">
+                                <xsl:text>, </xsl:text>
+                            </xsl:if>
+                            <xsl:value-of select="@art" />
+                            <xsl:text>)</xsl:text>
+                        </xsl:if>
+                        <xsl:if test="@sort or @kommentar">
+                            <xsl:text> [</xsl:text>
+                            <xsl:if test="@sort">
+                                <xsl:text>s: </xsl:text>
+                                <xsl:value-of select="@sort" />
+                            </xsl:if>
+                            <xsl:if test="@sort and @kommentar">
                                 <xsl:text> </xsl:text>
                             </xsl:if>
-                        </xsl:for-each>
-                    </td>
-                </tr>
-            </xsl:if>
+                            <xsl:if test="@kommentar">
+                                    <xsl:text>k: </xsl:text>
+                                    <xsl:value-of select="@kommentar" />
+                            </xsl:if>
+                            <xsl:text>]</xsl:text>
+                        </xsl:if>
+                        <xsl:if test="position()!=last()">
+                            <br/>
+                        </xsl:if>
+                    </xsl:for-each>
+                </td>
+            </tr>
+
+            <tr>
+                <td valign="top">Gruppe/Kultur</td>
+                <td>
+                    <xsl:for-each select="mpx:geogrBezug[@bezeichnung eq 'Kultur' 
+                        or @bezeichnung eq 'Ethnie'
+                        or @bezeichnung eq 'Sprachgruppe']">
+                        <xsl:sort select="@sort" data-type="number"/>
+                        <xsl:value-of select="." />
+                        <xsl:if test="@bezeichnung or @art or @sort or @kommentar">
+                           <xsl:text> [</xsl:text>
+                           <xsl:if test="@bezeichnung">
+                                <xsl:text>b: </xsl:text>
+                                <xsl:value-of select="@bezeichnung" />
+                                <xsl:text> </xsl:text>
+                            </xsl:if>
+                            <xsl:if test="@art">
+                                <xsl:text>ot: </xsl:text>
+                                <xsl:value-of select="@art" />
+                                <xsl:text> </xsl:text>
+                            </xsl:if>
+                            <xsl:if test="@kommentar">
+                                <xsl:text>k: </xsl:text>
+                                <xsl:value-of select="@kommentar" />
+                                <xsl:text> </xsl:text>
+                            </xsl:if>
+                            <xsl:if test="@sort">
+                                <xsl:text>s: </xsl:text>
+                                <xsl:value-of select="@sort" />
+                            </xsl:if>
+                            <xsl:text>]</xsl:text>
+                        </xsl:if>
+                        <xsl:if test="position()!=last()">
+                            <xsl:text>, </xsl:text>
+                        </xsl:if>
+                    </xsl:for-each>
+                </td>
+            </tr>
 
             <xsl:apply-templates select="mpx:materialTechnik[@art='Ausgabe']" />
             <xsl:apply-templates select="mpx:maßangaben" />
@@ -308,7 +324,6 @@
                     <h2>Provenienz</h2>
                 </td>
             </tr>
-
 
             <xsl:if test="mpx:personenKörperschaften[
                             @funktion eq 'Sammler' or
@@ -641,6 +656,8 @@
     </xsl:template>
 
 
+    <!--  NAMED TEMPLATES -->
+
     <xsl:template name="genericRow">
         <xsl:param name="header" />
         <xsl:param name="node" />
@@ -653,4 +670,5 @@
             </td>
         </tr>
     </xsl:template>
+    
 </xsl:stylesheet>

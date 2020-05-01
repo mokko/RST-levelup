@@ -618,4 +618,4 @@ if __name__ == '__main__':
     #paths expect that you run it from the date directory (e.g. 20200226)
     #t=ExcelTool.from_conf('../vindex.json', '2-MPX/levelup.mpx')
     #t.apply_fix('../vindex.json', '2-MPX/vfix.mpx')
-    t=ExcelTool.translate_from_conf('../../generalvindex.json', '2-MPX/vfix.mpx', '..')
+    t=ExcelTool.translate_from_conf('../../../data2/generalvindex.json', '2-MPX/vfix.mpx', '..')
