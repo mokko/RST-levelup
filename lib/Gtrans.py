@@ -51,24 +51,19 @@ class Gtrans:
         
         if sheet.title in self.case.keys(): 
             if self.case[sheet.title] == "exclude":
-                print (f"   Excluding from translation sheet {sheet.title}")
+                print (f"   exclude sheet '{sheet.title}' from google translation ")
                 return
             elif self.case[sheet.title] == "lower":
-                print ("\tforcing lowercase")
+                print ("   forcing lowercase")
             elif self.case[sheet.title] == "title":
-                print ("\tforcing Title Case")
+                print ("   forcing Title Case")
         #tried V3 client (advanced), but then it gets complicated
-        client = translate_v2.Client()
         c=1 # 1-based line counter 
         for de in sheet['A']:
             if c != 1 and de.value is not None:
                 en=sheet[f"B{c}"]
                 if en.value is None:
-                    result = client.translate (de.value.trim(), 
-                        source_language = "de", 
-                        target_language = "en",
-                        format_ = "text")
-                    en=result['translatedText']
+                    en=self._translate_v2(de.value.strip())
                     if sheet.title in self.case.keys():
                         if self.case[sheet.title] == "lower":
                             en=en.lower()
@@ -80,6 +75,34 @@ class Gtrans:
                     #Rate Limit Exceeded from Google occasionally
                     self.wb.save(self.xls_fn) 
             c+=1
+
+    def _translate_v2 (self, de):
+        if not hasattr(self, "client"):
+            self.client = translate_v2.Client()
+
+        result = self.client.translate (de, 
+            source_language = "de", 
+            target_language = "en",
+            format_ = "text")
+        return result['translatedText']
+
+    def _translate_v3 (self, de):
+        if not hasattr(self, "client"):
+            from google.cloud import translate 
+            self.client = translate.TranslationServiceClient()
+        parent = client.location_path("96564610537", "global")
+
+        response = client.translate_text(
+            parent=parent,
+            contents=de,
+            mime_type="text/plain",
+            source_language_code="de-DE",
+            target_language_code="en-GB")
+        # Display the translation for each input text provided
+        for translation in response.translations:
+            en=format(translation.translated_text)
+            print(f"Translated text: {en}")
+        return en
 
 if __name__ == "__main__":
     import sys
