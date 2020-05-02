@@ -25,7 +25,7 @@ class LidoMaker:
         print("TRANSFORMING TO LIDO")
         lock_fn="3-lido/lido.lock"
         if os.path.exists(lock_fn):
-            print ("Lock file exists, no overwrite") 
+            print (f"Lock file exists, no overwrite ({lock_fn})") 
         else:
             self._write_lock(lock_fn)
             s=Saxon(self.saxon) #lib is where my xsl files are, so a short cut

@@ -149,6 +149,7 @@ if __name__ == "__main__":
     from ExcelTool import ExcelTool
     from Tif_finder import Tif_finder
     from vok2vok import vok2vok
+    from Gtrans import Gtrans
     import test_shf as tshf
     import test_mpx
 
@@ -161,9 +162,10 @@ if __name__ == "__main__":
     if not args.short:
         cp_resources (conf)
         run_ExcelTool(conf)
-        cp_data2() # save xlsx to github 
-        print ("*VOK2VOK") #assembles individual dictionaries into one
-        vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on data dir
+        gtrans ("..\translate.xslx")
+    cp_data2() # for saving stuff to github 
+    print ("*VOK2VOK") #assembles individual dictionaries into one
+    vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on data dir
 
     if args.cmd == 'shf':
         print ('*Converting to SHF csv format...')
@@ -187,3 +189,6 @@ if __name__ == "__main__":
         print ('*Converting to Deckblatt HTML ...')
         s = Saxon(conf, conf['lib'])
         s.dirTransform(conf['vfixmpx'], conf['Datenblatt'], conf['datenblatto'])
+
+    else:
+        print ("Error: Command not recognized!")

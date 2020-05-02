@@ -1,4 +1,5 @@
 <xsl:stylesheet version="2.0"
+    xmlns:func="http://www.mpx.org/mpxfunc"
     xmlns:lido="http://www.lido-schema.org"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -24,6 +25,12 @@
                 <lido:descriptiveNoteValue xml:lang="de" lido:encodinganalog="online Beschreibung">
                     <xsl:value-of select="." />
                 </lido:descriptiveNoteValue>
+                <xsl:variable name="translation" select="func:en-from-dict('onlineBeschreibung',.)" />
+                <xsl:if test=". ne $translation">
+                    <lido:descriptiveNoteValue xml:lang="en" lido:encodinganalog="translate.xlsx">
+                        <xsl:value-of select="$translation" />
+                    </lido:descriptiveNoteValue>
+                </xsl:if>
             </lido:objectDescriptionSet>
         </lido:objectDescriptionWrap>
     </xsl:template>
