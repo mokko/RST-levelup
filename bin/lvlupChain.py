@@ -160,8 +160,8 @@ if __name__ == "__main__":
 
     mk_mpx(conf) #up to lvl2
     if not args.short:
-        cp_resources (conf)
-        run_ExcelTool(conf)
+        cp_resources (conf) #media Standardbilder etc.
+        run_ExcelTool(conf) #update vindex and translate, then apply vindex to vfix
         Gtrans ("../translate.xlsx")
         cp_data2() # for saving stuff to github 
         vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on new data2 dir

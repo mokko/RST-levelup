@@ -18998,6 +18998,11 @@
       <pref lang="en">Zimbabwe</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
+    <concept freq="1">
+      <pref lang="de">Simbai-Tal</pref>
+      <pref lang="en">Simbai-Valley</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
     <concept freq="2">
       <pref lang="de">Simbu-Tal</pref>
       <pref lang="en">Simbu-Valley</pref>
@@ -19080,6 +19085,7 @@
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="1">
+      <comment>upstream soll Südwest-Nigeria sein</comment>
       <pref lang="de">Südwestnigeria</pref>
       <pref lang="en">Southwest Nigeria</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
@@ -19087,6 +19093,12 @@
     <concept freq="1">
       <pref lang="de">südöstlich Edmonton</pref>
       <pref lang="en">Southeast of Edmonton</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>upstream korrigieren</comment>
+      <pref lang="de">Tableland am Fortescue River</pref>
+      <pref lang="en">Tableland, Fortescue River</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="1">
@@ -19119,9 +19131,20 @@
       <pref lang="en">Torres Strait</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
+    <concept freq="8">
+      <comment>Wikipedia nutzt Chokwe (en, de) als Vorzugsbezeichnung</comment>
+      <pref lang="de">Tschokwe (Chokwe)</pref>
+      <pref lang="en">Chokwe</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="2">
+      <pref lang="de">unterer Kongo</pref>
+      <pref lang="en">lower Kongo</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
     <concept freq="101">
       <pref lang="de">Vereinigte Staaten (USA)</pref>
-      <pref lang="en">USA</pref>
+      <pref lang="en">Vereingte Staaten (USA)</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="1">
@@ -19133,6 +19156,12 @@
     <concept freq="4">
       <pref lang="de">Weißer Nil</pref>
       <pref lang="en">White Nile</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <comment>?</comment>
+      <pref lang="de">Werkstätten des unteren Nigers</pref>
+      <pref lang="en">lower Niger River</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="23">
@@ -19167,52 +19196,13 @@
     </concept>
     <concept freq="1">
       <pref lang="de">Westlicher Bezirk</pref>
-      <pref lang="en">south Bezirk</pref>
+      <pref lang="en">Western District</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="1">
+      <comment>soll West-Mexiko sein</comment>
       <pref lang="de">Westmexiko</pref>
       <pref lang="en">Western Mexico</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="1">
-      <pref lang="de">Woleai</pref>
-      <pref lang="en">south Woleai</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="1">
-      <pref lang="de">Womatne</pref>
-      <pref lang="en">south Womatne</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="1">
-      <pref lang="de">Woyo</pref>
-      <pref lang="en">south Woyo</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="1">
-      <pref lang="de">Wum</pref>
-      <pref lang="en">south Wum</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="5">
-      <pref lang="de">Xingú</pref>
-      <pref lang="en">south Xingú</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="1">
-      <pref lang="de">Xoxo</pref>
-      <pref lang="en">south Xoxo</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="1">
-      <pref lang="de">Yaka</pref>
-      <pref lang="en">south Yaka</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="10">
-      <pref lang="de">Yap</pref>
-      <pref lang="en">south Yap</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="13">
@@ -19252,17 +19242,23 @@
     </concept>
     <concept freq="1">
       <pref lang="de">Zentrales Hochland</pref>
-      <pref lang="en">south Hochland</pref>
+      <pref lang="en">central highland</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="1">
+      <comment>mehrdeutige Bezeichnung, wenn möglich in M+ präzisieren</comment>
       <pref lang="de">Äquatorialafrika</pref>
-      <pref lang="en">south Äquatorialafrika</pref>
+      <pref lang="en">Equatorial Africa</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="23">
       <pref lang="de">Äthiopien</pref>
       <pref lang="en">Ethiopia</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="1">
+      <pref lang="de">Äthiopien (?)</pref>
+      <pref lang="en">Ethiopia (?)</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
   </context>
