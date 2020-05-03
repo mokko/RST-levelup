@@ -154,41 +154,40 @@ if __name__ == "__main__":
     import test_mpx
 
     parser = argparse.ArgumentParser(description='lvlupChain: batch process mpx')
-    parser.add_argument('-s', '--short', action='store_true')
-    parser.add_argument('-c', '--cmd')
+    parser.add_argument('-s', '--short', action='store_true', help='Leave out lengthy ExcelTool procedures')
+    parser.add_argument('-c', '--cmd', help='Possible commands are shf, boris and datenblatt')
     args = parser.parse_args()
 
-    mk_mpx(conf)
+    mk_mpx(conf) #up to lvl2
     if not args.short:
         cp_resources (conf)
         run_ExcelTool(conf)
-        gtrans ("..\translate.xslx")
-    cp_data2() # for saving stuff to github 
-    print ("*VOK2VOK") #assembles individual dictionaries into one
-    vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on data dir
-
-    if args.cmd == 'shf':
-        print ('*Converting to SHF csv format...')
-        if os.path.isfile(conf['vfixmpx']):
+        Gtrans ("../translate.xlsx")
+        cp_data2() # for saving stuff to github 
+        vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on new data2 dir
+    if args.cmd is not None:
+        if args.cmd == 'shf':
+            print ('*Converting to SHF csv format...')
+            if os.path.isfile(conf['vfixmpx']):
+                s = Saxon(conf, conf['lib'])
+                s.dirTransform(conf['vfixmpx'], conf['shfxsl'], conf['shfnpx'])
+                n = Npx2csv (conf['shfnpx'])
+                #you might need to prepare or delete the cache file manually
+                tf = Tif_finder('../../../.tif_cache.json')
+                tf.search_mpx(conf['lvlupmpx'], conf['tifdir'])
+                tshf.main(conf['vfixmpx'], conf ['shfnpx'])
+        elif args.cmd == 'boris':
+            print ('*Working on Boris Test...')
+            if os.path.isfile(conf['lvlupmpx']):
+                rc = ResourceCp (conf['lvlupmpx']) 
+                rc.boris_test('boris_test')
+        elif args.cmd == 'datenblatt':
+            """this datenblatt is made directly from mpx; 
+            other one is made from lido. Use LidoMaker.Py instead"""
+    
+            print ('*Converting to Deckblatt HTML ...')
             s = Saxon(conf, conf['lib'])
-            s.dirTransform(conf['vfixmpx'], conf['shfxsl'], conf['shfnpx'])
-            n = Npx2csv (conf['shfnpx'])
-            #you might need to prepare or delete the cache file manually
-            tf = Tif_finder('../../../.tif_cache.json')
-            tf.search_mpx(conf['lvlupmpx'], conf['tifdir'])
-            tshf.main(conf['vfixmpx'], conf ['shfnpx'])
-
-    elif args.cmd == 'boris':
-        print ('*Working on Boris Test...')
-        if os.path.isfile(conf['lvlupmpx']):
-            rc = ResourceCp (conf['lvlupmpx']) 
-            rc.boris_test('boris_test')
-
-    #this datenblatt is made directly from mpx; other one is made from lido
-    elif args.cmd == 'datenblatt':
-        print ('*Converting to Deckblatt HTML ...')
-        s = Saxon(conf, conf['lib'])
-        s.dirTransform(conf['vfixmpx'], conf['Datenblatt'], conf['datenblatto'])
-
-    else:
-        print ("Error: Command not recognized!")
+            s.dirTransform(conf['vfixmpx'], conf['Datenblatt'], conf['datenblatto'])
+        else:
+            raise ValueError ("Error: Command not recognized!")
+    print("*Done.")
