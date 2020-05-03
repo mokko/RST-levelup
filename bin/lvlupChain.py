@@ -123,18 +123,20 @@ def cp_resources (conf):
     rc.standardbilder('..\pix', 'mulId.dateiname')
     rc.freigegebene('..\pix', 'mulId.dateiname')
 
-def run_ExcelTool(conf):
+def update_xlsx(conf):
     print ('*Updating vindex...')
     if os.path.isfile(conf['vindexconf']): #make/update vindex 
         t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
     else: 
         raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
 
+def update_vfix (conf):
     if not os.path.exists(conf['vfixmpx']):
         print ("*APPLYING FIX")
+        t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
         t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
         #writes individual translate.xlsx files
-    t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..')
+        t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..')
 
 if __name__ == "__main__":
     
@@ -161,10 +163,12 @@ if __name__ == "__main__":
     mk_mpx(conf) #up to lvl2
     if not args.short:
         cp_resources (conf) #media Standardbilder etc.
-        run_ExcelTool(conf) #update vindex and translate, then apply vindex to vfix
+        update_xlsx (conf) #update vindex and translate.xslx
         Gtrans ("../translate.xlsx")
+        update_vfix (conf) #updates only if vfix doesn't exist yet
         cp_data2() # for saving stuff to github 
         vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on new data2 dir
+
     if args.cmd is not None:
         if args.cmd == 'shf':
             print ('*Converting to SHF csv format...')
