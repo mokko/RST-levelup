@@ -535,24 +535,22 @@
   <context name="geogrBezug@bezeichnung">
     <concept freq="127">
       <pref lang="de">Bundesstaat</pref>
-      <pref lang="en">State</pref>
+      <pref lang="en">state</pref>
       <pref lang="en">federated state</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
-    <concept freq="381">
+    <concept freq="341">
       <pref lang="de">Gebiet</pref>
-      <pref lang="en">Territory</pref>
       <pref lang="en">region</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="20">
       <pref lang="de">Höhle</pref>
       <pref lang="en">cave</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
     </concept>
-    <concept freq="489">
+    <concept freq="632">
       <pref lang="de">Insel</pref>
       <pref lang="en">island</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
@@ -568,19 +566,18 @@
       <pref lang="en">circle</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
     </concept>
-    <concept freq="1166">
+    <concept freq="1852">
       <comment>nicht der präzisere Begriff Staat</comment>
       <pref lang="de">Land</pref>
       <pref lang="en">country</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
-    <concept freq="539">
+    <concept freq="5">
+      <comment>für rst vereinfacht</comment>
       <pref lang="de">Land/Region</pref>
-      <pref lang="en">Country / region</pref>
-      <pref lang="en">country/region</pref>
+      <pref lang="en">country</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="220">
       <pref lang="de">Provinz</pref>
@@ -588,7 +585,7 @@
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
-    <concept freq="359">
+    <concept freq="422">
       <pref lang="de">Region</pref>
       <pref lang="en">region</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
@@ -630,7 +627,7 @@
       <pref lang="en">mountain</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
-    <concept freq="10">
+    <concept freq="28">
       <pref lang="de">Bezirk</pref>
       <pref lang="en">district</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
@@ -638,11 +635,6 @@
     <concept freq="6">
       <pref lang="de">Bucht</pref>
       <pref lang="en">bay</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="5">
-      <pref lang="de">Department</pref>
-      <pref lang="en">department</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="55">
@@ -655,7 +647,7 @@
       <pref lang="en">ethnic group</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
-    <concept freq="104">
+    <concept freq="125">
       <pref lang="de">Fluss</pref>
       <pref lang="en">river</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
@@ -664,11 +656,6 @@
       <comment>sollte in m+ isoliert eingegeben sein</comment>
       <pref lang="de">Fluss, Bucht und Dorf</pref>
       <pref lang="en">river, bay, village</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="20">
-      <pref lang="de">Fluss/Gebiet</pref>
-      <pref lang="en">river/region</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="1">
@@ -681,14 +668,14 @@
       <pref lang="en">mountain range</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
+    <concept freq="1">
+      <pref lang="de">Gemeinde</pref>
+      <pref lang="en">local community</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
     <concept freq="2">
       <pref lang="de">Grenzgebiet</pref>
       <pref lang="en">boarder area</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="15">
-      <pref lang="de">Großregion</pref>
-      <pref lang="en">greater region</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="2">
@@ -706,13 +693,8 @@
       <pref lang="en">trading station</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
-    <concept freq="725">
+    <concept freq="584">
       <pref lang="de">Inselgruppe</pref>
-      <pref lang="en">archipelago</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="1">
-      <pref lang="de">Inselgruppe/Region</pref>
       <pref lang="en">archipelago</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
@@ -808,24 +790,14 @@
       <pref lang="en">republic</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
-    <concept freq="2">
+    <concept freq="3">
       <pref lang="de">See</pref>
       <pref lang="en">lake</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="1">
-      <pref lang="de">See/Gebiet</pref>
-      <pref lang="en">lake/region</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="83">
       <pref lang="de">Sprachgruppe</pref>
       <pref lang="en">linguistic group</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="1">
-      <pref lang="de">Stadt/Gemeinde</pref>
-      <pref lang="en">city/municipality</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="2">
@@ -18560,7 +18532,7 @@
       <pref lang="en">Ivory Coast</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
-    <concept freq="8">
+    <concept freq="9">
       <pref lang="de">Eremiteninseln</pref>
       <pref lang="en">Hermit Islands</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
@@ -18993,8 +18965,7 @@
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="2">
-      <comment>upstream korrigieren</comment>
-      <pref lang="de">Simbabwe (Zimbabwe)</pref>
+      <pref lang="de">Simbabwe</pref>
       <pref lang="en">Zimbabwe</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
