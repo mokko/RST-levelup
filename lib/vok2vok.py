@@ -48,6 +48,7 @@ needle_fn="translate.xlsx"
 
 class vok2vok (XlsTools):
     def __init__(self, dir, out_fn):
+        print ("*VOK2VOK") 
         print (f"**vok2vok source dir {dir}")
         root = ET.Element("mpxvoc") # start a new document
         #tree = ET.parse("gtranslate.xml") #load existing document

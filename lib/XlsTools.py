@@ -8,7 +8,7 @@ class XlsTools:
         Returns workbook."""
 
         if os.path.isfile (xls_fn):
-            print (f'   Excel file exists ({xls_fn})')
+            #print (f'   Excel file exists ({xls_fn})')
             return load_workbook(filename = xls_fn)
         else:
             print (f"   Excel file doesn't exist yet, making it ({xls_fn})")
