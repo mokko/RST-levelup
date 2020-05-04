@@ -123,12 +123,12 @@ class LidoMaker:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='mpx2lido gismo')
-    parser.add_argument('-d', '--datenblatt', action='store_true')
-    parser.add_argument('-D', '--daemon', action='store_true')
-    parser.add_argument('-H', '--html', action='store_true')
-    parser.add_argument('-m', '--make', action='store_true')
-    parser.add_argument('-v', '--validate', action='store_true')
-    parser.add_argument('-i', '--id', default=None)
+    parser.add_argument('-d', '--datenblatt', action='store_true', help="LIDO Datenblatt as html")
+    parser.add_argument('-D', '--daemon', action='store_true', help="continously make lido, datenblatt, html and validate")
+    parser.add_argument('-H', '--html', action='store_true', help="creates html view of LIDO files")
+    parser.add_argument('-m', '--make', action='store_true', help="make lido files out of mpx and mpxvoc")
+    parser.add_argument('-v', '--validate', action='store_true', help="validate using libxml")
+    parser.add_argument('-i', '--id', default=None, help="work only on one file (only for outputs which are per file)")
 
     args = parser.parse_args()
     lm=LidoMaker(lib, saxon)
