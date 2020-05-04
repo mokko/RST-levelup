@@ -104,7 +104,7 @@ class LidoMaker:
     def _mk_html(self, path,overwrite=False):
         """
         current problems: 
-        - this step is not in numeric objId, but rather in string order 
+        - this step is in string order, not numeric objId
         objId/12345789
         - it's pretty slow to transform individual liko files like this, since
         I fire up separate a saxon process for every lido file

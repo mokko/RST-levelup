@@ -236,83 +236,37 @@
                 </tr>
             </xsl:if>
 
-            <tr>
-                <td style="padding-top: 7px;" valign="top">Geographischer Bezug</td>
-                <td style="padding-top: 7px; line-height: 66%;" valign="top">
-                    <xsl:for-each select="mpx:geogrBezug[(@bezeichnung ne 'Kultur' 
-                        and @bezeichnung ne 'Ethnie' 
-                        and @bezeichnung ne 'Sprachgruppe')
-                        or not(@bezeichnung)]">
-                        <xsl:sort select="@sort" data-type="number"/>
-                        <xsl:value-of select="." />
-                        <xsl:if test="@bezeichnung or @art">
-                            <xsl:text> (</xsl:text>
-                            <xsl:value-of select="@bezeichnung" />
-                            <xsl:if test="@bezeichnung and @art">
-                                <xsl:text>, </xsl:text>
-                            </xsl:if>
-                            <xsl:value-of select="@art" />
-                            <xsl:text>)</xsl:text>
-                        </xsl:if>
-                        <xsl:if test="@sort or @kommentar">
-                            <xsl:text> [</xsl:text>
-                            <xsl:if test="@sort">
-                                <xsl:text>s: </xsl:text>
-                                <xsl:value-of select="@sort" />
-                            </xsl:if>
-                            <xsl:if test="@sort and @kommentar">
-                                <xsl:text> </xsl:text>
-                            </xsl:if>
-                            <xsl:if test="@kommentar">
-                                    <xsl:text>k: </xsl:text>
-                                    <xsl:value-of select="@kommentar" />
-                            </xsl:if>
-                            <xsl:text>]</xsl:text>
-                        </xsl:if>
-                        <xsl:if test="position()!=last()">
-                            <br/>
-                        </xsl:if>
-                    </xsl:for-each>
-                </td>
-            </tr>
+            <xsl:variable name="Ort" select="mpx:geogrBezug[@bezeichnung ne 'Kultur' 
+                and @bezeichnung ne 'Ethnie' 
+                and @bezeichnung ne 'Sprachgruppe'
+                or not(@bezeichnung)]"/>
+            <xsl:variable name="Gruppe" select="mpx:geogrBezug[@bezeichnung eq 'Kultur' 
+                or @bezeichnung eq 'Ethnie'
+                or @bezeichnung eq 'Sprachgruppe']"/>
 
-            <tr>
-                <td valign="top">Gruppe/Kultur</td>
-                <td>
-                    <xsl:for-each select="mpx:geogrBezug[@bezeichnung eq 'Kultur' 
-                        or @bezeichnung eq 'Ethnie'
-                        or @bezeichnung eq 'Sprachgruppe']">
-                        <xsl:sort select="@sort" data-type="number"/>
-                        <xsl:value-of select="." />
-                        <xsl:if test="@bezeichnung or @art or @sort or @kommentar">
-                           <xsl:text> [</xsl:text>
-                           <xsl:if test="@bezeichnung">
-                                <xsl:text>b: </xsl:text>
-                                <xsl:value-of select="@bezeichnung" />
-                                <xsl:text> </xsl:text>
-                            </xsl:if>
-                            <xsl:if test="@art">
-                                <xsl:text>ot: </xsl:text>
-                                <xsl:value-of select="@art" />
-                                <xsl:text> </xsl:text>
-                            </xsl:if>
-                            <xsl:if test="@kommentar">
-                                <xsl:text>k: </xsl:text>
-                                <xsl:value-of select="@kommentar" />
-                                <xsl:text> </xsl:text>
-                            </xsl:if>
-                            <xsl:if test="@sort">
-                                <xsl:text>s: </xsl:text>
-                                <xsl:value-of select="@sort" />
-                            </xsl:if>
-                            <xsl:text>]</xsl:text>
-                        </xsl:if>
-                        <xsl:if test="position()!=last()">
-                            <xsl:text>, </xsl:text>
-                        </xsl:if>
-                    </xsl:for-each>
-                </td>
-            </tr>
+            <xsl:if test="$Ort">
+                <tr>
+                    <td style="padding-top: 7px;" valign="top">
+                        Geographischer Bezug
+                    </td>
+                    <td style="padding-top: 7px; line-height: 66%;" valign="top">
+                        <xsl:apply-templates mode="GeoName" select="$Ort">
+                             <xsl:sort select="@sort" data-type="number"/>
+                        </xsl:apply-templates>
+                    </td>
+                </tr>
+            </xsl:if>
+
+            <xsl:if test="$Gruppe">
+                <tr>
+                    <td valign="top">Gruppe/Kultur</td>
+                    <td>
+                        <xsl:apply-templates mode="Gruppe" select="$Gruppe">
+                             <xsl:sort select="@sort" data-type="number"/>
+                        </xsl:apply-templates>
+                    </td>
+                </tr>
+            </xsl:if>
 
             <xsl:apply-templates select="mpx:materialTechnik[@art='Ausgabe']" />
             <xsl:apply-templates select="mpx:maßangaben" />
@@ -324,29 +278,29 @@
                     <h2>Provenienz</h2>
                 </td>
             </tr>
+            <xsl:variable name="Vorbesitzer" select="mpx:personenKörperschaften[
+                @funktion eq 'Sammler' or
+                @funktion eq 'Vorbesitzer' or
+                @funktion eq 'Veräußerer' or
+                @funktion eq 'Vorbesitzer (historische Angabe)']
+                |mpx:erwerbungVon[not (mpx:personenKörperschaften/@funktion eq 'Veräußerer')]"/>
 
-            <xsl:if test="mpx:personenKörperschaften[
-                            @funktion eq 'Sammler' or
-                            @funktion eq 'Vorbesitzer' or
-                            @funktion eq 'Veräußerer']|mpx:erwerbungVon">
+            <xsl:if test="$Vorbesitzer">
                 <tr>
                     <td valign="top">Vorbesitzer</td>
                     <td valign="top">
-                        <xsl:for-each select="mpx:personenKörperschaften[
-                            @funktion eq 'Sammler' or
-                            @funktion eq 'Vorbesitzer' or
-                            @funktion eq 'Veräußerer' or
-                            @funktion eq 'Vorbesitzer (historische Angabe)']|mpx:erwerbungVon">
+                        <xsl:for-each select="$Vorbesitzer">
+                            <xsl:sort select="name()" order="descending"/>
                             <xsl:value-of select="."/>
                             <xsl:choose>
-                                <xsl:when test="@funktion">
-                                    <xsl:text> [</xsl:text>
-                                    <xsl:value-of select="@funktion"/>
-                                    <xsl:text>]</xsl:text>
-                                </xsl:when>
-                                <xsl:otherwise> [erwerbungVon]</xsl:otherwise>
-                            </xsl:choose>
-                            <xsl:if test="position()!=last()">
+                                 <xsl:when test="@funktion">
+                                     <xsl:text> [</xsl:text>
+                                     <xsl:value-of select="@funktion"/>
+                                     <xsl:text>]</xsl:text>
+                                 </xsl:when>
+                                 <xsl:otherwise> [erwerbungVon]</xsl:otherwise>
+                             </xsl:choose>
+                             <xsl:if test="position() != last()">
                                 <xsl:text>, </xsl:text>
                             </xsl:if>
                         </xsl:for-each>
@@ -433,7 +387,18 @@
                     </td>
                 </tr>
             </xsl:if>
+            <xsl:apply-templates select="mpx:sachbegriffHierarchisch" />
+            <xsl:apply-templates select="mpx:systematikArt" />
+            <xsl:apply-templates select="mpx:langeBeschreibung" />
 
+            <xsl:if test="mpx:erwerbungVon">
+                <tr>
+                    <td valign="top">ErwerbungVon (nicht gezeigt, wenn PK Veräußerer hat)</td>
+                    <td valign="top">
+                        <xsl:value-of select="mpx:erwerbungVon"/>
+                    </td>
+                </tr>
+            </xsl:if>
             <tr>
                 <xsl:variable name="link">
                     <xsl:text>http://smb-digital.de/eMuseumPlus?service=ExternalInterface</xsl:text>
@@ -451,8 +416,6 @@
             </tr>
             <xsl:apply-templates select="mpx:bearbStand" />
             <xsl:apply-templates select="mpx:ausstellung[starts-with(., 'HUFO')]" />
-            <xsl:apply-templates select="mpx:sachbegriffHierarchisch" />
-            <xsl:apply-templates select="mpx:systematikArt" />
         </table>
         <br />
         <br />
@@ -511,7 +474,71 @@
         </h3>
     </xsl:template>
 
+    <xsl:template match="mpx:langeBeschreibung">
+        <tr>
+            <td valign="top">Lange Beschreibung (wird in SMB-digital, 
+                aber bislang nicht in rst angezeigt;
+                <xsl:value-of select="string-length(.)" /> Zeichen)
+            </td>
+            <td><xsl:value-of select="." /></td>
+        </tr>
+    </xsl:template>
+    
+    <xsl:template mode="Gruppe" match="mpx:geogrBezug">
+        <xsl:value-of select="." />
+        <xsl:if test="@bezeichnung or @art or @sort or @kommentar">
+           <xsl:text> [</xsl:text>
+           <xsl:if test="@bezeichnung">
+                <xsl:text>b: </xsl:text>
+                <xsl:value-of select="@bezeichnung" />
+                <xsl:text> </xsl:text>
+            </xsl:if>
+            <xsl:if test="@art">
+                <xsl:text>ot: </xsl:text>
+                <xsl:value-of select="@art" />
+                <xsl:text> </xsl:text>
+            </xsl:if>
+            <xsl:if test="@kommentar">
+                <xsl:text>k: </xsl:text>
+                <xsl:value-of select="@kommentar" />
+                <xsl:text> </xsl:text>
+            </xsl:if>
+            <xsl:if test="@sort">
+                <xsl:text>s: </xsl:text>
+                <xsl:value-of select="@sort" />
+            </xsl:if>
+            <xsl:text>]</xsl:text>
+        </xsl:if>
+        <xsl:if test="position() != last()">
+            <xsl:text>, </xsl:text>
+        </xsl:if>
+    </xsl:template>
 
+    <xsl:template mode="GeoName" match="mpx:geogrBezug">
+        <xsl:value-of select="." />
+        <xsl:if test="@bezeichnung or @art[. ne 'historische Bezeichnung' and . ne 'Bezug']">
+            <xsl:text> (</xsl:text>
+            <xsl:value-of select="@bezeichnung, @art[. ne 'historische Bezeichnung' and . ne 'Bezug']" separator=", " />
+            <xsl:text>)</xsl:text>
+        </xsl:if>
+
+        <xsl:if test="@sort or @kommentar">
+            <xsl:text> [</xsl:text>
+            <xsl:if test="@sort">
+                <xsl:text>s: </xsl:text>
+                <xsl:value-of select="@sort" />
+            </xsl:if>
+            <xsl:if test="@sort and @kommentar">
+                <xsl:text> </xsl:text>
+            </xsl:if>
+            <xsl:if test="@kommentar">
+                    <xsl:text>k: </xsl:text>
+                    <xsl:value-of select="@kommentar" />
+            </xsl:if>
+            <xsl:text>]</xsl:text>
+        </xsl:if>
+        <br/>
+    </xsl:template>
     <!-- INDIVIDUAL FIELDS -->
 
     <xsl:template match="mpx:ausstellung">
@@ -599,7 +626,9 @@
 
     <xsl:template match="mpx:onlineBeschreibung">
         <tr>
-            <td>Beschreibung [online]</td>
+            <td valign="top">Beschreibung [online]
+            (<xsl:value-of select="string-length(.)" /> Zeichen)
+            </td>
             <td>
                 <xsl:value-of select="." />
             </td>
