@@ -820,7 +820,7 @@
   <context name="geogrBezug@art">
     <concept freq="23">
       <pref lang="de">Fundort</pref>
-      <pref lang="en">Location</pref>
+      <pref lang="en">location</pref>
       <pref lang="en">find spot</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
@@ -832,7 +832,7 @@
     </concept>
     <concept freq="586">
       <pref lang="de">Herstellung</pref>
-      <pref lang="en">Manufacturing</pref>
+      <pref lang="en">manufacturing</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
     </concept>
     <concept freq="1">
@@ -3488,7 +3488,7 @@
     </concept>
     <concept freq="287">
       <pref lang="de">Ton</pref>
-      <pref lang="en">volume</pref>
+      <pref lang="en">clay</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
@@ -6111,7 +6111,7 @@
     </concept>
     <concept freq="1">
       <pref lang="de">Holz; Ton; Kalebasse, Leder</pref>
-      <pref lang="en">wood; volume; calabash, leather</pref>
+      <pref lang="en">wood; clay; calabash, leather</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="1">
@@ -8818,11 +8818,13 @@
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="21">
+      <comment>upstream vereinheitlichen</comment>
       <pref lang="de">Skulptur (Abguss)</pref>
       <pref lang="en">sculpture (cast)</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
     </concept>
     <concept freq="1">
+      <comment>upstream vereinheitlichen</comment>
       <pref lang="de">Skulptur (Abguß)</pref>
       <pref lang="en">sculpture (cast)</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
