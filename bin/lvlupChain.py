@@ -163,10 +163,10 @@ if __name__ == "__main__":
     mk_mpx(conf) #up to lvl2
     if not args.short:
         cp_resources (conf) #media Standardbilder etc.
-        update_xlsx (conf) #update vindex and translate.xslx
-        Gtrans ("../translate.xlsx")
+        update_xlsx (conf) #create/update vindex and translate.xslx with terms mpx
+        Gtrans ("../translate.xlsx") #translate sheets in translate
         update_vfix (conf) #updates only if vfix doesn't exist yet
-        cp_data2() # for saving stuff to github 
+        cp_data2() #for saving data to github 
         vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on new data2 dir
 
     if args.cmd is not None:

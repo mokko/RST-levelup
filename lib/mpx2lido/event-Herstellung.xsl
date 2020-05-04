@@ -165,7 +165,7 @@
                         <xsl:attribute name="xml:lang">en</xsl:attribute>
                         <xsl:attribute name="lido:encodinganalog">mpxvoc</xsl:attribute>
                         <xsl:value-of select="func:en-from-dict('geogrBezug',$nterm)"/>
-                    </lido:appellationValue>                    
+                    </lido:appellationValue>
                 </lido:namePlaceSet>
             </lido:place>
         </lido:eventPlace>
@@ -173,12 +173,18 @@
 
    <xsl:template match="mpx:materialTechnik">
         <lido:eventMaterialsTech>
-             <xsl:if test="mpx:materialTechnik[@art eq 'Ausgabe']">
-                <lido:displayMaterialsTech>
+             <xsl:if test=".[@art = 'Ausgabe']">
+                <lido:displayMaterialsTech lang="de" encodinganalog="materialTechnik[@art=Ausgabe]">
                         <xsl:value-of select="."/>
                 </lido:displayMaterialsTech>
+                <xsl:variable name="translation" select="func:en-from-dict('materialTechnik@artAusgabe',.)"/>
+                <xsl:if test=". ne $translation">
+                    <lido:displayMaterialsTech lang="en" encodinganalog="materialTechnik[@art=Ausgabe]">
+                            <xsl:value-of select="$translation"/>
+                    </lido:displayMaterialsTech>
+                </xsl:if>
             </xsl:if>
-            <xsl:if test="mpx:materialTechnik[@art ne 'Ausgabe']">
+            <xsl:if test=".[@art != 'Ausgabe']">
                 <lido:materialsTech>
                     <lido:termMaterialsTech lido:type="Material">
                         <lido:term>

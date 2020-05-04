@@ -79,7 +79,7 @@
         <xsl:param name="context"/>
         <xsl:param name="nterm"/>
         <xsl:variable name="dict" select="document('file:../data2/mpxvoc.xml')"/>
-        <xsl:variable name="en" select="$dict/mpxvoc/context[@name eq $context]/concept[pref = $nterm and pref/@lang = 'de']/pref[@lang eq 'en']"/>
+        <xsl:variable name="en" select="$dict/mpxvoc/context[@name eq $context]/concept[pref = $nterm and pref/@lang = 'de']/pref[@lang eq 'en'][1]"/>
         <xsl:choose>
             <xsl:when test ="exists($en)">
                 <xsl:value-of select="$en"/>
