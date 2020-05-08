@@ -165,7 +165,8 @@ if __name__ == "__main__":
         cp_resources (conf) #media Standardbilder etc.
         update_xlsx (conf) #create/update vindex and translate.xslx with terms mpx
         Gtrans ("../translate.xlsx") #translate sheets in translate
-        update_vfix (conf) #updates only if vfix doesn't exist yet
+    update_vfix (conf) #updates only if vfix doesn't exist yet
+    if not args.short:
         cp_data2() #for saving data to github 
         vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on new data2 dir
 

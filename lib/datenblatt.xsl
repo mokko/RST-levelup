@@ -197,8 +197,8 @@
 
             <xsl:if test="mpx:datierung">
                 <tr>
-                    <td>Datierung</td>
-                    <td>
+                    <td width="20%">Datierung</td>
+                    <td width="80%">
                         <xsl:for-each select="mpx:datierung[not (@art) or @art != 'Datierung engl.']">
                             <xsl:sort select="@sort" data-type="number"/>
                             <xsl:choose>
@@ -516,9 +516,19 @@
 
     <xsl:template mode="GeoName" match="mpx:geogrBezug">
         <xsl:value-of select="." />
-        <xsl:if test="@bezeichnung or @art[. ne 'historische Bezeichnung' and . ne 'Bezug']">
+        <!-- 
+            I would prefer a list of items that are sorted out, and anyways to 
+            have to name them only once 
+        -->
+        <xsl:if test="@bezeichnung or @art[
+            . ne 'historische Bezeichnung' 
+            and . ne 'Bezug' 
+            and . ne 'Herkunft']">
             <xsl:text> (</xsl:text>
-            <xsl:value-of select="@bezeichnung, @art[. ne 'historische Bezeichnung' and . ne 'Bezug']" separator=", " />
+            <xsl:value-of select="@bezeichnung, @art[
+                . ne 'historische Bezeichnung' 
+                and . ne 'Bezug' 
+                and . ne 'Herkunft']" separator=", " />
             <xsl:text>)</xsl:text>
         </xsl:if>
 
