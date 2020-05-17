@@ -480,7 +480,7 @@
                 aber bislang nicht in rst angezeigt;
                 <xsl:value-of select="string-length(.)" /> Zeichen)
             </td>
-            <td><xsl:value-of select="." /></td>
+            <td valign="top"><xsl:value-of select="." /></td>
         </tr>
     </xsl:template>
     
