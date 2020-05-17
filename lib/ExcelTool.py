@@ -58,11 +58,12 @@ from lxml import etree #has getParent()
 from openpyxl import Workbook, load_workbook
 
 class ExcelTool ():
-    def __init__ (self, source_xml,xls_dir = '.'):
+    def __init__ (self, conf_fn, source_xml,xls_dir = '.'):
         self.ns = {
             'npx': 'http://www.mpx.org/npx', #npx is no mpx
             'mpx': 'http://www.mpx.org/mpx', 
         }
+        self.conf_fn=conf_fn
         self.tree = etree.parse(source_xml)
         self.new_file = 0
         self.xls_fn = os.path.relpath(os.path.realpath(os.path.join (xls_dir,'vindex.xlsx')))
@@ -70,7 +71,7 @@ class ExcelTool ():
         self.trans_xls = os.path.relpath(os.path.realpath(os.path.join (xls_dir,'translate.xlsx')))
         self.twb = self._prepare_wb(self.trans_xls)
 
-    def apply_fix (self, conf_fn, out_fn):
+    def apply_fix (self, out_fn):
         """Replace syns with prefs in out_fn
         
         Preparation: read three files
@@ -84,7 +85,7 @@ class ExcelTool ():
         print ('*About to apply vocabulary control')
         
         #primitive Domain Specific Language (DSL)
-        for task, cmd in self._itertasks(conf_fn):
+        for task, cmd in self._itertasks():
             xpath = task[cmd][0]
             if cmd == 'attribute_index':
                 xpath, attrib = self._attribute_split(task[cmd][0]) 
@@ -130,12 +131,12 @@ class ExcelTool ():
                                 or cmd == 'index_with_2attributes'): #if value?
                                 if term_str not in known:
                                     known.add(term_str)
-                                    print (f"   replace term: {term_str}->{pref}")
+                                    print (f"   replace term: {term_str} --> {pref}")
                                 term.text = pref.strip() # modify xml
                             elif cmd == 'attribute_index':
                                 if attrib not in known:
                                     known.add(attrib)
-                                    print (f"   replace attribute '{attrib}': {value}->{pref}")
+                                    print (f"   replace attribute '{attrib}': {value} --> {pref}")
                                 term.attrib[attrib] = pref.strip() # modify xml
 
         print (f"*About to write xml to {out_fn}")
@@ -145,15 +146,15 @@ class ExcelTool ():
     def translate_from_conf (conf_fn, source_xml, xls_dir = None):
         """It's a CONSTRUCTOR analog to from_conf
         
-        Parses conf file and updates xls translation file.
+        Parses conf file and creates/updates xls translation file.
         """
 
         if xls_dir is None:
             xls_dir = os.path.dirname (conf_fn)
         #print (f"---XLS_DIR: {xls_dir}")
-        t = ExcelTool (source_xml, xls_dir)
+        t = ExcelTool (conf_fn, source_xml, xls_dir)
 
-        for task,cmd in t._itertasks (conf_fn): #sort of a Domain Specific Language DSL
+        for task,cmd in t._itertasks (): #sort of a Domain Specific Language DSL
             if cmd == "translate_element": 
                 t.translate_element (task[cmd])
             elif cmd == "translate_attribute": 
@@ -165,10 +166,11 @@ class ExcelTool ():
         # as default use the same dir for xls as for conf_fn
         if xls_dir is None:
             xls_dir = os.path.dirname (conf_fn)
-        #print (f"---XLS_DIR: {xls_dir}")
-        t=ExcelTool (source_xml, xls_dir)
 
-        for task,cmd in t._itertasks(conf_fn): #sort of a Domain Specific Language DSL
+        #print (f"---XLS_DIR: {xls_dir}")
+        t = ExcelTool (conf_fn, source_xml, xls_dir)
+
+        for task,cmd in t._itertasks(): #sort of a Domain Specific Language DSL
             #print (f"from_conf: {cmd}: {task[cmd]}")
             if cmd == "index":
                 t.index (task[cmd][0], task[cmd][1])
@@ -408,8 +410,8 @@ class ExcelTool ():
         ws[f'C{line}'] = verant
         ws[f'D{line}'] = 1 #this is a new term
 
-    def _itertasks(self, conf_fn):
-        data = self._read_conf(conf_fn)
+    def _itertasks(self):
+        data = self._read_conf()
         for task in data['tasks']:
             for cmd in task:
                 yield task,cmd
@@ -512,8 +514,8 @@ class ExcelTool ():
             self.new_file=1
             return Workbook()
 
-    def _read_conf (self, conf_fn):
-        with open(conf_fn, encoding='utf-8') as json_data_file:
+    def _read_conf (self):
+        with open(self.conf_fn, encoding='utf-8') as json_data_file:
             data = json.load(json_data_file)
         return data
 
@@ -612,10 +614,29 @@ class ExcelTool ():
         return core
 
 if __name__ == '__main__': 
-    #t=ExcelTool ('2-MPX/levelup.mpx', '.')
-    #t.index("./mpx:sammlungsobjekt/mpx:personenKörperschaften")
-    #t.index_for_attribute("./mpx:sammlungsobjekt/mpx:geogrBezug/@bezeichnung", "dont test and record verant")
-    #paths expect that you run it from the date directory (e.g. 20200226)
-    #t=ExcelTool.from_conf('../vindex.json', '2-MPX/levelup.mpx')
-    #t.apply_fix('../vindex.json', '2-MPX/vfix.mpx')
-    t=ExcelTool.translate_from_conf('../../../data2/generalvindex.json', '2-MPX/vfix.mpx', '..')
+    import argparse
+    parser = argparse.ArgumentParser(description='creates/updates vindex and translate lists and applies vindex to mpx')
+    parser.add_argument('-v', '--vindex', help="Create/update vindex.xlsx", action='store_true')
+    parser.add_argument('-a', '--apply', help="Apply vindex to mpx", action='store_true')
+    parser.add_argument('-t', '--translate', help="Create/update translate.xlsx", action='store_true')
+
+    parser.add_argument('-c', '--conf', help="Path to config file", default="..\..\..\data2\generalvindex.json")
+    parser.add_argument('-s', '--source', help="Path to source mpx", default='2-MPX/levelup.mpx')
+    parser.add_argument('-o', '--output', help="Path to output (for apply)", default='2-MPX/vfix.mpx')
+    args = parser.parse_args()
+
+    #assuming here you run this from normal scope/date directory    
+    outdir='..' #no need right now to parameterize it right now
+    if args.vindex:
+        print ("*CREATING/UPDATING VINDEX")
+        t = ExcelTool.from_conf (args.conf, args.source, outdir) 
+    elif args.apply: 
+        print ("*APPLYING FIX")
+        #currently overwrites vfix.mpx without warning in contrast to lvlupChain
+        t = ExcelTool (args.conf, args.source, outdir) 
+        t.apply_fix (args.output)
+    elif args.translate:
+        print ("*CREATING/UPDATING TRANSLATION (should be using vfix as input)")
+        #source should be  fix, manually overwrite default
+        t = ExcelTool.translate_from_conf (args.conf, args.source, outdir)
+

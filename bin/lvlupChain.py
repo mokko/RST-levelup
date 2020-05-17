@@ -126,17 +126,18 @@ def cp_resources (conf):
 def update_xlsx(conf):
     print ('*Updating vindex...')
     if os.path.isfile(conf['vindexconf']): #make/update vindex 
-        t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
+        t = ExcelTool.from_conf (conf['vindexconf'], conf['lvlupmpx'], '..') 
     else: 
         raise ValueError (f"Error: vindexconf not found! {conf['vindexconf']}")
 
 def update_vfix (conf):
     if not os.path.exists(conf['vfixmpx']):
         print ("*APPLYING FIX")
-        t = ExcelTool.from_conf (conf['vindexconf'],conf['lvlupmpx'], '..') 
-        t.apply_fix (conf['vindexconf'],conf['vfixmpx'])
-        #writes individual translate.xlsx files
-        t = ExcelTool.translate_from_conf (conf['vindexconf'],conf['vfixmpx'], '..')
+        t = ExcelTool (conf['vindexconf'], conf['lvlupmpx'], '..') 
+        t.apply_fix (conf['vfixmpx'])
+
+def translate (conf): #update translate only after apply
+        t = ExcelTool.translate_from_conf (conf['vindexconf'], conf['vfixmpx'], '..')
 
 if __name__ == "__main__":
     
@@ -151,7 +152,10 @@ if __name__ == "__main__":
     from ExcelTool import ExcelTool
     from Tif_finder import Tif_finder
     from vok2vok import vok2vok
-    from Gtrans import Gtrans
+    try:
+        from Gtrans import Gtrans
+    except:
+        print ("Google translate not installed; omitting this step")
     import test_shf as tshf
     import test_mpx
 
@@ -164,9 +168,12 @@ if __name__ == "__main__":
     if not args.short:
         cp_resources (conf) #media Standardbilder etc.
         update_xlsx (conf) #create/update vindex and translate.xslx with terms mpx
-        Gtrans ("../translate.xlsx") #translate sheets in translate
-    update_vfix (conf) #updates only if vfix doesn't exist yet
+        try:
+            Gtrans ("../translate.xlsx") #translate sheets in translate
+        except: pass
+    update_vfix (conf) #updates only if vfix file doesn't exist yet
     if not args.short:
+        translate (conf) # run ONLY after vindex has been applied 
         cp_data2() #for saving data to github 
         vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on new data2 dir
 
