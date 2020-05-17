@@ -174,8 +174,9 @@ if __name__ == "__main__":
     update_vfix (conf) #updates only if vfix file doesn't exist yet
     if not args.short:
         translate (conf) # run ONLY after vindex has been applied 
-        cp_data2() #for saving data to github 
-        vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on new data2 dir
+    #for saving data to github 
+    cp_data2() 
+    vok2vok ('../..', '../../../data2/mpxvoc.xml') # work on new data2 dir
 
     if args.cmd is not None:
         if args.cmd == 'shf':

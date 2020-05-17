@@ -566,7 +566,7 @@
       <pref lang="en">circle</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/AKu-StuSam</scope>
     </concept>
-    <concept freq="1858">
+    <concept freq="1172">
       <comment>nicht der präzisere Begriff Staat</comment>
       <pref lang="de">Land</pref>
       <pref lang="en">country</pref>
@@ -745,6 +745,11 @@
     <concept freq="2">
       <pref lang="de">Küste</pref>
       <pref lang="en">coast</pref>
+      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
+    </concept>
+    <concept freq="534">
+      <pref lang="de">Land/Region</pref>
+      <pref lang="en">country/region</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="4">
@@ -21918,26 +21923,9 @@ Bedeutung: Ahne fordert vom Frager ein Opfer.KB-246/29</pref>
       <pref lang="en">Torres Strait</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
-    <concept freq="8">
-      <comment>Wikipedia nutzt Chokwe (en, de) als Vorzugsbezeichnung</comment>
-      <pref lang="de">Tschokwe (Chokwe)</pref>
-      <pref lang="en">Chokwe</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
     <concept freq="2">
       <pref lang="de">unterer Kongo</pref>
       <pref lang="en">lower Kongo</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="101">
-      <pref lang="de">Vereinigte Staaten (USA)</pref>
-      <pref lang="en">Vereingte Staaten (USA)</pref>
-      <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
-    </concept>
-    <concept freq="1">
-      <comment>upstream korrigieren</comment>
-      <pref lang="de">verm. Guatemala</pref>
-      <pref lang="en">Guatemala (?)</pref>
       <scope>C:/Users/mauri/eclipse-workspace/PY3/RST-levelup/data/EM-SM</scope>
     </concept>
     <concept freq="4">
