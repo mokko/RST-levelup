@@ -446,7 +446,14 @@
                         @art eq 'Alte Bezeichnung')]">
                         <xsl:sort select="@art"/>
                         <xsl:if test="position() &lt; 3">
-                            <xsl:value-of select="." />
+                            <xsl:choose>
+                                <xsl:when test="@art eq 'Einheimische Bezeichnung (lokal)'">
+                                    <i><xsl:value-of select="." /></i>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="." />
+                                </xsl:otherwise>
+                            </xsl:choose>
                             <xsl:text> [</xsl:text>
                             <xsl:value-of select="name()"/>
                             <xsl:if test="@art">
