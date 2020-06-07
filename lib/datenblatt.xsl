@@ -250,9 +250,21 @@
                         Geographischer Bezug
                     </td>
                     <td style="padding-top: 7px; line-height: 66%;" valign="top">
-                        <xsl:apply-templates mode="GeoName" select="$Ort">
-                             <xsl:sort select="@sort" data-type="number"/>
-                        </xsl:apply-templates>
+                        <!-- Soll: große Einheiten wie Kontinente oder Länder zu erst
+                            if AKu: descending, default: ascending -->
+                        <xsl:choose>
+                            <xsl:when test="mpx:verwaltendeInstitution eq 
+                                'Museum für Asiatische Kunst, Staatliche Museen zu Berlin'">
+                                <xsl:apply-templates mode="GeoName" select="$Ort">
+                                    <xsl:sort select="@sort" data-type="number" order="descending"/>
+                                </xsl:apply-templates>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:apply-templates mode="GeoName" select="$Ort">
+                                     <xsl:sort select="@sort" data-type="number" order="ascending"/>
+                                </xsl:apply-templates>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </td>
                 </tr>
             </xsl:if>

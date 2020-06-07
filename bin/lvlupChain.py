@@ -20,11 +20,11 @@ STEPS:
 3. levelup that file so we have proper mpx 
 4. ExcelTool--> vindex and translate.xlsx are updated
 5. ExcelTool--> vfix.mpx written
-6. copies resources (for deckblatt, lido, shf)
+6. copies resources (for datenblatt, lido, shf)
 7. (optional) carry out boris image test and write report in corresponding 
    directory --> boris
 8. (optional) shf.csv -->shf
-9. (optional) make a rst deckblatt HTML representation out of the mpx file --> datenblatt 
+9. (optional) make a rst datenblatt HTML representation out of the mpx file --> datenblatt 
 
 Optional function via command line parameter:
     lvlupChain.py --short #not all steps
@@ -198,7 +198,7 @@ if __name__ == "__main__":
             """this datenblatt is made directly from mpx; 
             other one is made from lido. Use LidoMaker.Py instead"""
     
-            print ('*Converting to Deckblatt HTML ...')
+            print ('*Converting to Datenblatt HTML ...')
             s = Saxon(conf, conf['lib'])
             s.dirTransform(conf['vfixmpx'], conf['Datenblatt'], conf['datenblatto'])
         else:
