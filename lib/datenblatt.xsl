@@ -306,11 +306,11 @@
                             <xsl:value-of select="."/>
                             <xsl:choose>
                                  <xsl:when test="@funktion">
-                                     <xsl:text> [</xsl:text>
+                                     <xsl:text> (</xsl:text>
                                      <xsl:value-of select="@funktion"/>
-                                     <xsl:text>]</xsl:text>
+                                     <xsl:text>)</xsl:text>
                                  </xsl:when>
-                                 <xsl:otherwise> [erwerbungVon]</xsl:otherwise>
+                                 <xsl:otherwise> (erworben von)</xsl:otherwise>
                              </xsl:choose>
                              <xsl:if test="position() != last()">
                                 <xsl:text>, </xsl:text>
