@@ -112,7 +112,7 @@ def mk_mpx (conf):
     if os.path.isdir(conf['onedir']): 
         s.join (conf['emptympx'], conf['joinColxsl'], conf['joinmpx'])
 
-    print ('*Leveling up...')
+    print ('*Levelling up...') #Syd says with 2l
     if os.path.isfile(conf['joinmpx']): 
         s.dirTransform(conf['joinmpx'], conf['lvlupxsl'], conf['lvlupmpx']) 
 

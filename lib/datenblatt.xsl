@@ -659,9 +659,28 @@
             (<xsl:value-of select="string-length(.)" /> Zeichen)
             </td>
             <td>
-                <xsl:value-of select="." />
+                <xsl:call-template name="replace">
+                    <xsl:with-param name="string" select="."/>
+                </xsl:call-template>
             </td>
         </tr>
+    </xsl:template>
+
+
+    <xsl:template name="replace">
+        <xsl:param name="string"/>
+        <xsl:choose>
+            <xsl:when test="contains($string,'&#10;')">
+                <xsl:value-of select="substring-before($string,'&#xA;')"/>
+                <br/>
+                <xsl:call-template name="replace">
+                    <xsl:with-param name="string" select="substring-after($string,'&#xA;')"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$string"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
 
