@@ -305,9 +305,13 @@
                             <xsl:sort select="name()" order="descending"/>
                             <xsl:value-of select="."/>
                             <xsl:choose>
-                                 <xsl:when test="@funktion">
+                                 <xsl:when test="@funktion or @art">
                                      <xsl:text> (</xsl:text>
                                      <xsl:value-of select="@funktion"/>
+                                     <xsl:if test="@funktion and @art">
+                                        <xsl:text>, </xsl:text>
+                                     </xsl:if>
+                                     <xsl:value-of select="@art"/>
                                      <xsl:text>)</xsl:text>
                                  </xsl:when>
                                  <xsl:otherwise> (erworben von)</xsl:otherwise>
