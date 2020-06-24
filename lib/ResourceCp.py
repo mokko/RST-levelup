@@ -77,8 +77,9 @@ class ResourceCp:
 
         for mume in self.tree.findall("./mpx:multimediaobjekt", self.ns):
             sb=mume.find('mpx:standardbild', self.ns)
-            if (sb is not None):
-                old_path, new_path=self._out_fn(mume, outdir, pattern)
+            dn=mume.find('mpx:dateiname', self.ns)
+            if (sb is not None and dn is not None):
+                old_path, new_path=self._out_fn(mume, outdir, pattern) ###
                 try:
                     self._cpFile (old_path, new_path)
                 except:
@@ -135,7 +136,7 @@ class ResourceCp:
 
         #print (f"Working on {in_path}")
         if not os.path.exists(in_path):
-            self.write_log(f'Source file not found: {in_path}')
+            self._write_log(f'Source file not found: {in_path}')
             return
         if os.path.exists(out_path): 
             #overwrite ONLY if source is newer
@@ -177,7 +178,7 @@ class ResourceCp:
             error=1
 
         if error==1:
-            self.write_log(f'Path incomplete mulId: {mulId}')
+            self._write_log(f'Path incomplete mulId: {mulId}')
             return #returns None, right?
         return f"{pfad}\{datei}.{erw}"
 
