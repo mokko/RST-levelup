@@ -437,55 +437,81 @@
         <br />
     </xsl:template>
 
+    <!-- Derzeit nur der erste Titel-->
+    <xsl:template name="Titel"/>
+        <xsl:choose>
+            <xsl:when test="mpx:verwaltendeInstitution eq 'Ethnologisches Museum, Staatliche Museen zu Berlin'">
+                <xsl:call-template name="emTitel"/>
+            </xsl:when>
+            </xsl:otherwise>
+                <!-- only one Titel?-->
+                <xsl:value-of select="mpx:titel" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="emTitel"/>
+        <!-- copy italics for einheimischen Bezeichnung here--> 
+        <xsl:choose>
+            <xsl:when test="@art eq 'Einheimische Bezeichnung (lokal)'">
+                <i><xsl:value-of select="." /></i>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="." />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="Sachbegriff"/>
+        <!-- only one sachbegriff for AKu as default?-->
+        <xsl:choose>
+            <xsl:when test="mpx:verwaltendeInstitution eq 'Ethnologisches Museum, Staatliche Museen zu Berlin'">
+                <xsl:call-template name="emSachbegriff"/>
+            </xsl:when>
+            </xsl:otherwise>
+                <xsl:value-of select="mpx:sachbegriff" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="emSachbegriff"/>
+        <xsl:for-each select="mpx:sachbegriff[not(
+            @art eq 'weiterer Sachbegriff' or 
+            @art eq 'Weiterer Sachbegriff' or 
+            @art eq 'Sachbegriff engl.' or 
+            @art eq 'Alte Bezeichnung')]">
+            <xsl:sort select="@art"/>
+            <xsl:if test="position() &lt; 2">
+                <xsl:text> [</xsl:text>
+                <xsl:value-of select="name()"/>
+                <xsl:if test="@art">
+                   <xsl:text> </xsl:text>
+                    <xsl:value-of select="@art" />
+                </xsl:if>
+                <xsl:text>]</xsl:text>
+                <xsl:if test="position() &lt; 2 and position() &lt; last()">
+                    <xsl:text>, </xsl:text>
+                </xsl:if>
+            </xsl:if>
+        </xsl:for-each>
+    </xsl:template>
 
     <!-- TODO: multiple titles and sachbegriffe -->
     <xsl:template name="htmlTitle">
-        <xsl:choose>
-            <xsl:when test="mpx:verwaltendeInstitution eq 'Ethnologisches Museum, Staatliche Museen zu Berlin'">
-                <h1>
-                    <xsl:for-each select="mpx:titel|mpx:sachbegriff[not(
-                        @art eq 'weiterer Sachbegriff' or 
-                        @art eq 'Weiterer Sachbegriff' or 
-                        @art eq 'Sachbegriff engl.' or 
-                        @art eq 'Alte Bezeichnung')]">
-                        <xsl:sort select="@art"/>
-                        <xsl:if test="position() &lt; 3">
-                            <xsl:choose>
-                                <xsl:when test="@art eq 'Einheimische Bezeichnung (lokal)'">
-                                    <i><xsl:value-of select="." /></i>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:value-of select="." />
-                                </xsl:otherwise>
-                            </xsl:choose>
-                            <xsl:text> [</xsl:text>
-                            <xsl:value-of select="name()"/>
-                            <xsl:if test="@art">
-                               <xsl:text> </xsl:text>
-                                <xsl:value-of select="@art" />
-                            </xsl:if>
-                            <xsl:text>]</xsl:text>
-                            <xsl:if test="position() &lt; 2 and position() &lt; last()">
-                                <xsl:text>, </xsl:text>
-                            </xsl:if>
-                        </xsl:if>
-                    </xsl:for-each>
-                </h1>
-            </xsl:when>
-            <xsl:when test="mpx:verwaltendeInstitution eq 'Museum für Asiatische Kunst, Staatliche Museen zu Berlin'">
                 <xsl:choose>
                     <xsl:when test="mpx:titel and mpx:sachbegriff">
-                        <h1><xsl:value-of select="mpx:titel" /> [t]</h1>
-                        <h2><xsl:value-of select="mpx:sachbegriff" /> [sb]</h2>
+                        <h1><xsl:call-template name="Titel"/> [t]</h1>
+                        <h2><xsl:call-template name="Sachbegriff"/> [sb]</h2>
                     </xsl:when>
                     <xsl:when test="not(mpx:titel) and mpx:sachbegriff">
-                        <h1><xsl:value-of select="mpx:sachbegriff" /> [sb]</h1>
+                        <h1><xsl:call-template name="Sachbegriff"/>[sb]</h1>
                     </xsl:when>
                     <xsl:when test="mpx:titel and not(mpx:sachbegriff)">
-                        <h1><xsl:value-of select="mpx:titel" /> [t]</h1>
+                        <h1><xsl:call-template name="Titel"/> [t]</h1>
                     </xsl:when>
                 </xsl:choose>
-            </xsl:when>
+
+            <xsl:when test="mpx:verwaltendeInstitution eq 'Museum für Asiatische Kunst, Staatliche Museen zu Berlin'">
             <xsl:otherwise>
                 <xsl:message>Error: Unknown museum</xsl:message>
             </xsl:otherwise>
