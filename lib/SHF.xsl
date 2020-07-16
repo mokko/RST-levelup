@@ -21,15 +21,14 @@
 (3) NEW qualifiers are either in post position as "value [qualifier]"; or
 (4) NEW in preposition as "[qualifier] value";
 (5) NEW no more qualifiers in consecutive elements position since this works only with 
-    elements are not repeated and there are none at the moment where this makes sense.</xsl:text>
+    elements that are not repeated and there are none of those at the moment.</xsl:text>
             </xsl:comment>
 
             <!-- FIRST ALL STANDARDBILDER THEN ALL FREIGEBENE THAT ARE NOT STANDARDBILD -->
-            <xsl:apply-templates select="/mpx:museumPlusExport/mpx:multimediaobjekt[mpx:standardbild 
-                or (not (mpx:standardbild) and lower-case(mpx:veröffentlichen) eq 'ja')]">
+            <xsl:apply-templates select="/mpx:museumPlusExport/mpx:multimediaobjekt[
+                lower-case(mpx:veröffentlichen) eq 'ja']">
                 <xsl:sort select="@mulId" data-type="number"/>
             </xsl:apply-templates>
-
             <xsl:apply-templates select="/mpx:museumPlusExport/mpx:sammlungsobjekt" />
         </shf>
     </xsl:template>
@@ -39,17 +38,12 @@
     -->
 
     <xsl:template match="/mpx:museumPlusExport/mpx:multimediaobjekt">
-        <!-- xsl:message>
-            <xsl:text>mulId: </xsl:text>
-            <xsl:value-of select="@mulId"/>
-        </xsl:message -->
         <xsl:element name="multimediaobjekt">
             <xsl:apply-templates select="@mulId, @exportdatum, node()">
                 <xsl:sort select="name()"/>
             </xsl:apply-templates>
         </xsl:element>
     </xsl:template>
-
 
     <!-- 
         SAMMLUNGSOBJEKT
@@ -60,7 +54,7 @@
         <xsl:element name="sammlungsobjekt">
             <xsl:apply-templates select="mpx:anzahlTeile"/>
             <xsl:apply-templates select="mpx:ausstellung"/>
-            <!-- referenziertes Felder (works only with $objId not with @objId) -->
+            <!-- referenziertes Feld (works only with $objId not with @objId) -->
             <xsl:apply-templates select="/mpx:museumPlusExport/mpx:ausstellung/mpx:objekt[. = $objId]"/>
 
             <xsl:apply-templates select="
@@ -276,6 +270,8 @@
                 @exportdatum|
                 mpx:farbe|
                 mpx:funktion|
+                mpx:format|
+                mpx:fotoNegNr|
                 mpx:handlingVerpackungTransport|
                 mpx:inhaltAnsicht|
                 mpx:kABeleuchtung|
@@ -292,9 +288,10 @@
                 mpx:typ|
                 mpx:urhebFotograf|
                 mpx:verantwortlich|
-                mpx:veröffentlichen|
-                mpx:verwaltendeInstitution|
                 mpx:verknüpftesObjekt|
+                mpx:veröffentlichen|
+                mpx:vervielfVon|
+                mpx:verwaltendeInstitution|
                 mpx:wGAusVorgaben|
                 mpx:wGRestzeit_gh|
                 mpx:wGStänderung|
