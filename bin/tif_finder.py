@@ -1,6 +1,6 @@
 """
 USAGE:
-    tif_finder.py -u scan_dir     starts a new cache by scanning dir for *.tif*
+    tif_finder.py -u scan_dir     starts a new cache by scanning dir for *.tif|*.tiff
     tif_finder.py -s needle       look up needle in cache and report found files
 
     tif_finder.py -s needle -t target_dir

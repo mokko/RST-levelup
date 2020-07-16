@@ -2,7 +2,9 @@
 
     Uses a json file as cache to store path information (e.g. .tif_cache.json)
 
-    USAGE:
+    For command-line front-end see bin/tif_finder.py
+
+    USAGE as class:
         tf=Tif_finder(cache_fn)
         #work with cache
         tf.scandir(scan_dir)  # scans recursively for *.tif|*.tiff
