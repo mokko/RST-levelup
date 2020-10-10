@@ -33,7 +33,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.schema in conf:
-        print ('*Looking for lido xsd at %s...' % conf[args.schema])
+        print ('*Looking for xsd at %s...' % conf[args.schema])
         schema_doc = etree.parse(conf[args.schema])
     else:
         raise Exception ('Unknown schema')

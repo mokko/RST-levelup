@@ -69,10 +69,10 @@
 			<xsd:element ref="standort" minOccurs="0" maxOccurs="1"/>
 			<!-- currently not in alphabetical order! -->
 			<xsd:element ref="typ" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="veröffentlichen" minOccurs="0" maxOccurs="1"/>
 			<xsd:element ref="vervielfVon" minOccurs="0" maxOccurs="1"/>
 			<xsd:element ref="urhebFotograf" minOccurs="0" maxOccurs="1"/>
 			<xsd:element ref="verknüpftesObjekt" minOccurs="0" maxOccurs="1"/>
+            <xsd:element ref="veröffentlichen" minOccurs="0" maxOccurs="1"/>
 		</xsd:sequence>
 		<xsd:attribute name="exportdatum" type="xsd:dateTime"/>
 		<xsd:attribute name="mulId" type="xsd:integer"/>
@@ -208,7 +208,7 @@
 <xsd:element name="veröffentlichen" type="xsd:string">
 	<xsd:annotation>
 		<xsd:documentation>
-			Urheber und/oder Fotografen.
+			Soll das Medium veröffentlicht werden (ja/nein)?
 		</xsd:documentation>
 	</xsd:annotation>
 </xsd:element>
@@ -482,12 +482,12 @@
     <!-- nadelschliff (Audio) -->
    <xsd:element ref="nadelschliff" minOccurs="0" maxOccurs="1"/>
     <!-- objektiv (Foto?) -->
-	<!-- TODO: not alphabetical order -->
-   <xsd:element ref="oov" minOccurs="0" maxOccurs="unbounded"/>
+    <!-- strange alphabetical order -->
    <xsd:element ref="objStatus" minOccurs="0" maxOccurs="1"/>
+   <xsd:element ref="objektgruppe" minOccurs="0" maxOccurs="unbounded"/>
    <xsd:element ref="objekttyp" minOccurs="0" maxOccurs="1"/>
    <xsd:element ref="onlineBeschreibung" minOccurs="0" maxOccurs="1"/>
-    <!-- oov (Objekt-Objekt-Beziehungen, neu) -->
+   <xsd:element ref="oov" minOccurs="0" maxOccurs="unbounded"/>
     <!-- personKörperschaft (doppelter Singualar) statt personenKörperschaften -->
    <xsd:element ref="personenKörperschaften" minOccurs="0" maxOccurs="unbounded"/>
    <xsd:element ref="sachbegriff" minOccurs="0" maxOccurs="unbounded"/>
@@ -966,6 +966,12 @@
   <xsd:documentation>Nadel, die zur Herstellung einer Kopie verwendet
     wurde.
    </xsd:documentation>
+  </xsd:annotation>
+</xsd:element>
+
+<xsd:element name="objektgruppe" type="xsd:string">
+ <xsd:annotation>
+  <xsd:documentation>Name einer Objektgruppe, zu der das Objekt gehört.</xsd:documentation>
   </xsd:annotation>
 </xsd:element>
 

@@ -13,8 +13,7 @@
                 <xsl:apply-templates select="@*"/>
                 <xsl:apply-templates select="node()">
                     <xsl:sort select="name()"/>
-                    <xsl:sort select="@objId" data-type="number"/>
-                    <xsl:sort select="@mulId" data-type="number"/>
+                    <xsl:sort select="@objId|@mulId" data-type="number"/>
                 </xsl:apply-templates>
             </xsl:copy>
     </xsl:template>
